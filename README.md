@@ -13,7 +13,7 @@
 ## 개발환경 구동 절차
 
 1. `dotnet build`
-2. `dotnet run --launch-profile https`
+2. `dotnet run`
 
 ## etc.
 
