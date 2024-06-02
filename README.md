@@ -13,7 +13,7 @@
 ## 개발환경 구동 절차
 
 1. `dotnet build`
-2. `dotnet run`
+2. `dotnet watch`
 
 ## etc.
 
