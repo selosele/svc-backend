@@ -3,11 +3,7 @@ using MySqlConnector;
 
 namespace svc.App.Configs.Database;
 
-public interface IConnectionProvider {
-    MySqlConnection CreateConnection();
-}
-
-public class ConnectionProvider : IConnectionProvider
+public class ConnectionProvider
 {
     private readonly MySqlConnection _dbConnection;
 

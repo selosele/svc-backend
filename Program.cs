@@ -12,7 +12,7 @@ Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true; // COLUMN_NAME -> column
 builder.Services.Configure<ConnectionString>(builder.Configuration.GetSection("ConnectionStrings")); // DB 연결
 builder.Services.AddSingleton<CodeRepository>();
 builder.Services.AddSingleton<CodeService>();
-builder.Services.AddSingleton<IConnectionProvider, ConnectionProvider>();
+builder.Services.AddSingleton<ConnectionProvider>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

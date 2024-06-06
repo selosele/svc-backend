@@ -7,9 +7,9 @@ namespace svc.App.Code.Repositories;
 
 public class CodeRepository
 {
-    public IConnectionProvider _connectionProvider;
+    public ConnectionProvider _connectionProvider;
     public IDbConnection _conn;
-    public CodeRepository(IConnectionProvider connectionProvider)
+    public CodeRepository(ConnectionProvider connectionProvider)
     {
         _connectionProvider = connectionProvider;
         _conn = _connectionProvider.CreateConnection();
