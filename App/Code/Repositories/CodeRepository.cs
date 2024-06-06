@@ -1,5 +1,5 @@
-using System.Data;
 using Dapper;
+using MySqlConnector;
 using svc.App.Code.Models.Entities;
 using svc.App.Shared.Configs.Database;
 
@@ -7,8 +7,8 @@ namespace svc.App.Code.Repositories;
 
 public class CodeRepository
 {
-    public ConnectionProvider _connectionProvider;
-    public IDbConnection _conn;
+    private readonly ConnectionProvider _connectionProvider;
+    private readonly MySqlConnection _conn;
     public CodeRepository(ConnectionProvider connectionProvider)
     {
         _connectionProvider = connectionProvider;
