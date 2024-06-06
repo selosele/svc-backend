@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace svc.App.Shared.Controllers;
@@ -8,15 +9,24 @@ namespace svc.App.Shared.Controllers;
 public class MyApiControllerBase<T> : ControllerBase where T: MyApiControllerBase<T>
 {
     /// <summary>
-    /// logger
+    /// logger 인스턴스
     /// </summary>
     public readonly ILogger? _logger;
 
+    /// <summary>
+    /// 객체 매핑 패키지(AutoMapper) 인스턴스
+    /// </summary>
+    public readonly IMapper? _mapper;
+
     public MyApiControllerBase(){}
 
-    public MyApiControllerBase(ILogger<T> logger)
+    public MyApiControllerBase(
+        ILogger<T> logger,
+        IMapper mapper
+    )
     {
         _logger = logger;
+        _mapper = mapper;
     }
     
 }

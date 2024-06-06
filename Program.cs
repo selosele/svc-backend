@@ -1,3 +1,6 @@
+using App.Shared.Profiles;
+using svc.App.Code.Models.DTO;
+using svc.App.Code.Models.Entities;
 using svc.App.Code.Repositories;
 using svc.App.Code.Services;
 using svc.App.Shared.Configs.Database;
@@ -13,6 +16,9 @@ builder.Services.Configure<ConnectionString>(builder.Configuration.GetSection("C
 builder.Services.AddSingleton<CodeRepository>();
 builder.Services.AddSingleton<CodeService>();
 builder.Services.AddSingleton<ConnectionProvider>();
+builder.Services.AddAutoMapper(cfg => {
+    cfg.AddProfile(typeof(MyProfile<CodeEntity, CodeResponseDTO>));
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -1,5 +1,6 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using svc.App.Code.Models.Entities;
+using svc.App.Code.Models.DTO;
 using svc.App.Code.Services;
 using svc.App.Shared.Controllers;
 
@@ -10,20 +11,20 @@ namespace svc.App.Code.Controllers;
 public class CodeController : MyApiControllerBase<CodeController>
 {
     private readonly CodeService _codeService;
-    public CodeController
-    (
+    public CodeController(
         CodeService codeService,
-        ILogger<CodeController> logger
-    ) : base(logger)
+        ILogger<CodeController> logger,
+        IMapper mapper
+    ) : base(logger, mapper)
     {
         _codeService = codeService;
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<CodeEntity>>> ListCode()
+    public async Task<ActionResult<List<CodeResponseDTO>>> ListCode()
     {
-        _logger?.LogInformation("TEST...");
-        var codeList = await _codeService.ListCode();
+        var codeList = _mapper?.Map<List<CodeResponseDTO>>(await _codeService.ListCode());
+        _logger?.LogInformation($"코드 목록 조회: {codeList?.Count}건 조회됨");
         return Ok(codeList);
     }
 
