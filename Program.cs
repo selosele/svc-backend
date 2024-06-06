@@ -10,8 +10,8 @@ builder.Configuration.AddJsonFile("secrets.json", optional: true, reloadOnChange
 
 Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true; // COLUMN_NAME -> columnName 변환
 builder.Services.Configure<ConnectionString>(builder.Configuration.GetSection("ConnectionStrings")); // DB 연결
-builder.Services.AddScoped<ICodeRepository, CodeRepository>();
-builder.Services.AddScoped<ICodeService, CodeService>();
+builder.Services.AddSingleton<CodeRepository>();
+builder.Services.AddSingleton<CodeService>();
 builder.Services.AddSingleton<IConnectionProvider, ConnectionProvider>();
 
 builder.Services.AddControllers();

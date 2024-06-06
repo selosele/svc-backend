@@ -5,7 +5,7 @@ using svc.App.Configs.Database;
 
 namespace svc.App.Code.Repositories;
 
-public class CodeRepository : ICodeRepository
+public class CodeRepository
 {
     public IConnectionProvider _connectionProvider;
     public IDbConnection _conn;
@@ -20,19 +20,9 @@ public class CodeRepository : ICodeRepository
     /// </summary>
     public async Task<List<CodeEntity>> ListCode()
     {
-        try
-        {
-            _conn.Open();
-            var result = await _conn.QueryAsync<CodeEntity>(CodeRepositorySQL.ListCode());
-            return result.ToList();
-        }
-        catch (Exception)
-        {
-            return [];
-        }
-        finally
-        {
-            _conn.Close();
-        }
+        var result = await _conn.QueryAsync<CodeEntity>(CodeRepositorySQL.ListCode());
+        _conn.Close();
+        return result.ToList();
     }
+
 }

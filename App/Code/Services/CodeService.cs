@@ -3,10 +3,10 @@ using svc.App.Code.Repositories;
 
 namespace svc.App.Code.Services;
 
-public class CodeService : ICodeService
+public class CodeService
 {
-    private readonly ICodeRepository _codeRepository;
-    public CodeService(ICodeRepository codeRepository)
+    private readonly CodeRepository _codeRepository;
+    public CodeService(CodeRepository codeRepository)
     {
         _codeRepository = codeRepository;
     }
@@ -18,5 +18,6 @@ public class CodeService : ICodeService
     {
         return await _codeRepository.ListCode();
     }
+    
 }
 

@@ -8,8 +8,8 @@ namespace svc.App.Code.Controllers;
 [Route("api/[controller]s")]
 public class CodeController : ControllerBase
 {
-    private readonly ICodeService _codeService;
-    public CodeController(ICodeService codeService)
+    private readonly CodeService _codeService;
+    public CodeController(CodeService codeService)
     {
         _codeService = codeService;
     }
@@ -20,4 +20,5 @@ public class CodeController : ControllerBase
         var codeList = await _codeService.ListCode();
         return Ok(codeList);
     }
+
 }
