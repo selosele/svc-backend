@@ -1,4 +1,6 @@
 using App.Shared.Profiles;
+using svc.App.Auth.Repositories;
+using svc.App.Auth.Services;
 using svc.App.Code.Models.DTO;
 using svc.App.Code.Models.Entities;
 using svc.App.Code.Repositories;
@@ -13,7 +15,9 @@ builder.Configuration.AddJsonFile("secrets.json", optional: true, reloadOnChange
 
 Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true; // COLUMN_NAME -> columnName 변환
 builder.Services.Configure<ConnectionString>(builder.Configuration.GetSection("ConnectionStrings")); // DB 연결
+builder.Services.AddSingleton<UserRepository>();
 builder.Services.AddSingleton<CodeRepository>();
+builder.Services.AddSingleton<AuthService>();
 builder.Services.AddSingleton<CodeService>();
 builder.Services.AddSingleton<ConnectionProvider>();
 builder.Services.AddAutoMapper(cfg => {
