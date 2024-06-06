@@ -1,6 +1,7 @@
-using svc.Models.Entities.Code;
 
-namespace svc.Services.Code;
+using svc.App.Code.Models.Entities;
+
+namespace svc.App.Code.Services;
 
 public interface ICodeService
 {

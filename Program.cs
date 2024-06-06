@@ -1,6 +1,6 @@
-using svc.Configs.DataBase;
-using svc.Repositories.Code;
-using svc.Services.Code;
+using svc.App.Code.Repositories;
+using svc.App.Code.Services;
+using svc.App.Configs.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 

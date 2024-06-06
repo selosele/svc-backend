@@ -1,4 +1,4 @@
-namespace svc.Models.Entities.Code;
+namespace svc.App.Code.Models.Entities;
 
 /// <summary>
 /// 코드 Entity
@@ -40,6 +40,11 @@ public class CodeEntity
     /// 코드 사용여부
     /// </summary>
     public string? CodeUseAt { get; set; }
+    
+    /// <summary>
+    /// 코드 삭제여부
+    /// </summary>
+    public string? CodeDeleteAt { get; set; }
     
     /// <summary>
     /// 등록자 ID

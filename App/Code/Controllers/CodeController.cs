@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using svc.Models.Entities.Code;
-using svc.Services.Code;
+using svc.App.Code.Models.Entities;
+using svc.App.Code.Services;
 
-namespace svc.Controllers.Code;
+namespace svc.App.Code.Controllers;
 
 [ApiController]
 [Route("api/[controller]s")]
@@ -17,7 +17,7 @@ public class CodeController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<CodeEntity>>> ListCode()
     {
-        var CodeList = await _codeService.ListCode();
-        return Ok(CodeList);
+        var codeList = await _codeService.ListCode();
+        return Ok(codeList);
     }
 }

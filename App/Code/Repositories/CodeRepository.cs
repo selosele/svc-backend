@@ -1,9 +1,9 @@
 using System.Data;
 using Dapper;
-using svc.Configs.DataBase;
-using svc.Models.Entities.Code;
+using svc.App.Code.Models.Entities;
+using svc.App.Configs.Database;
 
-namespace svc.Repositories.Code;
+namespace svc.App.Code.Repositories;
 
 public class CodeRepository : ICodeRepository
 {

@@ -2,7 +2,7 @@ using System.Data;
 using Microsoft.Extensions.Options;
 using MySqlConnector;
 
-namespace svc.Configs.DataBase;
+namespace svc.App.Configs.Database;
 
 public interface IConnectionProvider {
     IDbConnection CreateConnection();

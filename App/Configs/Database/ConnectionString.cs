@@ -1,4 +1,4 @@
-namespace svc.Configs.DataBase;
+namespace svc.App.Configs.Database;
 
 public class ConnectionString
 {

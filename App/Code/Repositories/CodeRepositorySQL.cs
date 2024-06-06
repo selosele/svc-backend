@@ -1,4 +1,4 @@
-namespace svc.Repositories.Code;
+namespace svc.App.Code.Repositories;
 
 public class CodeRepositorySQL
 {
@@ -17,7 +17,8 @@ public class CodeRepositorySQL
                     CODE_CONTENT,
                     CODE_ORDER,
                     CAST(CODE_ORDER AS CHAR(200)) AS SORT_ORDER,
-                    CODE_USE_AT
+                    CODE_USE_AT,
+                    CODE_DELETE_AT
                 FROM CO_CODE
                 WHERE UP_CODE_ID IS NULL
                 UNION ALL
@@ -29,7 +30,8 @@ public class CodeRepositorySQL
                     A.CODE_CONTENT,
                     A.CODE_ORDER,
                     CONCAT(R.SORT_ORDER, '-', LPAD(A.CODE_ORDER, 5, '0')) AS SORT_ORDER,
-                    A.CODE_USE_AT
+                    A.CODE_USE_AT,
+                    A.CODE_DELETE_AT
                 FROM CO_CODE A
                 INNER JOIN R ON A.UP_CODE_ID = R.CODE_ID
             )
@@ -40,7 +42,8 @@ public class CodeRepositorySQL
                 R.CODE_NAME,
                 R.CODE_CONTENT,
                 R.CODE_ORDER,
-                R.CODE_USE_AT
+                R.CODE_USE_AT,
+                R.CODE_DELETE_AT
             FROM R
             ORDER BY
                 CAST(SUBSTRING_INDEX(R.SORT_ORDER, '-', 1) AS UNSIGNED),

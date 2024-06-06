@@ -1,6 +1,7 @@
-using svc.Models.Entities.Code;
 
-namespace svc.Repositories.Code;
+using svc.App.Code.Models.Entities;
+
+namespace svc.App.Code.Repositories;
 
 public interface ICodeRepository
 {

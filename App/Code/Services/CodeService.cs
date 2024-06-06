@@ -1,7 +1,7 @@
-using svc.Repositories.Code;
-using svc.Models.Entities.Code;
+using svc.App.Code.Models.Entities;
+using svc.App.Code.Repositories;
 
-namespace svc.Services.Code;
+namespace svc.App.Code.Services;
 
 public class CodeService : ICodeService
 {
