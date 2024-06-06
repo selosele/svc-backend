@@ -20,6 +20,9 @@ public class CodeController : MyApiControllerBase<CodeController>
         _codeService = codeService;
     }
 
+    /// <summary>
+    /// 코드 목록을 조회한다.
+    /// </summary>
     [HttpGet]
     public async Task<ActionResult<List<CodeResponseDTO>>> ListCode()
     {
