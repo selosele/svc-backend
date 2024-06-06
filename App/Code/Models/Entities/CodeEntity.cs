@@ -5,7 +5,6 @@ namespace svc.App.Code.Models.Entities;
 /// </summary>
 public class CodeEntity
 {
-    
     /// <summary>
     /// 코드 ID
     /// </summary>
@@ -65,4 +64,5 @@ public class CodeEntity
     /// 수정일시
     /// </summary>
     public DateTime? UpdateDt { get; set; }
+
 }
