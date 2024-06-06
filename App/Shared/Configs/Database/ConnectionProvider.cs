@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Options;
 using MySqlConnector;
 
-namespace svc.App.Configs.Database;
+namespace svc.App.Shared.Configs.Database;
 
 public class ConnectionProvider
 {

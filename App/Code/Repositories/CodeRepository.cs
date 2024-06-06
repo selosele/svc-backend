@@ -1,7 +1,7 @@
 using System.Data;
 using Dapper;
 using svc.App.Code.Models.Entities;
-using svc.App.Configs.Database;
+using svc.App.Shared.Configs.Database;
 
 namespace svc.App.Code.Repositories;
 
