@@ -1,9 +1,11 @@
+using svc.App.Shared.Models.Entities;
+
 namespace svc.App.Auth.Models.Entities;
 
 /// <summary>
 /// 사용자 Entity
 /// </summary>
-public class UserEntity
+public class UserEntity : MyEntityBase
 {
     /// <summary>
     /// 사용자 ID
@@ -19,25 +21,5 @@ public class UserEntity
     /// 사용자 비밀번호
     /// </summary>
     public string? UserPassword { get; set; }
-    
-    /// <summary>
-    /// 등록자 ID
-    /// </summary>
-    public int? CreaterId { get; set; }
-    
-    /// <summary>
-    /// 등록일시
-    /// </summary>
-    public DateTime? CreateDt { get; set; }
-    
-    /// <summary>
-    /// 수정자 ID
-    /// </summary>
-    public int? UpdaterId { get; set; }
-
-    /// <summary>
-    /// 수정일시
-    /// </summary>
-    public DateTime? UpdateDt { get; set; }
 
 }
