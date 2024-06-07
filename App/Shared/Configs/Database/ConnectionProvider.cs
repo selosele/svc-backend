@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Options;
 using MySqlConnector;
 
 namespace svc.App.Shared.Configs.Database;
@@ -8,11 +7,11 @@ namespace svc.App.Shared.Configs.Database;
 /// </summary>
 public class ConnectionProvider
 {
-    private readonly MySqlConnection _dbConnection;
+    private readonly IConfiguration _configuration;
 
-    public ConnectionProvider(IOptions<ConnectionString> connectionString)
+    public ConnectionProvider(IConfiguration configuration)
     {
-        _dbConnection = new MySqlConnection(connectionString.Value.DefaultConnection);
+        _configuration = configuration;
     }
 
     /// <summary>
@@ -20,8 +19,9 @@ public class ConnectionProvider
     /// </summary>
     public MySqlConnection CreateConnection()
     {
-        _dbConnection.Open();
-        return _dbConnection;
+        var conn = new MySqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+        conn.Open();
+        return conn;
     }
-        
+
 }
