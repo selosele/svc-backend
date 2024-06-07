@@ -11,16 +11,16 @@ public class MyApiControllerBase<T> : ControllerBase where T: MyApiControllerBas
     /// <summary>
     /// logger 인스턴스
     /// </summary>
-    public readonly ILogger? _logger;
+    protected readonly ILogger? _logger;
 
     /// <summary>
     /// 객체 매핑 패키지(AutoMapper) 인스턴스
     /// </summary>
-    public readonly IMapper? _mapper;
+    protected readonly IMapper? _mapper;
 
-    public MyApiControllerBase(){}
+    protected MyApiControllerBase(){}
 
-    public MyApiControllerBase(
+    protected MyApiControllerBase(
         ILogger<T> logger,
         IMapper mapper
     )
