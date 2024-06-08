@@ -6,6 +6,7 @@ using svc.App.Code.Models.Entities;
 using svc.App.Code.Repositories;
 using svc.App.Code.Services;
 using svc.App.Shared.Configs.Database;
+using svc.App.Shared.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,8 +21,13 @@ builder.Services.AddSingleton<CodeRepository>();
 builder.Services.AddSingleton<AuthService>();
 builder.Services.AddSingleton<CodeService>();
 builder.Services.AddSingleton<ConnectionProvider>();
-builder.Services.AddAutoMapper(cfg => {
+builder.Services.AddAutoMapper(cfg =>
+{
     cfg.AddProfile(typeof(MyProfile<CodeEntity, CodeResponseDTO>));
+});
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add(new BizExceptionFilter());
 });
 
 builder.Services.AddControllers();
