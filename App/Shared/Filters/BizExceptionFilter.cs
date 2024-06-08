@@ -13,7 +13,6 @@ public class BizExceptionFilter : IExceptionFilter
         context.Result = new ObjectResult(new
         {
             message = context.Exception.Message,
-            stackTrace = context.Exception.StackTrace
         })
         {
             StatusCode = StatusCodes.Status400BadRequest
