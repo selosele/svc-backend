@@ -1,5 +1,6 @@
 using svc.App.Auth.Models.DTO;
 using svc.App.Auth.Repositories;
+using svc.App.Shared.Exceptions;
 
 namespace svc.App.Auth.Services;
 
@@ -16,8 +17,10 @@ public class AuthService
     /// </summary>
     public async Task<string> SignIn(SignInRequestDTO signInRequestDTO)
     {
-        var user = await _userRepository.GetUser(signInRequestDTO);
-        return user is not null ? "TEST TOKEN" : "";
+        var user = await _userRepository.GetUser(signInRequestDTO)
+            ?? throw new BizException("로그인에 실패했습니다.");
+        
+        return "TEST TOKEN";
     }
     
 }
