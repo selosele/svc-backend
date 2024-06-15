@@ -40,11 +40,11 @@ public class CodeEntity : MyEntityBase
     /// <summary>
     /// 코드 사용여부
     /// </summary>
-    public string? CodeUseAt { get; set; }
+    public string? CodeUseYn { get; set; }
     
     /// <summary>
     /// 코드 삭제여부
     /// </summary>
-    public string? CodeDeleteAt { get; set; }
+    public string? CodeDeleteYn { get; set; }
 
 }
