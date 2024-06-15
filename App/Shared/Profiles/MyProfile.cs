@@ -3,13 +3,13 @@ using AutoMapper;
 namespace App.Shared.Profiles;
 
 /// <summary>
-/// 객체 매핑을 설정하는 클래스 (T: Target, D: Data)
+/// 객체 매핑을 설정하는 클래스 (S: SourceType, D: DestinationType)
 /// </summary>
-public class MyProfile<T, D> : Profile
+public class MyProfile<S, D> : Profile
 {
     public MyProfile()
     {
-        CreateMap(typeof(T), typeof(D));
+        CreateMap(typeof(S), typeof(D));
     }
     
 }

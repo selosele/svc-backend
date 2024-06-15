@@ -3,6 +3,9 @@ using svc.App.Code.Repositories;
 
 namespace svc.App.Code.Services;
 
+/// <summary>
+/// 코드 서비스 클래스
+/// </summary>
 public class CodeService
 {
     private readonly CodeRepository _codeRepository;

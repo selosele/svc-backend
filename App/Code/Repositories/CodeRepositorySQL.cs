@@ -1,5 +1,8 @@
 namespace svc.App.Code.Repositories;
 
+/// <summary>
+/// 코드 리포지토리 SQL 클래스
+/// </summary>
 public class CodeRepositorySQL
 {
     /// <summary>

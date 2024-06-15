@@ -4,6 +4,9 @@ using svc.App.Shared.Configs.Database;
 
 namespace svc.App.Code.Repositories;
 
+/// <summary>
+/// 코드 리포지토리 클래스
+/// </summary>
 public class CodeRepository
 {
     private readonly ConnectionProvider _connectionProvider;
@@ -18,8 +21,8 @@ public class CodeRepository
     public async Task<List<CodeEntity>> ListCode()
     {
         using var conn = _connectionProvider.CreateConnection();
-        var result = await conn.QueryAsync<CodeEntity>(CodeRepositorySQL.ListCode());
-        return result.ToList();
+        var code = await conn.QueryAsync<CodeEntity>(CodeRepositorySQL.ListCode());
+        return code.ToList();
     }
 
 }
