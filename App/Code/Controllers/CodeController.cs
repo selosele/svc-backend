@@ -1,23 +1,30 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using svc.App.Auth.Services;
 using svc.App.Code.Models.DTO;
 using svc.App.Code.Services;
 using svc.App.Shared.Controllers;
 
 namespace svc.App.Code.Controllers;
 
+/// <summary>
+/// 코드 컨트롤러 클래스
+/// </summary>
 [ApiController]
 [Route("api/[controller]s")]
 public class CodeController : MyApiControllerBase<CodeController>
 {
     private readonly CodeService _codeService;
+    private readonly AuthService _authService;
     public CodeController(
         CodeService codeService,
+        AuthService authService,
         ILogger<CodeController> logger,
         IMapper mapper
     ) : base(logger, mapper)
     {
         _codeService = codeService;
+        _authService = authService;
     }
 
     /// <summary>
@@ -27,7 +34,10 @@ public class CodeController : MyApiControllerBase<CodeController>
     public async Task<ActionResult<List<CodeResponseDTO>>> ListCode()
     {
         var codeList = _mapper?.Map<List<CodeResponseDTO>>(await _codeService.ListCode());
-        _logger?.LogInformation($"코드 목록 조회: {codeList?.Count}건 조회됨");
+        var user = _authService.GetAuthenticatedUser();
+        Console.WriteLine($"userId: {user?.FindFirst("userId")?.Value}");
+        Console.WriteLine($"userAccount: {user?.FindFirst("userAccount")?.Value}");
+        Console.WriteLine($"roles: {user?.FindFirst("roles")?.Value}");
         return Ok(codeList);
     }
 
