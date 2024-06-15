@@ -3,7 +3,7 @@ namespace svc.App.Auth.Models.DTO;
 /// <summary>
 /// 로그인 응답 DTO
 /// </summary>
-public class SignInResponseDTO
+public class LoginResponseDTO
 {
     /// <summary>
     /// 액세스 토큰

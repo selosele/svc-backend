@@ -34,10 +34,6 @@ public class CodeController : MyApiControllerBase<CodeController>
     public async Task<ActionResult<List<CodeResponseDTO>>> ListCode()
     {
         var codeList = _mapper?.Map<List<CodeResponseDTO>>(await _codeService.ListCode());
-        var user = _authService.GetAuthenticatedUser();
-        Console.WriteLine($"userId: {user?.FindFirst("userId")?.Value}");
-        Console.WriteLine($"userAccount: {user?.FindFirst("userAccount")?.Value}");
-        Console.WriteLine($"roles: {user?.FindFirst("roles")?.Value}");
         return Ok(codeList);
     }
 

@@ -27,18 +27,26 @@ public class AuthController : MyApiControllerBase<AuthController>
     /// <summary>
     /// 로그인을 한다.
     /// </summary>
-    [HttpPost("sign-in")]
-    public async Task<ActionResult<SignInResponseDTO>> SignIn([FromBody] SignInRequestDTO signInRequestDTO)
+    [HttpPost("login")]
+    public async Task<ActionResult<LoginResponseDTO>> Login([FromBody] LoginRequestDTO loginRequestDTO)
     {
-        var accessToken = await _authService.SignIn(signInRequestDTO);
-        return Ok(new SignInResponseDTO { AccessToken = accessToken });
+        var accessToken = await _authService.Login(loginRequestDTO);
+        return Ok(new LoginResponseDTO { AccessToken = accessToken });
+    }
+
+    /// <summary>
+    /// 로그아웃을 한다.
+    /// </summary>
+    [HttpPost("logout")]
+    public void Logout()
+    {
+        _authService.Logout();
     }
 
     /// <summary>
     /// 사용자를 추가한다.
-    /// TODO: 시스템관리자만 api 호출할 수 있게 개선
     /// </summary>
-    // [Authorize(Roles = "ROLE_ADMIN")]
+    [Authorize(Roles = "ROLE_SYSTEM_ADMIN")]
     [HttpPost("users")]
     public async Task<ActionResult<UserResponseDTO>> AddUser([FromBody] AddUserRequestDTO addUserRequestDTO)
     {

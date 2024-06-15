@@ -35,12 +35,12 @@ public class AuthService
     /// <summary>
     /// 로그인을 한다.
     /// </summary>
-    public async Task<string> SignIn(SignInRequestDTO signInRequestDTO)
+    public async Task<string> Login(LoginRequestDTO loginRequestDTO)
     {
-        var user = await GetUser(signInRequestDTO)
+        var user = await GetUser(loginRequestDTO)
             ?? throw new BizException("로그인에 실패했습니다.");
 
-        var matchPw = EncryptUtil.Verify(signInRequestDTO.UserPassword!, user.UserPassword!);
+        var matchPw = EncryptUtil.Verify(loginRequestDTO.UserPassword!, user.UserPassword!);
         if (!matchPw)
         {
             throw new BizException("로그인에 실패했습니다.");
@@ -48,6 +48,14 @@ public class AuthService
 
         SetAuthenticatedUser(user);
         return GenerateJWTToken(user);
+    }
+
+    /// <summary>
+    /// 로그아웃을 한다.
+    /// </summary>
+    public void Logout()
+    {
+        _httpContextAccessor.HttpContext!.User = null!;
     }
 
     /// <summary>
@@ -95,6 +103,8 @@ public class AuthService
             );
         }
 
+        // TODO: 직원 정보 추가
+
         addedUser!.UserPassword = null;
         addedUser.Roles = await ListUserRole(addedUser);
 
@@ -107,7 +117,7 @@ public class AuthService
     public ClaimsPrincipal? GetAuthenticatedUser()
     {
         return _httpContextAccessor.HttpContext?.User
-            ?? throw new InvalidOperationException("인증된 사용자 정보를 찾을 수 없습니다.");
+            ?? throw new InvalidOperationException("인증된 사용자를 찾을 수 없습니다.");
     }
 
     /// <summary>
@@ -118,9 +128,13 @@ public class AuthService
         var claims = new List<Claim>
         {
             new("userId", user.UserId.ToString()!),
-            new("userAccount", user.UserAccount!),
-            new("roles", user.Roles?.ToString()!)
+            new("userAccount", user.UserAccount!)
         };
+
+        foreach (var userRole in user.Roles!)
+        {
+            claims.Add(new Claim("roles", userRole.RoleId!));
+        }
 
         var identity = new ClaimsIdentity(claims, "Custom");
         var principal = new ClaimsPrincipal(identity);
@@ -134,10 +148,15 @@ public class AuthService
     public string GenerateJWTToken(UserEntity user) {
         var claims = new List<Claim> {
             new("userId", user.UserId.ToString()!),
-            new("userAccount", user.UserAccount!),
-            new("roles", user.Roles?.ToString()!)
+            new("userAccount", user.UserAccount!)
         };
-        var jwtToken = new JwtSecurityToken(
+
+        foreach (var userRole in user.Roles!)
+        {
+            claims.Add(new Claim("roles", userRole.RoleId!));
+        }
+
+        var accessToken = new JwtSecurityToken(
             claims: claims,
             notBefore: DateTime.UtcNow,
             expires: DateTime.UtcNow.AddDays(30),
@@ -147,7 +166,7 @@ public class AuthService
                     SecurityAlgorithms.HmacSha256Signature
                 )
             );
-        return new JwtSecurityTokenHandler().WriteToken(jwtToken);
+        return new JwtSecurityTokenHandler().WriteToken(accessToken);
     }
     
 }
