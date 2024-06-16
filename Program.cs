@@ -7,8 +7,12 @@ using svc.App.Auth.Services;
 using svc.App.Code.Models.Profiles;
 using svc.App.Code.Repositories;
 using svc.App.Code.Services;
+using svc.App.Menu.Models.Profiles;
+using svc.App.Menu.Repositories;
+using svc.App.Menu.Services;
 using svc.App.Shared.Configs.Database;
 using svc.App.Shared.Filters;
+using svc.App.Shared.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,12 +24,15 @@ builder.Services.AddSingleton<ConnectionProvider>();
 builder.Services.AddSingleton<UserRepository>();
 builder.Services.AddSingleton<UserRoleRepository>();
 builder.Services.AddSingleton<CodeRepository>();
+builder.Services.AddSingleton<MenuRepository>();
 builder.Services.AddSingleton<AuthService>();
 builder.Services.AddSingleton<CodeService>();
+builder.Services.AddSingleton<MenuService>();
 builder.Services.AddAutoMapper(cfg =>
 {
     cfg.AddProfile(typeof(AuthProfile));
     cfg.AddProfile(typeof(CodeProfile));
+    cfg.AddProfile(typeof(MenuProfile));
 });
 builder.Services.AddControllers(options =>
 {
