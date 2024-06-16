@@ -46,8 +46,8 @@ public class AuthController : MyApiControllerBase<AuthController>
     /// <summary>
     /// 사용자를 추가한다.
     /// </summary>
-    [Authorize(Roles = "ROLE_SYSTEM_ADMIN")]
     [HttpPost("users")]
+    [Authorize(Roles = "ROLE_SYSTEM_ADMIN")]
     public async Task<ActionResult<UserResponseDTO>> AddUser([FromBody] AddUserRequestDTO addUserRequestDTO)
     {
         var user = _mapper?.Map<UserResponseDTO>(await _authService.AddUser(addUserRequestDTO));
