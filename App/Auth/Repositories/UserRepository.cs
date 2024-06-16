@@ -2,7 +2,7 @@ using Dapper;
 using svc.App.Shared.Configs.Database;
 using svc.App.Auth.Models.DTO;
 using svc.App.Auth.Models.Entities;
-using svc.App.User.Repositories;
+using svc.App.Shared.Utils;
 
 namespace svc.App.Auth.Repositories;
 
@@ -23,7 +23,18 @@ public class UserRepository
     public async Task<UserEntity?> GetUser(GetUserRequestDTO getUserRequestDTO)
     {
         using var conn = _connectionProvider.CreateConnection();
-        var user = await conn.QuerySingleOrDefaultAsync<UserEntity>(UserRepositorySQL.GetUser(), getUserRequestDTO);
+        var query = new QueryBuilderUtil()
+            .Add($@"
+                SELECT
+                    USER_ID,
+                    USER_ACCOUNT,
+                    USER_PASSWORD,
+                    USER_NAME
+                FROM CO_USER
+                WHERE USER_ACCOUNT = @UserAccount
+            ")
+            .Build();
+        var user = await conn.QuerySingleOrDefaultAsync<UserEntity>(query, getUserRequestDTO);
         return user;
     }
 
@@ -33,8 +44,26 @@ public class UserRepository
     public async Task<UserEntity?> AddUser(AddUserRequestDTO addUserRequestDTO)
     {
         using var conn = _connectionProvider.CreateConnection();
-        await conn.ExecuteAsync(UserRepositorySQL.AddUser(), addUserRequestDTO);
-        var user = await conn.QuerySingleOrDefaultAsync<UserEntity>(UserRepositorySQL.GetUser(), addUserRequestDTO);
+        var command = new QueryBuilderUtil()
+            .Add($@"
+                INSERT INTO CO_USER (USER_ACCOUNT, USER_PASSWORD, USER_NAME, CREATER_ID)
+                VALUES (@UserAccount, @UserPassword, @UserName, @CreaterId)
+            ")
+            .Build();
+        await conn.ExecuteAsync(command, addUserRequestDTO);
+
+        var query = new QueryBuilderUtil()
+            .Add($@"
+                SELECT
+                    USER_ID,
+                    USER_ACCOUNT,
+                    USER_PASSWORD,
+                    USER_NAME
+                FROM CO_USER
+                WHERE USER_ACCOUNT = @UserAccount
+            ")
+            .Build();
+        var user = await conn.QuerySingleOrDefaultAsync<UserEntity>(query, addUserRequestDTO);
         return user;
     }
 

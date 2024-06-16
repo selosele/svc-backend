@@ -1,8 +1,8 @@
 using Dapper;
 using svc.App.Auth.Models.DTO;
 using svc.App.Auth.Models.Entities;
-using svc.App.User.Repositories;
 using svc.App.Shared.Configs.Database;
+using svc.App.Shared.Utils;
 
 namespace svc.App.Auth.Repositories;
 
@@ -23,7 +23,17 @@ public class UserRoleRepository
     public async Task<List<UserRoleEntity>> ListUserRole(GetUserRoleRequestDTO getUserRoleRequestDTO)
     {
         using var conn = _connectionProvider.CreateConnection();
-        var userRole = await conn.QueryAsync<UserRoleEntity>(UserRoleRepositorySQL.ListUserRole(), getUserRoleRequestDTO);
+        var query = new QueryBuilderUtil()
+            .Add($@"
+                SELECT
+                    UR.USER_ID,
+                    UR.ROLE_ID
+                FROM CO_USER_ROLE UR
+                INNER JOIN CO_USER U ON U.USER_ID = UR.USER_ID
+                WHERE U.USER_ID = @UserId
+            ")
+            .Build();
+        var userRole = await conn.QueryAsync<UserRoleEntity>(query, getUserRoleRequestDTO);
         return userRole.ToList();
     }
 
@@ -33,7 +43,13 @@ public class UserRoleRepository
     public async Task<int> AddUserRole(AddUserRoleRequestDTO addUserRoleRequestDTO)
     {
         using var conn = _connectionProvider.CreateConnection();
-        var addResult = await conn.ExecuteAsync(UserRoleRepositorySQL.AddUserRole(), addUserRoleRequestDTO);
+        var query = new QueryBuilderUtil()
+            .Add($@"
+                INSERT INTO CO_USER_ROLE (USER_ID, ROLE_ID, CREATER_ID)
+                VALUES (@UserId, @RoleId, @CreaterId)
+            ")
+            .Build();
+        var addResult = await conn.ExecuteAsync(query, addUserRoleRequestDTO);
         return addResult;
     }
 
