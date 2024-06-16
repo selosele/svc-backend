@@ -16,6 +16,11 @@ public class UserResponseDTO
     public string? UserAccount { get; set; }
 
     /// <summary>
+    /// 사용자 명
+    /// </summary>
+    public string? UserName { get; set; }
+
+    /// <summary>
     /// 사용자 권한 목록
     /// </summary>
     public List<UserRoleResponseDTO>? Roles { get; set; } = [];

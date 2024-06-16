@@ -40,8 +40,8 @@ public class AuthService
         var user = await GetUser(loginRequestDTO)
             ?? throw new BizException("로그인에 실패했습니다.");
 
-        var matchPw = EncryptUtil.Verify(loginRequestDTO.UserPassword!, user.UserPassword!);
-        if (!matchPw)
+        var matchPassword = EncryptUtil.Verify(loginRequestDTO.UserPassword!, user.UserPassword!);
+        if (!matchPassword)
         {
             throw new BizException("로그인에 실패했습니다.");
         }
@@ -126,7 +126,8 @@ public class AuthService
         var claims = new List<Claim>
         {
             new("userId", user.UserId.ToString()!),
-            new("userAccount", user.UserAccount!)
+            new("userAccount", user.UserAccount!),
+            new("userName", user.UserName!)
         };
 
         foreach (var userRole in user.Roles!)
@@ -146,7 +147,8 @@ public class AuthService
     public string GenerateJWTToken(UserEntity user) {
         var claims = new List<Claim> {
             new("userId", user.UserId.ToString()!),
-            new("userAccount", user.UserAccount!)
+            new("userAccount", user.UserAccount!),
+            new("userName", user.UserName!)
         };
 
         foreach (var userRole in user.Roles!)

@@ -16,5 +16,10 @@ public class GetUserRequestDTO : MyRequestDTOBase
     /// 사용자 비밀번호
     /// </summary>
     public string? UserPassword { get; set; }
+
+    /// <summary>
+    /// 사용자 명
+    /// </summary>
+    public string? UserName { get; set; }
     
 }

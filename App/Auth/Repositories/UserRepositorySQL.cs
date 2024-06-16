@@ -14,7 +14,8 @@ public class UserRepositorySQL
             SELECT
                 USER_ID,
                 USER_ACCOUNT,
-                USER_PASSWORD
+                USER_PASSWORD,
+                USER_NAME
             FROM CO_USER
             WHERE USER_ACCOUNT = @UserAccount
         ";
@@ -26,8 +27,8 @@ public class UserRepositorySQL
     public static string AddUser()
     {
         return $@"
-            INSERT INTO CO_USER (USER_ACCOUNT, USER_PASSWORD, CREATER_ID)
-            VALUES (@UserAccount, @UserPassword, @CreaterId)
+            INSERT INTO CO_USER (USER_ACCOUNT, USER_PASSWORD, USER_NAME, CREATER_ID)
+            VALUES (@UserAccount, @UserPassword, @UserName, @CreaterId)
         ";
     }
     

@@ -23,6 +23,11 @@ public class UserEntity : MyEntityBase
     public string? UserPassword { get; set; }
 
     /// <summary>
+    /// 사용자 명
+    /// </summary>
+    public string? UserName { get; set; }
+
+    /// <summary>
     /// 사용자 권한 목록
     /// </summary>
     public List<UserRoleEntity>? Roles { get; set; } = [];
