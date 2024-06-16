@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using svc.App.Shared.Models.DTO;
 
 namespace svc.App.Auth.Models.DTO;
@@ -8,13 +9,15 @@ namespace svc.App.Auth.Models.DTO;
 public class AddUserRoleRequestDTO : MyRequestDTOBase
 {
     /// <summary>
-    /// 권한 ID
+    /// 사용자 ID
     /// </summary>
+    [Required]
     public int? UserId { get; set; }
 
     /// <summary>
     /// 권한 ID
     /// </summary>
+    [Required]
     public string? RoleId { get; set; }
 
 }
