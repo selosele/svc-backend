@@ -103,8 +103,6 @@ public class AuthService
             );
         }
 
-        // TODO: 직원 정보 추가 (SetAuthenticatedUser() 메소드 및 JWT에도 추가 필요)
-
         addedUser!.UserPassword = null;
         addedUser.Roles = await ListUserRole(addedUser);
 
