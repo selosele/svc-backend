@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using svc.App.Shared.Models.DTO;
 
 namespace svc.App.Auth.Models.DTO;
@@ -20,6 +21,7 @@ public class GetUserRequestDTO : MyRequestDTOBase
     /// <summary>
     /// 사용자 명
     /// </summary>
+    [StringLength(10)]
     public string? UserName { get; set; }
     
 }
