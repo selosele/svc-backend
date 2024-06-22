@@ -17,7 +17,7 @@ public class QueryBuilderUtil
     {
         if (condition)
         {
-            _sql += sql;
+            _sql += "\n" + sql;
         }
         return this;
     }
