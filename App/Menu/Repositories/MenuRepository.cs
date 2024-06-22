@@ -24,7 +24,7 @@ public class MenuRepository
     {
         using var conn = _connectionProvider.CreateConnection();
         var query = new QueryBuilderUtil()
-            .Add($@" 
+            .Add($@"
                 WITH RECURSIVE R AS (
                     SELECT
                         MENU_ID,
@@ -65,13 +65,19 @@ public class MenuRepository
                     R.MENU_USE_YN,
                     R.MENU_DELETE_YN
                 FROM R
-                WHERE 1=1
+                WHERE R.MENU_ID IN (
+                    SELECT
+                        MR.MENU_ID
+                    FROM CO_MENU_ROLE MR
+                    INNER JOIN CO_USER_MENU_ROLE UMR ON MR.MENU_ID = UMR.MENU_ID AND MR.ROLE_ID = UMR.ROLE_ID
+                    WHERE UMR.USER_ID = @UserId
+                )
                 "
             )
-            .Add(" AND R.MENU_SHOW_YN   = @MenuShowYn",   !string.IsNullOrWhiteSpace(getMenuRequestDTO.MenuShowYn))
-            .Add(" AND R.MENU_USE_YN    = @MenuUseYn",    !string.IsNullOrWhiteSpace(getMenuRequestDTO.MenuUseYn))
-            .Add(" AND R.MENU_DELETE_YN = @MenuDeleteYn", !string.IsNullOrWhiteSpace(getMenuRequestDTO.MenuDeleteYn))
-            .Add($@" 
+            .Add("AND R.MENU_SHOW_YN   = @MenuShowYn",   !string.IsNullOrWhiteSpace(getMenuRequestDTO.MenuShowYn))
+            .Add("AND R.MENU_USE_YN    = @MenuUseYn",    !string.IsNullOrWhiteSpace(getMenuRequestDTO.MenuUseYn))
+            .Add("AND R.MENU_DELETE_YN = @MenuDeleteYn", !string.IsNullOrWhiteSpace(getMenuRequestDTO.MenuDeleteYn))
+            .Add($@"
                 ORDER BY
                     CAST(SUBSTRING_INDEX(R.SORT_ORDER, '-', 1) AS UNSIGNED),
                     CASE

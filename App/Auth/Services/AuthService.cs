@@ -5,6 +5,8 @@ using Microsoft.IdentityModel.Tokens;
 using svc.App.Auth.Models.DTO;
 using svc.App.Auth.Models.Entities;
 using svc.App.Auth.Repositories;
+using svc.App.Menu.Models.DTO;
+using svc.App.Menu.Repositories;
 using svc.App.Shared.Exceptions;
 using svc.App.Shared.Utils;
 
@@ -19,17 +21,23 @@ public class AuthService
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly UserRepository _userRepository;
     private readonly UserRoleRepository _userRoleRepository;
+    private readonly UserMenuRoleRepository _userMenuRoleRepository;
+    private readonly MenuRoleRepository _menuRoleRepository;
     public AuthService(
         IConfiguration configuration,
         IHttpContextAccessor httpContextAccessor,
         UserRepository userRepository,
-        UserRoleRepository userRoleRepository
+        UserRoleRepository userRoleRepository,
+        UserMenuRoleRepository userMenuRoleRepository,
+        MenuRoleRepository menuRoleRepository
     )
     {
         _configuration = configuration;
         _httpContextAccessor = httpContextAccessor;
         _userRepository = userRepository;
         _userRoleRepository = userRoleRepository;
+        _userMenuRoleRepository = userMenuRoleRepository;
+        _menuRoleRepository = menuRoleRepository;
     }
 
     /// <summary>
@@ -99,7 +107,30 @@ public class AuthService
         foreach (var roleId in addUserRequestDTO.RoleIdList!)
         {
             await _userRoleRepository.AddUserRole(
-                new AddUserRoleRequestDTO() { UserId = addedUser?.UserId, RoleId = roleId }
+                new AddUserRoleRequestDTO()
+                {
+                    UserId = addedUser?.UserId,
+                    RoleId = roleId
+                }
+            );
+        }
+
+        // 메뉴 권한 목록 조회
+        var menuRoleList = await _menuRoleRepository.ListMenuRole(new GetMenuRoleRequestDTO()
+        {
+            UserId = addedUser?.UserId
+        });
+
+        // 사용자 메뉴 권한 추가
+        foreach (var menuRole in menuRoleList)
+        {
+            await _userMenuRoleRepository.AddUserMenuRole(
+                new AddUserMenuRoleRequestDTO()
+                {
+                    UserId = addedUser?.UserId,
+                    MenuId = menuRole.MenuId,
+                    RoleId = menuRole.RoleId
+                }
             );
         }
 
@@ -125,14 +156,14 @@ public class AuthService
     {
         var claims = new List<Claim>
         {
-            new("userId", user.UserId.ToString()!),
-            new("userAccount", user.UserAccount!),
-            new("userName", user.UserName!)
+            new(ClaimUtil.IdIdentifier, user.UserId.ToString()!),
+            new(ClaimUtil.AccountIdentifier, user.UserAccount!),
+            new(ClaimUtil.NameIdentifier, user.UserName!)
         };
 
         foreach (var userRole in user.Roles!)
         {
-            claims.Add(new Claim("roles", userRole.RoleId!));
+            claims.Add(new Claim(ClaimUtil.RolesIdentifier, userRole.RoleId!));
         }
 
         var identity = new ClaimsIdentity(claims, "Custom");
@@ -146,14 +177,14 @@ public class AuthService
     /// </summary>
     public string GenerateJWTToken(UserEntity user) {
         var claims = new List<Claim> {
-            new("userId", user.UserId.ToString()!),
-            new("userAccount", user.UserAccount!),
-            new("userName", user.UserName!)
+            new(ClaimUtil.IdIdentifier, user.UserId.ToString()!),
+            new(ClaimUtil.AccountIdentifier, user.UserAccount!),
+            new(ClaimUtil.NameIdentifier, user.UserName!)
         };
 
         foreach (var userRole in user.Roles!)
         {
-            claims.Add(new Claim("roles", userRole.RoleId!));
+            claims.Add(new Claim(ClaimUtil.RolesIdentifier, userRole.RoleId!));
         }
 
         var accessToken = new JwtSecurityToken(

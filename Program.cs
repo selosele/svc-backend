@@ -12,7 +12,6 @@ using svc.App.Menu.Repositories;
 using svc.App.Menu.Services;
 using svc.App.Shared.Configs.Database;
 using svc.App.Shared.Filters;
-using svc.App.Shared.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,8 +22,10 @@ builder.Services.Configure<ConnectionString>(builder.Configuration.GetSection("C
 builder.Services.AddSingleton<ConnectionProvider>();
 builder.Services.AddSingleton<UserRepository>();
 builder.Services.AddSingleton<UserRoleRepository>();
+builder.Services.AddSingleton<UserMenuRoleRepository>();
 builder.Services.AddSingleton<CodeRepository>();
 builder.Services.AddSingleton<MenuRepository>();
+builder.Services.AddSingleton<MenuRoleRepository>();
 builder.Services.AddSingleton<AuthService>();
 builder.Services.AddSingleton<CodeService>();
 builder.Services.AddSingleton<MenuService>();
