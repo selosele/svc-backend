@@ -66,7 +66,7 @@ public class MenuRepository
                     R.MENU_DELETE_YN
                 FROM R
                 WHERE 1=1
-            "
+                "
             )
             .Add(" AND R.MENU_SHOW_YN   = @MenuShowYn",   !string.IsNullOrWhiteSpace(getMenuRequestDTO.MenuShowYn))
             .Add(" AND R.MENU_USE_YN    = @MenuUseYn",    !string.IsNullOrWhiteSpace(getMenuRequestDTO.MenuUseYn))
