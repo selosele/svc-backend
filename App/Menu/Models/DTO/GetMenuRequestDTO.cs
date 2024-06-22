@@ -5,7 +5,7 @@ namespace svc.App.Menu.Models.DTO;
 /// <summary>
 /// 메뉴 조회 요청 DTO
 /// </summary>
-public class GetMenuRequestDTO : MyRequestDTOBase
+public record GetMenuRequestDTO : MyRequestDTOBase
 {
     /// <summary>
     /// 메뉴 ID

@@ -3,7 +3,7 @@ namespace svc.App.Menu.Models.DTO;
 /// <summary>
 /// 메뉴 권한 응답 DTO
 /// </summary>
-public class MenuRoleResponseDTO
+public record MenuRoleResponseDTO
 {
     /// <summary>
     /// 메뉴 ID

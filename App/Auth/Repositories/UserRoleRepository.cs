@@ -43,13 +43,13 @@ public class UserRoleRepository
     public async Task<int> AddUserRole(AddUserRoleRequestDTO addUserRoleRequestDTO)
     {
         using var conn = _connectionProvider.CreateConnection();
-        var query = new QueryBuilderUtil()
+        var command = new QueryBuilderUtil()
             .Add($@"
                 INSERT INTO CO_USER_ROLE (USER_ID, ROLE_ID, CREATER_ID)
                 VALUES (@UserId, @RoleId, @CreaterId)
             ")
             .Build();
-        var addResult = await conn.ExecuteAsync(query, addUserRoleRequestDTO);
+        var addResult = await conn.ExecuteAsync(command, addUserRoleRequestDTO);
         return addResult;
     }
 

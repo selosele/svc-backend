@@ -5,7 +5,7 @@ namespace svc.App.Auth.Models.Entities;
 /// <summary>
 /// 권한 Entity
 /// </summary>
-public class RoleEntity : MyEntityBase
+public record RoleEntity : MyEntityBase
 {
     /// <summary>
     /// 권한 ID
@@ -16,5 +16,4 @@ public class RoleEntity : MyEntityBase
     /// 권한 명
     /// </summary>
     public string? RoleName { get; set; }
-
 }

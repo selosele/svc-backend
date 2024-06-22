@@ -3,7 +3,7 @@ namespace svc.App.Code.Models.DTO;
 /// <summary>
 /// 코드 응답 DTO
 /// </summary>
-public class CodeResponseDTO
+public record CodeResponseDTO
 {
     /// <summary>
     /// 코드 ID

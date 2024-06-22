@@ -3,7 +3,7 @@ namespace svc.App.Auth.Models.DTO;
 /// <summary>
 /// 로그인 요청 DTO
 /// </summary>
-public class LoginRequestDTO : GetUserRequestDTO
+public record LoginRequestDTO : GetUserRequestDTO
 {
     
 }

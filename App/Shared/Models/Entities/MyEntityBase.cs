@@ -3,7 +3,7 @@ namespace svc.App.Shared.Models.Entities;
 /// <summary>
 /// Entity의 기본 클래스
 /// </summary>
-public class MyEntityBase
+public record MyEntityBase
 {
     /// <summary>
     /// 등록자 ID

@@ -3,7 +3,7 @@ namespace svc.App.Auth.Models.DTO;
 /// <summary>
 /// 사용자 권한 응답 DTO
 /// </summary>
-public class UserRoleResponseDTO
+public record UserRoleResponseDTO
 {
     /// <summary>
     /// 사용자 ID

@@ -5,7 +5,7 @@ namespace svc.App.Auth.Models.Entities;
 /// <summary>
 /// 사용자 Entity
 /// </summary>
-public class UserEntity : MyEntityBase
+public record UserEntity : MyEntityBase
 {
     /// <summary>
     /// 사용자 ID

@@ -6,7 +6,7 @@ namespace svc.App.Auth.Models.DTO;
 /// <summary>
 /// 사용자 권한 추가 요청 DTO
 /// </summary>
-public class AddUserRoleRequestDTO : MyRequestDTOBase
+public record AddUserRoleRequestDTO : MyRequestDTOBase
 {
     /// <summary>
     /// 사용자 ID

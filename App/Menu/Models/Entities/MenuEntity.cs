@@ -5,7 +5,7 @@ namespace svc.App.Menu.Models.Entities;
 /// <summary>
 /// 메뉴 Entity
 /// </summary>
-public class MenuEntity : MyEntityBase
+public record MenuEntity : MyEntityBase
 {
     /// <summary>
     /// 메뉴 ID

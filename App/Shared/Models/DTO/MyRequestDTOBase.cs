@@ -3,7 +3,7 @@ namespace svc.App.Shared.Models.DTO;
 /// <summary>
 /// 요청 DTO의 기본 클래스
 /// </summary>
-public class MyRequestDTOBase
+public record MyRequestDTOBase
 {
     /// <summary>
     /// 등록자 ID

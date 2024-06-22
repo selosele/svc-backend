@@ -6,7 +6,7 @@ namespace svc.App.Auth.Models.DTO;
 /// <summary>
 /// 사용자 조회 요청 DTO
 /// </summary>
-public class GetUserRequestDTO : MyRequestDTOBase
+public record GetUserRequestDTO : MyRequestDTOBase
 {
     /// <summary>
     /// 사용자 계정

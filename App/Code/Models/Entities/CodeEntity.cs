@@ -5,7 +5,7 @@ namespace svc.App.Code.Models.Entities;
 /// <summary>
 /// 코드 Entity
 /// </summary>
-public class CodeEntity : MyEntityBase
+public record CodeEntity : MyEntityBase
 {
     /// <summary>
     /// 코드 ID
