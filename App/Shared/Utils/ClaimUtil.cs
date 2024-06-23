@@ -8,21 +8,21 @@ public class ClaimUtil
     /// <summary>
     /// ID 식별자
     /// </summary>
-    public static readonly string IdIdentifier = "userId";
+    public const string IdIdentifier = "userId";
 
     /// <summary>
     /// Account 식별자
     /// </summary>
-    public static readonly string AccountIdentifier = "userAccount";
+    public const string AccountIdentifier = "userAccount";
 
     /// <summary>
     /// Name 식별자
     /// </summary>
-    public static readonly string NameIdentifier = "userName";
+    public const string NameIdentifier = "userName";
 
     /// <summary>
     /// Roles 식별자
     /// </summary>
-    public static readonly string RolesIdentifier = "roles";
+    public const string RolesIdentifier = "roles";
 
 }
