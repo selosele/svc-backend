@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<SmartSqlMap Scope="Menu" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+  <ResultMaps>
+    <ResultMap Id="MenuResultMap">
+      <Result Column="MENU_ID" Property="MenuId" />
+      <Result Column="UP_MENU_ID" Property="UpMenuId" />
+      <Result Column="MENU_NAME" Property="MenuName" />
+      <Result Column="MENU_URL" Property="MenuUrl" />
+      <Result Column="MENU_ORDER" Property="MenuOrder" />
+      <Result Column="MENU_DEPTH" Property="MenuDepth" />
+      <Result Column="MENU_SHOW_YN" Property="MenuShowYn" />
+      <Result Column="MENU_USE_YN" Property="MenuUseYn" />
+      <Result Column="MENU_DELETE_YN" Property="MenuDeleteYn" />
+    </ResultMap>
+  </ResultMaps>
+
+  <Statements>
+
+    <!-- 메뉴 목록을 조회한다. -->
+    <Statement Id="ListMenu" ResultMap="MenuResultMap">
+      WITH RECURSIVE R AS (
+        SELECT
+          MENU_ID,
+          UP_MENU_ID,
+          MENU_NAME,
+          MENU_URL,
+          MENU_ORDER,
+          MENU_DEPTH,
+          CAST(MENU_ORDER AS CHAR(200)) AS SORT_ORDER,
+          MENU_SHOW_YN,
+          MENU_USE_YN,
+          MENU_DELETE_YN
+        FROM CO_MENU
+        WHERE UP_MENU_ID IS NULL
+        UNION ALL
+        SELECT
+          A.MENU_ID,
+          A.UP_MENU_ID,
+          A.MENU_NAME,
+          A.MENU_URL,
+          A.MENU_ORDER,
+          A.MENU_DEPTH,
+          CONCAT(R.SORT_ORDER, '-', LPAD(A.MENU_ORDER, 5, '0')) AS SORT_ORDER,
+          A.MENU_SHOW_YN,
+          A.MENU_USE_YN,
+          A.MENU_DELETE_YN
+        FROM CO_MENU A
+        INNER JOIN R ON A.UP_MENU_ID = R.MENU_ID
+    )
+    SELECT
+      R.MENU_ID,
+      R.UP_MENU_ID,
+      R.MENU_NAME,
+      R.MENU_URL,
+      R.MENU_ORDER,
+      R.MENU_DEPTH,
+      R.MENU_SHOW_YN,
+      R.MENU_USE_YN,
+      R.MENU_DELETE_YN
+    FROM R
+    WHERE R.MENU_ID IN (
+      SELECT
+        MR.MENU_ID
+      FROM CO_MENU_ROLE MR
+      INNER JOIN CO_USER_MENU_ROLE UMR ON MR.MENU_ID = UMR.MENU_ID AND MR.ROLE_ID = UMR.ROLE_ID
+      WHERE UMR.USER_ID = @UserId
+    )
+    <IsNotEmpty Property="MenuShowYn">
+      AND R.MENU_SHOW_YN = @MenuShowYn
+    </IsNotEmpty>
+    <IsNotEmpty Property="MenuUseYn">
+      AND R.MENU_USE_YN = @MenuUseYn
+    </IsNotEmpty>
+    <IsNotEmpty Property="MenuDeleteYn">
+      AND R.MENU_DELETE_YN = @MenuDeleteYn
+    </IsNotEmpty>
+
+      ORDER BY
+        CAST(SUBSTRING_INDEX(R.SORT_ORDER, '-', 1) AS UNSIGNED),
+        CASE
+            WHEN R.SORT_ORDER LIKE '%-%' THEN CAST(SUBSTRING_INDEX(R.SORT_ORDER, '-', -1) AS UNSIGNED)
+            ELSE 0
+        END
+    </Statement>
+    
+  </Statements>
+</SmartSqlMap>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<SmartSqlMap Scope="UserRole" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+  <ResultMaps>
+    <ResultMap Id="UserRoleResultMap">
+      <Result Column="USER_ID" Property="UserId" />
+      <Result Column="ROLE_ID" Property="RoleId" />
+    </ResultMap>
+  </ResultMaps>
+
+  <Statements>
+
+    <!-- 사용자 권한 목록을 조회한다. -->
+    <Statement Id="ListUserRole" ResultMap="UserRoleResultMap">
+      SELECT
+        UR.USER_ID,
+        UR.ROLE_ID
+      FROM CO_USER_ROLE UR
+      INNER JOIN CO_USER U ON U.USER_ID = UR.USER_ID
+      WHERE U.USER_ID = @UserId
+    </Statement>
+
+    <!-- 사용자 권한을 추가한다. -->
+    <Statement Id="AddUserRole">
+      INSERT INTO CO_USER_ROLE (USER_ID, ROLE_ID, CREATER_ID)
+      VALUES (@UserId, @RoleId, @CreaterId)
+    </Statement>
+    
+  </Statements>
+</SmartSqlMap>

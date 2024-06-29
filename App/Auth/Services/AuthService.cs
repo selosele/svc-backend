@@ -5,10 +5,11 @@ using Microsoft.IdentityModel.Tokens;
 using svc.App.Auth.Models.DTO;
 using svc.App.Auth.Models.Entities;
 using svc.App.Auth.Repositories;
-using svc.App.Menu.Models.DTO;
 using svc.App.Menu.Repositories;
+using svc.App.Menu.Models.DTO;
 using svc.App.Shared.Exceptions;
 using svc.App.Shared.Utils;
+using SmartSql.AOP;
 
 namespace svc.App.Auth.Services;
 
@@ -19,18 +20,18 @@ public class AuthService
 {
     private readonly IConfiguration _configuration;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly UserRepository _userRepository;
-    private readonly UserRoleRepository _userRoleRepository;
-    private readonly UserMenuRoleRepository _userMenuRoleRepository;
-    private readonly MenuRoleRepository _menuRoleRepository;
+    private readonly IUserRepository _userRepository;
+    private readonly IUserRoleRepository _userRoleRepository;
+    private readonly IUserMenuRoleRepository _userMenuRoleRepository;
+    private readonly IMenuRoleRepository _menuRoleRepository;
     
     public AuthService(
         IConfiguration configuration,
         IHttpContextAccessor httpContextAccessor,
-        UserRepository userRepository,
-        UserRoleRepository userRoleRepository,
-        UserMenuRoleRepository userMenuRoleRepository,
-        MenuRoleRepository menuRoleRepository
+        IUserRepository userRepository,
+        IUserRoleRepository userRoleRepository,
+        IUserMenuRoleRepository userMenuRoleRepository,
+        IMenuRoleRepository menuRoleRepository
     )
     {
         _configuration = configuration;
@@ -44,6 +45,7 @@ public class AuthService
     /// <summary>
     /// 로그인을 한다.
     /// </summary>
+    [Transaction]
     public async Task<string> Login(LoginRequestDTO loginRequestDTO)
     {
         var user = await GetUser(loginRequestDTO)
@@ -70,13 +72,14 @@ public class AuthService
     /// <summary>
     /// 사용자를 조회한다.
     /// </summary>
+    [Transaction]
     public async Task<UserEntity?> GetUser(GetUserRequestDTO getUserRequestDTO)
     {
         var user = await _userRepository.GetUser(getUserRequestDTO);
         if (user != null)
         {
             var userRoles = await ListUserRole(user);
-            user!.Roles = userRoles;
+            user.Roles = userRoles;
         }
         return user;
     }
@@ -84,7 +87,8 @@ public class AuthService
     /// <summary>
     /// 사용자 권한 목록을 조회한다.
     /// </summary>
-    public async Task<List<UserRoleEntity>> ListUserRole(UserEntity user)
+    [Transaction]
+    public async Task<IList<UserRoleEntity>> ListUserRole(UserEntity user)
     {
         return await _userRoleRepository.ListUserRole(new GetUserRoleRequestDTO { UserId = user?.UserId });
     }
@@ -92,7 +96,8 @@ public class AuthService
     /// <summary>
     /// 사용자를 추가한다.
     /// </summary>
-    public async Task<UserEntity> AddUser(AddUserRequestDTO addUserRequestDTO)
+    [Transaction]
+    public async Task<UserEntity?> AddUser(AddUserRequestDTO addUserRequestDTO)
     {
         // 사용자 중복 체크
         var foundUser = await GetUser(addUserRequestDTO);
@@ -102,7 +107,7 @@ public class AuthService
         addUserRequestDTO.UserPassword = EncryptUtil.Encrypt(addUserRequestDTO.UserPassword!);
 
         // 사용자 추가
-        var addedUser = await _userRepository.AddUser(addUserRequestDTO);
+        var userId = await _userRepository.AddUser(addUserRequestDTO);
 
         // 사용자 권한 추가
         foreach (var roleId in addUserRequestDTO.RoleIdList!)
@@ -110,7 +115,7 @@ public class AuthService
             await _userRoleRepository.AddUserRole(
                 new AddUserRoleRequestDTO()
                 {
-                    UserId = addedUser?.UserId,
+                    UserId = userId,
                     RoleId = roleId
                 }
             );
@@ -119,7 +124,7 @@ public class AuthService
         // 메뉴 권한 목록 조회
         var menuRoleList = await _menuRoleRepository.ListMenuRole(new GetMenuRoleRequestDTO()
         {
-            UserId = addedUser?.UserId
+            UserId = userId
         });
 
         // 사용자 메뉴 권한 추가
@@ -128,15 +133,19 @@ public class AuthService
             await _userMenuRoleRepository.AddUserMenuRole(
                 new AddUserMenuRoleRequestDTO()
                 {
-                    UserId = addedUser?.UserId,
+                    UserId = userId,
                     MenuId = menuRole.MenuId,
                     RoleId = menuRole.RoleId
                 }
             );
         }
 
-        addedUser!.UserPassword = null;
-        addedUser.Roles = await ListUserRole(addedUser);
+        var addedUser = await GetUser(new GetUserRequestDTO { UserId = userId });
+        if (addedUser != null)
+        {
+            addedUser.UserPassword = null;
+            addedUser.Roles = await ListUserRole(addedUser);
+        }
 
         return addedUser;
     }

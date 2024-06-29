@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<SmartSqlMap Scope="MenuRole" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+  <ResultMaps>
+    <ResultMap Id="MenuRoleResultMap">
+      <Result Column="MENU_ID" Property="MenuId" />
+      <Result Column="ROLE_ID" Property="RoleId" />
+    </ResultMap>
+  </ResultMaps>
+
+  <Statements>
+
+    <!-- 메뉴 권한 목록을 조회한다. -->
+    <Statement Id="ListMenuRole" ResultMap="MenuRoleResultMap">
+      SELECT
+        MENU_ID,
+        ROLE_ID
+      FROM CO_MENU_ROLE
+      WHERE ROLE_ID IN (
+        SELECT
+          ROLE_ID
+        FROM CO_USER_ROLE
+        WHERE USER_ID = @UserId
+      )
+    </Statement>
+    
+  </Statements>
+</SmartSqlMap>

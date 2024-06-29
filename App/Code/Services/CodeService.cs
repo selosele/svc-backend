@@ -1,5 +1,6 @@
 using svc.App.Code.Models.Entities;
 using svc.App.Code.Repositories;
+using SmartSql.AOP;
 
 namespace svc.App.Code.Services;
 
@@ -8,9 +9,9 @@ namespace svc.App.Code.Services;
 /// </summary>
 public class CodeService
 {
-    private readonly CodeRepository _codeRepository;
+    private readonly ICodeRepository _codeRepository;
     
-    public CodeService(CodeRepository codeRepository)
+    public CodeService(ICodeRepository codeRepository)
     {
         _codeRepository = codeRepository;
     }
@@ -18,7 +19,8 @@ public class CodeService
     /// <summary>
     /// 코드 목록을 조회한다.
     /// </summary>
-    public async Task<List<CodeEntity>> ListCode()
+    [Transaction]
+    public async Task<IList<CodeEntity>> ListCode()
     {
         return await _codeRepository.ListCode();
     }

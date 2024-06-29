@@ -30,6 +30,6 @@ public record UserEntity : MyEntityBase
     /// <summary>
     /// 사용자 권한 목록
     /// </summary>
-    public List<UserRoleEntity>? Roles { get; set; } = [];
+    public IList<UserRoleEntity> Roles { get; set; } = [];
 
 }

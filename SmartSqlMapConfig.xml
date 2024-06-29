@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<SmartSqlMapConfig xmlns="http://SmartSql.net/schemas/SmartSqlMapConfig.xsd">
+  <Settings IsWatchConfigFile="true" IgnoreParameterCase="true" />
+  <Database>
+    <DbProvider Name="MySql" ParameterPrefix="@" />
+    <Write Name="WriteDB" ConnectionString="${DefaultConnection}" />
+  </Database>
+  <SmartSqlMaps>
+    <SmartSqlMap Path="App/Shared/Maps" Type="Directory"></SmartSqlMap>
+  </SmartSqlMaps>
+</SmartSqlMapConfig>

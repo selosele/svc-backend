@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<SmartSqlMap Scope="User" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+  <ResultMaps>
+    <ResultMap Id="UserResultMap">
+      <Result Column="USER_ID" Property="UserId" />
+      <Result Column="USER_ACCOUNT" Property="UserAccount" />
+      <Result Column="USER_PASSWORD" Property="UserPassword" />
+      <Result Column="USER_NAME" Property="UserName" />
+    </ResultMap>
+  </ResultMaps>
+
+  <Statements>
+
+    <!-- 사용자를 조회한다. -->
+    <Statement Id="GetUser" ResultMap="UserResultMap">
+      SELECT
+        USER_ID,
+        USER_ACCOUNT,
+        USER_PASSWORD,
+        USER_NAME
+      FROM CO_USER
+      WHERE 1=1
+        <IsNotEmpty Property="UserId">
+        AND USER_ID = @UserId
+        </IsNotEmpty>
+        <IsNotEmpty Property="UserAccount">
+        AND USER_ACCOUNT = @UserAccount
+        </IsNotEmpty>
+    </Statement>
+
+    <!-- 사용자를 추가한다. -->
+    <Statement Id="AddUser">
+      INSERT INTO CO_USER (USER_ACCOUNT, USER_PASSWORD, USER_NAME, CREATER_ID)
+      VALUES (@UserAccount, @UserPassword, @UserName, @CreaterId)
+      ;SELECT LAST_INSERT_ID()
+    </Statement>
+    
+  </Statements>
+</SmartSqlMap>

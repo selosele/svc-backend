@@ -4,6 +4,7 @@ using svc.App.Menu.Models.DTO;
 using svc.App.Menu.Models.Entities;
 using svc.App.Menu.Repositories;
 using svc.App.Shared.Utils;
+using SmartSql.AOP;
 
 namespace svc.App.Menu.Services;
 
@@ -13,11 +14,11 @@ namespace svc.App.Menu.Services;
 public class MenuService
 {
     private readonly AuthService _authService;
-    private readonly MenuRepository _menuRepository;
+    private readonly IMenuRepository _menuRepository;
     
     public MenuService(
         AuthService authService,
-        MenuRepository menuRepository
+        IMenuRepository menuRepository
     )
     {
         _authService = authService;
@@ -27,7 +28,8 @@ public class MenuService
     /// <summary>
     /// 메뉴 목록을 조회한다.
     /// </summary>
-    public async Task<List<MenuEntity>> ListMenu(GetMenuRequestDTO getMenuRequestDTO)
+    [Transaction]
+    public async Task<IList<MenuEntity>> ListMenu(GetMenuRequestDTO getMenuRequestDTO)
     {
         var user = _authService.GetAuthenticatedUser();
         getMenuRequestDTO.UserId = int.Parse(user?.FindFirstValue(ClaimUtil.IdIdentifier)!);

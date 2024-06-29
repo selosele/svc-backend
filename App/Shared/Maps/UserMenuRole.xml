@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<SmartSqlMap Scope="UserMenuRole" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+  <Statements>
+
+    <!-- 사용자 메뉴 권한을 추가한다. -->
+    <Statement Id="AddUserMenuRole">
+      INSERT INTO CO_USER_MENU_ROLE (USER_ID, MENU_ID, ROLE_ID, CREATER_ID)
+      VALUES (@UserId, @MenuId, @RoleId, @CreaterId)
+    </Statement>
+    
+  </Statements>
+</SmartSqlMap>

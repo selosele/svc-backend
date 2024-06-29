@@ -1,36 +1,31 @@
-using Dapper;
+using SmartSql;
 using svc.App.Auth.Models.DTO;
-using svc.App.Shared.Configs.Database;
-using svc.App.Shared.Utils;
 
 namespace svc.App.Auth.Repositories;
 
 /// <summary>
 /// 사용자 메뉴 권한 리포지토리 클래스
 /// </summary>
-public class UserMenuRoleRepository
+public class UserMenuRoleRepository : IUserMenuRoleRepository
 {
-    private readonly ConnectionProvider _connectionProvider;
-    
-    public UserMenuRoleRepository(ConnectionProvider connectionProvider)
+    public ISqlMapper SqlMapper { get; }
+
+    public UserMenuRoleRepository(ISqlMapper sqlMapper)
     {
-        _connectionProvider = connectionProvider;
+        SqlMapper = sqlMapper;
     }
 
     /// <summary>
     /// 사용자 메뉴 권한을 추가한다.
     /// </summary>
-    public async Task<int> AddUserMenuRole(AddUserMenuRoleRequestDTO addUserMenuRoleRequestDTO)
+    public Task<int> AddUserMenuRole(AddUserMenuRoleRequestDTO addUserMenuRoleRequestDTO)
     {
-        using var conn = _connectionProvider.CreateConnection();
-        var command = new QueryBuilderUtil()
-            .Add($@"
-                INSERT INTO CO_USER_MENU_ROLE (USER_ID, MENU_ID, ROLE_ID, CREATER_ID)
-                VALUES (@UserId, @MenuId, @RoleId, @CreaterId)
-            ")
-            .Build();
-        var addResult = await conn.ExecuteAsync(command, addUserMenuRoleRequestDTO);
-        return addResult;
+        return SqlMapper.ExecuteAsync(new RequestContext
+        {
+            Scope = nameof(UserMenuRoleRepository),
+            SqlId = "AddUserMenuRole",
+            Request = addUserMenuRoleRequestDTO
+        });
     }
 
 }

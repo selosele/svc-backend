@@ -10,22 +10,18 @@ using svc.App.Code.Services;
 using svc.App.Menu.Models.Profiles;
 using svc.App.Menu.Repositories;
 using svc.App.Menu.Services;
-using svc.App.Shared.Configs.Database;
 using svc.App.Shared.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("secrets.json", optional: true, reloadOnChange: true);
 
-Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true; // COLUMN_NAME -> columnName 변환
-builder.Services.Configure<ConnectionString>(builder.Configuration.GetSection("ConnectionStrings")); // DB 연결
-builder.Services.AddSingleton<ConnectionProvider>();
-builder.Services.AddSingleton<UserRepository>();
-builder.Services.AddSingleton<UserRoleRepository>();
-builder.Services.AddSingleton<UserMenuRoleRepository>();
-builder.Services.AddSingleton<CodeRepository>();
-builder.Services.AddSingleton<MenuRepository>();
-builder.Services.AddSingleton<MenuRoleRepository>();
+builder.Services.AddScoped<IUserMenuRoleRepository, UserMenuRoleRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+builder.Services.AddScoped<ICodeRepository, CodeRepository>();
+builder.Services.AddScoped<IMenuRepository, MenuRepository>();
+builder.Services.AddScoped<IMenuRoleRepository, MenuRoleRepository>();
 builder.Services.AddSingleton<AuthService>();
 builder.Services.AddSingleton<CodeService>();
 builder.Services.AddSingleton<MenuService>();
@@ -35,6 +31,20 @@ builder.Services.AddAutoMapper(cfg =>
     cfg.AddProfile(typeof(CodeProfile));
     cfg.AddProfile(typeof(MenuProfile));
 });
+
+var connectionStrings = builder.Configuration.GetSection("ConnectionStrings")
+    .GetChildren()
+    .ToDictionary(x => x.Key, x => x.Value);
+
+builder.Services.AddSmartSql((sp, builder) =>
+                {
+                    builder.UseProperties((IEnumerable<KeyValuePair<string, string>>) connectionStrings);
+                })
+                .AddRepositoryFromAssembly(o =>
+                {
+                    o.AssemblyString = "svc";
+                    // o.Filter = (type) => type.Namespace!.StartsWith("svc.App.") && type.Namespace.EndsWith(".Repositories");
+                });
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add(new BizExceptionFilter());
