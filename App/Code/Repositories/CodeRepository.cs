@@ -11,6 +11,7 @@ namespace svc.App.Code.Repositories;
 public class CodeRepository
 {
     private readonly ConnectionProvider _connectionProvider;
+    
     public CodeRepository(ConnectionProvider connectionProvider)
     {
         _connectionProvider = connectionProvider;

@@ -12,6 +12,7 @@ namespace svc.App.Menu.Repositories;
 public class MenuRoleRepository
 {
     private readonly ConnectionProvider _connectionProvider;
+    
     public MenuRoleRepository(ConnectionProvider connectionProvider)
     {
         _connectionProvider = connectionProvider;

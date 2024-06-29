@@ -15,6 +15,7 @@ namespace svc.App.Menu.Controllers;
 public class MenuController : MyApiControllerBase<MenuController>
 {
     private readonly MenuService _menuService;
+    
     public MenuController(
         MenuService menuService,
         ILogger<MenuController> logger,

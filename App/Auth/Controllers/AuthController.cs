@@ -15,6 +15,7 @@ namespace svc.App.Auth.Controllers;
 public class AuthController : MyApiControllerBase<AuthController>
 {
     private readonly AuthService _authService;
+    
     public AuthController(
         AuthService authService,
         ILogger<AuthController> logger,

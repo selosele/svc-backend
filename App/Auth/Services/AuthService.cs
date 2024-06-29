@@ -23,6 +23,7 @@ public class AuthService
     private readonly UserRoleRepository _userRoleRepository;
     private readonly UserMenuRoleRepository _userMenuRoleRepository;
     private readonly MenuRoleRepository _menuRoleRepository;
+    
     public AuthService(
         IConfiguration configuration,
         IHttpContextAccessor httpContextAccessor,

@@ -9,6 +9,7 @@ namespace svc.App.Code.Services;
 public class CodeService
 {
     private readonly CodeRepository _codeRepository;
+    
     public CodeService(CodeRepository codeRepository)
     {
         _codeRepository = codeRepository;

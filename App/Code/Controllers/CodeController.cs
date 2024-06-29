@@ -15,6 +15,7 @@ namespace svc.App.Code.Controllers;
 public class CodeController : MyApiControllerBase<CodeController>
 {
     private readonly CodeService _codeService;
+    
     public CodeController(
         CodeService codeService,
         ILogger<CodeController> logger,

@@ -14,6 +14,7 @@ public class MenuService
 {
     private readonly AuthService _authService;
     private readonly MenuRepository _menuRepository;
+    
     public MenuService(
         AuthService authService,
         MenuRepository menuRepository

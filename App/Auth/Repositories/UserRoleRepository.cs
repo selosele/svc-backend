@@ -12,6 +12,7 @@ namespace svc.App.Auth.Repositories;
 public class UserRoleRepository
 {
     private readonly ConnectionProvider _connectionProvider;
+    
     public UserRoleRepository(ConnectionProvider connectionProvider)
     {
         _connectionProvider = connectionProvider;
