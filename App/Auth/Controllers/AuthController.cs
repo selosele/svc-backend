@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using svc.App.Auth.Models.DTO;
 using svc.App.Auth.Services;
 using svc.App.Shared.Controllers;
+using svc.App.Shared.Utils;
 
 namespace svc.App.Auth.Controllers;
 
@@ -48,7 +49,7 @@ public class AuthController : MyApiControllerBase<AuthController>
     /// 사용자를 추가한다.
     /// </summary>
     [HttpPost("users")]
-    [Authorize(Roles = "ROLE_SYSTEM_ADMIN")]
+    [Authorize(Roles = RoleUtil.systemAdmin)]
     public async Task<ActionResult<UserResponseDTO>> AddUser([FromBody] AddUserRequestDTO addUserRequestDTO)
     {
         var user = _mapper?.Map<UserResponseDTO>(await _authService.AddUser(addUserRequestDTO));
