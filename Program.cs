@@ -2,13 +2,10 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using svc.App.Auth.Models.Profiles;
-using svc.App.Auth.Repositories;
 using svc.App.Auth.Services;
 using svc.App.Code.Models.Profiles;
-using svc.App.Code.Repositories;
 using svc.App.Code.Services;
 using svc.App.Menu.Models.Profiles;
-using svc.App.Menu.Repositories;
 using svc.App.Menu.Services;
 using svc.App.Shared.Filters;
 
@@ -16,12 +13,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("secrets.json", optional: true, reloadOnChange: true);
 
-builder.Services.AddScoped<IUserMenuRoleRepository, UserMenuRoleRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
-builder.Services.AddScoped<ICodeRepository, CodeRepository>();
-builder.Services.AddScoped<IMenuRepository, MenuRepository>();
-builder.Services.AddScoped<IMenuRoleRepository, MenuRoleRepository>();
 builder.Services.AddSingleton<AuthService>();
 builder.Services.AddSingleton<CodeService>();
 builder.Services.AddSingleton<MenuService>();
@@ -43,7 +34,7 @@ builder.Services.AddSmartSql((sp, builder) =>
                 .AddRepositoryFromAssembly(o =>
                 {
                     o.AssemblyString = "svc";
-                    // o.Filter = (type) => type.Namespace!.StartsWith("svc.App.") && type.Namespace.EndsWith(".Repositories");
+                    o.Filter = (type) => type.Namespace != null && type.Namespace.StartsWith("svc.App.") && type.Namespace.EndsWith(".Repositories");
                 });
 builder.Services.AddControllers(options =>
 {
