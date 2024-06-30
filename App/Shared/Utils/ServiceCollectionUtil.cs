@@ -11,7 +11,7 @@ public static class ServiceCollectionUtil
     /// <summary>
     /// 지정된 네임스페이스에 속한 모든 클래스를 서비스로 등록한다.
     /// </summary>
-    public static void AddSingletonFromNamespace(this IServiceCollection services, string prefixStart, string prefixEnd, ServiceLifetime lifetime = ServiceLifetime.Singleton)
+    public static void AddSingletonsFromNamespace(this IServiceCollection services, string prefixStart, string prefixEnd, ServiceLifetime lifetime = ServiceLifetime.Singleton)
     {
         var types = Assembly.GetExecutingAssembly()
                             .GetTypes()

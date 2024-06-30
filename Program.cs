@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("secrets.json", optional: true, reloadOnChange: true);
 
-builder.Services.AddSingletonFromNamespace("svc.App.", ".Services");
+builder.Services.AddSingletonsFromNamespace("svc.App.", ".Services");
 builder.Services.AddAutoMapperProfilesFromNamespace("svc.App.", ".Profiles");
 
 var connectionStrings = builder.Configuration.GetSection("ConnectionStrings")
