@@ -49,14 +49,14 @@ public class AuthService
     public async Task<string> Login(LoginRequestDTO loginRequestDTO)
     {
         var user = await GetUser(loginRequestDTO)
-            ?? throw new BizException("로그인에 실패했습니다.");
+            ?? throw new BizException("아이디 또는 비밀번호를 확인해주세요.");
 
         if (user.UserActiveYn == "N")
             throw new BizException("비활성화된 사용자입니다.");
 
         var matchPassword = EncryptUtil.Verify(loginRequestDTO.UserPassword!, user.UserPassword!);
         if (!matchPassword)
-            throw new BizException("로그인에 실패했습니다.");
+            throw new BizException("아이디 또는 비밀번호를 확인해주세요.");
 
         SetAuthenticatedUser(user);
         return GenerateJWTToken(user);
