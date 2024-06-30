@@ -17,6 +17,18 @@ public class UserRepository : IUserRepository
     }
 
     /// <summary>
+    /// 사용자 목록을 조회한다.
+    /// </summary>
+    public Task<IList<UserEntity>> ListUser()
+    {
+        return SqlMapper.QueryAsync<UserEntity>(new RequestContext
+        {
+            Scope = nameof(UserRepository),
+            SqlId = "ListUser"
+        });
+    }
+
+    /// <summary>
     /// 사용자를 조회한다.
     /// </summary>
     public Task<UserEntity?> GetUser(GetUserRequestDTO getUserRequestDTO)

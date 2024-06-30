@@ -12,6 +12,15 @@
 
   <Statements>
 
+    <!-- 사용자 목록을 조회한다. -->
+    <Statement Id="ListUser" ResultMap="UserResultMap">
+      SELECT
+        USER_ID,
+        USER_ACCOUNT,
+        USER_NAME
+      FROM CO_USER
+    </Statement>
+
     <!-- 사용자를 조회한다. -->
     <Statement Id="GetUser" ResultMap="UserResultMap">
       SELECT

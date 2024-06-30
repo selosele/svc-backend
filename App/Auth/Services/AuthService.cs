@@ -70,6 +70,15 @@ public class AuthService
     }
 
     /// <summary>
+    /// 사용자 목록을 조회한다.
+    /// </summary>
+    [Transaction]
+    public async Task<IList<UserEntity>> ListUser()
+    {
+        return await _userRepository.ListUser();
+    }
+
+    /// <summary>
     /// 사용자를 조회한다.
     /// </summary>
     [Transaction]

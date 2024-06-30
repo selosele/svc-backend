@@ -46,6 +46,28 @@ public class AuthController : MyApiControllerBase<AuthController>
     }
 
     /// <summary>
+    /// 사용자 목록을 조회한다.
+    /// </summary>
+    [HttpGet("users")]
+    [Authorize(Roles = RoleUtil.systemAdmin)]
+    public async Task<ActionResult<List<UserResponseDTO>>> ListUser()
+    {
+        var userList = _mapper?.Map<List<UserResponseDTO>>(await _authService.ListUser());
+        return Ok(userList);
+    }
+
+    /// <summary>
+    /// 사용자를 조회한다.
+    /// </summary>
+    [HttpGet("users/{userId}")]
+    [Authorize(Roles = RoleUtil.systemAdmin)]
+    public async Task<ActionResult<UserResponseDTO>> GetUser(int userId)
+    {
+        var user = _mapper?.Map<UserResponseDTO>(await _authService.GetUser(new GetUserRequestDTO { UserId = userId }));
+        return Ok(user);
+    }
+
+    /// <summary>
     /// 사용자를 추가한다.
     /// </summary>
     [HttpPost("users")]
