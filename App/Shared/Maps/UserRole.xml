@@ -5,6 +5,7 @@
     <ResultMap Id="UserRoleResultMap">
       <Result Column="USER_ID" Property="UserId" />
       <Result Column="ROLE_ID" Property="RoleId" />
+      <Result Column="ROLE_NAME" Property="RoleName" />
     </ResultMap>
   </ResultMaps>
 
@@ -14,16 +15,25 @@
     <Statement Id="ListUserRole" ResultMap="UserRoleResultMap">
       SELECT
         UR.USER_ID,
-        UR.ROLE_ID
+        UR.ROLE_ID,
+        R.ROLE_NAME
       FROM CO_USER_ROLE UR
       INNER JOIN CO_USER U ON U.USER_ID = UR.USER_ID
+      INNER JOIN CO_ROLE R ON R.ROLE_ID = UR.ROLE_ID
       WHERE U.USER_ID = @UserId
+      ORDER BY R.ROLE_NAME DESC
     </Statement>
 
     <!-- 사용자 권한을 추가한다. -->
     <Statement Id="AddUserRole">
-      INSERT INTO CO_USER_ROLE (USER_ID, ROLE_ID, CREATER_ID)
-      VALUES (@UserId, @RoleId, @CreaterId)
+      INSERT INTO CO_USER_ROLE (USER_ID, ROLE_ID, ROLE_NAME, CREATER_ID)
+      SELECT
+        @UserId,
+        @RoleId,
+        R.ROLE_NAME,
+        @CreaterId
+      FROM CO_ROLE R
+      WHERE R.ROLE_ID = @RoleId
     </Statement>
     
   </Statements>

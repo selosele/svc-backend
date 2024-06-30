@@ -7,6 +7,7 @@
       <Result Column="USER_ACCOUNT" Property="UserAccount" />
       <Result Column="USER_PASSWORD" Property="UserPassword" />
       <Result Column="USER_NAME" Property="UserName" />
+      <Result Column="USER_ACTIVE_YN" Property="UserActiveYn" />
     </ResultMap>
   </ResultMaps>
 
@@ -17,7 +18,8 @@
       SELECT
         USER_ID,
         USER_ACCOUNT,
-        USER_NAME
+        USER_NAME,
+        USER_ACTIVE_YN
       FROM CO_USER
     </Statement>
 
@@ -27,7 +29,8 @@
         USER_ID,
         USER_ACCOUNT,
         USER_PASSWORD,
-        USER_NAME
+        USER_NAME,
+        USER_ACTIVE_YN
       FROM CO_USER
       WHERE 1=1
         <IsNotEmpty Property="UserId">
@@ -40,8 +43,8 @@
 
     <!-- 사용자를 추가한다. -->
     <Statement Id="AddUser">
-      INSERT INTO CO_USER (USER_ACCOUNT, USER_PASSWORD, USER_NAME, CREATER_ID)
-      VALUES (@UserAccount, @UserPassword, @UserName, @CreaterId)
+      INSERT INTO CO_USER (USER_ACCOUNT, USER_PASSWORD, USER_NAME, USER_ACTIVE_YN, CREATER_ID)
+      VALUES (@UserAccount, @UserPassword, @UserName, @UserActiveYn, @CreaterId)
       ;SELECT LAST_INSERT_ID()
     </Statement>
     

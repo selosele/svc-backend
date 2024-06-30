@@ -21,6 +21,11 @@ public record UserResponseDTO
     public string? UserName { get; set; }
 
     /// <summary>
+    /// 사용자 활성화 여부
+    /// </summary>
+    public string? UserActiveYn { get; set; }
+
+    /// <summary>
     /// 사용자 권한 목록
     /// </summary>
     public List<UserRoleResponseDTO>? Roles { get; set; } = [];

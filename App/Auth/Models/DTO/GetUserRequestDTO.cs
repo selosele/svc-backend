@@ -28,5 +28,10 @@ public record GetUserRequestDTO : MyRequestDTOBase
     /// </summary>
     [StringLength(10)]
     public string? UserName { get; set; }
+
+    /// <summary>
+    /// 사용자 활성화 여부
+    /// </summary>
+    public string? UserActiveYn { get; set; }
     
 }

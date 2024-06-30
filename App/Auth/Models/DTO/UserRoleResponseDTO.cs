@@ -15,4 +15,9 @@ public record UserRoleResponseDTO
     /// </summary>
     public string? RoleId { get; set; }
 
+    /// <summary>
+    /// 권한 명
+    /// </summary>
+    public string? RoleName { get; set; }
+
 }

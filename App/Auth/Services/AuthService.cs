@@ -51,11 +51,12 @@ public class AuthService
         var user = await GetUser(loginRequestDTO)
             ?? throw new BizException("로그인에 실패했습니다.");
 
+        if (user.UserActiveYn == "N")
+            throw new BizException("비활성화된 사용자입니다.");
+
         var matchPassword = EncryptUtil.Verify(loginRequestDTO.UserPassword!, user.UserPassword!);
         if (!matchPassword)
-        {
             throw new BizException("로그인에 실패했습니다.");
-        }
 
         SetAuthenticatedUser(user);
         return GenerateJWTToken(user);
@@ -75,7 +76,13 @@ public class AuthService
     [Transaction]
     public async Task<IList<UserEntity>> ListUser()
     {
-        return await _userRepository.ListUser();
+        var userList = await _userRepository.ListUser();
+        foreach (var user in userList)
+        {
+            var userRoleList = await _userRoleRepository.ListUserRole(new GetUserRoleRequestDTO{ UserId = user.UserId });
+            user.Roles = userRoleList;
+        }
+        return userList;
     }
 
     /// <summary>
