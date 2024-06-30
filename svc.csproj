@@ -15,7 +15,6 @@
     <PackageReference Include="SmartSql" Version="4.1.67" />
     <PackageReference Include="SmartSql.AOP" Version="4.1.67" />
     <PackageReference Include="SmartSql.DyRepository" Version="4.1.67" />
-    <PackageReference Include="SmartSql.TypeHandler" Version="4.1.67" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
   </ItemGroup>
