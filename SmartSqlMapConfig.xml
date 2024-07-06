@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <SmartSqlMapConfig xmlns="http://SmartSql.net/schemas/SmartSqlMapConfig.xsd">
-  <Settings IsWatchConfigFile="true" IgnoreParameterCase="true" />
+  <Settings IsWatchConfigFile="true" IgnoreParameterCase="true" LogOutputLevel="Debug" />
   <Database>
     <DbProvider Name="MySql" ParameterPrefix="@" />
     <Write Name="WriteDB" ConnectionString="${DefaultConnection}" />
