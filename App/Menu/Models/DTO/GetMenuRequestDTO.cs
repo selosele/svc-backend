@@ -23,11 +23,6 @@ public record GetMenuRequestDTO : MyRequestDTOBase
     public int? UserId { get; set; }
 
     /// <summary>
-    /// 메뉴 표출여부
-    /// </summary>
-    public string? MenuShowYn { get; set; } = "Y";
-
-    /// <summary>
     /// 메뉴 사용여부
     /// </summary>
     public string? MenuUseYn { get; set; } = "Y";

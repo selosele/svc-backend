@@ -36,11 +36,6 @@ public record MenuResponseDTO
     public int? MenuDepth { get; set; }
     
     /// <summary>
-    /// 메뉴 표출여부
-    /// </summary>
-    public string? MenuShowYn { get; set; }
-    
-    /// <summary>
     /// 메뉴 사용여부
     /// </summary>
     public string? MenuUseYn { get; set; }
