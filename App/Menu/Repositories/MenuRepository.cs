@@ -1,6 +1,5 @@
 using SmartSql;
 using svc.App.Menu.Models.DTO;
-using svc.App.Menu.Models.Entities;
 
 namespace svc.App.Menu.Repositories;
 
@@ -19,9 +18,9 @@ public class MenuRepository : IMenuRepository
     /// <summary>
     /// 메뉴 목록을 조회한다.
     /// </summary>
-    public Task<IList<MenuEntity>> ListMenu(GetMenuRequestDTO getMenuRequestDTO)
+    public Task<IList<MenuResponseDTO>> ListMenu(GetMenuRequestDTO getMenuRequestDTO)
     {
-        return SqlMapper.QueryAsync<MenuEntity>(new RequestContext
+        return SqlMapper.QueryAsync<MenuResponseDTO>(new RequestContext
         {
             Scope = nameof(MenuRepository),
             SqlId = "ListMenu",

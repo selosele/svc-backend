@@ -1,7 +1,6 @@
 using System.Security.Claims;
 using svc.App.Auth.Services;
 using svc.App.Menu.Models.DTO;
-using svc.App.Menu.Models.Entities;
 using svc.App.Menu.Repositories;
 using svc.App.Shared.Utils;
 using SmartSql.AOP;
@@ -29,7 +28,7 @@ public class MenuService
     /// 메뉴 목록을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<IList<MenuEntity>> ListMenu(GetMenuRequestDTO getMenuRequestDTO)
+    public async Task<IList<MenuResponseDTO>> ListMenu(GetMenuRequestDTO getMenuRequestDTO)
     {
         var user = _authService.GetAuthenticatedUser();
         getMenuRequestDTO.UserId = int.Parse(user?.FindFirstValue(ClaimUtil.IdIdentifier)!);

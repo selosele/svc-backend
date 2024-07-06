@@ -32,8 +32,7 @@ public class MenuController : MyApiControllerBase<MenuController>
     [Authorize]
     public async Task<ActionResult<List<MenuResponseDTO>>> ListCode([FromQuery] GetMenuRequestDTO getMenuRequestDTO)
     {
-        var menuList = _mapper?.Map<List<MenuResponseDTO>>(await _menuService.ListMenu(getMenuRequestDTO));
-        return Ok(menuList);
+        return Ok(await _menuService.ListMenu(getMenuRequestDTO));
     }
 
 }

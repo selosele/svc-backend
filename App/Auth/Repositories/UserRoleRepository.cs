@@ -1,6 +1,5 @@
 using SmartSql;
 using svc.App.Auth.Models.DTO;
-using svc.App.Auth.Models.Entities;
 
 namespace svc.App.Auth.Repositories;
 
@@ -19,9 +18,9 @@ public class UserRoleRepository : IUserRoleRepository
     /// <summary>
     /// 사용자 권한 목록을 조회한다.
     /// </summary>
-    public Task<IList<UserRoleEntity>> ListUserRole(GetUserRoleRequestDTO getUserRoleRequestDTO)
+    public Task<IList<UserRoleResponseDTO>> ListUserRole(GetUserRoleRequestDTO getUserRoleRequestDTO)
     {
-        return SqlMapper.QueryAsync<UserRoleEntity>(new RequestContext
+        return SqlMapper.QueryAsync<UserRoleResponseDTO>(new RequestContext
         {
             Scope = nameof(UserRoleRepository),
             SqlId = "ListUserRole",

@@ -3,18 +3,18 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using svc.App.Auth.Models.DTO;
-using svc.App.Auth.Models.Entities;
 using svc.App.Auth.Repositories;
 using svc.App.Menu.Repositories;
 using svc.App.Menu.Models.DTO;
 using svc.App.Shared.Exceptions;
 using svc.App.Shared.Utils;
 using SmartSql.AOP;
+using svc.App.Auth.Models.Entities;
 
 namespace svc.App.Auth.Services;
 
 /// <summary>
-/// 인증·인가 서비스 클래스
+/// 인증·인가 및 사용자 서비스 클래스
 /// </summary>
 public class AuthService
 {
@@ -94,19 +94,10 @@ public class AuthService
         var user = await _userRepository.GetUser(getUserRequestDTO);
         if (user != null)
         {
-            var userRoles = await ListUserRole(user);
-            user.Roles = userRoles;
+            var userRoles = await _userRoleRepository.ListUserRole(new GetUserRoleRequestDTO { UserId = user?.UserId });
+            user!.Roles = userRoles;
         }
         return user;
-    }
-
-    /// <summary>
-    /// 사용자 권한 목록을 조회한다.
-    /// </summary>
-    [Transaction]
-    public async Task<IList<UserRoleEntity>> ListUserRole(UserEntity user)
-    {
-        return await _userRoleRepository.ListUserRole(new GetUserRoleRequestDTO { UserId = user?.UserId });
     }
 
     /// <summary>
@@ -160,7 +151,7 @@ public class AuthService
         if (addedUser != null)
         {
             addedUser.UserPassword = null;
-            addedUser.Roles = await ListUserRole(addedUser);
+            addedUser.Roles = await _userRoleRepository.ListUserRole(new GetUserRoleRequestDTO { UserId = addedUser.UserId });
         }
 
         return addedUser;

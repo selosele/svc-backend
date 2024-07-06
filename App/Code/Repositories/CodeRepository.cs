@@ -1,5 +1,5 @@
 using SmartSql;
-using svc.App.Code.Models.Entities;
+using svc.App.Code.Models.DTO;
 
 namespace svc.App.Code.Repositories;
 
@@ -18,9 +18,9 @@ public class CodeRepository : ICodeRepository
     /// <summary>
     /// 코드 목록을 조회한다.
     /// </summary>
-    public Task<IList<CodeEntity>> ListCode()
+    public Task<IList<CodeResponseDTO>> ListCode()
     {
-        return SqlMapper.QueryAsync<CodeEntity>(new RequestContext
+        return SqlMapper.QueryAsync<CodeResponseDTO>(new RequestContext
         {
             Scope = nameof(CodeRepository),
             SqlId = "ListCode"

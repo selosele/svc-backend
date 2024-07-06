@@ -32,8 +32,7 @@ public class CodeController : MyApiControllerBase<CodeController>
     [Authorize]
     public async Task<ActionResult<List<CodeResponseDTO>>> ListCode()
     {
-        var codeList = _mapper?.Map<List<CodeResponseDTO>>(await _codeService.ListCode());
-        return Ok(codeList);
+        return Ok(await _codeService.ListCode());
     }
 
 }

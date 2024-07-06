@@ -9,7 +9,7 @@ using svc.App.Shared.Utils;
 namespace svc.App.Auth.Controllers;
 
 /// <summary>
-/// 인증·인가 컨트롤러 클래스
+/// 인증·인가 및 사용자 컨트롤러 클래스
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
@@ -49,7 +49,7 @@ public class AuthController : MyApiControllerBase<AuthController>
     /// 사용자 목록을 조회한다.
     /// </summary>
     [HttpGet("users")]
-    [Authorize(Roles = RoleUtil.systemAdmin)]
+    [Authorize(Roles = RoleUtil.SystemAdmin)]
     public async Task<ActionResult<List<UserResponseDTO>>> ListUser()
     {
         var userList = _mapper?.Map<List<UserResponseDTO>>(await _authService.ListUser());
@@ -60,7 +60,7 @@ public class AuthController : MyApiControllerBase<AuthController>
     /// 사용자를 조회한다.
     /// </summary>
     [HttpGet("users/{userId}")]
-    [Authorize(Roles = RoleUtil.systemAdmin)]
+    [Authorize(Roles = RoleUtil.SystemAdmin)]
     public async Task<ActionResult<UserResponseDTO>> GetUser(int userId)
     {
         var user = _mapper?.Map<UserResponseDTO>(await _authService.GetUser(new GetUserRequestDTO { UserId = userId }));
@@ -71,7 +71,7 @@ public class AuthController : MyApiControllerBase<AuthController>
     /// 사용자를 추가한다.
     /// </summary>
     [HttpPost("users")]
-    [Authorize(Roles = RoleUtil.systemAdmin)]
+    [Authorize(Roles = RoleUtil.SystemAdmin)]
     public async Task<ActionResult<UserResponseDTO>> AddUser([FromBody] AddUserRequestDTO addUserRequestDTO)
     {
         var user = _mapper?.Map<UserResponseDTO>(await _authService.AddUser(addUserRequestDTO));

@@ -1,6 +1,5 @@
 using SmartSql;
 using svc.App.Menu.Models.DTO;
-using svc.App.Menu.Models.Entities;
 
 namespace svc.App.Menu.Repositories;
 
@@ -19,9 +18,9 @@ public class MenuRoleRepository : IMenuRoleRepository
     /// <summary>
     /// 메뉴 권한 목록을 조회한다.
     /// </summary>
-    public Task<IList<MenuRoleEntity>> ListMenuRole(GetMenuRoleRequestDTO getMenuRoleRequestDTO)
+    public Task<IList<MenuRoleResponseDTO>> ListMenuRole(GetMenuRoleRequestDTO getMenuRoleRequestDTO)
     {
-        return SqlMapper.QueryAsync<MenuRoleEntity>(new RequestContext
+        return SqlMapper.QueryAsync<MenuRoleResponseDTO>(new RequestContext
         {
             Scope = nameof(MenuRepository),
             SqlId = "ListMenuRole",

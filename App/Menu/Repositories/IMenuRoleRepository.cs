@@ -1,5 +1,4 @@
 using svc.App.Menu.Models.DTO;
-using svc.App.Menu.Models.Entities;
 
 namespace svc.App.Menu.Repositories;
 
@@ -11,6 +10,6 @@ public interface IMenuRoleRepository
     /// <summary>
     /// 메뉴 권한 목록을 조회한다.
     /// </summary>
-    Task<IList<MenuRoleEntity>> ListMenuRole(GetMenuRoleRequestDTO getMenuRoleRequestDTO);
+    Task<IList<MenuRoleResponseDTO>> ListMenuRole(GetMenuRoleRequestDTO getMenuRoleRequestDTO);
 
 }

@@ -11,9 +11,7 @@ public class AuthProfile : Profile
 {
     public AuthProfile()
     {
-        CreateMap<UserRoleEntity, UserRoleResponseDTO>();
-        CreateMap<UserEntity, UserResponseDTO>()
-            .ForMember(dest => dest.Roles, opt => opt.MapFrom(src => src.Roles));
+        CreateMap<UserEntity, UserResponseDTO>();
     }
     
 }
