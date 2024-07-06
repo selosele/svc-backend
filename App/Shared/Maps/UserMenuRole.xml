@@ -5,6 +5,8 @@
 
     <!-- 사용자 메뉴 권한을 추가한다. -->
     <Statement Id="AddUserMenuRole">
+      /* UserMenuRole.AddUserMenuRole */
+
       INSERT INTO CO_USER_MENU_ROLE (USER_ID, MENU_ID, ROLE_ID, CREATER_ID)
       VALUES (@UserId, @MenuId, @RoleId, @CreaterId)
     </Statement>

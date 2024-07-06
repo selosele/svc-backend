@@ -19,6 +19,8 @@
 
     <!-- 메뉴 목록을 조회한다. -->
     <Statement Id="ListMenu" ResultMap="MenuResultMap">
+      /* Menu.ListMenu */
+
       WITH RECURSIVE R AS (
         SELECT
           MENU_ID,

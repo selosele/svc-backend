@@ -13,6 +13,8 @@
 
     <!-- 사용자 권한 목록을 조회한다. -->
     <Statement Id="ListUserRole" ResultMap="UserRoleResultMap">
+      /* UserRole.ListUserRole */
+
       SELECT
         UR.USER_ID,
         UR.ROLE_ID,
@@ -26,6 +28,8 @@
 
     <!-- 사용자 권한을 추가한다. -->
     <Statement Id="AddUserRole">
+      /* UserRole.AddUserRole */
+
       INSERT INTO CO_USER_ROLE (USER_ID, ROLE_ID, CREATER_ID)
       VALUES (@UserId, @RoleId, @CreaterId)
     </Statement>

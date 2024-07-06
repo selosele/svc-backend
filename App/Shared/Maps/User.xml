@@ -15,6 +15,8 @@
 
     <!-- 사용자 목록을 조회한다. -->
     <Statement Id="ListUser" ResultMap="UserResultMap">
+      /* User.ListUser */
+
       SELECT
         USER_ID,
         USER_ACCOUNT,
@@ -25,6 +27,8 @@
 
     <!-- 사용자를 조회한다. -->
     <Statement Id="GetUser" ResultMap="UserResultMap">
+      /* User.GetUser */
+
       SELECT
         USER_ID,
         USER_ACCOUNT,
@@ -43,6 +47,8 @@
 
     <!-- 사용자를 추가한다. -->
     <Statement Id="AddUser">
+      /* User.AddUser */
+
       INSERT INTO CO_USER (USER_ACCOUNT, USER_PASSWORD, USER_NAME, USER_ACTIVE_YN, CREATER_ID)
       VALUES (@UserAccount, @UserPassword, @UserName, @UserActiveYn, @CreaterId)
       ;SELECT LAST_INSERT_ID()

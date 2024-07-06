@@ -12,6 +12,8 @@
 
     <!-- 메뉴 권한 목록을 조회한다. -->
     <Statement Id="ListMenuRole" ResultMap="MenuRoleResultMap">
+      /* MenuRole.ListMenuRole */
+
       SELECT
         MENU_ID,
         ROLE_ID

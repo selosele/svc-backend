@@ -18,6 +18,8 @@
 
     <!-- 코드 목록을 조회한다. -->
     <Statement Id="ListCode" ResultMap="CodeResultMap">
+      /* Code.ListCode */
+
       WITH RECURSIVE R AS (
         SELECT
           CODE_ID,
