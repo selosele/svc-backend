@@ -5,6 +5,13 @@
     <ResultMap Id="UserResultMap">
       <Result Column="USER_ID" Property="UserId" />
       <Result Column="USER_ACCOUNT" Property="UserAccount" />
+      <Result Column="USER_NAME" Property="UserName" />
+      <Result Column="USER_ACTIVE_YN" Property="UserActiveYn" />
+    </ResultMap>
+
+    <ResultMap Id="LoginResultMap">
+      <Result Column="USER_ID" Property="UserId" />
+      <Result Column="USER_ACCOUNT" Property="UserAccount" />
       <Result Column="USER_PASSWORD" Property="UserPassword" />
       <Result Column="USER_NAME" Property="UserName" />
       <Result Column="USER_ACTIVE_YN" Property="UserActiveYn" />
@@ -46,7 +53,7 @@
     </Statement>
 
     <!-- 사용자를 조회한다(로그인용). -->
-    <Statement Id="GetUserLogin" ResultMap="UserResultMap">
+    <Statement Id="GetUserLogin" ResultMap="LoginResultMap">
       /* User.GetUserLogin */
 
       SELECT
