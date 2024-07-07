@@ -232,7 +232,7 @@ public class AuthService
         var accessToken = new JwtSecurityToken(
             claims: claims,
             notBefore: DateTime.UtcNow,
-            expires: DateTime.UtcNow.AddDays(30),
+            expires: DateTime.UtcNow.AddDays(7),
             signingCredentials: new SigningCredentials(
                 new SymmetricSecurityKey(
                     Encoding.UTF8.GetBytes(_configuration["ApplicationSettings:JWTSecret"]!)),
