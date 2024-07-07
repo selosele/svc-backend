@@ -9,7 +9,7 @@ using svc.App.Shared.Utils;
 namespace svc.App.Auth.Controllers;
 
 /// <summary>
-/// 인증·인가 및 사용자 컨트롤러 클래스
+/// 인증·인가 및 사용자, 권한 컨트롤러 클래스
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
@@ -73,6 +73,16 @@ public class AuthController : MyApiControllerBase<AuthController>
     public async Task<ActionResult<UserResponseDTO>> AddUser([FromBody] AddUserRequestDTO addUserRequestDTO)
     {
         return Ok(await _authService.AddUser(addUserRequestDTO));
+    }
+
+    /// <summary>
+    /// 권한 목록을 조회한다.
+    /// </summary>
+    [HttpGet("roles")]
+    [Authorize(Roles = RoleUtil.SystemAdmin)]
+    public async Task<ActionResult<List<RoleResponseDTO>>> ListRole()
+    {
+        return Ok(await _authService.ListRole());
     }
 
 }

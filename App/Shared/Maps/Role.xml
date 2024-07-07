@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<SmartSqlMap Scope="Role" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+  <ResultMaps>
+    <ResultMap Id="RoleResultMap">
+      <Result Column="ROLE_ID" Property="RoleId" />
+      <Result Column="ROLE_NAME" Property="RoleName" />
+      <Result Column="ROLE_ORDER" Property="RoleOrder" />
+    </ResultMap>
+  </ResultMaps>
+
+  <Statements>
+
+    <!-- 권한 목록을 조회한다. -->
+    <Statement Id="ListRole" ResultMap="RoleResultMap">
+      /* Role.ListRole */
+
+      SELECT
+        R.ROLE_ID,
+        R.ROLE_NAME,
+        R.ROLE_ORDER
+      FROM CO_ROLE R
+      ORDER BY ROLE_ORDER
+    </Statement>
+    
+  </Statements>
+</SmartSqlMap>

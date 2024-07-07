@@ -13,7 +13,7 @@ using SmartSql.AOP;
 namespace svc.App.Auth.Services;
 
 /// <summary>
-/// 인증·인가 및 사용자 서비스 클래스
+/// 인증·인가 및 사용자, 권한 서비스 클래스
 /// </summary>
 public class AuthService
 {
@@ -23,6 +23,7 @@ public class AuthService
     private readonly IUserRoleRepository _userRoleRepository;
     private readonly IUserMenuRoleRepository _userMenuRoleRepository;
     private readonly IMenuRoleRepository _menuRoleRepository;
+    private readonly IRoleRepository _roleRepository;
     
     public AuthService(
         IConfiguration configuration,
@@ -30,7 +31,8 @@ public class AuthService
         IUserRepository userRepository,
         IUserRoleRepository userRoleRepository,
         IUserMenuRoleRepository userMenuRoleRepository,
-        IMenuRoleRepository menuRoleRepository
+        IMenuRoleRepository menuRoleRepository,
+        IRoleRepository roleRepository
     )
     {
         _configuration = configuration;
@@ -39,6 +41,7 @@ public class AuthService
         _userRoleRepository = userRoleRepository;
         _userMenuRoleRepository = userMenuRoleRepository;
         _menuRoleRepository = menuRoleRepository;
+        _roleRepository = roleRepository;
     }
 
     /// <summary>
@@ -168,6 +171,15 @@ public class AuthService
         }
 
         return addedUser;
+    }
+
+    /// <summary>
+    /// 권한 목록을 조회한다.
+    /// </summary>
+    [Transaction]
+    public async Task<IList<RoleResponseDTO>> ListRole()
+    {
+        return await _roleRepository.ListRole();
     }
 
     /// <summary>
