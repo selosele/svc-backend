@@ -45,6 +45,20 @@
         </IsNotEmpty>
     </Statement>
 
+    <!-- 사용자를 조회한다(로그인용). -->
+    <Statement Id="GetUserLogin" ResultMap="UserResultMap">
+      /* User.GetUserLogin */
+
+      SELECT
+        USER_ID,
+        USER_ACCOUNT,
+        USER_PASSWORD,
+        USER_NAME,
+        USER_ACTIVE_YN
+      FROM CO_USER
+      WHERE USER_ACCOUNT = @UserAccount
+    </Statement>
+
     <!-- 사용자를 추가한다. -->
     <Statement Id="AddUser">
       /* User.AddUser */

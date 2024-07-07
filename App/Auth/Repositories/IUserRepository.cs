@@ -1,5 +1,4 @@
 using svc.App.Auth.Models.DTO;
-using svc.App.Auth.Models.Entities;
 
 namespace svc.App.Auth.Repositories;
 
@@ -9,14 +8,19 @@ namespace svc.App.Auth.Repositories;
 public interface IUserRepository
 {
     /// <summary>
-    /// 사용자를 조회한다.
+    /// 사용자 목록을 조회한다.
     /// </summary>
-    Task<IList<UserEntity>> ListUser();
+    Task<IList<UserResponseDTO>> ListUser();
 
     /// <summary>
     /// 사용자를 조회한다.
     /// </summary>
-    Task<UserEntity?> GetUser(GetUserRequestDTO getUserRequestDTO);
+    Task<UserResponseDTO?> GetUser(GetUserRequestDTO getUserRequestDTO);
+
+    /// <summary>
+    /// 사용자를 조회한다(로그인용).
+    /// </summary>
+    Task<LoginResultDTO?> GetUserLogin(GetUserRequestDTO getUserRequestDTO);
 
     /// <summary>
     /// 사용자를 추가한다.

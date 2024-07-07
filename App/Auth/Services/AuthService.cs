@@ -9,7 +9,6 @@ using svc.App.Menu.Models.DTO;
 using svc.App.Shared.Exceptions;
 using svc.App.Shared.Utils;
 using SmartSql.AOP;
-using svc.App.Auth.Models.Entities;
 
 namespace svc.App.Auth.Services;
 
@@ -48,7 +47,7 @@ public class AuthService
     [Transaction]
     public async Task<string> Login(LoginRequestDTO loginRequestDTO)
     {
-        var user = await GetUser(loginRequestDTO)
+        var user = await GetUserLogin(loginRequestDTO)
             ?? throw new BizException("아이디 또는 비밀번호를 확인해주세요.");
 
         if (user.UserActiveYn == "N")
@@ -74,7 +73,7 @@ public class AuthService
     /// 사용자 목록을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<IList<UserEntity>> ListUser()
+    public async Task<IList<UserResponseDTO>> ListUser()
     {
         var userList = await _userRepository.ListUser();
         foreach (var user in userList)
@@ -89,9 +88,24 @@ public class AuthService
     /// 사용자를 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<UserEntity?> GetUser(GetUserRequestDTO getUserRequestDTO)
+    public async Task<UserResponseDTO?> GetUser(GetUserRequestDTO getUserRequestDTO)
     {
         var user = await _userRepository.GetUser(getUserRequestDTO);
+        if (user != null)
+        {
+            var userRoles = await _userRoleRepository.ListUserRole(new GetUserRoleRequestDTO { UserId = user?.UserId });
+            user!.Roles = userRoles;
+        }
+        return user;
+    }
+
+    /// <summary>
+    /// 사용자를 조회한다(로그인용).
+    /// </summary>
+    [Transaction]
+    public async Task<LoginResultDTO?> GetUserLogin(GetUserRequestDTO getUserRequestDTO)
+    {
+        var user = await _userRepository.GetUserLogin(getUserRequestDTO);
         if (user != null)
         {
             var userRoles = await _userRoleRepository.ListUserRole(new GetUserRoleRequestDTO { UserId = user?.UserId });
@@ -104,7 +118,7 @@ public class AuthService
     /// 사용자를 추가한다.
     /// </summary>
     [Transaction]
-    public async Task<UserEntity?> AddUser(AddUserRequestDTO addUserRequestDTO)
+    public async Task<UserResponseDTO?> AddUser(AddUserRequestDTO addUserRequestDTO)
     {
         // 사용자 중복 체크
         var foundUser = await GetUser(addUserRequestDTO);
@@ -150,7 +164,6 @@ public class AuthService
         var addedUser = await GetUser(new GetUserRequestDTO { UserId = userId });
         if (addedUser != null)
         {
-            addedUser.UserPassword = null;
             addedUser.Roles = await _userRoleRepository.ListUserRole(new GetUserRoleRequestDTO { UserId = addedUser.UserId });
         }
 
@@ -169,7 +182,7 @@ public class AuthService
     /// <summary>
     /// 인증된 사용자 정보를 저장한다.
     /// </summary>
-    public void SetAuthenticatedUser(UserEntity user)
+    public void SetAuthenticatedUser(LoginResultDTO user)
     {
         var claims = new List<Claim>
         {
@@ -192,7 +205,7 @@ public class AuthService
     /// <summary>
     /// JWT를 생성해서 반환한다.
     /// </summary>
-    public string GenerateJWTToken(UserEntity user) {
+    public string GenerateJWTToken(LoginResultDTO user) {
         var claims = new List<Claim> {
             new(ClaimUtil.IdIdentifier, user.UserId.ToString()!),
             new(ClaimUtil.AccountIdentifier, user.UserAccount!),

@@ -52,8 +52,7 @@ public class AuthController : MyApiControllerBase<AuthController>
     [Authorize(Roles = RoleUtil.SystemAdmin)]
     public async Task<ActionResult<List<UserResponseDTO>>> ListUser()
     {
-        var userList = _mapper?.Map<List<UserResponseDTO>>(await _authService.ListUser());
-        return Ok(userList);
+        return Ok(await _authService.ListUser());
     }
 
     /// <summary>
@@ -63,8 +62,7 @@ public class AuthController : MyApiControllerBase<AuthController>
     [Authorize(Roles = RoleUtil.SystemAdmin)]
     public async Task<ActionResult<UserResponseDTO>> GetUser(int userId)
     {
-        var user = _mapper?.Map<UserResponseDTO>(await _authService.GetUser(new GetUserRequestDTO { UserId = userId }));
-        return Ok(user);
+        return Ok(await _authService.GetUser(new GetUserRequestDTO { UserId = userId }));
     }
 
     /// <summary>
@@ -74,8 +72,7 @@ public class AuthController : MyApiControllerBase<AuthController>
     [Authorize(Roles = RoleUtil.SystemAdmin)]
     public async Task<ActionResult<UserResponseDTO>> AddUser([FromBody] AddUserRequestDTO addUserRequestDTO)
     {
-        var user = _mapper?.Map<UserResponseDTO>(await _authService.AddUser(addUserRequestDTO));
-        return Ok(user);
+        return Ok(await _authService.AddUser(addUserRequestDTO));
     }
 
 }

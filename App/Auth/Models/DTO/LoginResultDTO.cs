@@ -1,12 +1,9 @@
-using svc.App.Auth.Models.DTO;
-using svc.App.Shared.Models.Entities;
-
-namespace svc.App.Auth.Models.Entities;
+namespace svc.App.Auth.Models.DTO;
 
 /// <summary>
-/// 사용자 Entity
+/// 로그인 결과 DTO
 /// </summary>
-public record UserEntity : MyEntityBase
+public record LoginResultDTO
 {
     /// <summary>
     /// 사용자 ID
@@ -36,6 +33,6 @@ public record UserEntity : MyEntityBase
     /// <summary>
     /// 사용자 권한 목록
     /// </summary>
-    public IList<UserRoleResponseDTO> Roles { get; set; } = [];
-
+    public IList<UserRoleResponseDTO>? Roles { get; set; } = [];
+    
 }

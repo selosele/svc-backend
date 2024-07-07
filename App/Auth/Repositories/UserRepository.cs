@@ -1,6 +1,5 @@
 using SmartSql;
 using svc.App.Auth.Models.DTO;
-using svc.App.Auth.Models.Entities;
 
 namespace svc.App.Auth.Repositories;
 
@@ -19,9 +18,9 @@ public class UserRepository : IUserRepository
     /// <summary>
     /// 사용자 목록을 조회한다.
     /// </summary>
-    public Task<IList<UserEntity>> ListUser()
+    public Task<IList<UserResponseDTO>> ListUser()
     {
-        return SqlMapper.QueryAsync<UserEntity>(new RequestContext
+        return SqlMapper.QueryAsync<UserResponseDTO>(new RequestContext
         {
             Scope = nameof(UserRepository),
             SqlId = "ListUser"
@@ -31,12 +30,25 @@ public class UserRepository : IUserRepository
     /// <summary>
     /// 사용자를 조회한다.
     /// </summary>
-    public Task<UserEntity?> GetUser(GetUserRequestDTO getUserRequestDTO)
+    public Task<UserResponseDTO?> GetUser(GetUserRequestDTO getUserRequestDTO)
     {
-        return SqlMapper.QuerySingleAsync<UserEntity?>(new RequestContext
+        return SqlMapper.QuerySingleAsync<UserResponseDTO?>(new RequestContext
         {
             Scope = nameof(UserRepository),
             SqlId = "GetUser",
+            Request = getUserRequestDTO
+        });
+    }
+
+    /// <summary>
+    /// 사용자를 조회한다(로그인용).
+    /// </summary>
+    public Task<LoginResultDTO?> GetUserLogin(GetUserRequestDTO getUserRequestDTO)
+    {
+        return SqlMapper.QuerySingleAsync<LoginResultDTO?>(new RequestContext
+        {
+            Scope = nameof(UserRepository),
+            SqlId = "GetUserLogin",
             Request = getUserRequestDTO
         });
     }
