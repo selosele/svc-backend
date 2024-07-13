@@ -5,6 +5,7 @@ namespace svc.App.Menu.Models.DTO;
 /// </summary>
 public record MenuResponseDTO
 {
+    #region Fields
     /// <summary>
     /// 메뉴 ID
     /// </summary>
@@ -44,5 +45,6 @@ public record MenuResponseDTO
     /// 메뉴 삭제여부
     /// </summary>
     public string? MenuDeleteYn { get; set; }
+    #endregion
 
 }

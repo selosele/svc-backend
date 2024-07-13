@@ -8,13 +8,18 @@ namespace svc.App.Menu.Repositories;
 /// </summary>
 public class MenuRoleRepository : IMenuRoleRepository
 {
+    #region Fields
     public ISqlMapper SqlMapper { get; }
+    #endregion
 
+    #region Constructor
     public MenuRoleRepository(ISqlMapper sqlMapper)
     {
         SqlMapper = sqlMapper;
     }
+    #endregion
 
+    #region Methods
     /// <summary>
     /// 메뉴 권한 목록을 조회한다.
     /// </summary>
@@ -27,5 +32,6 @@ public class MenuRoleRepository : IMenuRoleRepository
             Request = getMenuRoleRequestDTO
         });
     }
+    #endregion
 
 }

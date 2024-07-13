@@ -5,6 +5,7 @@ namespace svc.App.Shared.Utils;
 /// </summary>
 public class EncryptUtil
 {
+    #region Methods
     /// <summary>
     /// 입력 문자열을 암호화해서 반환한다.
     /// </summary>
@@ -20,5 +21,6 @@ public class EncryptUtil
     {
         return BCrypt.Net.BCrypt.Verify(input, hashedInput);
     }
+    #endregion
 
 }

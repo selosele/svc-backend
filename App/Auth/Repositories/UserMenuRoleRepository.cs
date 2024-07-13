@@ -8,13 +8,18 @@ namespace svc.App.Auth.Repositories;
 /// </summary>
 public class UserMenuRoleRepository : IUserMenuRoleRepository
 {
+    #region Fields
     public ISqlMapper SqlMapper { get; }
+    #endregion
 
+    #region Constructor
     public UserMenuRoleRepository(ISqlMapper sqlMapper)
     {
         SqlMapper = sqlMapper;
     }
+    #endregion
 
+    #region Methods
     /// <summary>
     /// 사용자 메뉴 권한을 추가한다.
     /// </summary>
@@ -27,5 +32,6 @@ public class UserMenuRoleRepository : IUserMenuRoleRepository
             Request = addUserMenuRoleRequestDTO
         });
     }
+    #endregion
 
 }

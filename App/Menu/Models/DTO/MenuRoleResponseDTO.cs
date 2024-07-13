@@ -5,6 +5,7 @@ namespace svc.App.Menu.Models.DTO;
 /// </summary>
 public record MenuRoleResponseDTO
 {
+    #region Fields
     /// <summary>
     /// 메뉴 ID
     /// </summary>
@@ -14,5 +15,6 @@ public record MenuRoleResponseDTO
     /// 권한 ID
     /// </summary>
     public string? RoleId { get; set; }
+    #endregion
 
 }

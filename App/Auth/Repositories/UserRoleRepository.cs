@@ -8,13 +8,18 @@ namespace svc.App.Auth.Repositories;
 /// </summary>
 public class UserRoleRepository : IUserRoleRepository
 {
+    #region Fields
     public ISqlMapper SqlMapper { get; }
+    #endregion
 
+    #region Constructor
     public UserRoleRepository(ISqlMapper sqlMapper)
     {
         SqlMapper = sqlMapper;
     }
+    #endregion
 
+    #region Methods
     /// <summary>
     /// 사용자 권한 목록을 조회한다.
     /// </summary>
@@ -40,5 +45,6 @@ public class UserRoleRepository : IUserRoleRepository
             Request = addUserRoleRequestDTO
         });
     }
+    #endregion
 
 }

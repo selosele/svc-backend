@@ -8,6 +8,7 @@ namespace svc.App.Shared.Controllers;
 /// </summary>
 public class MyApiControllerBase<T> : ControllerBase where T: MyApiControllerBase<T>
 {
+    #region Fields
     /// <summary>
     /// logger 인스턴스
     /// </summary>
@@ -17,7 +18,9 @@ public class MyApiControllerBase<T> : ControllerBase where T: MyApiControllerBas
     /// 객체 매핑 패키지(AutoMapper) 인스턴스
     /// </summary>
     protected readonly IMapper? _mapper;
+    #endregion
 
+    #region Constructor
     protected MyApiControllerBase(){}
 
     protected MyApiControllerBase(
@@ -28,5 +31,6 @@ public class MyApiControllerBase<T> : ControllerBase where T: MyApiControllerBas
         _logger = logger;
         _mapper = mapper;
     }
+    #endregion
     
 }

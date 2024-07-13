@@ -8,6 +8,7 @@ namespace svc.App.Auth.Models.DTO;
 /// </summary>
 public record GetUserRequestDTO : MyRequestDTOBase
 {
+    #region Fields
     /// <summary>
     /// 사용자 ID
     /// </summary>
@@ -33,5 +34,6 @@ public record GetUserRequestDTO : MyRequestDTOBase
     /// 사용자 활성화 여부
     /// </summary>
     public string? UserActiveYn { get; set; }
+    #endregion
     
 }

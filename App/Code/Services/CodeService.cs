@@ -9,13 +9,18 @@ namespace svc.App.Code.Services;
 /// </summary>
 public class CodeService
 {
+    #region Fields
     private readonly ICodeRepository _codeRepository;
+    #endregion
     
+    #region Constructor
     public CodeService(ICodeRepository codeRepository)
     {
         _codeRepository = codeRepository;
     }
+    #endregion
 
+    #region Methods
     /// <summary>
     /// 코드 목록을 조회한다.
     /// </summary>
@@ -24,6 +29,7 @@ public class CodeService
     {
         return await _codeRepository.ListCode();
     }
+    #endregion
     
 }
 

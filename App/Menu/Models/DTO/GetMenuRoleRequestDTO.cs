@@ -7,9 +7,11 @@ namespace svc.App.Menu.Models.DTO;
 /// </summary>
 public record GetMenuRoleRequestDTO : MyRequestDTOBase
 {
+    #region Fields
     /// <summary>
     /// 사용자 ID
     /// </summary>
     public int? UserId { get; set; }
+    #endregion
 
 }

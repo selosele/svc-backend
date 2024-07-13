@@ -5,6 +5,7 @@ namespace svc.App.Shared.Utils;
 /// </summary>
 public class RoleUtil
 {
+    #region Fields
     /// <summary>
     /// 시스템 관리자 권한
     /// </summary>
@@ -19,5 +20,6 @@ public class RoleUtil
     /// 직원 권한
     /// </summary>
     public const string Employee = "ROLE_EMPLOYEE";
+    #endregion
 
 }

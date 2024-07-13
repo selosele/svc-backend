@@ -7,6 +7,7 @@ namespace svc.App.Menu.Models.DTO;
 /// </summary>
 public record GetMenuRequestDTO : MyRequestDTOBase
 {
+    #region Fields
     /// <summary>
     /// 메뉴 ID
     /// </summary>
@@ -36,5 +37,6 @@ public record GetMenuRequestDTO : MyRequestDTOBase
     /// 권한 ID 목록
     /// </summary>
     public List<string>? RoleIdList { get; set; }
+    #endregion
 
 }

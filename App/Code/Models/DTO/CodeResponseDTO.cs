@@ -5,6 +5,7 @@ namespace svc.App.Code.Models.DTO;
 /// </summary>
 public record CodeResponseDTO
 {
+    #region Fields
     /// <summary>
     /// 코드 ID
     /// </summary>
@@ -44,5 +45,6 @@ public record CodeResponseDTO
     /// 코드 삭제여부
     /// </summary>
     public string? CodeDeleteYn { get; set; }
+    #endregion
     
 }

@@ -14,8 +14,11 @@ namespace svc.App.Menu.Controllers;
 [Route("api/[controller]s")]
 public class MenuController : MyApiControllerBase<MenuController>
 {
+    #region Fields
     private readonly MenuService _menuService;
+    #endregion
     
+    #region Constructor
     public MenuController(
         MenuService menuService,
         ILogger<MenuController> logger,
@@ -24,7 +27,9 @@ public class MenuController : MyApiControllerBase<MenuController>
     {
         _menuService = menuService;
     }
+    #endregion
 
+    #region Methods
     /// <summary>
     /// 메뉴 목록을 조회한다.
     /// </summary>
@@ -34,5 +39,6 @@ public class MenuController : MyApiControllerBase<MenuController>
     {
         return Ok(await _menuService.ListMenu(getMenuRequestDTO));
     }
+    #endregion
 
 }

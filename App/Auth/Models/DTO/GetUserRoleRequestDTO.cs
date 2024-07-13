@@ -7,9 +7,11 @@ namespace svc.App.Auth.Models.DTO;
 /// </summary>
 public record GetUserRoleRequestDTO : MyRequestDTOBase
 {
+    #region Fields
     /// <summary>
     /// 사용자 ID
     /// </summary>
     public int? UserId { get; set; }
+    #endregion
     
 }

@@ -8,13 +8,18 @@ namespace svc.App.Code.Repositories;
 /// </summary>
 public class CodeRepository : ICodeRepository
 {
+    #region Fields
     public ISqlMapper SqlMapper { get; }
+    #endregion
 
+    #region Constructor
     public CodeRepository(ISqlMapper sqlMapper)
     {
         SqlMapper = sqlMapper;
     }
+    #endregion
 
+    #region Methods
     /// <summary>
     /// 코드 목록을 조회한다.
     /// </summary>
@@ -26,5 +31,6 @@ public class CodeRepository : ICodeRepository
             SqlId = "ListCode"
         });
     }
+    #endregion
 
 }

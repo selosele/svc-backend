@@ -8,13 +8,18 @@ namespace svc.App.Auth.Repositories;
 /// </summary>
 public class RoleRepository : IRoleRepository
 {
+    #region Fields
     public ISqlMapper SqlMapper { get; }
+    #endregion
 
+    #region Constructor
     public RoleRepository(ISqlMapper sqlMapper)
     {
         SqlMapper = sqlMapper;
     }
+    #endregion
 
+    #region Methods
     /// <summary>
     /// 권한 목록을 조회한다.
     /// </summary>
@@ -26,5 +31,6 @@ public class RoleRepository : IRoleRepository
             SqlId = "ListRole"
         });
     }
+    #endregion
 
 }

@@ -5,6 +5,7 @@ namespace svc.App.Auth.Models.DTO;
 /// </summary>
 public record RoleResponseDTO
 {
+    #region Fields
     /// <summary>
     /// 권한 ID
     /// </summary>
@@ -19,5 +20,6 @@ public record RoleResponseDTO
     /// 권한 순서
     /// </summary>
     public int? RoleOrder { get; set; }
+    #endregion
     
 }

@@ -5,6 +5,7 @@ namespace svc.App.Shared.Models.DTO;
 /// </summary>
 public record MyRequestDTOBase
 {
+    #region Fields
     /// <summary>
     /// 등록자 ID
     /// </summary>
@@ -19,5 +20,6 @@ public record MyRequestDTOBase
     /// 수정일시
     /// </summary>
     public DateTime? UpdateDt { get; set; }
-
+    #endregion
+    
 }

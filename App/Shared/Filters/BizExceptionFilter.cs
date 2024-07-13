@@ -8,6 +8,7 @@ namespace svc.App.Shared.Filters;
 /// </summary>
 public class BizExceptionFilter : IExceptionFilter
 {
+    #region Methods
     public void OnException(ExceptionContext context)
     {
         context.Result = new ObjectResult(new
@@ -18,5 +19,6 @@ public class BizExceptionFilter : IExceptionFilter
             StatusCode = StatusCodes.Status400BadRequest
         };
     }
+    #endregion
     
 }

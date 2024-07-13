@@ -7,9 +7,11 @@ namespace svc.App.Auth.Repositories;
 /// </summary>
 public interface IRoleRepository
 {
+    #region Methods
     /// <summary>
     /// 권한 목록을 조회한다.
     /// </summary>
     Task<IList<RoleResponseDTO>> ListRole();
+    #endregion
 
 }

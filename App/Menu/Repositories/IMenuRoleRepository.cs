@@ -7,9 +7,11 @@ namespace svc.App.Menu.Repositories;
 /// </summary>
 public interface IMenuRoleRepository
 {
+    #region Methods
     /// <summary>
     /// 메뉴 권한 목록을 조회한다.
     /// </summary>
     Task<IList<MenuRoleResponseDTO>> ListMenuRole(GetMenuRoleRequestDTO getMenuRoleRequestDTO);
+    #endregion
 
 }

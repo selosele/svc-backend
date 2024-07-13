@@ -8,6 +8,7 @@ namespace svc.App.Shared.Utils;
 /// </summary>
 public static class ServiceCollectionUtil
 {
+    #region Methods
     /// <summary>
     /// 지정된 네임스페이스에 속한 모든 클래스를 서비스로 등록한다.
     /// </summary>
@@ -41,5 +42,6 @@ public static class ServiceCollectionUtil
             }
         }, assembly);
     }
+    #endregion
 
 }

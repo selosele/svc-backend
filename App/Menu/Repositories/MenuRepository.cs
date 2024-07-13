@@ -8,13 +8,18 @@ namespace svc.App.Menu.Repositories;
 /// </summary>
 public class MenuRepository : IMenuRepository
 {
+    #region Fields
     public ISqlMapper SqlMapper { get; }
+    #endregion
 
+    #region Constructor
     public MenuRepository(ISqlMapper sqlMapper)
     {
         SqlMapper = sqlMapper;
     }
+    #endregion
 
+    #region Methods
     /// <summary>
     /// 메뉴 목록을 조회한다.
     /// </summary>
@@ -27,5 +32,6 @@ public class MenuRepository : IMenuRepository
             Request = getMenuRequestDTO
         });
     }
+    #endregion
 
 }

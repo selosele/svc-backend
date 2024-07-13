@@ -8,6 +8,7 @@ namespace svc.App.Auth.Models.DTO;
 /// </summary>
 public record AddUserMenuRoleRequestDTO : MyRequestDTOBase
 {
+    #region Fields
     /// <summary>
     /// 사용자 ID
     /// </summary>
@@ -25,5 +26,6 @@ public record AddUserMenuRoleRequestDTO : MyRequestDTOBase
     /// </summary>
     [Required]
     public string? RoleId { get; set; }
+    #endregion
 
 }

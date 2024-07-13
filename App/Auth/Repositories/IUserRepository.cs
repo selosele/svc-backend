@@ -7,6 +7,7 @@ namespace svc.App.Auth.Repositories;
 /// </summary>
 public interface IUserRepository
 {
+    #region Methods
     /// <summary>
     /// 사용자 목록을 조회한다.
     /// </summary>
@@ -26,5 +27,6 @@ public interface IUserRepository
     /// 사용자를 추가한다.
     /// </summary>
     Task<int> AddUser(AddUserRequestDTO addUserRequestDTO);
+    #endregion
 
 }

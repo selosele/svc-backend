@@ -5,5 +5,7 @@ namespace svc.App.Shared.Exceptions;
 /// </summary>
 public class BizException : Exception
 {
+    #region Constructor
     public BizException(string message) : base(message) {}
+    #endregion
 }

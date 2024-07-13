@@ -15,8 +15,11 @@ namespace svc.App.Auth.Controllers;
 [Route("api/[controller]")]
 public class AuthController : MyApiControllerBase<AuthController>
 {
+    #region Fields
     private readonly AuthService _authService;
+    #endregion
     
+    #region Constructor
     public AuthController(
         AuthService authService,
         ILogger<AuthController> logger,
@@ -25,7 +28,9 @@ public class AuthController : MyApiControllerBase<AuthController>
     {
         _authService = authService;
     }
+    #endregion
 
+    #region Methods
     /// <summary>
     /// 로그인을 한다.
     /// </summary>
@@ -84,5 +89,6 @@ public class AuthController : MyApiControllerBase<AuthController>
     {
         return Ok(await _authService.ListRole());
     }
+    #endregion
 
 }

@@ -5,6 +5,7 @@ namespace svc.App.Shared.Utils;
 /// </summary>
 public class ClaimUtil
 {
+    #region Fields
     /// <summary>
     /// ID 식별자
     /// </summary>
@@ -24,5 +25,6 @@ public class ClaimUtil
     /// Roles 식별자
     /// </summary>
     public const string RolesIdentifier = "roles";
+    #endregion
 
 }

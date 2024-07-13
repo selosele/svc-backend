@@ -17,6 +17,7 @@ namespace svc.App.Auth.Services;
 /// </summary>
 public class AuthService
 {
+    #region Fields
     private readonly IConfiguration _configuration;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IUserRepository _userRepository;
@@ -24,7 +25,9 @@ public class AuthService
     private readonly IUserMenuRoleRepository _userMenuRoleRepository;
     private readonly IMenuRoleRepository _menuRoleRepository;
     private readonly IRoleRepository _roleRepository;
+    #endregion
     
+    #region Constructor
     public AuthService(
         IConfiguration configuration,
         IHttpContextAccessor httpContextAccessor,
@@ -43,7 +46,9 @@ public class AuthService
         _menuRoleRepository = menuRoleRepository;
         _roleRepository = roleRepository;
     }
+    #endregion
 
+    #region Methods
     /// <summary>
     /// 로그인을 한다.
     /// </summary>
@@ -235,11 +240,13 @@ public class AuthService
             expires: DateTime.UtcNow.AddDays(7),
             signingCredentials: new SigningCredentials(
                 new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(_configuration["ApplicationSettings:JWTSecret"]!)),
-                    SecurityAlgorithms.HmacSha256Signature
-                )
-            );
+                    Encoding.UTF8.GetBytes(_configuration["ApplicationSettings:JWTSecret"]!)
+                ),
+                SecurityAlgorithms.HmacSha256Signature
+            )
+        );
         return new JwtSecurityTokenHandler().WriteToken(accessToken);
     }
+    #endregion
     
 }

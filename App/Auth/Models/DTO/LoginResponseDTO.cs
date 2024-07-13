@@ -5,9 +5,11 @@ namespace svc.App.Auth.Models.DTO;
 /// </summary>
 public record LoginResponseDTO
 {
+    #region Fields
     /// <summary>
     /// 액세스 토큰
     /// </summary>
     public string? AccessToken { get; set; }
+    #endregion
     
 }

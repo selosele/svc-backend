@@ -7,9 +7,11 @@ namespace svc.App.Code.Repositories;
 /// </summary>
 public interface ICodeRepository
 {
+    #region Methods
     /// <summary>
     /// 코드 목록을 조회한다.
     /// </summary>
     Task<IList<CodeResponseDTO>> ListCode();
+    #endregion
 
 }

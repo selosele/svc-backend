@@ -12,9 +12,12 @@ namespace svc.App.Menu.Services;
 /// </summary>
 public class MenuService
 {
+    #region Fields
     private readonly AuthService _authService;
     private readonly IMenuRepository _menuRepository;
+    #endregion
     
+    #region Constructor
     public MenuService(
         AuthService authService,
         IMenuRepository menuRepository
@@ -23,7 +26,9 @@ public class MenuService
         _authService = authService;
         _menuRepository = menuRepository;
     }
+    #endregion
 
+    #region Methods
     /// <summary>
     /// 메뉴 목록을 조회한다.
     /// </summary>
@@ -34,6 +39,7 @@ public class MenuService
         getMenuRequestDTO.UserId = int.Parse(user?.FindFirstValue(ClaimUtil.IdIdentifier)!);
         return await _menuRepository.ListMenu(getMenuRequestDTO);
     }
+    #endregion
     
 }
 

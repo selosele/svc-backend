@@ -14,8 +14,11 @@ namespace svc.App.Code.Controllers;
 [Route("api/[controller]s")]
 public class CodeController : MyApiControllerBase<CodeController>
 {
+    #region Fields
     private readonly CodeService _codeService;
+    #endregion
     
+    #region Constructor
     public CodeController(
         CodeService codeService,
         ILogger<CodeController> logger,
@@ -24,7 +27,9 @@ public class CodeController : MyApiControllerBase<CodeController>
     {
         _codeService = codeService;
     }
+    #endregion
 
+    #region Methods
     /// <summary>
     /// 코드 목록을 조회한다.
     /// </summary>
@@ -34,5 +39,6 @@ public class CodeController : MyApiControllerBase<CodeController>
     {
         return Ok(await _codeService.ListCode());
     }
+    #endregion
 
 }

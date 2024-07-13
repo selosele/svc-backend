@@ -5,6 +5,7 @@ namespace svc.App.Auth.Models.DTO;
 /// </summary>
 public record UserResponseDTO
 {
+    #region Fields
     /// <summary>
     /// 사용자 ID
     /// </summary>
@@ -29,5 +30,6 @@ public record UserResponseDTO
     /// 사용자 권한 목록
     /// </summary>
     public IList<UserRoleResponseDTO>? Roles { get; set; } = [];
+    #endregion
     
 }
