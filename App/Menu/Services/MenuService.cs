@@ -1,9 +1,9 @@
 using System.Security.Claims;
+using SmartSql.AOP;
 using svc.App.Auth.Services;
 using svc.App.Menu.Models.DTO;
 using svc.App.Menu.Repositories;
 using svc.App.Shared.Utils;
-using SmartSql.AOP;
 
 namespace svc.App.Menu.Services;
 
@@ -36,7 +36,7 @@ public class MenuService
     public async Task<IList<MenuResponseDTO>> ListMenu(GetMenuRequestDTO getMenuRequestDTO)
     {
         var user = _authService.GetAuthenticatedUser();
-        getMenuRequestDTO.UserId = int.Parse(user?.FindFirstValue(ClaimUtil.IdIdentifier)!);
+        getMenuRequestDTO.UserId = int.Parse(user?.FindFirstValue(ClaimUtil.UserIdIdentifier)!);
         return await _menuRepository.ListMenu(getMenuRequestDTO);
     }
     #endregion

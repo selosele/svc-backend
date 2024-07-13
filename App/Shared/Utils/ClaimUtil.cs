@@ -7,22 +7,27 @@ public class ClaimUtil
 {
     #region Fields
     /// <summary>
-    /// ID 식별자
+    /// 사용자 ID 식별자
     /// </summary>
-    public const string IdIdentifier = "userId";
+    public const string UserIdIdentifier = "userId";
 
     /// <summary>
-    /// Account 식별자
+    /// 직원 ID 식별자
     /// </summary>
-    public const string AccountIdentifier = "userAccount";
+    public const string EmployeeIdIdentifier = "employeeId";
 
     /// <summary>
-    /// Name 식별자
+    /// 사용자 계정 식별자
     /// </summary>
-    public const string NameIdentifier = "userName";
+    public const string UserAccountIdentifier = "userAccount";
 
     /// <summary>
-    /// Roles 식별자
+    /// 사용자 명 식별자
+    /// </summary>
+    public const string UserNameIdentifier = "userName";
+
+    /// <summary>
+    /// 사용자 권한 식별자
     /// </summary>
     public const string RolesIdentifier = "roles";
     #endregion
