@@ -16,10 +16,10 @@
       /* Role.ListRole */
 
       SELECT
-        R.ROLE_ID,
-        R.ROLE_NAME,
-        R.ROLE_ORDER
-      FROM CO_ROLE R
+        ROLE_ID,
+        ROLE_NAME,
+        ROLE_ORDER
+      FROM CO_ROLE
       ORDER BY ROLE_ORDER
     </Statement>
     
