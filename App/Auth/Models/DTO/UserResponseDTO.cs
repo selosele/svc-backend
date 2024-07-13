@@ -1,3 +1,5 @@
+using svc.App.Employee.Models.DTO;
+
 namespace svc.App.Auth.Models.DTO;
 
 /// <summary>
@@ -30,6 +32,11 @@ public record UserResponseDTO
     /// 사용자 권한 목록
     /// </summary>
     public IList<UserRoleResponseDTO>? Roles { get; set; } = [];
+
+    /// <summary>
+    /// 직원 정보
+    /// </summary>
+    public EmployeeResponseDTO? Employee { get; set; } = null;
     #endregion
     
 }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<SmartSqlMap Scope="Employee" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+  <ResultMaps>
+    <ResultMap Id="EmployeeResultMap">
+      <Result Column="EMPLOYEE_ID" Property="EmployeeId" />
+      <Result Column="EMPLOYEE_NAME" Property="EmployeeName" />
+      <Result Column="GENDER_CODE" Property="GenderCode" />
+      <Result Column="GENDER_CODE_NAME" Property="GenderCodeName" />
+    </ResultMap>
+  </ResultMaps>
+
+  <Statements>
+
+    <!-- 직원을 조회한다. -->
+    <Statement Id="GetEmployee" ResultMap="EmployeeResultMap">
+      /* Employee.GetEmployee */
+
+      SELECT
+        E.EMPLOYEE_ID,
+        U.USER_NAME AS EMPLOYEE_NAME,
+        E.GENDER_CODE,
+        CD.CODE_NAME AS GENDER_CODE_NAME
+      FROM HR_EMPLOYEE E
+      INNER JOIN CO_USER U ON U.USER_ID = E.USER_ID
+      INNER JOIN CO_CODE CD ON CD.CODE_VALUE = E.GENDER_CODE AND CD.UP_CODE_ID = 'GENDER_00'
+      WHERE 1=1
+        <IsNotEmpty Property="UserId">
+        AND U.USER_ID = @UserId
+        </IsNotEmpty>
+        <IsNotEmpty Property="EmployeeId">
+        AND E.EMPLOYEE_ID = @EmployeeId
+        </IsNotEmpty>
+    </Statement>
+    
+  </Statements>
+</SmartSqlMap>

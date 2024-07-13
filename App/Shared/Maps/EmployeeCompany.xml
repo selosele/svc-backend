@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<SmartSqlMap Scope="EmployeeCompany" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+  <ResultMaps>
+    <ResultMap Id="EmployeeCompanyResultMap">
+      <Result Column="COMPANY_ID" Property="CompanyId" />
+      <Result Column="COMPANY_NAME" Property="CompanyName" />
+      <Result Column="COMPANY_DISPLAY_NAME" Property="CompanyDisplayName" />
+    </ResultMap>
+  </ResultMaps>
+
+  <Statements>
+
+    <!-- 직원 회사를 조회한다. -->
+    <Statement Id="GetEmployeeCompany" ResultMap="EmployeeCompanyResultMap">
+      /* EmployeeCompany.GetEmployeeCompany */
+
+      SELECT
+        C.COMPANY_ID,
+        C.COMPANY_NAME,
+        C.COMPANY_DISPLAY_NAME
+      FROM HR_EMPLOYEE_COMPANY EC
+      INNER JOIN HR_COMPANY C ON C.COMPANY_ID = EC.COMPANY_ID
+      INNER JOIN HR_EMPLOYEE E ON E.COMPANY_ID = EC.COMPANY_ID
+      WHERE E.EMPLOYEE_ID = @EmployeeId
+        AND EC.EMPLOYEE_ID = @EmployeeId
+    </Statement>
+    
+  </Statements>
+</SmartSqlMap>

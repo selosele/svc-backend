@@ -2,13 +2,15 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using SmartSql.AOP;
 using svc.App.Auth.Models.DTO;
 using svc.App.Auth.Repositories;
 using svc.App.Menu.Repositories;
 using svc.App.Menu.Models.DTO;
 using svc.App.Shared.Exceptions;
 using svc.App.Shared.Utils;
-using SmartSql.AOP;
+using svc.App.Employee.Repositories;
+using svc.App.Employee.Models.DTO;
 
 namespace svc.App.Auth.Services;
 
@@ -25,6 +27,8 @@ public class AuthService
     private readonly IUserMenuRoleRepository _userMenuRoleRepository;
     private readonly IMenuRoleRepository _menuRoleRepository;
     private readonly IRoleRepository _roleRepository;
+    private readonly IEmployeeRepository _employeeRepository;
+    private readonly IEmployeeCompanyRepository _employeeCompanyRepository;
     #endregion
     
     #region Constructor
@@ -35,7 +39,9 @@ public class AuthService
         IUserRoleRepository userRoleRepository,
         IUserMenuRoleRepository userMenuRoleRepository,
         IMenuRoleRepository menuRoleRepository,
-        IRoleRepository roleRepository
+        IRoleRepository roleRepository,
+        IEmployeeRepository employeeRepository,
+        IEmployeeCompanyRepository employeeCompanyRepository
     )
     {
         _configuration = configuration;
@@ -45,6 +51,8 @@ public class AuthService
         _userMenuRoleRepository = userMenuRoleRepository;
         _menuRoleRepository = menuRoleRepository;
         _roleRepository = roleRepository;
+        _employeeRepository = employeeRepository;
+        _employeeCompanyRepository = employeeCompanyRepository;
     }
     #endregion
 
@@ -101,8 +109,9 @@ public class AuthService
         var user = await _userRepository.GetUser(getUserRequestDTO);
         if (user != null)
         {
-            var userRoles = await _userRoleRepository.ListUserRole(new GetUserRoleRequestDTO { UserId = user?.UserId });
-            user!.Roles = userRoles;
+            user!.Roles = await _userRoleRepository.ListUserRole(new GetUserRoleRequestDTO { UserId = user?.UserId });
+            user!.Employee = await _employeeRepository.GetEmployee(new GetEmployeeRequestDTO { UserId = user?.UserId });
+            user!.Employee.EmployeeCompany = await _employeeCompanyRepository.GetEmployeeCompany(user?.Employee.EmployeeId);
         }
         return user;
     }
@@ -203,9 +212,9 @@ public class AuthService
     {
         var claims = new List<Claim>
         {
-            new(ClaimUtil.IdIdentifier, user.UserId.ToString()!),
-            new(ClaimUtil.AccountIdentifier, user.UserAccount!),
-            new(ClaimUtil.NameIdentifier, user.UserName!)
+            new(ClaimUtil.UserIdIdentifier, user.UserId.ToString()!),
+            new(ClaimUtil.UserAccountIdentifier, user.UserAccount!),
+            new(ClaimUtil.UserNameIdentifier, user.UserName!)
         };
 
         foreach (var userRole in user.Roles!)
@@ -224,9 +233,9 @@ public class AuthService
     /// </summary>
     public string GenerateJWTToken(LoginResultDTO user) {
         var claims = new List<Claim> {
-            new(ClaimUtil.IdIdentifier, user.UserId.ToString()!),
-            new(ClaimUtil.AccountIdentifier, user.UserAccount!),
-            new(ClaimUtil.NameIdentifier, user.UserName!)
+            new(ClaimUtil.UserIdIdentifier, user.UserId.ToString()!),
+            new(ClaimUtil.UserAccountIdentifier, user.UserAccount!),
+            new(ClaimUtil.UserNameIdentifier, user.UserName!)
         };
 
         foreach (var userRole in user.Roles!)
