@@ -19,11 +19,6 @@ public record UserResponseDTO
     public string? UserAccount { get; set; }
 
     /// <summary>
-    /// 사용자 명
-    /// </summary>
-    public string? UserName { get; set; }
-
-    /// <summary>
     /// 사용자 활성화 여부
     /// </summary>
     public string? UserActiveYn { get; set; }

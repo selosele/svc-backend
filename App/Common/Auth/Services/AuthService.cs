@@ -97,8 +97,8 @@ public class AuthService
         var userList = await _userRepository.ListUser();
         foreach (var user in userList)
         {
-            var userRoleList = await _userRoleRepository.ListUserRole(new GetUserRoleRequestDTO{ UserId = user.UserId });
-            user.Roles = userRoleList;
+            user.Roles = await _userRoleRepository.ListUserRole(new GetUserRoleRequestDTO{ UserId = user.UserId });
+            user!.Employee = await _employeeRepository.GetEmployee(new GetEmployeeRequestDTO { UserId = user?.UserId });
         }
         return userList;
     }
@@ -129,8 +129,8 @@ public class AuthService
         var user = await _userRepository.GetUserLogin(getUserRequestDTO);
         if (user != null)
         {
-            var userRoles = await _userRoleRepository.ListUserRole(new GetUserRoleRequestDTO { UserId = user?.UserId });
-            user!.Roles = userRoles;
+            user!.Roles = await _userRoleRepository.ListUserRole(new GetUserRoleRequestDTO { UserId = user?.UserId });
+            user!.Employee = await _employeeRepository.GetEmployee(new GetEmployeeRequestDTO { UserId = user?.UserId });
         }
         return user;
     }
@@ -239,7 +239,7 @@ public class AuthService
         {
             new(ClaimUtil.UserIdIdentifier, user.UserId.ToString()!),
             new(ClaimUtil.UserAccountIdentifier, user.UserAccount!),
-            new(ClaimUtil.UserNameIdentifier, user.UserName!)
+            new(ClaimUtil.EmployeeNameIdentifier, user.Employee!.EmployeeName!)
         };
 
         foreach (var userRole in user.Roles!)
@@ -260,7 +260,7 @@ public class AuthService
         var claims = new List<Claim> {
             new(ClaimUtil.UserIdIdentifier, user.UserId.ToString()!),
             new(ClaimUtil.UserAccountIdentifier, user.UserAccount!),
-            new(ClaimUtil.UserNameIdentifier, user.UserName!)
+            new(ClaimUtil.EmployeeNameIdentifier, user.Employee!.EmployeeName!)
         };
 
         foreach (var userRole in user.Roles!)

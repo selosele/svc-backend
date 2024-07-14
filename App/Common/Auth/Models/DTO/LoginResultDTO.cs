@@ -1,3 +1,5 @@
+using svc.App.Human.Employee.Models.DTO;
+
 namespace svc.App.Common.Auth.Models.DTO;
 
 /// <summary>
@@ -22,11 +24,6 @@ public record LoginResultDTO
     public string? UserPassword { get; set; }
 
     /// <summary>
-    /// 사용자 명
-    /// </summary>
-    public string? UserName { get; set; }
-
-    /// <summary>
     /// 사용자 활성화 여부
     /// </summary>
     public string? UserActiveYn { get; set; }
@@ -35,6 +32,11 @@ public record LoginResultDTO
     /// 사용자 권한 목록
     /// </summary>
     public IList<UserRoleResponseDTO>? Roles { get; set; } = [];
+
+    /// <summary>
+    /// 직원 정보
+    /// </summary>
+    public EmployeeResponseDTO? Employee { get; set; } = null;
     #endregion
     
 }

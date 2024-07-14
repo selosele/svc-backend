@@ -25,12 +25,6 @@ public record GetUserRequestDTO : MyRequestDTOBase
     public string? UserPassword { get; set; }
 
     /// <summary>
-    /// 사용자 명
-    /// </summary>
-    [StringLength(10)]
-    public string? UserName { get; set; }
-
-    /// <summary>
     /// 사용자 활성화 여부
     /// </summary>
     public string? UserActiveYn { get; set; }

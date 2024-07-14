@@ -5,7 +5,6 @@
     <ResultMap Id="UserResultMap">
       <Result Column="USER_ID" Property="UserId" />
       <Result Column="USER_ACCOUNT" Property="UserAccount" />
-      <Result Column="USER_NAME" Property="UserName" />
       <Result Column="USER_ACTIVE_YN" Property="UserActiveYn" />
     </ResultMap>
 
@@ -13,7 +12,6 @@
       <Result Column="USER_ID" Property="UserId" />
       <Result Column="USER_ACCOUNT" Property="UserAccount" />
       <Result Column="USER_PASSWORD" Property="UserPassword" />
-      <Result Column="USER_NAME" Property="UserName" />
       <Result Column="USER_ACTIVE_YN" Property="UserActiveYn" />
     </ResultMap>
   </ResultMaps>
@@ -27,7 +25,6 @@
       SELECT
         USER_ID,
         USER_ACCOUNT,
-        USER_NAME,
         USER_ACTIVE_YN
       FROM CO_USER
       WHERE DELETE_YN = 'N'
@@ -40,8 +37,6 @@
       SELECT
         USER_ID,
         USER_ACCOUNT,
-        USER_PASSWORD,
-        USER_NAME,
         USER_ACTIVE_YN
       FROM CO_USER
       WHERE 1=1
@@ -62,7 +57,6 @@
         USER_ID,
         USER_ACCOUNT,
         USER_PASSWORD,
-        USER_NAME,
         USER_ACTIVE_YN
       FROM CO_USER
       WHERE DELETE_YN = 'N'
@@ -73,8 +67,8 @@
     <Statement Id="AddUser">
       /* User.AddUser */
 
-      INSERT INTO CO_USER (USER_ACCOUNT, USER_PASSWORD, USER_NAME, USER_ACTIVE_YN, CREATER_ID)
-      VALUES (@UserAccount, @UserPassword, @UserName, @UserActiveYn, @CreaterId)
+      INSERT INTO CO_USER (USER_ACCOUNT, USER_PASSWORD, USER_ACTIVE_YN, CREATER_ID)
+      VALUES (@UserAccount, @UserPassword, @UserActiveYn, @CreaterId)
       ;SELECT LAST_INSERT_ID()
     </Statement>
 
