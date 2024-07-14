@@ -38,7 +38,7 @@ public class AuthController : MyApiControllerBase<AuthController>
     public async Task<ActionResult<LoginResponseDTO>> Login([FromBody] LoginRequestDTO loginRequestDTO)
     {
         var accessToken = await _authService.Login(loginRequestDTO);
-        return Ok(new LoginResponseDTO { AccessToken = accessToken });
+        return Created(string.Empty, new LoginResponseDTO { AccessToken = accessToken });
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ public class AuthController : MyApiControllerBase<AuthController>
     [HttpPost("users")]
     [Authorize(Roles = RoleUtil.SystemAdmin)]
     public async Task<ActionResult<UserResponseDTO>> AddUser([FromBody] AddUserRequestDTO addUserRequestDTO)
-        => Ok(await _authService.AddUser(addUserRequestDTO));
+        => Created(string.Empty, await _authService.AddUser(addUserRequestDTO));
 
     /// <summary>
     /// 권한 목록을 조회한다.
