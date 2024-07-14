@@ -12,14 +12,14 @@ public record EmployeeCompanyResponseDTO
     public int? CompanyId { get; set; }
 
     /// <summary>
+    /// 법인 명
+    /// </summary>
+    public string? CorporateName { get; set; }
+
+    /// <summary>
     /// 회사 명
     /// </summary>
     public string? CompanyName { get; set; }
-
-    /// <summary>
-    /// 회사 표출 명
-    /// </summary>
-    public string? CompanyDisplayName { get; set; }
     #endregion
 
 }

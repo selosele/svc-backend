@@ -4,8 +4,8 @@
   <ResultMaps>
     <ResultMap Id="EmployeeCompanyResultMap">
       <Result Column="COMPANY_ID" Property="CompanyId" />
+      <Result Column="CORPORATE_NAME" Property="CorporateName" />
       <Result Column="COMPANY_NAME" Property="CompanyName" />
-      <Result Column="COMPANY_DISPLAY_NAME" Property="CompanyDisplayName" />
     </ResultMap>
   </ResultMaps>
 
@@ -17,8 +17,8 @@
 
       SELECT
         C.COMPANY_ID,
-        C.COMPANY_NAME,
-        C.COMPANY_DISPLAY_NAME
+        C.CORPORATE_NAME,
+        C.COMPANY_NAME
       FROM HR_EMPLOYEE_COMPANY EC
       INNER JOIN HR_COMPANY C ON C.COMPANY_ID = EC.COMPANY_ID
       INNER JOIN HR_EMPLOYEE E ON E.COMPANY_ID = EC.COMPANY_ID
