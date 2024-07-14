@@ -27,6 +27,11 @@ public interface IUserRepository
     /// 사용자를 추가한다.
     /// </summary>
     Task<int> AddUser(AddUserRequestDTO addUserRequestDTO);
+
+    /// <summary>
+    /// 사용자를 삭제한다.
+    /// </summary>
+    Task<int> RemoveUser(int userId, int updaterId);
     #endregion
 
 }

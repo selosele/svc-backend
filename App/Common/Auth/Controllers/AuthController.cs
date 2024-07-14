@@ -73,6 +73,17 @@ public class AuthController : MyApiControllerBase<AuthController>
         => Created(string.Empty, await _authService.AddUser(addUserRequestDTO));
 
     /// <summary>
+    /// 사용자를 삭제한다.
+    /// </summary>
+    [HttpDelete("users/{userId}")]
+    [Authorize(Roles = RoleUtil.SystemAdmin)]
+    public async Task<ActionResult> RemoveUser(int userId)
+    {
+        await _authService.RemoveUser(userId);
+        return NoContent();
+    }
+
+    /// <summary>
     /// 권한 목록을 조회한다.
     /// </summary>
     [HttpGet("roles")]

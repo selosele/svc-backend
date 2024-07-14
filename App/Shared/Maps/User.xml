@@ -30,6 +30,7 @@
         USER_NAME,
         USER_ACTIVE_YN
       FROM CO_USER
+      WHERE DELETE_YN = 'N'
     </Statement>
 
     <!-- 사용자를 조회한다. -->
@@ -44,6 +45,7 @@
         USER_ACTIVE_YN
       FROM CO_USER
       WHERE 1=1
+        AND DELETE_YN = 'N'
         <IsNotEmpty Property="UserId">
         AND USER_ID = @UserId
         </IsNotEmpty>
@@ -63,7 +65,8 @@
         USER_NAME,
         USER_ACTIVE_YN
       FROM CO_USER
-      WHERE USER_ACCOUNT = @UserAccount
+      WHERE DELETE_YN = 'N'
+        AND USER_ACCOUNT = @UserAccount
     </Statement>
 
     <!-- 사용자를 추가한다. -->
@@ -73,6 +76,17 @@
       INSERT INTO CO_USER (USER_ACCOUNT, USER_PASSWORD, USER_NAME, USER_ACTIVE_YN, CREATER_ID)
       VALUES (@UserAccount, @UserPassword, @UserName, @UserActiveYn, @CreaterId)
       ;SELECT LAST_INSERT_ID()
+    </Statement>
+
+    <!-- 사용자를 삭제한다. -->
+    <Statement Id="RemoveUser">
+      /* User.AddUser */
+
+      UPDATE CO_USER
+         SET DELETE_YN = 'Y',
+             UPDATER_ID = @UpdaterId,
+             UPDATE_DT = NOW()
+       WHERE USER_ID = @UserId
     </Statement>
     
   </Statements>

@@ -70,6 +70,19 @@ public class UserRepository : IUserRepository
             Request = addUserRequestDTO
         });
     }
+
+    /// <summary>
+    /// 사용자를 삭제한다.
+    /// </summary>
+    public Task<int> RemoveUser(int userId, int updaterId)
+    {
+        return SqlMapper.ExecuteAsync(new RequestContext
+        {
+            Scope = nameof(UserRepository),
+            SqlId = "RemoveUser",
+            Request = new { UserId = userId, UpdaterId = updaterId }
+        });
+    }
     #endregion
 
 }

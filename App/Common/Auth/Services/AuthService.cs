@@ -69,14 +69,14 @@ public class AuthService
     public async Task<string> Login(LoginRequestDTO loginRequestDTO)
     {
         var user = await GetUserLogin(loginRequestDTO)
-            ?? throw new BizException("아이디 또는 비밀번호를 확인해주세요.");
+            ?? throw new BizException("아이디 또는 비밀번호를 확인하세요.");
 
         if (user.UserActiveYn == "N")
             throw new BizException("비활성화된 사용자입니다.");
 
         var matchPassword = EncryptUtil.Verify(loginRequestDTO.UserPassword!, user.UserPassword!);
         if (!matchPassword)
-            throw new BizException("아이디 또는 비밀번호를 확인해주세요.");
+            throw new BizException("아이디 또는 비밀번호를 확인하세요.");
 
         SetAuthenticatedUser(user);
         return GenerateJWTToken(user);
@@ -189,6 +189,18 @@ public class AuthService
         }
 
         return addedUser;
+    }
+
+    /// <summary>
+    /// 사용자를 삭제한다.
+    /// </summary>
+    [Transaction]
+    public async Task RemoveUser(int userId)
+    {
+        var user = GetAuthenticatedUser();
+        var updaterId = int.Parse(user?.FindFirstValue(ClaimUtil.UserIdIdentifier)!);
+        
+        await _userRepository.RemoveUser(userId, updaterId);
     }
 
     /// <summary>
