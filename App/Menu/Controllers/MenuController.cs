@@ -36,9 +36,7 @@ public class MenuController : MyApiControllerBase<MenuController>
     [HttpGet]
     [Authorize]
     public async Task<ActionResult<List<MenuResponseDTO>>> ListCode([FromQuery] GetMenuRequestDTO getMenuRequestDTO)
-    {
-        return Ok(await _menuService.ListMenu(getMenuRequestDTO));
-    }
+        => Ok(await _menuService.ListMenu(getMenuRequestDTO));
     #endregion
 
 }

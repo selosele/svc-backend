@@ -26,9 +26,7 @@ public class CodeService
     /// </summary>
     [Transaction]
     public async Task<IList<CodeResponseDTO>> ListCode()
-    {
-        return await _codeRepository.ListCode();
-    }
+        => await _codeRepository.ListCode();
     #endregion
     
 }

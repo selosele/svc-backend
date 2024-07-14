@@ -46,9 +46,7 @@ public class AuthController : MyApiControllerBase<AuthController>
     /// </summary>
     [HttpPost("logout")]
     public void Logout()
-    {
-        _authService.Logout();
-    }
+        => _authService.Logout();
 
     /// <summary>
     /// 사용자 목록을 조회한다.
@@ -56,9 +54,7 @@ public class AuthController : MyApiControllerBase<AuthController>
     [HttpGet("users")]
     [Authorize(Roles = RoleUtil.SystemAdmin)]
     public async Task<ActionResult<List<UserResponseDTO>>> ListUser()
-    {
-        return Ok(await _authService.ListUser());
-    }
+        => Ok(await _authService.ListUser());
 
     /// <summary>
     /// 사용자를 조회한다.
@@ -66,9 +62,7 @@ public class AuthController : MyApiControllerBase<AuthController>
     [HttpGet("users/{userId}")]
     [Authorize(Roles = RoleUtil.SystemAdmin)]
     public async Task<ActionResult<UserResponseDTO>> GetUser(int userId)
-    {
-        return Ok(await _authService.GetUser(new GetUserRequestDTO { UserId = userId }));
-    }
+        => Ok(await _authService.GetUser(new GetUserRequestDTO { UserId = userId }));
 
     /// <summary>
     /// 사용자를 추가한다.
@@ -76,9 +70,7 @@ public class AuthController : MyApiControllerBase<AuthController>
     [HttpPost("users")]
     [Authorize(Roles = RoleUtil.SystemAdmin)]
     public async Task<ActionResult<UserResponseDTO>> AddUser([FromBody] AddUserRequestDTO addUserRequestDTO)
-    {
-        return Ok(await _authService.AddUser(addUserRequestDTO));
-    }
+        => Ok(await _authService.AddUser(addUserRequestDTO));
 
     /// <summary>
     /// 권한 목록을 조회한다.
@@ -86,9 +78,7 @@ public class AuthController : MyApiControllerBase<AuthController>
     [HttpGet("roles")]
     [Authorize(Roles = RoleUtil.SystemAdmin)]
     public async Task<ActionResult<List<RoleResponseDTO>>> ListRole()
-    {
-        return Ok(await _authService.ListRole());
-    }
+        => Ok(await _authService.ListRole());
     #endregion
 
 }

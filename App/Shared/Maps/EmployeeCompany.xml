@@ -11,7 +11,7 @@
 
   <Statements>
 
-    <!-- 직원 회사를 조회한다. -->
+    <!-- 직원의 재직 중인 회사를 조회한다. -->
     <Statement Id="GetEmployeeCompany" ResultMap="EmployeeCompanyResultMap">
       /* EmployeeCompany.GetEmployeeCompany */
 

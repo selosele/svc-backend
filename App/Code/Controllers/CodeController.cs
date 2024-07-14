@@ -36,9 +36,7 @@ public class CodeController : MyApiControllerBase<CodeController>
     [HttpGet]
     [Authorize]
     public async Task<ActionResult<List<CodeResponseDTO>>> ListCode()
-    {
-        return Ok(await _codeService.ListCode());
-    }
+        => Ok(await _codeService.ListCode());
     #endregion
 
 }

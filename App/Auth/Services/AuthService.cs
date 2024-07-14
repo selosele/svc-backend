@@ -81,9 +81,7 @@ public class AuthService
     /// 로그아웃을 한다.
     /// </summary>
     public void Logout()
-    {
-        _httpContextAccessor.HttpContext!.User = null!;
-    }
+        => _httpContextAccessor.HttpContext!.User = null!;
 
     /// <summary>
     /// 사용자 목록을 조회한다.
@@ -192,18 +190,14 @@ public class AuthService
     /// </summary>
     [Transaction]
     public async Task<IList<RoleResponseDTO>> ListRole()
-    {
-        return await _roleRepository.ListRole();
-    }
+        => await _roleRepository.ListRole();
 
     /// <summary>
     /// 인증된 사용자 정보를 반환한다.
     /// </summary>
     public ClaimsPrincipal? GetAuthenticatedUser()
-    {
-        return _httpContextAccessor.HttpContext?.User
+        => _httpContextAccessor.HttpContext?.User
             ?? throw new InvalidOperationException("인증된 사용자를 찾을 수 없습니다.");
-    }
 
     /// <summary>
     /// 인증된 사용자 정보를 저장한다.
