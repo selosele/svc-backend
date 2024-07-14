@@ -192,15 +192,28 @@ public class AuthService
     }
 
     /// <summary>
+    /// 사용자를 수정한다.
+    /// </summary>
+    [Transaction]
+    public async Task<UserResponseDTO?> UpdateUser(UpdateUserRequestDTO updateUserRequestDTO)
+    {
+        var user = GetAuthenticatedUser();
+        updateUserRequestDTO.UpdaterId = int.Parse(user?.FindFirstValue(ClaimUtil.UserIdIdentifier)!);
+        
+        await _userRepository.UpdateUser(updateUserRequestDTO);
+        return await GetUser(new GetUserRequestDTO { UserId = updateUserRequestDTO.UserId });
+    }
+
+    /// <summary>
     /// 사용자를 삭제한다.
     /// </summary>
     [Transaction]
-    public async Task RemoveUser(int userId)
+    public async Task<int> RemoveUser(int userId)
     {
         var user = GetAuthenticatedUser();
         var updaterId = int.Parse(user?.FindFirstValue(ClaimUtil.UserIdIdentifier)!);
         
-        await _userRepository.RemoveUser(userId, updaterId);
+        return await _userRepository.RemoveUser(userId, updaterId);
     }
 
     /// <summary>

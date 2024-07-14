@@ -72,6 +72,19 @@ public class UserRepository : IUserRepository
     }
 
     /// <summary>
+    /// 사용자를 수정한다.
+    /// </summary>
+    public Task<int> UpdateUser(UpdateUserRequestDTO updateUserRequestDTO)
+    {
+        return SqlMapper.ExecuteAsync(new RequestContext
+        {
+            Scope = nameof(UserRepository),
+            SqlId = "UpdateUser",
+            Request = updateUserRequestDTO
+        });
+    }
+
+    /// <summary>
     /// 사용자를 삭제한다.
     /// </summary>
     public Task<int> RemoveUser(int userId, int updaterId)

@@ -78,14 +78,29 @@
       ;SELECT LAST_INSERT_ID()
     </Statement>
 
-    <!-- 사용자를 삭제한다. -->
-    <Statement Id="RemoveUser">
-      /* User.AddUser */
+    <!-- 사용자를 수정한다. -->
+    <Statement Id="UpdateUser">
+      /* User.UpdateUser */
 
       UPDATE CO_USER
-         SET DELETE_YN = 'Y',
-             UPDATER_ID = @UpdaterId,
-             UPDATE_DT = NOW()
+         SET
+           <IsNotEmpty Property="UserActiveYn">
+           USER_ACTIVE_YN = @UserActiveYn,
+           </IsNotEmpty>
+           UPDATER_ID = @UpdaterId,
+           UPDATE_DT = NOW()
+       WHERE USER_ID = @UserId
+    </Statement>
+
+    <!-- 사용자를 삭제한다. -->
+    <Statement Id="RemoveUser">
+      /* User.RemoveUser */
+
+      UPDATE CO_USER
+         SET
+           DELETE_YN = 'Y',
+           UPDATER_ID = @UpdaterId,
+           UPDATE_DT = NOW()
        WHERE USER_ID = @UserId
     </Statement>
     

@@ -73,6 +73,18 @@ public class AuthController : MyApiControllerBase<AuthController>
         => Created(string.Empty, await _authService.AddUser(addUserRequestDTO));
 
     /// <summary>
+    /// 사용자를 수정한다.
+    /// </summary>
+    [HttpPut("users/{userId}")]
+    [Authorize(Roles = RoleUtil.SystemAdmin)]
+    public async Task<ActionResult<UserResponseDTO>> UpdateUser(int userId, [FromBody] UpdateUserRequestDTO updateUserRequestDTO)
+    {
+        updateUserRequestDTO.UserId = userId;
+        var updatedUser = await _authService.UpdateUser(updateUserRequestDTO);
+        return CreatedAtAction(nameof(GetUser), new { userId }, updatedUser);
+    }
+
+    /// <summary>
     /// 사용자를 삭제한다.
     /// </summary>
     [HttpDelete("users/{userId}")]
