@@ -9,9 +9,9 @@ public interface IEmployeeCompanyRepository
 {
     #region Methods
     /// <summary>
-    /// 직원의 재직 중인 회사를 조회한다.
+    /// 직원 회사 목록을 조회한다.
     /// </summary>
-    Task<EmployeeCompanyResponseDTO> GetEmployeeCompany(int? employeeId);
+    Task<IList<EmployeeCompanyResponseDTO>> ListEmployeeCompany(int? employeeId);
     #endregion
 
 }

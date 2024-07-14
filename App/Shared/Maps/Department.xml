@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<SmartSqlMap Scope="Department" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+  <ResultMaps>
+    <ResultMap Id="DepartmentResultMap">
+      <Result Column="DEPARTMENT_ID" Property="DepartmentId" />
+      <Result Column="COMPANY_ID" Property="CompanyId" />
+      <Result Column="UP_DEPARTMENT_ID" Property="UpDepartmentId" />
+      <Result Column="DEPARTMENT_NAME" Property="DepartmentName" />
+      <Result Column="DEPARTMENT_ORDER" Property="DepartmentOrder" />
+      <Result Column="RANK_CODE_NAME" Property="RankCodeName" />
+    </ResultMap>
+  </ResultMaps>
+
+  <Statements>
+
+    <!-- 부서 목록을 조회한다. -->
+    <Statement Id="ListDepartment" ResultMap="DepartmentResultMap">
+      /* Department.ListDepartment */
+
+      WITH RECURSIVE R AS (
+        SELECT
+          DEPARTMENT_ID,
+          COMPANY_ID,
+          UP_DEPARTMENT_ID,
+          DEPARTMENT_NAME,
+          DEPARTMENT_ORDER,
+          CAST(DEPARTMENT_ORDER AS CHAR(200)) AS SORT_ORDER
+        FROM HR_DEPARTMENT
+        WHERE UP_DEPARTMENT_ID IS NULL
+        UNION ALL
+        SELECT
+          A.DEPARTMENT_ID,
+          A.COMPANY_ID,
+          A.UP_DEPARTMENT_ID,
+          A.DEPARTMENT_NAME,
+          A.DEPARTMENT_ORDER,
+          CONCAT(R.SORT_ORDER, '-', LPAD(A.DEPARTMENT_ORDER, 5, '0')) AS SORT_ORDER
+        FROM HR_DEPARTMENT A
+        INNER JOIN R ON A.UP_DEPARTMENT_ID = R.DEPARTMENT_ID
+    )
+    SELECT
+      R.DEPARTMENT_ID,
+      R.COMPANY_ID,
+      R.UP_DEPARTMENT_ID,
+      R.DEPARTMENT_NAME,
+      R.DEPARTMENT_ORDER,
+      CD.CODE_NAME AS RANK_CODE_NAME
+    FROM R
+    INNER JOIN HR_EMPLOYEE E ON E.COMPANY_ID = R.COMPANY_ID
+    INNER JOIN HR_EMPLOYEE_COMPANY EC ON EC.COMPANY_ID = R.COMPANY_ID AND EC.EMPLOYEE_ID = E.EMPLOYEE_ID
+    INNER JOIN CO_CODE CD ON CD.CODE_VALUE = EC.RANK_CODE AND CD.UP_CODE_ID = 'RANK_00'
+    WHERE 1=1
+      <IsNotEmpty Property="EmployeeId">
+      AND E.EMPLOYEE_ID = @EmployeeId
+      </IsNotEmpty>
+    ORDER BY
+      CAST(SUBSTRING_INDEX(R.SORT_ORDER, '-', 1) AS UNSIGNED),
+      CASE
+        WHEN R.SORT_ORDER LIKE '%-%' THEN CAST(SUBSTRING_INDEX(R.SORT_ORDER, '-', -1) AS UNSIGNED)
+        ELSE 0
+      END
+    </Statement>
+    
+  </Statements>
+</SmartSqlMap>

@@ -11,6 +11,8 @@ using svc.App.Shared.Exceptions;
 using svc.App.Shared.Utils;
 using svc.App.Human.Employee.Repositories;
 using svc.App.Human.Employee.Models.DTO;
+using svc.App.Human.Department.Repositories;
+using svc.App.Human.Department.Models.DTO;
 
 namespace svc.App.Common.Auth.Services;
 
@@ -29,6 +31,7 @@ public class AuthService
     private readonly IRoleRepository _roleRepository;
     private readonly IEmployeeRepository _employeeRepository;
     private readonly IEmployeeCompanyRepository _employeeCompanyRepository;
+    private readonly IDepartmentRepository _departmentRepository;
     #endregion
     
     #region Constructor
@@ -41,7 +44,8 @@ public class AuthService
         IMenuRoleRepository menuRoleRepository,
         IRoleRepository roleRepository,
         IEmployeeRepository employeeRepository,
-        IEmployeeCompanyRepository employeeCompanyRepository
+        IEmployeeCompanyRepository employeeCompanyRepository,
+        IDepartmentRepository departmentRepository
     )
     {
         _configuration = configuration;
@@ -53,6 +57,7 @@ public class AuthService
         _roleRepository = roleRepository;
         _employeeRepository = employeeRepository;
         _employeeCompanyRepository = employeeCompanyRepository;
+        _departmentRepository = departmentRepository;
     }
     #endregion
 
@@ -109,7 +114,8 @@ public class AuthService
         {
             user!.Roles = await _userRoleRepository.ListUserRole(new GetUserRoleRequestDTO { UserId = user?.UserId });
             user!.Employee = await _employeeRepository.GetEmployee(new GetEmployeeRequestDTO { UserId = user?.UserId });
-            user!.Employee.EmployeeCompany = await _employeeCompanyRepository.GetEmployeeCompany(user?.Employee.EmployeeId);
+            user!.Employee.EmployeeCompanies = await _employeeCompanyRepository.ListEmployeeCompany(user?.Employee.EmployeeId);
+            user!.Employee.Departments = await _departmentRepository.ListDepartment(new GetDepartmentRequestDTO { EmployeeId = user?.Employee.EmployeeId });
         }
         return user;
     }

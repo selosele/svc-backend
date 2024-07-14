@@ -26,6 +26,9 @@
     <None Update="App\Shared\Maps\Code.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="App\Shared\Maps\Department.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="App\Shared\Maps\Employee.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

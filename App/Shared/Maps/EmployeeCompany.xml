@@ -11,9 +11,9 @@
 
   <Statements>
 
-    <!-- 직원의 재직 중인 회사를 조회한다. -->
-    <Statement Id="GetEmployeeCompany" ResultMap="EmployeeCompanyResultMap">
-      /* EmployeeCompany.GetEmployeeCompany */
+    <!-- 직원 회사 목록을 조회한다. -->
+    <Statement Id="ListEmployeeCompany" ResultMap="EmployeeCompanyResultMap">
+      /* EmployeeCompany.ListEmployeeCompany */
 
       SELECT
         C.COMPANY_ID,
@@ -21,9 +21,8 @@
         C.COMPANY_NAME
       FROM HR_EMPLOYEE_COMPANY EC
       INNER JOIN HR_COMPANY C ON C.COMPANY_ID = EC.COMPANY_ID
-      INNER JOIN HR_EMPLOYEE E ON E.COMPANY_ID = EC.COMPANY_ID
-      WHERE E.EMPLOYEE_ID = @EmployeeId
-        AND EC.EMPLOYEE_ID = @EmployeeId
+      WHERE EC.EMPLOYEE_ID = @EmployeeId
+      ORDER BY C.COMPANY_ID DESC
     </Statement>
     
   </Statements>
