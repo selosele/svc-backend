@@ -37,6 +37,11 @@ public record CodeResponseDTO
     public int? CodeOrder { get; set; }
     
     /// <summary>
+    /// 코드 뎁스
+    /// </summary>
+    public int? CodeDepth { get; set; }
+    
+    /// <summary>
     /// 사용 여부
     /// </summary>
     public string? UseYn { get; set; }
