@@ -37,14 +37,14 @@ public record MenuResponseDTO
     public int? MenuDepth { get; set; }
     
     /// <summary>
-    /// 메뉴 사용여부
+    /// 사용 여부
     /// </summary>
-    public string? MenuUseYn { get; set; }
+    public string? UseYn { get; set; }
     
     /// <summary>
-    /// 메뉴 삭제여부
+    /// 삭제 여부
     /// </summary>
-    public string? MenuDeleteYn { get; set; }
+    public string? DeleteYn { get; set; }
     #endregion
 
 }

@@ -37,14 +37,14 @@ public record CodeResponseDTO
     public int? CodeOrder { get; set; }
     
     /// <summary>
-    /// 코드 사용여부
+    /// 사용 여부
     /// </summary>
-    public string? CodeUseYn { get; set; }
+    public string? UseYn { get; set; }
     
     /// <summary>
-    /// 코드 삭제여부
+    /// 삭제 여부
     /// </summary>
-    public string? CodeDeleteYn { get; set; }
+    public string? DeleteYn { get; set; }
     #endregion
     
 }

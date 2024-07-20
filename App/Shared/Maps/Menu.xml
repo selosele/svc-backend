@@ -9,8 +9,8 @@
       <Result Column="MENU_URL" Property="MenuUrl" />
       <Result Column="MENU_ORDER" Property="MenuOrder" />
       <Result Column="MENU_DEPTH" Property="MenuDepth" />
-      <Result Column="MENU_USE_YN" Property="MenuUseYn" />
-      <Result Column="MENU_DELETE_YN" Property="MenuDeleteYn" />
+      <Result Column="USE_YN" Property="UseYn" />
+      <Result Column="DELETE_YN" Property="DeleteYn" />
     </ResultMap>
   </ResultMaps>
 
@@ -29,8 +29,8 @@
           MENU_ORDER,
           MENU_DEPTH,
           CAST(MENU_ORDER AS CHAR(200)) AS SORT_ORDER,
-          MENU_USE_YN,
-          MENU_DELETE_YN
+          USE_YN,
+          DELETE_YN
         FROM CO_MENU
         WHERE UP_MENU_ID IS NULL
         UNION ALL
@@ -42,8 +42,8 @@
           A.MENU_ORDER,
           A.MENU_DEPTH,
           CONCAT(R.SORT_ORDER, '-', LPAD(A.MENU_ORDER, 5, '0')) AS SORT_ORDER,
-          A.MENU_USE_YN,
-          A.MENU_DELETE_YN
+          A.USE_YN,
+          A.DELETE_YN
         FROM CO_MENU A
         INNER JOIN R ON A.UP_MENU_ID = R.MENU_ID
     )
@@ -54,8 +54,8 @@
       R.MENU_URL,
       R.MENU_ORDER,
       R.MENU_DEPTH,
-      R.MENU_USE_YN,
-      R.MENU_DELETE_YN
+      R.USE_YN,
+      R.DELETE_YN
     FROM R
     WHERE R.MENU_ID IN (
       SELECT
@@ -64,11 +64,11 @@
       INNER JOIN CO_USER_MENU_ROLE UMR ON MR.MENU_ID = UMR.MENU_ID AND MR.ROLE_ID = UMR.ROLE_ID
       WHERE UMR.USER_ID = @UserId
     )
-    <IsNotEmpty Property="MenuUseYn">
-      AND R.MENU_USE_YN = @MenuUseYn
+    <IsNotEmpty Property="UseYn">
+      AND R.USE_YN = @UseYn
     </IsNotEmpty>
-    <IsNotEmpty Property="MenuDeleteYn">
-      AND R.MENU_DELETE_YN = @MenuDeleteYn
+    <IsNotEmpty Property="DeleteYn">
+      AND R.DELETE_YN = @DeleteYn
     </IsNotEmpty>
 
       ORDER BY

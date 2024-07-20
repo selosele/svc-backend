@@ -9,8 +9,8 @@
       <Result Column="CODE_NAME" Property="CodeName" />
       <Result Column="CODE_CONTENT" Property="CodeContent" />
       <Result Column="CODE_ORDER" Property="CodeOrder" />
-      <Result Column="CODE_USE_YN" Property="CodeUseYn" />
-      <Result Column="CODE_DELETE_YN" Property="CodeDeleteYn" />
+      <Result Column="USE_YN" Property="UseYn" />
+      <Result Column="DELETE_YN" Property="DeleteYn" />
     </ResultMap>
   </ResultMaps>
 
@@ -29,8 +29,8 @@
           CODE_CONTENT,
           CODE_ORDER,
           CAST(CODE_ORDER AS CHAR(200)) AS SORT_ORDER,
-          CODE_USE_YN,
-          CODE_DELETE_YN
+          USE_YN,
+          DELETE_YN
         FROM CO_CODE
         WHERE UP_CODE_ID IS NULL
         UNION ALL
@@ -42,8 +42,8 @@
           A.CODE_CONTENT,
           A.CODE_ORDER,
           CONCAT(R.SORT_ORDER, '-', LPAD(A.CODE_ORDER, 5, '0')) AS SORT_ORDER,
-          A.CODE_USE_YN,
-          A.CODE_DELETE_YN
+          A.USE_YN,
+          A.DELETE_YN
         FROM CO_CODE A
         INNER JOIN R ON A.UP_CODE_ID = R.CODE_ID
     )
@@ -54,8 +54,8 @@
       R.CODE_NAME,
       R.CODE_CONTENT,
       R.CODE_ORDER,
-      R.CODE_USE_YN,
-      R.CODE_DELETE_YN
+      R.USE_YN,
+      R.DELETE_YN
     FROM R
     ORDER BY
       CAST(SUBSTRING_INDEX(R.SORT_ORDER, '-', 1) AS UNSIGNED),

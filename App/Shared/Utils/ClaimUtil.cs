@@ -9,27 +9,27 @@ public class ClaimUtil
     /// <summary>
     /// 사용자 ID 식별자
     /// </summary>
-    public const string UserIdIdentifier = "userId";
+    public const string USER_ID_IDENTIFIER = "userId";
 
     /// <summary>
     /// 직원 ID 식별자
     /// </summary>
-    public const string EmployeeIdIdentifier = "employeeId";
+    public const string EMPLOYEE_ID_IDENTIFIER = "employeeId";
 
     /// <summary>
     /// 사용자 계정 식별자
     /// </summary>
-    public const string UserAccountIdentifier = "userAccount";
+    public const string USER_ACCOUNT_IDENTIFIER = "userAccount";
 
     /// <summary>
     /// 직원 명 식별자
     /// </summary>
-    public const string EmployeeNameIdentifier = "employeeName";
+    public const string EMPLOYEE_NAME_IDENTIFIER = "employeeName";
 
     /// <summary>
     /// 사용자 권한 식별자
     /// </summary>
-    public const string RolesIdentifier = "roles";
+    public const string ROLES_IDENTIFIER = "roles";
     #endregion
 
 }

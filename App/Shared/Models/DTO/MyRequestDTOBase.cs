@@ -7,6 +7,16 @@ public record MyRequestDTOBase
 {
     #region Fields
     /// <summary>
+    /// 사용 여부
+    /// </summary>
+    public string? UseYn { get; set; } = "Y";
+
+    /// <summary>
+    /// 삭제 여부
+    /// </summary>
+    public string? DeleteYn { get; set; } = "N";
+
+    /// <summary>
     /// 등록자 ID
     /// </summary>
     public int? CreaterId { get; set; }
@@ -15,11 +25,6 @@ public record MyRequestDTOBase
     /// 수정자 ID
     /// </summary>
     public int? UpdaterId { get; set; }
-
-    /// <summary>
-    /// 수정일시
-    /// </summary>
-    public DateTime? UpdateDt { get; set; }
     #endregion
     
 }

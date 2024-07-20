@@ -9,17 +9,12 @@ public class RoleUtil
     /// <summary>
     /// 시스템 관리자 권한
     /// </summary>
-    public const string SystemAdmin = "ROLE_SYSTEM_ADMIN";
-
-    /// <summary>
-    /// 게시판 관리자 권한
-    /// </summary>
-    public const string BoardAdmin = "ROLE_BOARD_ADMIN";
+    public const string SYSTEM_ADMIN = "ROLE_SYSTEM_ADMIN";
 
     /// <summary>
     /// 직원 권한
     /// </summary>
-    public const string Employee = "ROLE_EMPLOYEE";
+    public const string EMPLOYEE = "ROLE_EMPLOYEE";
     #endregion
 
 }

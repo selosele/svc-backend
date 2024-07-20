@@ -198,7 +198,7 @@ public class AuthService
     public async Task<UserResponseDTO?> UpdateUser(UpdateUserRequestDTO updateUserRequestDTO)
     {
         var user = GetAuthenticatedUser();
-        updateUserRequestDTO.UpdaterId = int.Parse(user?.FindFirstValue(ClaimUtil.UserIdIdentifier)!);
+        updateUserRequestDTO.UpdaterId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
         
         await _userRepository.UpdateUser(updateUserRequestDTO);
         return await GetUser(new GetUserRequestDTO { UserId = updateUserRequestDTO.UserId });
@@ -211,7 +211,7 @@ public class AuthService
     public async Task<int> RemoveUser(int userId)
     {
         var user = GetAuthenticatedUser();
-        var updaterId = int.Parse(user?.FindFirstValue(ClaimUtil.UserIdIdentifier)!);
+        var updaterId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
         
         return await _userRepository.RemoveUser(userId, updaterId);
     }
@@ -237,14 +237,14 @@ public class AuthService
     {
         var claims = new List<Claim>
         {
-            new(ClaimUtil.UserIdIdentifier, user.UserId.ToString()!),
-            new(ClaimUtil.UserAccountIdentifier, user.UserAccount!),
-            new(ClaimUtil.EmployeeNameIdentifier, user.Employee!.EmployeeName!)
+            new(ClaimUtil.USER_ID_IDENTIFIER, user.UserId.ToString()!),
+            new(ClaimUtil.USER_ACCOUNT_IDENTIFIER, user.UserAccount!),
+            new(ClaimUtil.EMPLOYEE_NAME_IDENTIFIER, user.Employee!.EmployeeName!)
         };
 
         foreach (var userRole in user.Roles!)
         {
-            claims.Add(new Claim(ClaimUtil.RolesIdentifier, userRole.RoleId!));
+            claims.Add(new Claim(ClaimUtil.ROLES_IDENTIFIER, userRole.RoleId!));
         }
 
         var identity = new ClaimsIdentity(claims, "Custom");
@@ -258,14 +258,14 @@ public class AuthService
     /// </summary>
     public string GenerateJWTToken(LoginResultDTO user) {
         var claims = new List<Claim> {
-            new(ClaimUtil.UserIdIdentifier, user.UserId.ToString()!),
-            new(ClaimUtil.UserAccountIdentifier, user.UserAccount!),
-            new(ClaimUtil.EmployeeNameIdentifier, user.Employee!.EmployeeName!)
+            new(ClaimUtil.USER_ID_IDENTIFIER, user.UserId.ToString()!),
+            new(ClaimUtil.USER_ACCOUNT_IDENTIFIER, user.UserAccount!),
+            new(ClaimUtil.EMPLOYEE_NAME_IDENTIFIER, user.Employee!.EmployeeName!)
         };
 
         foreach (var userRole in user.Roles!)
         {
-            claims.Add(new Claim(ClaimUtil.RolesIdentifier, userRole.RoleId!));
+            claims.Add(new Claim(ClaimUtil.ROLES_IDENTIFIER, userRole.RoleId!));
         }
 
         var accessToken = new JwtSecurityToken(

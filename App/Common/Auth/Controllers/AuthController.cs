@@ -52,7 +52,7 @@ public class AuthController : MyApiControllerBase<AuthController>
     /// 사용자 목록을 조회한다.
     /// </summary>
     [HttpGet("users")]
-    [Authorize(Roles = RoleUtil.SystemAdmin)]
+    [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
     public async Task<ActionResult<List<UserResponseDTO>>> ListUser()
         => Ok(await _authService.ListUser());
 
@@ -60,7 +60,7 @@ public class AuthController : MyApiControllerBase<AuthController>
     /// 사용자를 조회한다.
     /// </summary>
     [HttpGet("users/{userId}")]
-    [Authorize(Roles = RoleUtil.SystemAdmin)]
+    [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
     public async Task<ActionResult<UserResponseDTO>> GetUser(int userId)
         => Ok(await _authService.GetUser(new GetUserRequestDTO { UserId = userId }));
 
@@ -68,7 +68,7 @@ public class AuthController : MyApiControllerBase<AuthController>
     /// 사용자를 추가한다.
     /// </summary>
     [HttpPost("users")]
-    [Authorize(Roles = RoleUtil.SystemAdmin)]
+    [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
     public async Task<ActionResult<UserResponseDTO>> AddUser([FromBody] AddUserRequestDTO addUserRequestDTO)
         => Created(string.Empty, await _authService.AddUser(addUserRequestDTO));
 
@@ -76,19 +76,18 @@ public class AuthController : MyApiControllerBase<AuthController>
     /// 사용자를 수정한다.
     /// </summary>
     [HttpPut("users/{userId}")]
-    [Authorize(Roles = RoleUtil.SystemAdmin)]
+    [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
     public async Task<ActionResult<UserResponseDTO>> UpdateUser(int userId, [FromBody] UpdateUserRequestDTO updateUserRequestDTO)
     {
         updateUserRequestDTO.UserId = userId;
-        var updatedUser = await _authService.UpdateUser(updateUserRequestDTO);
-        return CreatedAtAction(nameof(GetUser), new { userId }, updatedUser);
+        return Ok(await _authService.UpdateUser(updateUserRequestDTO));
     }
 
     /// <summary>
     /// 사용자를 삭제한다.
     /// </summary>
     [HttpDelete("users/{userId}")]
-    [Authorize(Roles = RoleUtil.SystemAdmin)]
+    [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
     public async Task<ActionResult> RemoveUser(int userId)
     {
         await _authService.RemoveUser(userId);
@@ -99,7 +98,7 @@ public class AuthController : MyApiControllerBase<AuthController>
     /// 권한 목록을 조회한다.
     /// </summary>
     [HttpGet("roles")]
-    [Authorize(Roles = RoleUtil.SystemAdmin)]
+    [Authorize]
     public async Task<ActionResult<List<RoleResponseDTO>>> ListRole()
         => Ok(await _authService.ListRole());
     #endregion
