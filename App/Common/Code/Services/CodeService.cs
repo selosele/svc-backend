@@ -27,6 +27,13 @@ public class CodeService
     [Transaction]
     public async Task<IList<CodeResponseDTO>> ListCode()
         => await _codeRepository.ListCode();
+
+    /// <summary>
+    /// 코드를 조회한다.
+    /// </summary>
+    [Transaction]
+    public async Task<CodeResponseDTO> GetCode(string codeId)
+        => await _codeRepository.GetCode(codeId);
     #endregion
     
 }

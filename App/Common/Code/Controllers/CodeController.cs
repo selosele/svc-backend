@@ -37,6 +37,14 @@ public class CodeController : MyApiControllerBase<CodeController>
     [Authorize]
     public async Task<ActionResult<List<CodeResponseDTO>>> ListCode()
         => Ok(await _codeService.ListCode());
+
+    /// <summary>
+    /// 코드를 조회한다.
+    /// </summary>
+    [HttpGet("{codeId}")]
+    [Authorize]
+    public async Task<ActionResult<CodeResponseDTO>> GetCode(string codeId)
+        => Ok(await _codeService.GetCode(codeId));
     #endregion
 
 }

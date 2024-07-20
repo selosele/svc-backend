@@ -12,6 +12,11 @@ public interface ICodeRepository
     /// 코드 목록을 조회한다.
     /// </summary>
     Task<IList<CodeResponseDTO>> ListCode();
+
+    /// <summary>
+    /// 코드를 조회한다.
+    /// </summary>
+    Task<CodeResponseDTO> GetCode(string codeId);
     #endregion
 
 }

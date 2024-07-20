@@ -57,12 +57,31 @@
       R.USE_YN,
       R.DELETE_YN
     FROM R
+    WHERE R.DELETE_YN = 'N'
     ORDER BY
       CAST(SUBSTRING_INDEX(R.SORT_ORDER, '-', 1) AS UNSIGNED),
       CASE
         WHEN R.SORT_ORDER LIKE '%-%' THEN CAST(SUBSTRING_INDEX(R.SORT_ORDER, '-', -1) AS UNSIGNED)
         ELSE 0
       END
+    </Statement>
+
+    <!-- 코드를 조회한다. -->
+    <Statement Id="GetCode" ResultMap="CodeResultMap">
+      /* Code.GetCode */
+
+      SELECT
+        CD.CODE_ID,
+        CD.UP_CODE_ID,
+        CD.CODE_VALUE,
+        CD.CODE_NAME,
+        CD.CODE_CONTENT,
+        CD.CODE_ORDER,
+        CD.USE_YN,
+        CD.DELETE_YN
+      FROM CO_CODE CD
+      WHERE CD.DELETE_YN = 'N'
+        AND CD.CODE_ID = @CodeId
     </Statement>
     
   </Statements>

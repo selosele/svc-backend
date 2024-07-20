@@ -31,6 +31,19 @@ public class CodeRepository : ICodeRepository
             SqlId = "ListCode"
         });
     }
+
+    /// <summary>
+    /// 코드를 조회한다.
+    /// </summary>
+    public Task<CodeResponseDTO> GetCode(string codeId)
+    {
+        return SqlMapper.QuerySingleAsync<CodeResponseDTO>(new RequestContext
+        {
+            Scope = nameof(CodeRepository),
+            SqlId = "GetCode",
+            Request = codeId
+        });
+    }
     #endregion
 
 }
