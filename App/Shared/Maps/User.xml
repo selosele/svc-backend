@@ -5,7 +5,9 @@
     <ResultMap Id="UserResultMap">
       <Result Column="USER_ID" Property="UserId" />
       <Result Column="USER_ACCOUNT" Property="UserAccount" />
+      <Result Column="EMPLOYEE_NAME" Property="EmployeeName" />
       <Result Column="USER_ACTIVE_YN" Property="UserActiveYn" />
+      <Result Column="ROLES_STRING" Property="RolesString" />
     </ResultMap>
 
     <ResultMap Id="LoginResultMap">
@@ -23,11 +25,19 @@
       /* User.ListUser */
 
       SELECT
-        USER_ID,
-        USER_ACCOUNT,
-        USER_ACTIVE_YN
-      FROM CO_USER
-      WHERE DELETE_YN = 'N'
+        U.USER_ID,
+        U.USER_ACCOUNT,
+        E.EMPLOYEE_NAME,
+        U.USER_ACTIVE_YN,
+        (
+          SELECT GROUP_CONCAT(R.ROLE_NAME SEPARATOR ', ')
+          FROM CO_USER_ROLE UR
+          INNER JOIN CO_ROLE R ON R.ROLE_ID = UR.ROLE_ID
+          WHERE UR.USER_ID = U.USER_ID
+        ) AS ROLES_STRING
+      FROM CO_USER U
+      INNER JOIN HR_EMPLOYEE E ON E.USER_ID = U.USER_ID
+      WHERE U.DELETE_YN = 'N'
     </Statement>
 
     <!-- 사용자를 조회한다. -->

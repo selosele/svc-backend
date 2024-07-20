@@ -93,15 +93,7 @@ public class AuthService
     /// </summary>
     [Transaction]
     public async Task<IList<UserResponseDTO>> ListUser()
-    {
-        var userList = await _userRepository.ListUser();
-        foreach (var user in userList)
-        {
-            user.Roles = await _userRoleRepository.ListUserRole(new GetUserRoleRequestDTO{ UserId = user.UserId });
-            user!.Employee = await _employeeRepository.GetEmployee(new GetEmployeeRequestDTO { UserId = user?.UserId });
-        }
-        return userList;
-    }
+        => await _userRepository.ListUser();
 
     /// <summary>
     /// 사용자를 조회한다.

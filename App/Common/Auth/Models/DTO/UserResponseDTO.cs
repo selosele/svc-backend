@@ -19,9 +19,19 @@ public record UserResponseDTO
     public string? UserAccount { get; set; }
 
     /// <summary>
+    /// 직원 명
+    /// </summary>
+    public string? EmployeeName { get; set; }
+
+    /// <summary>
     /// 사용자 활성화 여부
     /// </summary>
     public string? UserActiveYn { get; set; }
+
+    /// <summary>
+    /// 사용자 권한 목록 (문자열)
+    /// </summary>
+    public string? RolesString { get; set; }
 
     /// <summary>
     /// 사용자 권한 목록
