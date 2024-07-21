@@ -6,7 +6,6 @@
       <Result Column="EMPLOYEE_ID" Property="EmployeeId" />
       <Result Column="EMPLOYEE_NAME" Property="EmployeeName" />
       <Result Column="GENDER_CODE" Property="GenderCode" />
-      <Result Column="GENDER_CODE_NAME" Property="GenderCodeName" />
     </ResultMap>
   </ResultMaps>
 
@@ -19,11 +18,9 @@
       SELECT
         E.EMPLOYEE_ID,
         E.EMPLOYEE_NAME,
-        E.GENDER_CODE,
-        CD.CODE_NAME AS GENDER_CODE_NAME
+        E.GENDER_CODE
       FROM HR_EMPLOYEE E
       INNER JOIN CO_USER U ON U.USER_ID = E.USER_ID AND U.DELETE_YN = 'N'
-      INNER JOIN CO_CODE CD ON CD.CODE_VALUE = E.GENDER_CODE AND CD.UP_CODE_ID = 'GENDER_00'
       WHERE 1=1
         <IsNotEmpty Property="UserId">
         AND U.USER_ID = @UserId

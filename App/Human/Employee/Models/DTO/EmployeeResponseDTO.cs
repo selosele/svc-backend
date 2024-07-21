@@ -22,11 +22,6 @@ public record EmployeeResponseDTO
     /// 성별 코드
     /// </summary>
     public string? GenderCode { get; set; }
-    
-    /// <summary>
-    /// 성별 코드 명
-    /// </summary>
-    public string? GenderCodeName { get; set; }
 
     /// <summary>
     /// 직원 회사 정보
