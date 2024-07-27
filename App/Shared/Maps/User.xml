@@ -92,7 +92,7 @@
            USER_ACTIVE_YN = @UserActiveYn,
            </IsNotEmpty>
            UPDATER_ID = @UpdaterId,
-           UPDATE_DT = NOW()
+           UPDATE_DT = CURRENT_TIMESTAMP()
        WHERE USER_ID = @UserId
     </Statement>
 
@@ -104,7 +104,7 @@
          SET
            DELETE_YN = 'Y',
            UPDATER_ID = @UpdaterId,
-           UPDATE_DT = NOW()
+           UPDATE_DT = CURRENT_TIMESTAMP()
        WHERE USER_ID = @UserId
     </Statement>
     
