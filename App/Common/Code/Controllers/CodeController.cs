@@ -11,7 +11,7 @@ namespace svc.App.Common.Code.Controllers;
 /// 코드 컨트롤러 클래스
 /// </summary>
 [ApiController]
-[Route("api/[controller]s")]
+[Route("api/common/[controller]s")]
 public class CodeController : MyApiControllerBase<CodeController>
 {
     #region Fields
