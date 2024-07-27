@@ -35,6 +35,11 @@ public record DepartmentResponseDTO
     /// 직급 코드 명
     /// </summary>
     public string? RankCodeName { get; set; }
+
+    /// <summary>
+    /// 직책 코드 명
+    /// </summary>
+    public string? JobTitleCodeName { get; set; }
     #endregion
 
 }

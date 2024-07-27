@@ -9,6 +9,7 @@
       <Result Column="DEPARTMENT_NAME" Property="DepartmentName" />
       <Result Column="DEPARTMENT_ORDER" Property="DepartmentOrder" />
       <Result Column="RANK_CODE_NAME" Property="RankCodeName" />
+      <Result Column="JOB_TITLE_CODE_NAME" Property="JobTitleCodeName" />
     </ResultMap>
   </ResultMaps>
 
@@ -45,11 +46,13 @@
       R.UP_DEPARTMENT_ID,
       R.DEPARTMENT_NAME,
       R.DEPARTMENT_ORDER,
-      CD.CODE_NAME AS RANK_CODE_NAME
+      CD.CODE_NAME AS RANK_CODE_NAME,
+      CD2.CODE_NAME AS JOB_TITLE_CODE_NAME
     FROM R
     INNER JOIN HR_EMPLOYEE E ON E.COMPANY_ID = R.COMPANY_ID
     INNER JOIN HR_EMPLOYEE_COMPANY EC ON EC.COMPANY_ID = R.COMPANY_ID AND EC.EMPLOYEE_ID = E.EMPLOYEE_ID
     INNER JOIN CO_CODE CD ON CD.CODE_VALUE = EC.RANK_CODE AND CD.UP_CODE_ID = 'RANK_00'
+    INNER JOIN CO_CODE CD2 ON CD2.CODE_VALUE = EC.JOB_TITLE_CODE AND CD2.UP_CODE_ID = 'JOB_TITLE_00'
     WHERE 1=1
       <IsNotEmpty Property="EmployeeId">
       AND E.EMPLOYEE_ID = @EmployeeId
