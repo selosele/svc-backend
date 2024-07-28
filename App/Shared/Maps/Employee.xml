@@ -19,7 +19,7 @@
         E.EMPLOYEE_ID,
         E.EMPLOYEE_NAME,
         E.GENDER_CODE
-      FROM HR_EMPLOYEE E
+      FROM HM_EMPLOYEE E
       INNER JOIN CO_USER U ON U.USER_ID = E.USER_ID AND U.DELETE_YN = 'N'
       WHERE 1=1
         <IsNotEmpty Property="UserId">
