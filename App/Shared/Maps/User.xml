@@ -108,7 +108,7 @@
           </IsNotEmpty>
           UPDATER_ID = @UpdaterId,
           UPDATE_DT = CURRENT_TIMESTAMP()
-       WHERE USER_ID = @UserId
+      WHERE USER_ID = @UserId
     </Statement>
 
     <!-- 사용자 비밀번호를 변경한다. -->
@@ -120,7 +120,7 @@
           USER_PASSWORD = @NewPassword,
           UPDATER_ID = @UpdaterId,
           UPDATE_DT = CURRENT_TIMESTAMP()
-       WHERE USER_ID = @UserId
+      WHERE USER_ID = @UserId
     </Statement>
 
     <!-- 사용자를 삭제한다. -->
@@ -132,7 +132,7 @@
           DELETE_YN = 'Y',
           UPDATER_ID = @UpdaterId,
           UPDATE_DT = CURRENT_TIMESTAMP()
-       WHERE USER_ID = @UserId
+      WHERE USER_ID = @UserId
     </Statement>
     
   </Statements>
