@@ -32,14 +32,14 @@ public record DepartmentResponseDTO
     public int? DepartmentOrder { get; set; }
 
     /// <summary>
-    /// 직급 코드 명
+    /// 직급 코드
     /// </summary>
-    public string? RankCodeName { get; set; }
+    public string? RankCode { get; set; }
 
     /// <summary>
-    /// 직책 코드 명
+    /// 직책 코드
     /// </summary>
-    public string? JobTitleCodeName { get; set; }
+    public string? JobTitleCode { get; set; }
     #endregion
 
 }

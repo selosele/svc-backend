@@ -8,8 +8,8 @@
       <Result Column="UP_DEPARTMENT_ID" Property="UpDepartmentId" />
       <Result Column="DEPARTMENT_NAME" Property="DepartmentName" />
       <Result Column="DEPARTMENT_ORDER" Property="DepartmentOrder" />
-      <Result Column="RANK_CODE_NAME" Property="RankCodeName" />
-      <Result Column="JOB_TITLE_CODE_NAME" Property="JobTitleCodeName" />
+      <Result Column="RANK_CODE" Property="RankCode" />
+      <Result Column="JOB_TITLE_CODE" Property="JobTitleCode" />
     </ResultMap>
   </ResultMaps>
 
@@ -46,8 +46,8 @@
       R.UP_DEPARTMENT_ID,
       R.DEPARTMENT_NAME,
       R.DEPARTMENT_ORDER,
-      CD.CODE_NAME AS RANK_CODE_NAME,
-      CD2.CODE_NAME AS JOB_TITLE_CODE_NAME
+      CD.CODE_VALUE AS RANK_CODE,
+      CD2.CODE_VALUE AS JOB_TITLE_CODE
     FROM R
     INNER JOIN HM_EMPLOYEE E ON E.COMPANY_ID = R.COMPANY_ID
     INNER JOIN HM_EMPLOYEE_COMPANY EC ON EC.COMPANY_ID = R.COMPANY_ID AND EC.EMPLOYEE_ID = E.EMPLOYEE_ID
