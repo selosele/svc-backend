@@ -6,6 +6,8 @@
       <Result Column="COMPANY_ID" Property="CompanyId" />
       <Result Column="CORPORATE_NAME" Property="CorporateName" />
       <Result Column="COMPANY_NAME" Property="CompanyName" />
+      <Result Column="JOIN_YMD" Property="JoinYmd" />
+      <Result Column="QUIT_YMD" Property="QuitYmd" />
     </ResultMap>
   </ResultMaps>
 
@@ -18,7 +20,9 @@
       SELECT
         C.COMPANY_ID,
         C.CORPORATE_NAME,
-        C.COMPANY_NAME
+        C.COMPANY_NAME,
+        EC.JOIN_YMD,
+        EC.QUIT_YMD
       FROM HM_EMPLOYEE_COMPANY EC
       INNER JOIN HM_COMPANY C ON C.COMPANY_ID = EC.COMPANY_ID
       WHERE EC.EMPLOYEE_ID = @EmployeeId

@@ -20,6 +20,16 @@ public record EmployeeCompanyResponseDTO
     /// 회사 명
     /// </summary>
     public string? CompanyName { get; set; }
+
+    /// <summary>
+    /// 입사일자
+    /// </summary>
+    public string? JoinYmd { get; set; }
+
+    /// <summary>
+    /// 퇴사일자
+    /// </summary>
+    public string? QuitYmd { get; set; }
     #endregion
 
 }
