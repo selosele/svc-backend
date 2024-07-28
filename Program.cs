@@ -8,8 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("secrets.json", optional: true, reloadOnChange: true);
 
-builder.Services.AddSingletonsFromNamespace("svc.App.", ".Services");
-builder.Services.AddAutoMapperProfilesFromNamespace("svc.App.", ".Profiles");
+builder.Services.SingletonScan("svc.App.", ".Services");
+builder.Services.AutoMapperProfileScan("svc.App.", ".Profiles");
 
 var connectionStrings = builder.Configuration.GetSection("ConnectionStrings")
     .GetChildren()
@@ -19,25 +19,25 @@ builder.Services.AddSmartSql((sp, builder) =>
                 {
                     builder.UseProperties((IEnumerable<KeyValuePair<string, string>>) connectionStrings);
                 })
-                .AddRepositoryFromAssembly(o =>
+                .AddRepositoryFromAssembly(x =>
                 {
-                    o.AssemblyString = "svc";
-                    o.Filter = (type) => type.Namespace != null && type.Namespace.StartsWith("svc.App.") && type.Namespace.EndsWith(".Repositories");
+                    x.AssemblyString = "svc";
+                    x.Filter = (type) => type.Namespace != null && type.Namespace.StartsWith("svc.App.") && type.Namespace.EndsWith(".Repositories");
                 });
-builder.Services.AddControllers(options =>
+builder.Services.AddControllers(x =>
 {
-    options.Filters.Add(new BizExceptionFilter());
+    x.Filters.Add(new BizExceptionFilter());
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddAuthentication(cfg => 
+builder.Services.AddAuthentication(x => 
 {
-    cfg.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    cfg.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    cfg.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(x => {
     x.RequireHttpsMetadata = false;
     x.SaveToken = false;
