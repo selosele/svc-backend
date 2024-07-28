@@ -197,6 +197,34 @@ public class AuthService
     }
 
     /// <summary>
+    /// 사용자 비밀번호를 변경한다.
+    /// </summary>
+    [Transaction]
+    public async Task<int> UpdateUserPassword(UpdateUserPasswordRequestDTO updateUserPasswordRequestDTO)
+    {
+        // DB의 현재 비밀번호를 조회해서
+        var userPasswordResult = await _userRepository.GetUserPassword(updateUserPasswordRequestDTO.UserId);
+        var currentHashedPassword = userPasswordResult.UserPassword;
+
+        // 입력받은 현재 비밀번호와 동일한지 확인한다.
+        if (!EncryptUtil.Verify(updateUserPasswordRequestDTO.CurrentPassword!, currentHashedPassword!))
+        {
+            throw new BizException("현재 비밀번호를 확인하세요.");
+        }
+
+        // 새 비밀번호와 확인용 새 비밀번호가 동일한지 확인한다.
+        if (updateUserPasswordRequestDTO.NewPassword != updateUserPasswordRequestDTO.NewPasswordConfirm)
+        {
+            throw new BizException("새 비밀번호를 확인하세요.");
+        }
+
+        // 새 비밀번호를 암호화한다.
+        updateUserPasswordRequestDTO.NewPassword = EncryptUtil.Encrypt(updateUserPasswordRequestDTO.NewPassword!);
+
+        return await _userRepository.UpdateUserPassword(updateUserPasswordRequestDTO);
+    }
+
+    /// <summary>
     /// 사용자를 삭제한다.
     /// </summary>
     [Transaction]

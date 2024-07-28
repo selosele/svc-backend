@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -81,6 +82,20 @@ public class AuthController : MyApiControllerBase<AuthController>
     {
         updateUserRequestDTO.UserId = userId;
         return Ok(await _authService.UpdateUser(updateUserRequestDTO));
+    }
+
+    /// <summary>
+    /// 사용자 비밀번호를 변경한다.
+    /// </summary>
+    [HttpPut("users/{userId}/password")]
+    [Authorize]
+    public async Task<ActionResult<int>> UpdateUserPassword(int userId, [FromBody] UpdateUserPasswordRequestDTO updateUserPasswordRequestDTO)
+    {
+        var user = _authService.GetAuthenticatedUser();
+        updateUserPasswordRequestDTO.UserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+        updateUserPasswordRequestDTO.UpdaterId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+
+        return Ok(await _authService.UpdateUserPassword(updateUserPasswordRequestDTO));
     }
 
     /// <summary>

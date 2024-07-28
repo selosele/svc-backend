@@ -16,6 +16,10 @@
       <Result Column="USER_PASSWORD" Property="UserPassword" />
       <Result Column="USER_ACTIVE_YN" Property="UserActiveYn" />
     </ResultMap>
+
+    <ResultMap Id="UserPasswordResultMap">
+      <Result Column="USER_PASSWORD" Property="UserPassword" />
+    </ResultMap>
   </ResultMaps>
 
   <Statements>
@@ -73,6 +77,17 @@
         AND USER_ACCOUNT = @UserAccount
     </Statement>
 
+    <!-- 사용자 비밀번호를 조회한다. -->
+    <Statement Id="GetUserPassword" ResultMap="UserPasswordResultMap">
+      /* User.GetUserPassword */
+
+      SELECT
+        USER_PASSWORD
+      FROM CO_USER
+      WHERE DELETE_YN = 'N'
+        AND USER_ID = @UserId
+    </Statement>
+
     <!-- 사용자를 추가한다. -->
     <Statement Id="AddUser">
       /* User.AddUser */
@@ -87,12 +102,24 @@
       /* User.UpdateUser */
 
       UPDATE CO_USER
-         SET
-           <IsNotEmpty Property="UserActiveYn">
-           USER_ACTIVE_YN = @UserActiveYn,
-           </IsNotEmpty>
-           UPDATER_ID = @UpdaterId,
-           UPDATE_DT = CURRENT_TIMESTAMP()
+        SET
+          <IsNotEmpty Property="UserActiveYn">
+          USER_ACTIVE_YN = @UserActiveYn,
+          </IsNotEmpty>
+          UPDATER_ID = @UpdaterId,
+          UPDATE_DT = CURRENT_TIMESTAMP()
+       WHERE USER_ID = @UserId
+    </Statement>
+
+    <!-- 사용자 비밀번호를 변경한다. -->
+    <Statement Id="UpdateUserPassword">
+      /* User.UpdateUserPassword */
+
+      UPDATE CO_USER
+        SET
+          USER_PASSWORD = @NewPassword,
+          UPDATER_ID = @UpdaterId,
+          UPDATE_DT = CURRENT_TIMESTAMP()
        WHERE USER_ID = @UserId
     </Statement>
 
@@ -101,10 +128,10 @@
       /* User.RemoveUser */
 
       UPDATE CO_USER
-         SET
-           DELETE_YN = 'Y',
-           UPDATER_ID = @UpdaterId,
-           UPDATE_DT = CURRENT_TIMESTAMP()
+        SET
+          DELETE_YN = 'Y',
+          UPDATER_ID = @UpdaterId,
+          UPDATE_DT = CURRENT_TIMESTAMP()
        WHERE USER_ID = @UserId
     </Statement>
     

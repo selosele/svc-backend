@@ -24,6 +24,11 @@ public interface IUserRepository
     Task<LoginResultDTO?> GetUserLogin(LoginRequestDTO loginRequestDTO);
 
     /// <summary>
+    /// 사용자 비밀번호를 조회한다.
+    /// </summary>
+    Task<GetUserPasswordResultDTO> GetUserPassword(int? userId);
+
+    /// <summary>
     /// 사용자를 추가한다.
     /// </summary>
     Task<int> AddUser(AddUserRequestDTO addUserRequestDTO);
@@ -32,6 +37,11 @@ public interface IUserRepository
     /// 사용자를 수정한다.
     /// </summary>
     Task<int> UpdateUser(UpdateUserRequestDTO updateUserRequestDTO);
+
+    /// <summary>
+    /// 사용자 비밀번호를 변경한다.
+    /// </summary>
+    Task<int> UpdateUserPassword(UpdateUserPasswordRequestDTO updateUserPasswordRequestDTO);
 
     /// <summary>
     /// 사용자를 삭제한다.

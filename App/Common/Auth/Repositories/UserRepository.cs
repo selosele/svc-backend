@@ -59,6 +59,19 @@ public class UserRepository : IUserRepository
     }
 
     /// <summary>
+    /// 사용자 비밀번호를 조회한다.
+    /// </summary>
+    public Task<GetUserPasswordResultDTO> GetUserPassword(int? userId)
+    {
+        return SqlMapper.QuerySingleAsync<GetUserPasswordResultDTO>(new RequestContext
+        {
+            Scope = nameof(UserRepository),
+            SqlId = "GetUserPassword",
+            Request = userId
+        });
+    }
+
+    /// <summary>
     /// 사용자를 추가한다.
     /// </summary>
     public Task<int> AddUser(AddUserRequestDTO addUserRequestDTO)
@@ -81,6 +94,19 @@ public class UserRepository : IUserRepository
             Scope = nameof(UserRepository),
             SqlId = "UpdateUser",
             Request = updateUserRequestDTO
+        });
+    }
+
+    /// <summary>
+    /// 사용자 비밀번호를 변경한다.
+    /// </summary>
+    public Task<int> UpdateUserPassword(UpdateUserPasswordRequestDTO updateUserPasswordRequestDTO)
+    {
+        return SqlMapper.ExecuteAsync(new RequestContext
+        {
+            Scope = nameof(UserRepository),
+            SqlId = "UpdateUserPassword",
+            Request = updateUserPasswordRequestDTO
         });
     }
 
