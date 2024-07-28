@@ -21,7 +21,7 @@ public interface IUserRepository
     /// <summary>
     /// 사용자를 조회한다(로그인용).
     /// </summary>
-    Task<LoginResultDTO?> GetUserLogin(GetUserRequestDTO getUserRequestDTO);
+    Task<LoginResultDTO?> GetUserLogin(LoginRequestDTO loginRequestDTO);
 
     /// <summary>
     /// 사용자를 추가한다.

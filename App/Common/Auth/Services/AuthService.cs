@@ -116,9 +116,9 @@ public class AuthService
     /// 사용자를 조회한다(로그인용).
     /// </summary>
     [Transaction]
-    public async Task<LoginResultDTO?> GetUserLogin(GetUserRequestDTO getUserRequestDTO)
+    public async Task<LoginResultDTO?> GetUserLogin(LoginRequestDTO loginRequestDTO)
     {
-        var user = await _userRepository.GetUserLogin(getUserRequestDTO);
+        var user = await _userRepository.GetUserLogin(loginRequestDTO);
         if (user != null)
         {
             user!.Roles = await _userRoleRepository.ListUserRole(new GetUserRoleRequestDTO { UserId = user?.UserId });

@@ -48,13 +48,13 @@ public class UserRepository : IUserRepository
     /// <summary>
     /// 사용자를 조회한다(로그인용).
     /// </summary>
-    public Task<LoginResultDTO?> GetUserLogin(GetUserRequestDTO getUserRequestDTO)
+    public Task<LoginResultDTO?> GetUserLogin(LoginRequestDTO loginRequestDTO)
     {
         return SqlMapper.QuerySingleAsync<LoginResultDTO?>(new RequestContext
         {
             Scope = nameof(UserRepository),
             SqlId = "GetUserLogin",
-            Request = getUserRequestDTO
+            Request = loginRequestDTO
         });
     }
 
