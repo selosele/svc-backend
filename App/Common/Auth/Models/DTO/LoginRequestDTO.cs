@@ -1,12 +1,12 @@
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
+using svc.App.Shared.Models.DTO;
 
 namespace svc.App.Common.Auth.Models.DTO;
 
 /// <summary>
 /// 로그인 요청 DTO
 /// </summary>
-public record LoginRequestDTO
+public record LoginRequestDTO : MyRequestDTOBase
 {
     #region Fields
     /// <summary>
