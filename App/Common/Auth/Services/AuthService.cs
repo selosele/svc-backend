@@ -74,8 +74,8 @@ public class AuthService
         if (user.UserActiveYn == "N")
             throw new BizException("비활성화된 사용자입니다.");
 
-        var matchPassword = EncryptUtil.Verify(loginRequestDTO.UserPassword!, user.UserPassword!);
-        if (!matchPassword)
+        var isPasswordMatch = EncryptUtil.Verify(loginRequestDTO.UserPassword!, user.UserPassword!);
+        if (!isPasswordMatch)
             throw new BizException("아이디 또는 비밀번호를 확인하세요.");
 
         SetAuthenticatedUser(user);
