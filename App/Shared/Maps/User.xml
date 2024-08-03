@@ -6,6 +6,7 @@
       <Result Column="USER_ID" Property="UserId" />
       <Result Column="USER_ACCOUNT" Property="UserAccount" />
       <Result Column="EMPLOYEE_NAME" Property="EmployeeName" />
+      <Result Column="COMPANY_NAME" Property="CompanyName" />
       <Result Column="USER_ACTIVE_YN" Property="UserActiveYn" />
       <Result Column="ROLES_STRING" Property="RolesString" />
     </ResultMap>
@@ -32,6 +33,7 @@
         U.USER_ID,
         U.USER_ACCOUNT,
         E.EMPLOYEE_NAME,
+        IF(EC.QUIT_YMD IS NULL, C.COMPANY_NAME, CONCAT(C.COMPANY_NAME, '(퇴사)')) AS COMPANY_NAME,
         U.USER_ACTIVE_YN,
         (
           SELECT GROUP_CONCAT(R.ROLE_NAME ORDER BY R.ROLE_ORDER SEPARATOR ', ')
@@ -41,6 +43,8 @@
         ) AS ROLES_STRING
       FROM CO_USER U
       INNER JOIN HM_EMPLOYEE E ON E.USER_ID = U.USER_ID
+      INNER JOIN HM_EMPLOYEE_COMPANY EC ON EC.EMPLOYEE_ID = E.EMPLOYEE_ID AND EC.COMPANY_ID = E.COMPANY_ID
+      INNER JOIN HM_COMPANY C ON C.COMPANY_ID = EC.COMPANY_ID
       WHERE U.DELETE_YN = 'N'
     </Statement>
 
@@ -49,17 +53,17 @@
       /* User.GetUser */
 
       SELECT
-        USER_ID,
-        USER_ACCOUNT,
-        USER_ACTIVE_YN
-      FROM CO_USER
+        U.USER_ID,
+        U.USER_ACCOUNT,
+        U.USER_ACTIVE_YN
+      FROM CO_USER U
       WHERE 1=1
-        AND DELETE_YN = 'N'
+        AND U.DELETE_YN = 'N'
         <IsNotEmpty Property="UserId">
-        AND USER_ID = @UserId
+        AND U.USER_ID = @UserId
         </IsNotEmpty>
         <IsNotEmpty Property="UserAccount">
-        AND USER_ACCOUNT = @UserAccount
+        AND U.USER_ACCOUNT = @UserAccount
         </IsNotEmpty>
     </Statement>
 
@@ -68,13 +72,13 @@
       /* User.GetUserLogin */
 
       SELECT
-        USER_ID,
-        USER_ACCOUNT,
-        USER_PASSWORD,
-        USER_ACTIVE_YN
-      FROM CO_USER
-      WHERE DELETE_YN = 'N'
-        AND USER_ACCOUNT = @UserAccount
+        U.USER_ID,
+        U.USER_ACCOUNT,
+        U.USER_PASSWORD,
+        U.USER_ACTIVE_YN
+      FROM CO_USER U
+      WHERE U.DELETE_YN = 'N'
+        AND U.USER_ACCOUNT = @UserAccount
     </Statement>
 
     <!-- 사용자 비밀번호를 조회한다. -->
@@ -82,10 +86,10 @@
       /* User.GetUserPassword */
 
       SELECT
-        USER_PASSWORD
-      FROM CO_USER
-      WHERE DELETE_YN = 'N'
-        AND USER_ID = @UserId
+        U.USER_PASSWORD
+      FROM CO_USER U
+      WHERE U.DELETE_YN = 'N'
+        AND U.USER_ID = @UserId
     </Statement>
 
     <!-- 사용자를 추가한다. -->

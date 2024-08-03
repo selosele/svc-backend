@@ -15,15 +15,11 @@
       /* MenuRole.ListMenuRole */
 
       SELECT
-        MENU_ID,
-        ROLE_ID
-      FROM CO_MENU_ROLE
-      WHERE ROLE_ID IN (
-        SELECT
-          ROLE_ID
-        FROM CO_USER_ROLE
-        WHERE USER_ID = @UserId
-      )
+        MR.MENU_ID,
+        MR.ROLE_ID
+      FROM CO_MENU_ROLE MR
+      INNER JOIN CO_USER_ROLE UR ON UR.ROLE_ID = MR.ROLE_ID
+      WHERE UR.USER_ID = @UserId
     </Statement>
     
   </Statements>

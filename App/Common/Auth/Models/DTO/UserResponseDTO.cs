@@ -24,6 +24,11 @@ public record UserResponseDTO
     public string? EmployeeName { get; set; }
 
     /// <summary>
+    /// 회사 명
+    /// </summary>
+    public string? CompanyName { get; set; }
+
+    /// <summary>
     /// 사용자 활성화 여부
     /// </summary>
     public string? UserActiveYn { get; set; }
