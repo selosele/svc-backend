@@ -1,9 +1,7 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using svc.App.Common.Menu.Models.DTO;
 using svc.App.Common.Menu.Services;
-using svc.App.Shared.Controllers;
 
 namespace svc.App.Common.Menu.Controllers;
 
@@ -12,7 +10,7 @@ namespace svc.App.Common.Menu.Controllers;
 /// </summary>
 [ApiController]
 [Route("api/common/[controller]s")]
-public class MenuController : MyApiControllerBase<MenuController>
+public class MenuController : ControllerBase
 {
     #region Fields
     private readonly MenuService _menuService;
@@ -20,11 +18,8 @@ public class MenuController : MyApiControllerBase<MenuController>
     
     #region Constructor
     public MenuController(
-        MenuService menuService,
-        ILogger<MenuController> logger,
-        IMapper mapper
-    ) : base(logger, mapper)
-    {
+        MenuService menuService
+    ) {
         _menuService = menuService;
     }
     #endregion

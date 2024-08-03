@@ -1,9 +1,7 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using svc.App.Human.Employee.Models.DTO;
 using svc.App.Human.Employee.Services;
-using svc.App.Shared.Controllers;
 
 namespace svc.App.Human.Employee.Controllers;
 
@@ -12,7 +10,7 @@ namespace svc.App.Human.Employee.Controllers;
 /// </summary>
 [ApiController]
 [Route("api/human/[controller]s")]
-public class EmployeeController : MyApiControllerBase<EmployeeController>
+public class EmployeeController : ControllerBase
 {
     #region Fields
     private readonly EmployeeService _employeeService;
@@ -20,11 +18,8 @@ public class EmployeeController : MyApiControllerBase<EmployeeController>
     
     #region Constructor
     public EmployeeController(
-        EmployeeService employeeService,
-        ILogger<EmployeeController> logger,
-        IMapper mapper
-    ) : base(logger, mapper)
-    {
+        EmployeeService employeeService
+    ) {
         _employeeService = employeeService;
     }
     #endregion

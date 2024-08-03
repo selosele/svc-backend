@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using svc.App.Shared.Models.DTO;
 
 namespace svc.App.Common.Auth.Models.DTO;

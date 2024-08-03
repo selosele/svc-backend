@@ -1,9 +1,7 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using svc.App.Common.Code.Models.DTO;
 using svc.App.Common.Code.Services;
-using svc.App.Shared.Controllers;
 
 namespace svc.App.Common.Code.Controllers;
 
@@ -12,7 +10,7 @@ namespace svc.App.Common.Code.Controllers;
 /// </summary>
 [ApiController]
 [Route("api/common/[controller]s")]
-public class CodeController : MyApiControllerBase<CodeController>
+public class CodeController : ControllerBase
 {
     #region Fields
     private readonly CodeService _codeService;
@@ -20,11 +18,8 @@ public class CodeController : MyApiControllerBase<CodeController>
     
     #region Constructor
     public CodeController(
-        CodeService codeService,
-        ILogger<CodeController> logger,
-        IMapper mapper
-    ) : base(logger, mapper)
-    {
+        CodeService codeService
+    ) {
         _codeService = codeService;
     }
     #endregion

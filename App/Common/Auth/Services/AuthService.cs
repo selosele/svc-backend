@@ -134,11 +134,15 @@ public class AuthService
     public async Task<UserResponseDTO?> AddUser(AddUserRequestDTO addUserRequestDTO)
     {
         // 사용자 중복 체크
-        var foundUser = await GetUser(addUserRequestDTO);
-        if (foundUser != null) throw new BizException("중복된 사용자입니다. 입력하신 정보를 다시 확인하세요.");
+        var foundUser = await GetUser(new GetUserRequestDTO { UserAccount = addUserRequestDTO.UserAccount });
+        if (foundUser != null)
+            throw new BizException("중복된 사용자입니다. 입력하신 정보를 다시 확인하세요.");
 
         // 비밀번호 암호화
         addUserRequestDTO.UserPassword = EncryptUtil.Encrypt(addUserRequestDTO.UserPassword!);
+
+        // 등록자 ID
+        addUserRequestDTO.CreaterId = int.Parse(GetAuthenticatedUser()?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
 
         // 사용자 추가
         var userId = await _userRepository.AddUser(addUserRequestDTO);
@@ -208,15 +212,11 @@ public class AuthService
 
         // 입력받은 현재 비밀번호와 동일한지 확인한다.
         if (!EncryptUtil.Verify(updateUserPasswordRequestDTO.CurrentPassword!, currentHashedPassword!))
-        {
             throw new BizException("현재 비밀번호를 확인하세요.");
-        }
 
         // 새 비밀번호와 확인용 새 비밀번호가 동일한지 확인한다.
         if (updateUserPasswordRequestDTO.NewPassword != updateUserPasswordRequestDTO.NewPasswordConfirm)
-        {
             throw new BizException("새 비밀번호를 확인하세요.");
-        }
 
         // 새 비밀번호를 암호화한다.
         updateUserPasswordRequestDTO.NewPassword = EncryptUtil.Encrypt(updateUserPasswordRequestDTO.NewPassword!);

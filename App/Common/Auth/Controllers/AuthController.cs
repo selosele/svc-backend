@@ -1,10 +1,8 @@
 using System.Security.Claims;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using svc.App.Common.Auth.Models.DTO;
 using svc.App.Common.Auth.Services;
-using svc.App.Shared.Controllers;
 using svc.App.Shared.Utils;
 
 namespace svc.App.Common.Auth.Controllers;
@@ -14,7 +12,7 @@ namespace svc.App.Common.Auth.Controllers;
 /// </summary>
 [ApiController]
 [Route("api/common/[controller]")]
-public class AuthController : MyApiControllerBase<AuthController>
+public class AuthController : ControllerBase
 {
     #region Fields
     private readonly AuthService _authService;
@@ -22,11 +20,8 @@ public class AuthController : MyApiControllerBase<AuthController>
     
     #region Constructor
     public AuthController(
-        AuthService authService,
-        ILogger<AuthController> logger,
-        IMapper mapper
-    ) : base(logger, mapper)
-    {
+        AuthService authService
+    ) {
         _authService = authService;
     }
     #endregion
@@ -92,8 +87,13 @@ public class AuthController : MyApiControllerBase<AuthController>
     public async Task<ActionResult<int>> UpdateUserPassword(int userId, [FromBody] UpdateUserPasswordRequestDTO updateUserPasswordRequestDTO)
     {
         var user = _authService.GetAuthenticatedUser();
-        updateUserPasswordRequestDTO.UserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
-        updateUserPasswordRequestDTO.UpdaterId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+
+        if (userId != myUserId)
+            return NotFound();
+
+        updateUserPasswordRequestDTO.UserId = myUserId;
+        updateUserPasswordRequestDTO.UpdaterId = myUserId;
 
         return Ok(await _authService.UpdateUserPassword(updateUserPasswordRequestDTO));
     }
