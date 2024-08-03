@@ -22,7 +22,7 @@ public class ClaimUtil
     public const string USER_ACCOUNT_IDENTIFIER = "userAccount";
 
     /// <summary>
-    /// 직원 명 식별자
+    /// 직원명 식별자
     /// </summary>
     public const string EMPLOYEE_NAME_IDENTIFIER = "employeeName";
 

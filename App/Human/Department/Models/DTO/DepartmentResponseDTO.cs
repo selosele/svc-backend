@@ -22,7 +22,7 @@ public record DepartmentResponseDTO
     public int? UpDepartmentId { get; set; }
     
     /// <summary>
-    /// 부서 명
+    /// 부서명
     /// </summary>
     public string? DepartmentName { get; set; }
 

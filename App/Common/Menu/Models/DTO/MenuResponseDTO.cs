@@ -17,7 +17,7 @@ public record MenuResponseDTO
     public int? UpMenuId { get; set; }
     
     /// <summary>
-    /// 메뉴 명
+    /// 메뉴명
     /// </summary>
     public string? MenuName { get; set; }
     

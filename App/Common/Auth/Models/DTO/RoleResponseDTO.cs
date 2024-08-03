@@ -12,7 +12,7 @@ public record RoleResponseDTO
     public string? RoleId { get; set; }
 
     /// <summary>
-    /// 권한 명
+    /// 권한명
     /// </summary>
     public string? RoleName { get; set; }
 

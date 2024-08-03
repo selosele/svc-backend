@@ -22,7 +22,7 @@ public record CodeResponseDTO
     public string? CodeValue { get; set; }
     
     /// <summary>
-    /// 코드 명
+    /// 코드명
     /// </summary>
     public string? CodeName { get; set; }
     

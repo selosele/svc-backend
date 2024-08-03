@@ -19,12 +19,12 @@ public record UserResponseDTO
     public string? UserAccount { get; set; }
 
     /// <summary>
-    /// 직원 명
+    /// 직원명
     /// </summary>
     public string? EmployeeName { get; set; }
 
     /// <summary>
-    /// 회사 명
+    /// 회사명
     /// </summary>
     public string? CompanyName { get; set; }
 

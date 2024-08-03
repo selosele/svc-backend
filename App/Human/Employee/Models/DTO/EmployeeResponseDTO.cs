@@ -14,7 +14,7 @@ public record EmployeeResponseDTO
     public int? EmployeeId { get; set; }
 
     /// <summary>
-    /// 직원 명
+    /// 직원명
     /// </summary>
     public string? EmployeeName { get; set; }
     
