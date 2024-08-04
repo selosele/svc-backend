@@ -1,4 +1,5 @@
 using SmartSql.AOP;
+using svc.App.Common.Auth.Services;
 using svc.App.Human.Department.Models.DTO;
 using svc.App.Human.Department.Repositories;
 using svc.App.Human.Employee.Models.DTO;
@@ -12,6 +13,7 @@ namespace svc.App.Human.Employee.Services;
 public class EmployeeService
 {
     #region Fields
+    private readonly AuthService _authService;
     private readonly IEmployeeRepository _employeeRepository;
     private readonly IEmployeeCompanyRepository _employeeCompanyRepository;
     private readonly IDepartmentRepository _departmentRepository;
@@ -19,11 +21,13 @@ public class EmployeeService
     
     #region Constructor
     public EmployeeService(
+        AuthService authService,
         IEmployeeRepository employeeRepository,
         IEmployeeCompanyRepository employeeCompanyRepository,
         IDepartmentRepository departmentRepository
     )
     {
+        _authService = authService;
         _employeeRepository = employeeRepository;
         _employeeCompanyRepository = employeeCompanyRepository;
         _departmentRepository = departmentRepository;
@@ -44,6 +48,16 @@ public class EmployeeService
             employee.Departments = await _departmentRepository.ListDepartment(new GetDepartmentRequestDTO { EmployeeId = employee.EmployeeId });
         }
         return employee;
+    }
+
+    /// <summary>
+    /// 직원을 수정한다.
+    /// </summary>
+    [Transaction]
+    public async Task<EmployeeResponseDTO?> UpdateEmployee(UpdateEmployeeRequestDTO updateEmployeeRequestDTO)
+    {
+        await _employeeRepository.UpdateEmployee(updateEmployeeRequestDTO);
+        return await GetEmployee(new GetEmployeeRequestDTO { EmployeeId = updateEmployeeRequestDTO.EmployeeId });
     }
     #endregion
     

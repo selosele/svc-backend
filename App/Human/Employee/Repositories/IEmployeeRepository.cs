@@ -12,6 +12,11 @@ public interface IEmployeeRepository
     /// 직원을 조회한다.
     /// </summary>
     Task<EmployeeResponseDTO> GetEmployee(GetEmployeeRequestDTO getEmployeeRequestDTO);
+
+    /// <summary>
+    /// 직원을 수정한다.
+    /// </summary>
+    Task<int> UpdateEmployee(UpdateEmployeeRequestDTO updateEmployeeRequestDTO);
     #endregion
 
 }

@@ -1,9 +1,11 @@
+using svc.App.Shared.Models.DTO;
+
 namespace svc.App.Human.Employee.Models.DTO;
 
 /// <summary>
 /// 직원 조회 요청 DTO
 /// </summary>
-public record GetEmployeeRequestDTO
+public record GetEmployeeRequestDTO : MyRequestDTOBase
 {
     #region Fields
     /// <summary>

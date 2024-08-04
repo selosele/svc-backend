@@ -32,6 +32,19 @@ public class EmployeeRepository : IEmployeeRepository
             Request = getEmployeeRequestDTO
         });
     }
+
+    /// <summary>
+    /// 직원을 수정한다.
+    /// </summary>
+    public Task<int> UpdateEmployee(UpdateEmployeeRequestDTO updateEmployeeRequestDTO)
+    {
+        return SqlMapper.ExecuteAsync(new RequestContext
+        {
+            Scope = nameof(EmployeeRepository),
+            SqlId = "UpdateEmployee",
+            Request = updateEmployeeRequestDTO
+        });
+    }
     #endregion
 
 }

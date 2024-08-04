@@ -29,6 +29,19 @@
         AND E.EMPLOYEE_ID = @EmployeeId
         </IsNotEmpty>
     </Statement>
+
+    <!-- 직원을 수정한다. -->
+    <Statement Id="UpdateEmployee">
+      /* Employee.UpdateEmployee */
+
+      UPDATE HM_EMPLOYEE
+        SET
+          EMPLOYEE_NAME = @EmployeeName,
+          GENDER_CODE = @GenderCode,
+          UPDATER_ID = @UpdaterId,
+          UPDATE_DT = CURRENT_TIMESTAMP()
+      WHERE EMPLOYEE_ID = @EmployeeId
+    </Statement>
     
   </Statements>
 </SmartSqlMap>
