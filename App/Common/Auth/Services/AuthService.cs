@@ -92,8 +92,8 @@ public class AuthService
     /// 사용자 목록을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<IList<UserResponseDTO>> ListUser()
-        => await _userRepository.ListUser();
+    public async Task<IList<UserResponseDTO>> ListUser(GetUserRequestDTO? getUserRequestDTO)
+        => await _userRepository.ListUser(getUserRequestDTO);
 
     /// <summary>
     /// 사용자를 조회한다.

@@ -11,7 +11,7 @@ public interface IUserRepository
     /// <summary>
     /// 사용자 목록을 조회한다.
     /// </summary>
-    Task<IList<UserResponseDTO>> ListUser();
+    Task<IList<UserResponseDTO>> ListUser(GetUserRequestDTO? getUserRequestDTO);
 
     /// <summary>
     /// 사용자를 조회한다.

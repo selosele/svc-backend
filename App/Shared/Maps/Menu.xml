@@ -62,7 +62,16 @@
         MR.MENU_ID
       FROM CO_MENU_ROLE MR
       INNER JOIN CO_USER_MENU_ROLE UMR ON MR.MENU_ID = UMR.MENU_ID AND MR.ROLE_ID = UMR.ROLE_ID
-      WHERE UMR.USER_ID = @UserId
+      WHERE 1=1
+        <IsNotEmpty Property="UserId">
+        AND UMR.USER_ID = @UserId
+        </IsNotEmpty>
+        <IsNotEmpty Property="RoleIdList">
+        AND MR.ROLE_ID IN 
+          <For Property="RoleIdList" Key="roleId" Open="(" Separator="," Close=")">
+            @roleId
+          </For>
+        </IsNotEmpty>
     )
     <IsNotEmpty Property="UseYn">
       AND R.USE_YN = @UseYn

@@ -42,10 +42,19 @@
           WHERE UR.USER_ID = U.USER_ID
         ) AS ROLES_STRING
       FROM CO_USER U
+      <IsNotEmpty Property="RoleIdList">
+      INNER JOIN CO_USER_ROLE UR ON UR.USER_ID = U.USER_ID
+      </IsNotEmpty>
       INNER JOIN HM_EMPLOYEE E ON E.USER_ID = U.USER_ID
       INNER JOIN HM_EMPLOYEE_COMPANY EC ON EC.EMPLOYEE_ID = E.EMPLOYEE_ID AND EC.COMPANY_ID = E.COMPANY_ID
       INNER JOIN HM_COMPANY C ON C.COMPANY_ID = EC.COMPANY_ID
       WHERE U.DELETE_YN = 'N'
+        <IsNotEmpty Property="RoleIdList">
+        AND UR.ROLE_ID IN
+          <For Property="RoleIdList" Key="roleId" Open="(" Separator="," Close=")">
+            @roleId
+          </For>
+        </IsNotEmpty>
     </Statement>
 
     <!-- 사용자를 조회한다. -->

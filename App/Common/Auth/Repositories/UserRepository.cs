@@ -23,12 +23,13 @@ public class UserRepository : IUserRepository
     /// <summary>
     /// 사용자 목록을 조회한다.
     /// </summary>
-    public Task<IList<UserResponseDTO>> ListUser()
+    public Task<IList<UserResponseDTO>> ListUser(GetUserRequestDTO? getUserRequestDTO)
     {
         return SqlMapper.QueryAsync<UserResponseDTO>(new RequestContext
         {
             Scope = nameof(UserRepository),
-            SqlId = "ListUser"
+            SqlId = "ListUser",
+            Request = getUserRequestDTO
         });
     }
 

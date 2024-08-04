@@ -49,8 +49,8 @@ public class AuthController : ControllerBase
     /// </summary>
     [HttpGet("users")]
     [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
-    public async Task<ActionResult<List<UserResponseDTO>>> ListUser()
-        => Ok(await _authService.ListUser());
+    public async Task<ActionResult<List<UserResponseDTO>>> ListUser([FromQuery] GetUserRequestDTO getUserRequestDTO)
+        => Ok(await _authService.ListUser(getUserRequestDTO));
 
     /// <summary>
     /// 사용자를 조회한다.
