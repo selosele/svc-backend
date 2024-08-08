@@ -7,6 +7,8 @@
       <Result Column="USER_ACCOUNT" Property="UserAccount" />
       <Result Column="EMPLOYEE_NAME" Property="EmployeeName" />
       <Result Column="COMPANY_NAME" Property="CompanyName" />
+      <Result Column="RANK_CODE_NAME" Property="RankCodeName" />
+      <Result Column="JOB_TITLE_CODE_NAME" Property="JobTitleCodeName" />
       <Result Column="USER_ACTIVE_YN" Property="UserActiveYn" />
       <Result Column="ROLES_STRING" Property="RolesString" />
     </ResultMap>
@@ -34,6 +36,8 @@
         U.USER_ACCOUNT,
         E.EMPLOYEE_NAME,
         IF(EC.QUIT_YMD IS NULL, C.COMPANY_NAME, CONCAT(C.COMPANY_NAME, '(퇴사)')) AS COMPANY_NAME,
+        CD.CODE_NAME AS RANK_CODE_NAME,
+        CD2.CODE_NAME AS JOB_TITLE_CODE_NAME,
         U.USER_ACTIVE_YN,
         (
           SELECT GROUP_CONCAT(R.ROLE_NAME ORDER BY R.ROLE_ORDER SEPARATOR ', ')
@@ -48,6 +52,8 @@
       INNER JOIN HM_EMPLOYEE E ON E.USER_ID = U.USER_ID
       INNER JOIN HM_EMPLOYEE_COMPANY EC ON EC.EMPLOYEE_ID = E.EMPLOYEE_ID AND EC.COMPANY_ID = E.COMPANY_ID
       INNER JOIN HM_COMPANY C ON C.COMPANY_ID = EC.COMPANY_ID
+      INNER JOIN CO_CODE CD ON CD.CODE_VALUE = EC.RANK_CODE AND CD.UP_CODE_ID = 'RANK_00'
+      INNER JOIN CO_CODE CD2 ON CD2.CODE_VALUE = EC.JOB_TITLE_CODE AND CD2.UP_CODE_ID = 'JOB_TITLE_00'
       WHERE U.DELETE_YN = 'N'
         <IsNotEmpty Property="RoleIdList">
         AND UR.ROLE_ID IN

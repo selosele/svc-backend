@@ -29,6 +29,16 @@ public record UserResponseDTO
     public string? CompanyName { get; set; }
 
     /// <summary>
+    /// 직급 코드명
+    /// </summary>
+    public string? RankCodeName { get; set; }
+
+    /// <summary>
+    /// 직책 코드명
+    /// </summary>
+    public string? JobTitleCodeName { get; set; }
+
+    /// <summary>
     /// 사용자 활성화 여부
     /// </summary>
     public string? UserActiveYn { get; set; }
