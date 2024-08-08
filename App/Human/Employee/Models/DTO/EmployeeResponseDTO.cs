@@ -22,6 +22,16 @@ public record EmployeeResponseDTO
     /// 성별 코드
     /// </summary>
     public string? GenderCode { get; set; }
+    
+    /// <summary>
+    /// 생년월일
+    /// </summary>
+    public string? BirthYmd { get; set; }
+    
+    /// <summary>
+    /// 휴대폰번호
+    /// </summary>
+    public string? PhoneNumber { get; set; }
 
     /// <summary>
     /// 직원 회사 정보

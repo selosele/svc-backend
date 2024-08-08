@@ -27,6 +27,16 @@ public record UpdateEmployeeRequestDTO : MyRequestDTOBase
     /// </summary>
     [Required]
     public string? GenderCode { get; set; }
+
+    /// <summary>
+    /// 생년월일
+    /// </summary>
+    public string? BirthYmd { get; set; }
+
+    /// <summary>
+    /// 휴대폰번호
+    /// </summary>
+    public string? PhoneNumber { get; set; }
     #endregion
 
 }

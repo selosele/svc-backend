@@ -6,6 +6,8 @@
       <Result Column="EMPLOYEE_ID" Property="EmployeeId" />
       <Result Column="EMPLOYEE_NAME" Property="EmployeeName" />
       <Result Column="GENDER_CODE" Property="GenderCode" />
+      <Result Column="BIRTH_YMD" Property="BirthYmd" />
+      <Result Column="PHONE_NUMBER" Property="PhoneNumber" />
     </ResultMap>
   </ResultMaps>
 
@@ -18,7 +20,9 @@
       SELECT
         E.EMPLOYEE_ID,
         E.EMPLOYEE_NAME,
-        E.GENDER_CODE
+        E.GENDER_CODE,
+        E.BIRTH_YMD,
+        E.PHONE_NUMBER
       FROM HM_EMPLOYEE E
       INNER JOIN CO_USER U ON U.USER_ID = E.USER_ID AND U.DELETE_YN = 'N'
       WHERE 1=1
@@ -38,6 +42,8 @@
         SET
           EMPLOYEE_NAME = @EmployeeName,
           GENDER_CODE = @GenderCode,
+          BIRTH_YMD = @BirthYmd,
+          PHONE_NUMBER = @PhoneNumber,
           UPDATER_ID = @UpdaterId,
           UPDATE_DT = CURRENT_TIMESTAMP()
       WHERE EMPLOYEE_ID = @EmployeeId
