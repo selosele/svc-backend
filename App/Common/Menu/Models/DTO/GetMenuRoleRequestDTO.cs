@@ -5,7 +5,7 @@ namespace svc.App.Common.Menu.Models.DTO;
 /// <summary>
 /// 메뉴 권한 조회 요청 DTO
 /// </summary>
-public record GetMenuRoleRequestDTO : MyRequestDTOBase
+public record GetMenuRoleRequestDTO : HttpRequestDTOBase
 {
     #region Fields
     /// <summary>

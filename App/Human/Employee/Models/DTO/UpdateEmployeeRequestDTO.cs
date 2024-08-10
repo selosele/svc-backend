@@ -6,7 +6,7 @@ namespace svc.App.Human.Employee.Models.DTO;
 /// <summary>
 /// 직원 수정 요청 DTO
 /// </summary>
-public record UpdateEmployeeRequestDTO : MyRequestDTOBase
+public record UpdateEmployeeRequestDTO : HttpRequestDTOBase
 {
     #region Fields
     /// <summary>

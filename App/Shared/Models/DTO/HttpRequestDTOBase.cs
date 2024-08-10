@@ -1,9 +1,9 @@
 namespace svc.App.Shared.Models.DTO;
 
 /// <summary>
-/// 요청 DTO의 기본 클래스
+/// HTTP 요청 DTO의 기본 클래스
 /// </summary>
-public record MyRequestDTOBase
+public record HttpRequestDTOBase
 {
     #region Fields
     /// <summary>

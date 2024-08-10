@@ -6,7 +6,7 @@ namespace svc.App.Common.Auth.Models.DTO;
 /// <summary>
 /// 사용자 권한 추가 요청 DTO
 /// </summary>
-public record AddUserMenuRoleRequestDTO : MyRequestDTOBase
+public record AddUserMenuRoleRequestDTO : HttpRequestDTOBase
 {
     #region Fields
     /// <summary>

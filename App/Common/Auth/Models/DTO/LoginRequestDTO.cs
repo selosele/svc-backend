@@ -6,7 +6,7 @@ namespace svc.App.Common.Auth.Models.DTO;
 /// <summary>
 /// 로그인 요청 DTO
 /// </summary>
-public record LoginRequestDTO : MyRequestDTOBase
+public record LoginRequestDTO : HttpRequestDTOBase
 {
     #region Fields
     /// <summary>

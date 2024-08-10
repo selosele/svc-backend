@@ -6,7 +6,7 @@ namespace svc.App.Common.Auth.Models.DTO;
 /// <summary>
 /// 사용자 비밀번호 변경 요청 DTO
 /// </summary>
-public record UpdateUserPasswordRequestDTO : MyRequestDTOBase
+public record UpdateUserPasswordRequestDTO : HttpRequestDTOBase
 {
     #region Fields
     /// <summary>

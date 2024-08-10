@@ -5,7 +5,7 @@ namespace svc.App.Human.Company.Models.DTO;
 /// <summary>
 /// 회사 조회 요청 DTO
 /// </summary>
-public record GetCompanyRequestDTO : MyRequestDTOBase
+public record GetCompanyRequestDTO : HttpRequestDTOBase
 {
     #region Fields
     /// <summary>
