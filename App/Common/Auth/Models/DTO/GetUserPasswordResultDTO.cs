@@ -1,7 +1,7 @@
 namespace svc.App.Common.Auth.Models.DTO;
 
 /// <summary>
-/// 로그인 결과 DTO
+/// 사용자 비밀번호 조회 결과 DTO
 /// </summary>
 public record GetUserPasswordResultDTO
 {
