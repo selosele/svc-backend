@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using svc.App.Common.Code.Models.DTO;
 using svc.App.Human.Company.Models.DTO;
 using svc.App.Human.Company.Services;
 
@@ -31,7 +30,7 @@ public class CompanyController : ControllerBase
     /// </summary>
     [HttpGet]
     [Authorize]
-    public async Task<ActionResult<List<CodeResponseDTO>>> ListCompany([FromQuery] GetCompanyRequestDTO? getCompanyRequestDTO)
+    public async Task<ActionResult<List<CompanyResponseDTO>>> ListCompany([FromQuery] GetCompanyRequestDTO? getCompanyRequestDTO)
         => Ok(await _companyService.ListCompany(getCompanyRequestDTO));
     #endregion
 
