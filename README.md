@@ -13,8 +13,9 @@
 
 ## 개발환경 구동 절차
 
-1. `dotnet build`
-2. `dotnet watch`
+1. `service mariadb start` (MariaDB 구동)
+2. `dotnet build` (백엔드 소스코드 빌드)
+3. `dotnet watch` (백엔드 구동)
 
 ## etc.
 
