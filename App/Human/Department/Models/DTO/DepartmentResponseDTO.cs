@@ -40,6 +40,11 @@ public record DepartmentResponseDTO
     /// 직책 코드
     /// </summary>
     public string? JobTitleCode { get; set; }
+
+    /// <summary>
+    /// 삭제 여부
+    /// </summary>
+    public string? DeleteYn { get; set; }
     #endregion
 
 }

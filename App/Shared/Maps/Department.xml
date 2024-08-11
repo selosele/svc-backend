@@ -10,6 +10,7 @@
       <Result Column="DEPARTMENT_ORDER" Property="DepartmentOrder" />
       <Result Column="RANK_CODE" Property="RankCode" />
       <Result Column="JOB_TITLE_CODE" Property="JobTitleCode" />
+      <Result Column="DELETE_YN" Property="DeleteYn" />
     </ResultMap>
   </ResultMaps>
 
@@ -26,7 +27,8 @@
           UP_DEPARTMENT_ID,
           DEPARTMENT_NAME,
           DEPARTMENT_ORDER,
-          CAST(DEPARTMENT_ORDER AS CHAR(200)) AS SORT_ORDER
+          CAST(DEPARTMENT_ORDER AS CHAR(200)) AS SORT_ORDER,
+          DELETE_YN
         FROM HM_DEPARTMENT
         WHERE UP_DEPARTMENT_ID IS NULL
         UNION ALL
@@ -36,7 +38,8 @@
           A.UP_DEPARTMENT_ID,
           A.DEPARTMENT_NAME,
           A.DEPARTMENT_ORDER,
-          CONCAT(R.SORT_ORDER, '-', LPAD(A.DEPARTMENT_ORDER, 5, '0')) AS SORT_ORDER
+          CONCAT(R.SORT_ORDER, '-', LPAD(A.DEPARTMENT_ORDER, 5, '0')) AS SORT_ORDER,
+          A.DELETE_YN
         FROM HM_DEPARTMENT A
         INNER JOIN R ON A.UP_DEPARTMENT_ID = R.DEPARTMENT_ID
     )
@@ -46,6 +49,7 @@
       R.UP_DEPARTMENT_ID,
       R.DEPARTMENT_NAME,
       R.DEPARTMENT_ORDER,
+      R.DELETE_YN,
       CD.CODE_VALUE AS RANK_CODE,
       CD2.CODE_VALUE AS JOB_TITLE_CODE
     FROM R
@@ -53,7 +57,7 @@
     INNER JOIN HM_EMPLOYEE_COMPANY EC ON EC.COMPANY_ID = R.COMPANY_ID AND EC.EMPLOYEE_ID = E.EMPLOYEE_ID
     INNER JOIN CO_CODE CD ON CD.CODE_VALUE = EC.RANK_CODE AND CD.UP_CODE_ID = 'RANK_00'
     INNER JOIN CO_CODE CD2 ON CD2.CODE_VALUE = EC.JOB_TITLE_CODE AND CD2.UP_CODE_ID = 'JOB_TITLE_00'
-    WHERE 1=1
+    WHERE R.DELETE_YN = @DeleteYn
       <IsNotEmpty Property="EmployeeId">
       AND E.EMPLOYEE_ID = @EmployeeId
       </IsNotEmpty>
