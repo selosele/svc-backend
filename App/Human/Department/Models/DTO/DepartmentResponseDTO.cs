@@ -17,6 +17,11 @@ public record DepartmentResponseDTO
     public int? CompanyId { get; set; }
 
     /// <summary>
+    /// 회사 명
+    /// </summary>
+    public string? CompanyName { get; set; }
+
+    /// <summary>
     /// 상위 부서 ID
     /// </summary>
     public int? UpDepartmentId { get; set; }

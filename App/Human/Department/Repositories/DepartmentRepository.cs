@@ -32,6 +32,19 @@ public class DepartmentRepository : IDepartmentRepository
             Request = getDepartmentRequestDTO
         });
     }
+
+    /// <summary>
+    /// 회사별 부서 목록을 조회한다.
+    /// </summary>
+    public Task<IList<DepartmentResponseDTO>> ListDepartmentByCompany(GetDepartmentRequestDTO? getDepartmentRequestDTO)
+    {
+        return SqlMapper.QueryAsync<DepartmentResponseDTO>(new RequestContext
+        {
+            Scope = nameof(DepartmentRepository),
+            SqlId = "ListDepartmentByCompany",
+            Request = getDepartmentRequestDTO
+        });
+    }
     #endregion
 
 }

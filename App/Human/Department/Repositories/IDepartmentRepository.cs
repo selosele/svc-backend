@@ -12,6 +12,11 @@ public interface IDepartmentRepository
     /// 부서 목록을 조회한다.
     /// </summary>
     Task<IList<DepartmentResponseDTO>> ListDepartment(GetDepartmentRequestDTO getDepartmentRequestDTO);
+
+    /// <summary>
+    /// 회사별 부서 목록을 조회한다.
+    /// </summary>
+    Task<IList<DepartmentResponseDTO>> ListDepartmentByCompany(GetDepartmentRequestDTO? getDepartmentRequestDTO);
     #endregion
 
 }

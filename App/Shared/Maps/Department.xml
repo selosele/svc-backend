@@ -5,6 +5,7 @@
     <ResultMap Id="DepartmentResultMap">
       <Result Column="DEPARTMENT_ID" Property="DepartmentId" />
       <Result Column="COMPANY_ID" Property="CompanyId" />
+      <Result Column="COMPANY_NAME" Property="CompanyName" />
       <Result Column="UP_DEPARTMENT_ID" Property="UpDepartmentId" />
       <Result Column="DEPARTMENT_NAME" Property="DepartmentName" />
       <Result Column="DEPARTMENT_ORDER" Property="DepartmentOrder" />
@@ -61,6 +62,55 @@
       <IsNotEmpty Property="EmployeeId">
       AND E.EMPLOYEE_ID = @EmployeeId
       </IsNotEmpty>
+    ORDER BY
+      CAST(SUBSTRING_INDEX(R.SORT_ORDER, '-', 1) AS UNSIGNED),
+      CASE
+        WHEN R.SORT_ORDER LIKE '%-%' THEN CAST(SUBSTRING_INDEX(R.SORT_ORDER, '-', -1) AS UNSIGNED)
+        ELSE 0
+      END
+    </Statement>
+
+    <!-- 회사별 부서 목록을 조회한다. -->
+    <Statement Id="ListDepartmentByCompany" ResultMap="DepartmentResultMap">
+      /* Department.ListDepartmentByCompany */
+
+      WITH RECURSIVE R AS (
+        SELECT
+          D.DEPARTMENT_ID,
+          D.COMPANY_ID,
+          C.COMPANY_NAME,
+          D.UP_DEPARTMENT_ID,
+          D.DEPARTMENT_NAME,
+          D.DEPARTMENT_ORDER,
+          CAST(D.DEPARTMENT_ORDER AS CHAR(200)) AS SORT_ORDER,
+          D.DELETE_YN
+        FROM HM_DEPARTMENT D, HM_COMPANY C
+        WHERE D.COMPANY_ID = C.COMPANY_ID
+          AND D.UP_DEPARTMENT_ID IS NULL
+        UNION ALL
+        SELECT
+          D.DEPARTMENT_ID,
+          D.COMPANY_ID,
+          C.COMPANY_NAME,
+          D.UP_DEPARTMENT_ID,
+          D.DEPARTMENT_NAME,
+          D.DEPARTMENT_ORDER,
+          CONCAT(R.SORT_ORDER, '-', LPAD(D.DEPARTMENT_ORDER, 5, '0')) AS SORT_ORDER,
+          D.DELETE_YN
+        FROM HM_DEPARTMENT D
+        INNER JOIN HM_COMPANY C ON C.COMPANY_ID = D.COMPANY_ID
+        INNER JOIN R ON D.UP_DEPARTMENT_ID = R.DEPARTMENT_ID
+    )
+    SELECT
+      R.DEPARTMENT_ID,
+      R.COMPANY_ID,
+      R.COMPANY_NAME,
+      R.UP_DEPARTMENT_ID,
+      R.DEPARTMENT_NAME,
+      R.DEPARTMENT_ORDER,
+      R.DELETE_YN
+    FROM R
+    WHERE R.DELETE_YN = 'N'
     ORDER BY
       CAST(SUBSTRING_INDEX(R.SORT_ORDER, '-', 1) AS UNSIGNED),
       CASE
