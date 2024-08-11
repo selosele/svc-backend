@@ -9,7 +9,7 @@ namespace svc.App.Common.Menu.Controllers;
 /// 메뉴 컨트롤러 클래스
 /// </summary>
 [ApiController]
-[Route("api/common/[controller]s")]
+[Route("api/common/menus")]
 public class MenuController : ControllerBase
 {
     #region Fields
