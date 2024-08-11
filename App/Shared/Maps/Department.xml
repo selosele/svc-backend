@@ -87,6 +87,9 @@
         FROM HM_DEPARTMENT D, HM_COMPANY C
         WHERE D.COMPANY_ID = C.COMPANY_ID
           AND D.UP_DEPARTMENT_ID IS NULL
+          <IsNotEmpty Property="CompanyId">
+          AND D.COMPANY_ID = @CompanyId
+          </IsNotEmpty>
         UNION ALL
         SELECT
           D.DEPARTMENT_ID,

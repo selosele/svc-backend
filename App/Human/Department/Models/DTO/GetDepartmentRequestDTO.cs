@@ -19,6 +19,11 @@ public record GetDepartmentRequestDTO : HttpRequestDTOBase
     public int? CompanyId { get; set; }
 
     /// <summary>
+    /// 회사 ID
+    /// </summary>
+    public int? DepartmentId { get; set; }
+
+    /// <summary>
     /// 회사별 조회 여부
     /// </summary>
     public string? GetByCompanyYn { get; set; }
