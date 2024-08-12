@@ -32,8 +32,8 @@
 
       INSERT INTO CO_USER_ROLE (USER_ID, ROLE_ID, CREATER_ID)
       VALUES
-      <For Property="DTOList" Key="item" Open="" Close="" Separator=",">
-        (@item.UserId, @item.RoleId, @item.CreaterId)
+      <For Property="DTOList" Key="dto" Open="" Close="" Separator=",">
+        (@dto.UserId, @dto.RoleId, @dto.CreaterId)
       </For>
     </Statement>
 
