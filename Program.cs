@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("secrets.json", optional: true, reloadOnChange: true);
 
 builder.Services.SingletonScan("svc.App.", ".Services");
+builder.Services.InterfaceScan("svc.App.", ".Repositories");
 builder.Services.AutoMapperProfileScan("svc.App.", ".Profiles");
 
 var connectionStrings = builder.Configuration.GetSection("ConnectionStrings")
@@ -18,11 +19,6 @@ var connectionStrings = builder.Configuration.GetSection("ConnectionStrings")
 builder.Services.AddSmartSql((sp, builder) =>
                 {
                     builder.UseProperties((IEnumerable<KeyValuePair<string, string>>) connectionStrings);
-                })
-                .AddRepositoryFromAssembly(x =>
-                {
-                    x.AssemblyString = "svc";
-                    x.Filter = (type) => type.Namespace != null && type.Namespace.StartsWith("svc.App.") && type.Namespace.EndsWith(".Repositories");
                 });
 builder.Services.AddControllers(x =>
 {
