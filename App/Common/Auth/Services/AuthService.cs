@@ -107,7 +107,11 @@ public class AuthService
             user!.Roles = await _userRoleRepository.ListUserRole(new GetUserRoleRequestDTO { UserId = user?.UserId });
             user!.Employee = await _employeeRepository.GetEmployee(new GetEmployeeRequestDTO { UserId = user?.UserId });
             user!.Employee.EmployeeCompanies = await _employeeCompanyRepository.ListEmployeeCompany(user?.Employee.EmployeeId);
-            user!.Employee.Departments = await _departmentRepository.ListDepartment(new GetDepartmentRequestDTO { EmployeeId = user?.Employee.EmployeeId });
+            user!.Employee.Departments = await _departmentRepository.ListDepartment(new GetDepartmentRequestDTO
+            {
+                EmployeeId = user?.Employee.EmployeeId,
+                DepartmentId = user?.Employee.DepartmentId
+            });
         }
         return user;
     }

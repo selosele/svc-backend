@@ -45,7 +45,11 @@ public class EmployeeService
         if (employee != null)
         {
             employee.EmployeeCompanies = await _employeeCompanyRepository.ListEmployeeCompany(employee.EmployeeId);
-            employee.Departments = await _departmentRepository.ListDepartment(new GetDepartmentRequestDTO { EmployeeId = employee.EmployeeId });
+            employee.Departments = await _departmentRepository.ListDepartment(new GetDepartmentRequestDTO
+            {
+                EmployeeId = employee.EmployeeId,
+                DepartmentId = employee.DepartmentId
+            });
         }
         return employee;
     }
