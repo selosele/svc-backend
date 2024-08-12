@@ -29,7 +29,7 @@ public class EmployeeCompanyRepository : IEmployeeCompanyRepository
         {
             Scope = nameof(EmployeeCompanyRepository),
             SqlId = "ListEmployeeCompany",
-            Request = employeeId
+            Request = new { employeeId }
         });
     }
     #endregion

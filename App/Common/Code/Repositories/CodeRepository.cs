@@ -41,7 +41,7 @@ public class CodeRepository : ICodeRepository
         {
             Scope = nameof(CodeRepository),
             SqlId = "GetCode",
-            Request = codeId
+            Request = new { codeId }
         });
     }
     #endregion

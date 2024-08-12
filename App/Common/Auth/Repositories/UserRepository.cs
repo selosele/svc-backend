@@ -68,7 +68,7 @@ public class UserRepository : IUserRepository
         {
             Scope = nameof(UserRepository),
             SqlId = "GetUserPassword",
-            Request = userId
+            Request = new { userId }
         });
     }
 
