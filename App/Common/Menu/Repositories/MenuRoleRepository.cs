@@ -27,7 +27,7 @@ public class MenuRoleRepository : IMenuRoleRepository
     {
         return SqlMapper.QueryAsync<MenuRoleResponseDTO>(new RequestContext
         {
-            Scope = nameof(MenuRepository),
+            Scope = nameof(MenuRoleRepository),
             SqlId = "ListMenuRole",
             Request = getMenuRoleRequestDTO
         });
