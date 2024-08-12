@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
-<SmartSqlMap Scope="User" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+<SmartSqlMap Scope="UserRepository" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
   <ResultMaps>
     <ResultMap Id="UserResultMap">
       <Result Column="USER_ID" Property="UserId" />

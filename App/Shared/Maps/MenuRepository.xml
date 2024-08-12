@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
-<SmartSqlMap Scope="Menu" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+<SmartSqlMap Scope="MenuRepository" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
   <ResultMaps>
     <ResultMap Id="MenuResultMap">
       <Result Column="MENU_ID" Property="MenuId" />

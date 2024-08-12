@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
-<SmartSqlMap Scope="Department" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+<SmartSqlMap Scope="DepartmentRepository" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
   <ResultMaps>
     <ResultMap Id="DepartmentResultMap">
       <Result Column="DEPARTMENT_ID" Property="DepartmentId" />

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
-<SmartSqlMap Scope="UserRole" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+<SmartSqlMap Scope="UserRoleRepository" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
   <ResultMaps>
     <ResultMap Id="UserRoleResultMap">
       <Result Column="USER_ID" Property="UserId" />
@@ -31,7 +31,18 @@
       /* UserRole.AddUserRole */
 
       INSERT INTO CO_USER_ROLE (USER_ID, ROLE_ID, CREATER_ID)
-      VALUES (@UserId, @RoleId, @CreaterId)
+      VALUES
+      <For Property="DTOList" Key="item" Open="" Close="" Separator=",">
+        (@item.UserId, @item.RoleId, @item.CreaterId)
+      </For>
+    </Statement>
+
+    <!-- 사용자 권한을 삭제한다. -->
+    <Statement Id="RemoveUserRole">
+      /* UserRole.RemoveUserRole */
+
+      DELETE FROM CO_USER_ROLE
+      WHERE USER_ID = @UserId
     </Statement>
     
   </Statements>

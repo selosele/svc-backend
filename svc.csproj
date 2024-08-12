@@ -23,37 +23,37 @@
     <None Update="SmartSqlMapConfig.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="App\Shared\Maps\Code.xml">
+    <None Update="App\Shared\Maps\CodeRepository.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="App\Shared\Maps\Company.xml">
+    <None Update="App\Shared\Maps\CompanyRepository.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="App\Shared\Maps\Department.xml">
+    <None Update="App\Shared\Maps\DepartmentRepository.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="App\Shared\Maps\Employee.xml">
+    <None Update="App\Shared\Maps\EmployeeRepository.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="App\Shared\Maps\EmployeeCompany.xml">
+    <None Update="App\Shared\Maps\EmployeeCompanyRepository.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="App\Shared\Maps\Menu.xml">
+    <None Update="App\Shared\Maps\MenuRepository.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="App\Shared\Maps\MenuRole.xml">
+    <None Update="App\Shared\Maps\MenuRoleRepository.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="App\Shared\Maps\Role.xml">
+    <None Update="App\Shared\Maps\RoleRepository.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="App\Shared\Maps\User.xml">
+    <None Update="App\Shared\Maps\UserRepository.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="App\Shared\Maps\UserMenuRole.xml">
+    <None Update="App\Shared\Maps\UserMenuRoleRepository.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="App\Shared\Maps\UserRole.xml">
+    <None Update="App\Shared\Maps\UserRoleRepository.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
