@@ -56,7 +56,7 @@ public record UserResponseDTO
     /// <summary>
     /// 직원 정보
     /// </summary>
-    public EmployeeResponseDTO? Employee { get; set; } = null;
+    public EmployeeResponseDTO? Employee { get; set; }
     #endregion
     
 }
