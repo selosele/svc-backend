@@ -77,7 +77,7 @@ public class UserRepository : IUserRepository
     /// </summary>
     public Task<int> AddUser(AddUserRequestDTO addUserRequestDTO)
     {
-        return SqlMapper.ExecuteAsync(new RequestContext
+        return SqlMapper.ExecuteScalarAsync<int>(new RequestContext
         {
             Scope = nameof(UserRepository),
             SqlId = "AddUser",
