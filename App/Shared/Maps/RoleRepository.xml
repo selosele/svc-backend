@@ -13,7 +13,7 @@
 
     <!-- 권한 목록을 조회한다. -->
     <Statement Id="ListRole" ResultMap="RoleResultMap">
-      /* Role.ListRole */
+      /* RoleRepository.ListRole */
 
       SELECT
         R.ROLE_ID,

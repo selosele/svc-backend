@@ -15,7 +15,7 @@
 
     <!-- 회사 목록을 조회한다. -->
     <Statement Id="ListCompany" ResultMap="CompanyResultMap">
-      /* User.ListCompany */
+      /* CompanyRepository.ListCompany */
 
       SELECT
         C.COMPANY_ID,

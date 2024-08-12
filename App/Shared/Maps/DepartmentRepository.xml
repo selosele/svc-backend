@@ -19,7 +19,7 @@
 
     <!-- 부서 목록을 조회한다. -->
     <Statement Id="ListDepartment" ResultMap="DepartmentResultMap">
-      /* Department.ListDepartment */
+      /* DepartmentRepository.ListDepartment */
 
       WITH RECURSIVE R AS (
         SELECT
@@ -67,7 +67,7 @@
 
     <!-- 회사별 부서 목록을 조회한다. -->
     <Statement Id="ListDepartmentByCompany" ResultMap="DepartmentResultMap">
-      /* Department.ListDepartmentByCompany */
+      /* DepartmentRepository.ListDepartmentByCompany */
 
       WITH RECURSIVE R AS (
         SELECT

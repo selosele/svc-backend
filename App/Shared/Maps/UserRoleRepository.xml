@@ -13,7 +13,7 @@
 
     <!-- 사용자 권한 목록을 조회한다. -->
     <Statement Id="ListUserRole" ResultMap="UserRoleResultMap">
-      /* UserRole.ListUserRole */
+      /* UserRoleRepository.ListUserRole */
 
       SELECT
         UR.USER_ID,
@@ -28,7 +28,7 @@
 
     <!-- 사용자 권한을 추가한다. -->
     <Statement Id="AddUserRole">
-      /* UserRole.AddUserRole */
+      /* UserRoleRepository.AddUserRole */
 
       INSERT INTO CO_USER_ROLE (USER_ID, ROLE_ID, CREATER_ID)
       VALUES
@@ -39,7 +39,7 @@
 
     <!-- 사용자 권한을 삭제한다. -->
     <Statement Id="RemoveUserRole">
-      /* UserRole.RemoveUserRole */
+      /* UserRoleRepository.RemoveUserRole */
 
       DELETE FROM CO_USER_ROLE
       WHERE USER_ID = @UserId

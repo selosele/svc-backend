@@ -29,7 +29,7 @@
 
     <!-- 사용자 목록을 조회한다. -->
     <Statement Id="ListUser" ResultMap="UserResultMap">
-      /* User.ListUser */
+      /* UserRepository.ListUser */
 
       SELECT
         U.USER_ID,
@@ -50,10 +50,10 @@
       INNER JOIN CO_USER_ROLE UR ON UR.USER_ID = U.USER_ID
       </IsNotEmpty>
       INNER JOIN HM_EMPLOYEE E ON E.USER_ID = U.USER_ID
-      INNER JOIN HM_EMPLOYEE_COMPANY EC ON EC.EMPLOYEE_ID = E.EMPLOYEE_ID AND EC.COMPANY_ID = E.COMPANY_ID
-      INNER JOIN HM_COMPANY C ON C.COMPANY_ID = EC.COMPANY_ID
-      INNER JOIN CO_CODE CD ON CD.CODE_VALUE = EC.RANK_CODE AND CD.UP_CODE_ID = 'RANK_00'
-      INNER JOIN CO_CODE CD2 ON CD2.CODE_VALUE = EC.JOB_TITLE_CODE AND CD2.UP_CODE_ID = 'JOB_TITLE_00'
+      LEFT JOIN HM_EMPLOYEE_COMPANY EC ON EC.EMPLOYEE_ID = E.EMPLOYEE_ID AND EC.COMPANY_ID = E.COMPANY_ID
+      LEFT JOIN HM_COMPANY C ON C.COMPANY_ID = EC.COMPANY_ID
+      LEFT JOIN CO_CODE CD ON CD.CODE_VALUE = EC.RANK_CODE AND CD.UP_CODE_ID = 'RANK_00'
+      LEFT JOIN CO_CODE CD2 ON CD2.CODE_VALUE = EC.JOB_TITLE_CODE AND CD2.UP_CODE_ID = 'JOB_TITLE_00'
       WHERE U.DELETE_YN = 'N'
         <IsNotEmpty Property="RoleIdList">
         AND UR.ROLE_ID IN
@@ -61,11 +61,12 @@
             @roleId
           </For>
         </IsNotEmpty>
+      ORDER BY U.USER_ID
     </Statement>
 
     <!-- 사용자를 조회한다. -->
     <Statement Id="GetUser" ResultMap="UserResultMap">
-      /* User.GetUser */
+      /* UserRepository.GetUser */
 
       SELECT
         U.USER_ID,
@@ -84,7 +85,7 @@
 
     <!-- 사용자를 조회한다(로그인용). -->
     <Statement Id="GetUserLogin" ResultMap="LoginResultMap">
-      /* User.GetUserLogin */
+      /* UserRepository.GetUserLogin */
 
       SELECT
         U.USER_ID,
@@ -98,7 +99,7 @@
 
     <!-- 사용자 비밀번호를 조회한다. -->
     <Statement Id="GetUserPassword" ResultMap="UserPasswordResultMap">
-      /* User.GetUserPassword */
+      /* UserRepository.GetUserPassword */
 
       SELECT
         U.USER_PASSWORD
@@ -109,7 +110,7 @@
 
     <!-- 사용자를 추가한다. -->
     <Statement Id="AddUser">
-      /* User.AddUser */
+      /* UserRepository.AddUser */
 
       INSERT INTO CO_USER (USER_ACCOUNT, USER_PASSWORD, USER_ACTIVE_YN, CREATER_ID)
       VALUES (@UserAccount, @UserPassword, @UserActiveYn, @CreaterId)
@@ -118,7 +119,7 @@
 
     <!-- 사용자를 수정한다. -->
     <Statement Id="UpdateUser">
-      /* User.UpdateUser */
+      /* UserRepository.UpdateUser */
 
       UPDATE CO_USER
         SET
@@ -132,7 +133,7 @@
 
     <!-- 사용자 비밀번호를 변경한다. -->
     <Statement Id="UpdateUserPassword">
-      /* User.UpdateUserPassword */
+      /* UserRepository.UpdateUserPassword */
 
       UPDATE CO_USER
         SET
@@ -144,7 +145,7 @@
 
     <!-- 사용자를 삭제한다. -->
     <Statement Id="RemoveUser">
-      /* User.RemoveUser */
+      /* UserRepository.RemoveUser */
 
       UPDATE CO_USER
         SET

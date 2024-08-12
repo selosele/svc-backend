@@ -5,7 +5,7 @@
 
     <!-- 사용자 메뉴 권한을 추가한다. -->
     <Statement Id="AddUserMenuRole">
-      /* UserMenuRole.AddUserMenuRole */
+      /* UserMenuRoleRepository.AddUserMenuRole */
 
       INSERT INTO CO_USER_MENU_ROLE (USER_ID, MENU_ID, ROLE_ID, CREATER_ID)
       VALUES
@@ -16,7 +16,7 @@
 
     <!-- 사용자 메뉴 권한을 삭제한다. -->
     <Statement Id="RemoveUserMenuRole">
-      /* UserMenuRole.RemoveUserMenuRole */
+      /* UserMenuRoleRepository.RemoveUserMenuRole */
 
       DELETE FROM CO_USER_MENU_ROLE
       WHERE USER_ID = @UserId

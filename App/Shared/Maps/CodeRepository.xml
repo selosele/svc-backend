@@ -19,7 +19,7 @@
 
     <!-- 코드 목록을 조회한다. -->
     <Statement Id="ListCode" ResultMap="CodeResultMap">
-      /* Code.ListCode */
+      /* CodeRepository.ListCode */
 
       WITH RECURSIVE R AS (
         SELECT
@@ -72,7 +72,7 @@
 
     <!-- 코드를 조회한다. -->
     <Statement Id="GetCode" ResultMap="CodeResultMap">
-      /* Code.GetCode */
+      /* CodeRepository.GetCode */
 
       SELECT
         CD.CODE_ID,
