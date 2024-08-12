@@ -23,51 +23,51 @@
 
       WITH RECURSIVE R AS (
         SELECT
-          CODE_ID,
-          UP_CODE_ID,
-          CODE_VALUE,
-          CODE_NAME,
-          CODE_CONTENT,
-          CODE_ORDER,
-          CAST(CODE_ORDER AS CHAR(200)) AS SORT_ORDER,
-          CODE_DEPTH,
-          USE_YN,
-          DELETE_YN
-        FROM CO_CODE
-        WHERE UP_CODE_ID IS NULL
+          CD.CODE_ID,
+          CD.UP_CODE_ID,
+          CD.CODE_VALUE,
+          CD.CODE_NAME,
+          CD.CODE_CONTENT,
+          CD.CODE_ORDER,
+          CAST(CD.CODE_ORDER AS CHAR(200)) AS SORT_ORDER,
+          CD.CODE_DEPTH,
+          CD.USE_YN,
+          CD.DELETE_YN
+        FROM CO_CODE CD
+        WHERE CD.UP_CODE_ID IS NULL
         UNION ALL
         SELECT
-          A.CODE_ID,
-          A.UP_CODE_ID,
-          A.CODE_VALUE,
-          A.CODE_NAME,
-          A.CODE_CONTENT,
-          A.CODE_ORDER,
-          CONCAT(R.SORT_ORDER, '-', LPAD(A.CODE_ORDER, 5, '0')) AS SORT_ORDER,
-          A.CODE_DEPTH,
-          A.USE_YN,
-          A.DELETE_YN
-        FROM CO_CODE A
-        INNER JOIN R ON A.UP_CODE_ID = R.CODE_ID
-    )
-    SELECT
-      R.CODE_ID,
-      R.UP_CODE_ID,
-      R.CODE_VALUE,
-      R.CODE_NAME,
-      R.CODE_CONTENT,
-      R.CODE_ORDER,
-      R.CODE_DEPTH,
-      R.USE_YN,
-      R.DELETE_YN
-    FROM R
-    WHERE R.DELETE_YN = 'N'
-    ORDER BY
-      CAST(SUBSTRING_INDEX(R.SORT_ORDER, '-', 1) AS UNSIGNED),
-      CASE
-        WHEN R.SORT_ORDER LIKE '%-%' THEN CAST(SUBSTRING_INDEX(R.SORT_ORDER, '-', -1) AS UNSIGNED)
-        ELSE 0
-      END
+          CD.CODE_ID,
+          CD.UP_CODE_ID,
+          CD.CODE_VALUE,
+          CD.CODE_NAME,
+          CD.CODE_CONTENT,
+          CD.CODE_ORDER,
+          CONCAT(R.SORT_ORDER, '-', LPAD(CD.CODE_ORDER, 5, '0')) AS SORT_ORDER,
+          CD.CODE_DEPTH,
+          CD.USE_YN,
+          CD.DELETE_YN
+        FROM CO_CODE CD
+        INNER JOIN R ON CD.UP_CODE_ID = R.CODE_ID
+      )
+      SELECT
+        R.CODE_ID,
+        R.UP_CODE_ID,
+        R.CODE_VALUE,
+        R.CODE_NAME,
+        R.CODE_CONTENT,
+        R.CODE_ORDER,
+        R.CODE_DEPTH,
+        R.USE_YN,
+        R.DELETE_YN
+      FROM R
+      WHERE R.DELETE_YN = 'N'
+      ORDER BY
+        CAST(SUBSTRING_INDEX(R.SORT_ORDER, '-', 1) AS UNSIGNED),
+        CASE
+          WHEN R.SORT_ORDER LIKE '%-%' THEN CAST(SUBSTRING_INDEX(R.SORT_ORDER, '-', -1) AS UNSIGNED)
+          ELSE 0
+        END
     </Statement>
 
     <!-- 코드를 조회한다. -->
