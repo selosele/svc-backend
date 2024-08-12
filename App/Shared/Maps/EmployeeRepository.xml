@@ -16,7 +16,7 @@
 
     <!-- 직원을 조회한다. -->
     <Statement Id="GetEmployee" ResultMap="EmployeeResultMap">
-      /* Employee.GetEmployee */
+      /* EmployeeRepository.GetEmployee */
 
       SELECT
         E.EMPLOYEE_ID,
@@ -38,10 +38,12 @@
 
     <!-- 직원을 수정한다. -->
     <Statement Id="UpdateEmployee">
-      /* Employee.UpdateEmployee */
+      /* EmployeeRepository.UpdateEmployee */
 
       UPDATE HM_EMPLOYEE
         SET
+          COMPANY_ID = @EmployeeCompany.CompanyId,
+          DEPARTMENT_ID = @Department.DepartmentId,
           EMPLOYEE_NAME = @EmployeeName,
           GENDER_CODE = @GenderCode,
           BIRTH_YMD = @BirthYmd,

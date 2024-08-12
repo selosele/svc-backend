@@ -36,13 +36,26 @@ public class UserRoleRepository : IUserRoleRepository
     /// <summary>
     /// 사용자 권한을 추가한다.
     /// </summary>
-    public Task<int> AddUserRole(AddUserRoleRequestDTO addUserRoleRequestDTO)
+    public Task<int> AddUserRole(List<AddUserRoleRequestDTO> addUserRoleRequestDTOList)
     {
         return SqlMapper.ExecuteAsync(new RequestContext
         {
             Scope = nameof(UserRoleRepository),
             SqlId = "AddUserRole",
-            Request = addUserRoleRequestDTO
+            Request = new { DTOList = addUserRoleRequestDTOList }
+        });
+    }
+
+    /// <summary>
+    /// 사용자 권한을 삭제한다.
+    /// </summary>
+    public Task<int> RemoveUserRole(int? userId)
+    {
+        return SqlMapper.ExecuteAsync(new RequestContext
+        {
+            Scope = nameof(UserRoleRepository),
+            SqlId = "RemoveUserRole",
+            Request = new { userId }
         });
     }
     #endregion

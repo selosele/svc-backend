@@ -15,7 +15,7 @@
 
     <!-- 직원 회사 목록을 조회한다. -->
     <Statement Id="ListEmployeeCompany" ResultMap="EmployeeCompanyResultMap">
-      /* EmployeeCompany.ListEmployeeCompany */
+      /* EmployeeCompanyRepository.ListEmployeeCompany */
 
       SELECT
         C.COMPANY_ID,
@@ -27,6 +27,34 @@
       INNER JOIN HM_COMPANY C ON C.COMPANY_ID = EC.COMPANY_ID
       WHERE EC.EMPLOYEE_ID = @EmployeeId
       ORDER BY C.COMPANY_ID DESC
+    </Statement>
+
+    <!-- 직원 회사를 수정한다. -->
+    <Statement Id="UpdateEmployeeCompany">
+      /* EmployeeCompanyRepository.UpdateEmployeeCompany */
+
+      UPDATE HM_EMPLOYEE_COMPANY
+        SET
+          JOIN_YMD = @JoinYmd,
+          QUIT_YMD = @QuitYmd,
+          UPDATER_ID = @UpdaterId,
+          UPDATE_DT = CURRENT_TIMESTAMP()
+      WHERE EMPLOYEE_ID = @EmployeeId
+        AND COMPANY_ID = @CompanyId
+    </Statement>
+
+    <!-- 직원 부서를 수정한다. -->
+    <Statement Id="UpdateEmployeeDepartment">
+      /* EmployeeCompanyRepository.UpdateEmployeeDepartment */
+
+      UPDATE HM_EMPLOYEE_COMPANY
+        SET
+          RANK_CODE = @RankCode,
+          JOB_TITLE_CODE = @JobTitleCode,
+          UPDATER_ID = @UpdaterId,
+          UPDATE_DT = CURRENT_TIMESTAMP()
+      WHERE EMPLOYEE_ID = @EmployeeId
+        AND COMPANY_ID = @CompanyId
     </Statement>
     
   </Statements>

@@ -16,7 +16,12 @@ public interface IUserRoleRepository
     /// <summary>
     /// 사용자 권한을 추가한다.
     /// </summary>
-    Task<int> AddUserRole(AddUserRoleRequestDTO addUserRoleRequestDTO);
+    Task<int> AddUserRole(List<AddUserRoleRequestDTO> addUserRoleRequestDTOList);
+
+    /// <summary>
+    /// 사용자 권한을 삭제한다.
+    /// </summary>
+    Task<int> RemoveUserRole(int? userId);
     #endregion
 
 }

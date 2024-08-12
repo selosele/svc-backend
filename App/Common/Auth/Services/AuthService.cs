@@ -104,14 +104,18 @@ public class AuthService
         var user = await _userRepository.GetUser(getUserRequestDTO);
         if (user != null)
         {
-            user!.Roles = await _userRoleRepository.ListUserRole(new GetUserRoleRequestDTO { UserId = user?.UserId });
-            user!.Employee = await _employeeRepository.GetEmployee(new GetEmployeeRequestDTO { UserId = user?.UserId });
-            user!.Employee.EmployeeCompanies = await _employeeCompanyRepository.ListEmployeeCompany(user?.Employee.EmployeeId);
-            user!.Employee.Departments = await _departmentRepository.ListDepartment(new GetDepartmentRequestDTO
+            user.Roles = await _userRoleRepository.ListUserRole(new GetUserRoleRequestDTO { UserId = user.UserId });
+            user.Employee = await _employeeRepository.GetEmployee(new GetEmployeeRequestDTO { UserId = user.UserId });
+
+            if (user.Employee != null)
             {
-                EmployeeId = user?.Employee.EmployeeId,
-                DepartmentId = user?.Employee.DepartmentId
-            });
+                user.Employee.EmployeeCompanies = await _employeeCompanyRepository.ListEmployeeCompany(user.Employee.EmployeeId);
+                user.Employee.Departments = await _departmentRepository.ListDepartment(new GetDepartmentRequestDTO
+                {
+                    EmployeeId = user.Employee.EmployeeId,
+                    DepartmentId = user.Employee.DepartmentId
+                });
+            }
         }
         return user;
     }
@@ -125,8 +129,8 @@ public class AuthService
         var user = await _userRepository.GetUserLogin(loginRequestDTO);
         if (user != null)
         {
-            user!.Roles = await _userRoleRepository.ListUserRole(new GetUserRoleRequestDTO { UserId = user?.UserId });
-            user!.Employee = await _employeeRepository.GetEmployee(new GetEmployeeRequestDTO { UserId = user?.UserId });
+            user.Roles = await _userRoleRepository.ListUserRole(new GetUserRoleRequestDTO { UserId = user.UserId });
+            user.Employee = await _employeeRepository.GetEmployee(new GetEmployeeRequestDTO { UserId = user.UserId });
         }
         return user;
     }
@@ -152,42 +156,43 @@ public class AuthService
         var userId = await _userRepository.AddUser(addUserRequestDTO);
 
         // 사용자 권한 추가
+        List<AddUserRoleRequestDTO> addUserRoleRequestDTOList = [];
         foreach (var roleId in addUserRequestDTO.RoleIdList!)
         {
-            await _userRoleRepository.AddUserRole(
-                new AddUserRoleRequestDTO()
+            addUserRoleRequestDTOList.Add(new AddUserRoleRequestDTO
                 {
                     UserId = userId,
-                    RoleId = roleId
+                    RoleId = roleId,
+                    CreaterId = addUserRequestDTO.CreaterId
                 }
             );
         }
+        await _userRoleRepository.AddUserRole(addUserRoleRequestDTOList);
 
         // 메뉴 권한 목록 조회
-        var menuRoleList = await _menuRoleRepository.ListMenuRole(new GetMenuRoleRequestDTO()
-        {
-            UserId = userId
-        });
+        var menuRoleList = await _menuRoleRepository.ListMenuRole(new GetMenuRoleRequestDTO{ UserId = userId });
 
         // 사용자 메뉴 권한 추가
+        List<AddUserMenuRoleRequestDTO> addUserMenuRoleRequestDTOList = [];
         foreach (var menuRole in menuRoleList)
         {
-            await _userMenuRoleRepository.AddUserMenuRole(
-                new AddUserMenuRoleRequestDTO()
+            addUserMenuRoleRequestDTOList.Add(new AddUserMenuRoleRequestDTO
                 {
                     UserId = userId,
                     MenuId = menuRole.MenuId,
-                    RoleId = menuRole.RoleId
+                    RoleId = menuRole.RoleId,
+                    CreaterId = addUserRequestDTO.CreaterId
                 }
             );
         }
+        await _userMenuRoleRepository.AddUserMenuRole(addUserMenuRoleRequestDTOList);
 
+        // 추가한 사용자 조회
         var addedUser = await GetUser(new GetUserRequestDTO { UserId = userId });
         if (addedUser != null)
         {
             addedUser.Roles = await _userRoleRepository.ListUserRole(new GetUserRoleRequestDTO { UserId = addedUser.UserId });
         }
-
         return addedUser;
     }
 
@@ -200,7 +205,76 @@ public class AuthService
         var user = GetAuthenticatedUser();
         updateUserRequestDTO.UpdaterId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
         
+        // 사용자 수정
         await _userRepository.UpdateUser(updateUserRequestDTO);
+
+        // 사용자 권한 삭제
+        await _userRoleRepository.RemoveUserRole(updateUserRequestDTO.UserId);
+
+        List<AddUserRoleRequestDTO> addUserRoleRequestDTOList = [];
+        foreach (var roleId in updateUserRequestDTO.Roles!)
+        {
+            addUserRoleRequestDTOList.Add(new AddUserRoleRequestDTO
+                {
+                    UserId = updateUserRequestDTO.UserId,
+                    RoleId = roleId,
+                    UpdaterId = updateUserRequestDTO.UpdaterId
+                }
+            );
+        }
+
+        // 사용자 권한 추가
+        await _userRoleRepository.AddUserRole(addUserRoleRequestDTOList);
+
+        // 사용자 메뉴 권한 삭제
+        await _userMenuRoleRepository.RemoveUserMenuRole(updateUserRequestDTO.UserId);
+
+        // 메뉴 권한 목록 조회
+        var menuRoleList = await _menuRoleRepository.ListMenuRole(new GetMenuRoleRequestDTO{ UserId = updateUserRequestDTO.UserId });
+
+        List<AddUserMenuRoleRequestDTO> addUserMenuRoleRequestDTOList = [];
+        foreach (var menuRole in menuRoleList)
+        {
+            addUserMenuRoleRequestDTOList.Add(new AddUserMenuRoleRequestDTO
+                {
+                    UserId = updateUserRequestDTO.UserId,
+                    MenuId = menuRole.MenuId,
+                    RoleId = menuRole.RoleId,
+                    UpdaterId = updateUserRequestDTO.UpdaterId
+                }
+            );
+        }
+
+        // // 사용자 메뉴 권한 추가
+        await _userMenuRoleRepository.AddUserMenuRole(addUserMenuRoleRequestDTOList);
+
+        // 직원 수정
+        if (updateUserRequestDTO.Employee != null)
+        {
+            updateUserRequestDTO.Employee.UpdaterId = updateUserRequestDTO.UpdaterId;
+            
+            await _employeeRepository.UpdateEmployee(updateUserRequestDTO.Employee);
+
+            // 직원 회사 수정
+            if (updateUserRequestDTO.Employee.EmployeeCompany != null)
+            {
+                updateUserRequestDTO.Employee.EmployeeCompany.EmployeeId = updateUserRequestDTO.Employee.EmployeeId;
+                updateUserRequestDTO.Employee.EmployeeCompany.UpdaterId = updateUserRequestDTO.UpdaterId;
+                
+                await _employeeCompanyRepository.UpdateEmployeeCompany(updateUserRequestDTO.Employee.EmployeeCompany);
+            }
+
+            // 직원 부서 수정
+            if (updateUserRequestDTO.Employee.Department != null)
+            {
+                updateUserRequestDTO.Employee.Department.CompanyId = updateUserRequestDTO.Employee.EmployeeCompany!.CompanyId;
+                updateUserRequestDTO.Employee.Department.EmployeeId = updateUserRequestDTO.Employee.EmployeeId;
+                updateUserRequestDTO.Employee.Department.UpdaterId = updateUserRequestDTO.UpdaterId;
+                
+                await _employeeCompanyRepository.UpdateEmployeeDepartment(updateUserRequestDTO.Employee.Department);
+            }
+        }
+
         return await GetUser(new GetUserRequestDTO { UserId = updateUserRequestDTO.UserId });
     }
 

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using svc.App.Human.Department.Models.DTO;
 using svc.App.Shared.Models.DTO;
 
 namespace svc.App.Human.Employee.Models.DTO;
@@ -37,6 +38,16 @@ public record UpdateEmployeeRequestDTO : HttpRequestDTOBase
     /// 휴대폰번호
     /// </summary>
     public string? PhoneNumber { get; set; }
+
+    /// <summary>
+    /// 직원 회사 정보
+    /// </summary>
+    public UpdateEmployeeCompanyRequestDTO? EmployeeCompany { get; set; }
+
+    /// <summary>
+    /// 직원 부서 정보
+    /// </summary>
+    public UpdateDepartmentRequestDTO? Department { get; set; }
     #endregion
 
 }
