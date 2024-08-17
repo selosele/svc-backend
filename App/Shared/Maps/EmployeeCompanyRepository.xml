@@ -3,6 +3,7 @@
 <SmartSqlMap Scope="EmployeeCompanyRepository" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
   <ResultMaps>
     <ResultMap Id="EmployeeCompanyResultMap">
+      <Result Column="EMPLOYEE_COMPANY_ID" Property="EmployeeCompanyId" />
       <Result Column="COMPANY_ID" Property="CompanyId" />
       <Result Column="CORPORATE_NAME" Property="CorporateName" />
       <Result Column="COMPANY_NAME" Property="CompanyName" />
@@ -18,6 +19,7 @@
       /* EmployeeCompanyRepository.ListEmployeeCompany */
 
       SELECT
+        EC.EMPLOYEE_COMPANY_ID,
         C.COMPANY_ID,
         C.CORPORATE_NAME,
         C.COMPANY_NAME,

@@ -7,6 +7,11 @@ public record EmployeeCompanyResponseDTO
 {
     #region Fields
     /// <summary>
+    /// 직원 회사 ID
+    /// </summary>
+    public int? EmployeeCompanyId { get; set; }
+
+    /// <summary>
     /// 회사 ID
     /// </summary>
     public int? CompanyId { get; set; }
