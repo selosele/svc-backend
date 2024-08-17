@@ -19,10 +19,6 @@
       <Result Column="USER_PASSWORD" Property="UserPassword" />
       <Result Column="USER_ACTIVE_YN" Property="UserActiveYn" />
     </ResultMap>
-
-    <ResultMap Id="UserPasswordResultMap">
-      <Result Column="USER_PASSWORD" Property="UserPassword" />
-    </ResultMap>
   </ResultMaps>
 
   <Statements>
