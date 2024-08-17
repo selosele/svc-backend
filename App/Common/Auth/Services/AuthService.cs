@@ -170,7 +170,7 @@ public class AuthService
         await _userRoleRepository.AddUserRole(addUserRoleRequestDTOList);
 
         // 메뉴 권한 목록 조회
-        var menuRoleList = await _menuRoleRepository.ListMenuRole(new GetMenuRoleRequestDTO{ UserId = userId });
+        var menuRoleList = await _menuRoleRepository.ListMenuRole(new GetMenuRoleRequestDTO { UserId = userId });
 
         // 사용자 메뉴 권한 추가
         List<AddUserMenuRoleRequestDTO> addUserMenuRoleRequestDTOList = [];
