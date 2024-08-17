@@ -58,8 +58,8 @@ public class EmployeeService
     /// 직원 회사를 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<EmployeeCompanyResponseDTO> GetEmployeeCompany(int employeeCompanyId)
-        => await _employeeCompanyRepository.GetEmployeeCompany(employeeCompanyId);
+    public async Task<EmployeeCompanyResponseDTO> GetEmployeeCompany(GetEmployeeCompanyRequestDTO getEmployeeCompanyRequestDTO)
+        => await _employeeCompanyRepository.GetEmployeeCompany(getEmployeeCompanyRequestDTO);
 
     /// <summary>
     /// 직원을 수정한다.

@@ -37,13 +37,13 @@ public class EmployeeCompanyRepository : IEmployeeCompanyRepository
     /// <summary>
     /// 직원 회사를 조회한다.
     /// </summary>
-    public Task<EmployeeCompanyResponseDTO> GetEmployeeCompany(int employeeCompanyId)
+    public Task<EmployeeCompanyResponseDTO> GetEmployeeCompany(GetEmployeeCompanyRequestDTO getEmployeeCompanyRequestDTO)
     {
         return SqlMapper.QuerySingleAsync<EmployeeCompanyResponseDTO>(new RequestContext
         {
             Scope = nameof(EmployeeCompanyRepository),
             SqlId = "GetEmployeeCompany",
-            Request = new { employeeCompanyId }
+            Request = getEmployeeCompanyRequestDTO
         });
     }
 

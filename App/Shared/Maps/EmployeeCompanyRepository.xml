@@ -49,7 +49,16 @@
         EC.QUIT_YMD
       FROM HM_EMPLOYEE_COMPANY EC
       INNER JOIN HM_COMPANY C ON C.COMPANY_ID = EC.COMPANY_ID
-      WHERE EC.EMPLOYEE_COMPANY_ID = @EmployeeCompanyId
+      WHERE 1=1
+        <IsNotEmpty Property="EmployeeCompanyId">
+        AND EC.EMPLOYEE_COMPANY_ID = @EmployeeCompanyId
+        </IsNotEmpty>
+        <IsNotEmpty Property="EmployeeId">
+        AND EC.EMPLOYEE_ID = @EmployeeId
+        </IsNotEmpty>
+        <IsNotEmpty Property="CompanyId">
+        AND C.COMPANY_ID = @CompanyId
+        </IsNotEmpty>
     </Statement>
 
     <!-- 직원 회사를 수정한다. -->
@@ -58,8 +67,18 @@
 
       UPDATE HM_EMPLOYEE_COMPANY
         SET
+          <IsNotEmpty Property="RankCode">
+          RANK_CODE = @RankCode,
+          </IsNotEmpty>
+          <IsNotEmpty Property="JobTitleCode">
+          JOB_TITLE_CODE = @JobTitleCode,
+          </IsNotEmpty>
+          <IsNotEmpty Property="JoinYmd">
           JOIN_YMD = @JoinYmd,
+          </IsNotEmpty>
+          <IsNotEmpty Property="QuitYmd">
           QUIT_YMD = @QuitYmd,
+          </IsNotEmpty>
           UPDATER_ID = @UpdaterId,
           UPDATE_DT = CURRENT_TIMESTAMP()
       WHERE EMPLOYEE_COMPANY_ID = @EmployeeCompanyId

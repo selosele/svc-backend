@@ -63,7 +63,7 @@ public class EmployeeController : ControllerBase
     [HttpGet("{employeeId}/companies/{employeeCompanyId}")]
     [Authorize]
     public async Task<ActionResult<EmployeeCompanyResponseDTO>> GetEmployeeCompany(int employeeId, int employeeCompanyId)
-        => Ok(await _employeeService.GetEmployeeCompany(employeeCompanyId));
+        => Ok(await _employeeService.GetEmployeeCompany(new GetEmployeeCompanyRequestDTO { EmployeeCompanyId = employeeCompanyId }));
 
     /// <summary>
     /// 직원 회사를 삭제한다.

@@ -17,7 +17,7 @@ public interface IEmployeeCompanyRepository
     /// <summary>
     /// 직원 회사를 조회한다.
     /// </summary>
-    Task<EmployeeCompanyResponseDTO> GetEmployeeCompany(int employeeCompanyId);
+    Task<EmployeeCompanyResponseDTO> GetEmployeeCompany(GetEmployeeCompanyRequestDTO getEmployeeCompanyRequestDTO);
 
     /// <summary>
     /// 직원 회사를 수정한다.
