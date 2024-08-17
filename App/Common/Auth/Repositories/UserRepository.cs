@@ -62,9 +62,9 @@ public class UserRepository : IUserRepository
     /// <summary>
     /// 사용자 비밀번호를 조회한다.
     /// </summary>
-    public Task<GetUserPasswordResultDTO> GetUserPassword(int? userId)
+    public Task<string> GetUserPassword(int? userId)
     {
-        return SqlMapper.QuerySingleAsync<GetUserPasswordResultDTO>(new RequestContext
+        return SqlMapper.QuerySingleAsync<string>(new RequestContext
         {
             Scope = nameof(UserRepository),
             SqlId = "GetUserPassword",

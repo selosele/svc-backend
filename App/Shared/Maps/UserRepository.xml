@@ -98,7 +98,7 @@
     </Statement>
 
     <!-- 사용자 비밀번호를 조회한다. -->
-    <Statement Id="GetUserPassword" ResultMap="UserPasswordResultMap">
+    <Statement Id="GetUserPassword">
       /* UserRepository.GetUserPassword */
 
       SELECT

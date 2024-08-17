@@ -285,8 +285,7 @@ public class AuthService
     public async Task<int> UpdateUserPassword(UpdateUserPasswordRequestDTO updateUserPasswordRequestDTO)
     {
         // DB의 현재 비밀번호를 조회해서
-        var userPasswordResult = await _userRepository.GetUserPassword(updateUserPasswordRequestDTO.UserId);
-        var currentHashedPassword = userPasswordResult.UserPassword;
+        var currentHashedPassword = await _userRepository.GetUserPassword(updateUserPasswordRequestDTO.UserId);
 
         // 입력받은 현재 비밀번호와 동일한지 확인한다.
         if (!EncryptUtil.Verify(updateUserPasswordRequestDTO.CurrentPassword!, currentHashedPassword!))

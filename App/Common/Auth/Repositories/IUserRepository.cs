@@ -26,7 +26,7 @@ public interface IUserRepository
     /// <summary>
     /// 사용자 비밀번호를 조회한다.
     /// </summary>
-    Task<GetUserPasswordResultDTO> GetUserPassword(int? userId);
+    Task<string> GetUserPassword(int? userId);
 
     /// <summary>
     /// 사용자를 추가한다.
