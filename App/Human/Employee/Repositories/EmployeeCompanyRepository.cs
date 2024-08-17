@@ -35,15 +35,28 @@ public class EmployeeCompanyRepository : IEmployeeCompanyRepository
     }
 
     /// <summary>
+    /// 직원 회사를 조회한다.
+    /// </summary>
+    public Task<EmployeeCompanyResponseDTO> GetEmployeeCompany(int employeeCompanyId)
+    {
+        return SqlMapper.QuerySingleAsync<EmployeeCompanyResponseDTO>(new RequestContext
+        {
+            Scope = nameof(EmployeeCompanyRepository),
+            SqlId = "GetEmployeeCompany",
+            Request = new { employeeCompanyId }
+        });
+    }
+
+    /// <summary>
     /// 직원 회사를 수정한다.
     /// </summary>
-    public Task<int> UpdateEmployeeCompany(UpdateEmployeeCompanyRequestDTO updateEmployeeCompanyRequestDTO)
+    public Task<int> UpdateEmployeeCompany(SaveEmployeeCompanyRequestDTO SaveEmployeeCompanyRequestDTO)
     {
         return SqlMapper.ExecuteAsync(new RequestContext
         {
             Scope = nameof(EmployeeCompanyRepository),
             SqlId = "UpdateEmployeeCompany",
-            Request = updateEmployeeCompanyRequestDTO
+            Request = SaveEmployeeCompanyRequestDTO
         });
     }
 

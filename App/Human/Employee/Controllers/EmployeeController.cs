@@ -56,6 +56,14 @@ public class EmployeeController : ControllerBase
         updateEmployeeRequestDTO.UpdaterId = myUserId;
         return Ok(await _employeeService.UpdateEmployee(updateEmployeeRequestDTO));
     }
+
+    /// <summary>
+    /// 직원 회사를 조회한다.
+    /// </summary>
+    [HttpGet("{employeeId}/companies/{employeeCompanyId}")]
+    [Authorize]
+    public async Task<ActionResult<EmployeeCompanyResponseDTO>> GetEmployeeCompany(int employeeId, int employeeCompanyId)
+        => Ok(await _employeeService.GetEmployeeCompany(employeeCompanyId));
     #endregion
 
 }

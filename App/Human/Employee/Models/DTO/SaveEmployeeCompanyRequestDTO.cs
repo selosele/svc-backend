@@ -3,9 +3,9 @@ using svc.App.Shared.Models.DTO;
 namespace svc.App.Human.Employee.Models.DTO;
 
 /// <summary>
-/// 직원 회사 수정 요청 DTO
+/// 직원 회사 추가/수정 요청 DTO
 /// </summary>
-public record UpdateEmployeeCompanyRequestDTO : HttpRequestDTOBase
+public record SaveEmployeeCompanyRequestDTO : HttpRequestDTOBase
 {
     #region Fields
     /// <summary>
@@ -22,6 +22,16 @@ public record UpdateEmployeeCompanyRequestDTO : HttpRequestDTOBase
     /// 회사 ID
     /// </summary>
     public int? CompanyId { get; set; }
+
+    /// <summary>
+    /// 직급 코드
+    /// </summary>
+    public string? RankCode { get; set; }
+
+    /// <summary>
+    /// 직책 코드
+    /// </summary>
+    public string? JobTitleCode { get; set; }
 
     /// <summary>
     /// 입사일자

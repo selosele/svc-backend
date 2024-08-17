@@ -15,9 +15,14 @@ public interface IEmployeeCompanyRepository
     Task<IList<EmployeeCompanyResponseDTO>> ListEmployeeCompany(int? employeeId);
 
     /// <summary>
+    /// 직원 회사를 조회한다.
+    /// </summary>
+    Task<EmployeeCompanyResponseDTO> GetEmployeeCompany(int employeeCompanyId);
+
+    /// <summary>
     /// 직원 회사를 수정한다.
     /// </summary>
-    Task<int> UpdateEmployeeCompany(UpdateEmployeeCompanyRequestDTO updateEmployeeCompanyRequestDTO);
+    Task<int> UpdateEmployeeCompany(SaveEmployeeCompanyRequestDTO SaveEmployeeCompanyRequestDTO);
 
     /// <summary>
     /// 직원 부서를 수정한다.

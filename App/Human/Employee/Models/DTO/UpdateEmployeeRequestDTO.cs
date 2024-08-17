@@ -42,7 +42,7 @@ public record UpdateEmployeeRequestDTO : HttpRequestDTOBase
     /// <summary>
     /// 직원 회사 정보
     /// </summary>
-    public UpdateEmployeeCompanyRequestDTO? EmployeeCompany { get; set; }
+    public SaveEmployeeCompanyRequestDTO? EmployeeCompany { get; set; }
 
     /// <summary>
     /// 직원 부서 정보

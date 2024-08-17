@@ -27,6 +27,16 @@ public record EmployeeCompanyResponseDTO
     public string? CompanyName { get; set; }
 
     /// <summary>
+    /// 직급 코드
+    /// </summary>
+    public string? RankCode { get; set; }
+
+    /// <summary>
+    /// 직책 코드
+    /// </summary>
+    public string? JobTitleCode { get; set; }
+
+    /// <summary>
     /// 입사일자
     /// </summary>
     public string? JoinYmd { get; set; }
