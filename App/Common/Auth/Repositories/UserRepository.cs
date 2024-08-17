@@ -120,7 +120,7 @@ public class UserRepository : IUserRepository
         {
             Scope = nameof(UserRepository),
             SqlId = "RemoveUser",
-            Request = new { UserId = userId, UpdaterId = updaterId }
+            Request = new { userId, updaterId }
         });
     }
     #endregion
