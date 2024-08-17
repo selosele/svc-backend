@@ -41,8 +41,7 @@
           QUIT_YMD = @QuitYmd,
           UPDATER_ID = @UpdaterId,
           UPDATE_DT = CURRENT_TIMESTAMP()
-      WHERE EMPLOYEE_ID = @EmployeeId
-        AND COMPANY_ID = @CompanyId
+      WHERE EMPLOYEE_COMPANY_ID = @EmployeeCompanyId
     </Statement>
 
     <!-- 직원 부서를 수정한다. -->
@@ -55,8 +54,7 @@
           JOB_TITLE_CODE = @JobTitleCode,
           UPDATER_ID = @UpdaterId,
           UPDATE_DT = CURRENT_TIMESTAMP()
-      WHERE EMPLOYEE_ID = @EmployeeId
-        AND COMPANY_ID = @CompanyId
+      WHERE EMPLOYEE_COMPANY_ID = @EmployeeCompanyId
     </Statement>
     
   </Statements>

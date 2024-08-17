@@ -9,6 +9,11 @@ public record UpdateEmployeeCompanyRequestDTO : HttpRequestDTOBase
 {
     #region Fields
     /// <summary>
+    /// 직원 회사 ID
+    /// </summary>
+    public int? EmployeeCompanyId { get; set; }
+
+    /// <summary>
     /// 직원 ID
     /// </summary>
     public int? EmployeeId { get; set; }
