@@ -230,7 +230,7 @@ public class AuthService
         await _userMenuRoleRepository.RemoveUserMenuRole(updateUserRequestDTO.UserId);
 
         // 메뉴 권한 목록 조회
-        var menuRoleList = await _menuRoleRepository.ListMenuRole(new GetMenuRoleRequestDTO{ UserId = updateUserRequestDTO.UserId });
+        var menuRoleList = await _menuRoleRepository.ListMenuRole(new GetMenuRoleRequestDTO { UserId = updateUserRequestDTO.UserId });
 
         List<AddUserMenuRoleRequestDTO> addUserMenuRoleRequestDTOList = [];
         foreach (var menuRole in menuRoleList)
