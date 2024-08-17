@@ -6,7 +6,7 @@
       <Result Column="COMPANY_ID" Property="CompanyId" />
       <Result Column="CORPORATE_NAME" Property="CorporateName" />
       <Result Column="COMPANY_NAME" Property="CompanyName" />
-      <Result Column="REGISTRATION_NUMBER" Property="RegistrationNumber" />
+      <Result Column="REGISTRATION_NO" Property="RegistrationNo" />
       <Result Column="DELETE_YN" Property="DeleteYn" />
     </ResultMap>
   </ResultMaps>
@@ -21,7 +21,7 @@
         C.COMPANY_ID,
         C.CORPORATE_NAME,
         C.COMPANY_NAME,
-        C.REGISTRATION_NUMBER,
+        C.REGISTRATION_NO,
         C.DELETE_YN
       FROM HM_COMPANY C
       WHERE C.DELETE_YN = @DeleteYn
@@ -31,8 +31,8 @@
         <IsNotEmpty Property="CompanyName">
         AND C.COMPANY_NAME LIKE CONCAT('%', @CompanyName, '%')
         </IsNotEmpty>
-        <IsNotEmpty Property="RegistrationNumber">
-        AND C.REGISTRATION_NUMBER LIKE CONCAT('%', @RegistrationNumber, '%')
+        <IsNotEmpty Property="RegistrationNo">
+        AND C.REGISTRATION_NO LIKE CONCAT('%', @RegistrationNo, '%')
         </IsNotEmpty>
     </Statement>
     

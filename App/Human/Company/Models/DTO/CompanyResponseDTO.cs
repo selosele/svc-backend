@@ -24,7 +24,7 @@ public record CompanyResponseDTO
     /// <summary>
     /// 사업자등록번호
     /// </summary>
-    public string? RegistrationNumber { get; set; }
+    public string? RegistrationNo { get; set; }
     
     /// <summary>
     /// 삭제 여부
