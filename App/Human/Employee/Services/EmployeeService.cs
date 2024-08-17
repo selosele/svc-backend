@@ -70,6 +70,13 @@ public class EmployeeService
         await _employeeRepository.UpdateEmployee(updateEmployeeRequestDTO);
         return await GetEmployee(new GetEmployeeRequestDTO { EmployeeId = updateEmployeeRequestDTO.EmployeeId });
     }
+
+    /// <summary>
+    /// 직원 회사를 삭제한다.
+    /// </summary>
+    [Transaction]
+    public async Task<int> RemoveEmployeeCompany(int userId, int employeeCompanyId)
+        => await _employeeCompanyRepository.RemoveEmployeeCompany(userId, employeeCompanyId);
     #endregion
     
 }

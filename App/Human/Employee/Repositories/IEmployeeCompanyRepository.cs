@@ -25,6 +25,11 @@ public interface IEmployeeCompanyRepository
     Task<int> UpdateEmployeeCompany(SaveEmployeeCompanyRequestDTO SaveEmployeeCompanyRequestDTO);
 
     /// <summary>
+    /// 직원 회사를 삭제한다.
+    /// </summary>
+    Task<int> RemoveEmployeeCompany(int userId, int employeeCompanyId);
+
+    /// <summary>
     /// 직원 부서를 수정한다.
     /// </summary>
     Task<int> UpdateEmployeeDepartment(UpdateDepartmentRequestDTO updateDepartmentRequestDTO);

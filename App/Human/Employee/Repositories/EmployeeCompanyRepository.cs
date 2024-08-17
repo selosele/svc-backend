@@ -61,6 +61,19 @@ public class EmployeeCompanyRepository : IEmployeeCompanyRepository
     }
 
     /// <summary>
+    /// 직원 회사를 삭제한다.
+    /// </summary>
+    public Task<int> RemoveEmployeeCompany(int userId, int employeeCompanyId)
+    {
+        return SqlMapper.ExecuteAsync(new RequestContext
+        {
+            Scope = nameof(EmployeeCompanyRepository),
+            SqlId = "RemoveEmployeeCompany",
+            Request = new { UpdaterId = userId, employeeCompanyId }
+        });
+    }
+
+    /// <summary>
     /// 직원 부서를 수정한다.
     /// </summary>
     public Task<int> UpdateEmployeeDepartment(UpdateDepartmentRequestDTO updateDepartmentRequestDTO)

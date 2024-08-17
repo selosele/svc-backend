@@ -30,6 +30,7 @@
       FROM HM_EMPLOYEE_COMPANY EC
       INNER JOIN HM_COMPANY C ON C.COMPANY_ID = EC.COMPANY_ID
       WHERE EC.EMPLOYEE_ID = @EmployeeId
+        AND EC.DELETE_YN = 'N'
       ORDER BY EC.JOIN_YMD DESC
     </Statement>
 
@@ -59,6 +60,18 @@
         SET
           JOIN_YMD = @JoinYmd,
           QUIT_YMD = @QuitYmd,
+          UPDATER_ID = @UpdaterId,
+          UPDATE_DT = CURRENT_TIMESTAMP()
+      WHERE EMPLOYEE_COMPANY_ID = @EmployeeCompanyId
+    </Statement>
+
+    <!-- 직원 회사를 삭제한다. -->
+    <Statement Id="RemoveEmployeeCompany">
+      /* EmployeeCompanyRepository.RemoveEmployeeCompany */
+
+      UPDATE HM_EMPLOYEE_COMPANY
+        SET
+          DELETE_YN = 'Y',
           UPDATER_ID = @UpdaterId,
           UPDATE_DT = CURRENT_TIMESTAMP()
       WHERE EMPLOYEE_COMPANY_ID = @EmployeeCompanyId

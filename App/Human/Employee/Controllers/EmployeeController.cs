@@ -64,6 +64,24 @@ public class EmployeeController : ControllerBase
     [Authorize]
     public async Task<ActionResult<EmployeeCompanyResponseDTO>> GetEmployeeCompany(int employeeId, int employeeCompanyId)
         => Ok(await _employeeService.GetEmployeeCompany(employeeCompanyId));
+
+    /// <summary>
+    /// 직원 회사를 삭제한다.
+    /// </summary>
+    [HttpDelete("{employeeId}/companies/{employeeCompanyId}")]
+    [Authorize]
+    public async Task<ActionResult> RemoveEmployeeCompany(int employeeId, int employeeCompanyId)
+    {
+        var user = _authService.GetAuthenticatedUser();
+        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+        var myEmployeeId = int.Parse(user?.FindFirstValue(ClaimUtil.EMPLOYEE_ID_IDENTIFIER)!);
+
+        if (employeeId != myEmployeeId)
+            return NotFound();
+
+        await _employeeService.RemoveEmployeeCompany(myUserId, employeeCompanyId);
+        return NoContent();
+    }
     #endregion
 
 }
