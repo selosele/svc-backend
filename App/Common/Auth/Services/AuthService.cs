@@ -151,7 +151,7 @@ public class AuthService
 
         // 사용자 권한 추가
         List<AddUserRoleRequestDTO> addUserRoleRequestDTOList = [];
-        foreach (var roleId in addUserRequestDTO.RoleIdList!)
+        foreach (var roleId in addUserRequestDTO.Roles!)
         {
             addUserRoleRequestDTOList.Add(new AddUserRoleRequestDTO
                 {
@@ -181,11 +181,28 @@ public class AuthService
         }
         await _userMenuRoleRepository.AddUserMenuRole(addUserMenuRoleRequestDTOList);
 
-        // 추가한 사용자 조회
+        // 직원 추가
+        if (addUserRequestDTO.Employee != null)
+        {
+            addUserRequestDTO.Employee.UserId = userId;
+            addUserRequestDTO.Employee.CreaterId = addUserRequestDTO.CreaterId;
+            var employeeId = await _employeeRepository.AddEmployee(addUserRequestDTO.Employee);
+
+            // 직원 회사 추가
+            if (addUserRequestDTO.Employee.EmployeeCompany != null)
+            {
+                addUserRequestDTO.Employee.EmployeeCompany.EmployeeId = employeeId;
+                addUserRequestDTO.Employee.EmployeeCompany.CreaterId = addUserRequestDTO.CreaterId;
+                
+                await _employeeService.AddEmployeeCompany(addUserRequestDTO.Employee.EmployeeCompany);
+            }
+        }
+
+        // 추가한 사용자를 조회해서 반환
         var addedUser = await GetUser(new GetUserRequestDTO { UserId = userId });
         if (addedUser != null)
         {
-            addedUser.Roles = await _userRoleRepository.ListUserRole(new GetUserRoleRequestDTO { UserId = addedUser.UserId });
+            addedUser.Roles = await _userRoleRepository.ListUserRole(new GetUserRoleRequestDTO { UserId = userId });
         }
         return addedUser;
     }
@@ -205,6 +222,7 @@ public class AuthService
         // 사용자 권한 삭제
         await _userRoleRepository.RemoveUserRole(updateUserRequestDTO.UserId);
 
+        // 사용자 권한 추가
         List<AddUserRoleRequestDTO> addUserRoleRequestDTOList = [];
         foreach (var roleId in updateUserRequestDTO.Roles!)
         {
@@ -216,8 +234,6 @@ public class AuthService
                 }
             );
         }
-
-        // 사용자 권한 추가
         await _userRoleRepository.AddUserRole(addUserRoleRequestDTOList);
 
         // 사용자 메뉴 권한 삭제
@@ -226,6 +242,7 @@ public class AuthService
         // 메뉴 권한 목록 조회
         var menuRoleList = await _menuRoleRepository.ListMenuRole(new GetMenuRoleRequestDTO { UserId = updateUserRequestDTO.UserId });
 
+        // 사용자 메뉴 권한 추가
         List<AddUserMenuRoleRequestDTO> addUserMenuRoleRequestDTOList = [];
         foreach (var menuRole in menuRoleList)
         {
@@ -238,8 +255,6 @@ public class AuthService
                 }
             );
         }
-
-        // // 사용자 메뉴 권한 추가
         await _userMenuRoleRepository.AddUserMenuRole(addUserMenuRoleRequestDTOList);
 
         // 직원 수정
@@ -259,6 +274,7 @@ public class AuthService
             }
         }
 
+        // 수정한 사용자를 조회해서 반환
         return await GetUser(new GetUserRequestDTO { UserId = updateUserRequestDTO.UserId });
     }
 
@@ -338,7 +354,8 @@ public class AuthService
     /// <summary>
     /// JWT를 생성해서 반환한다.
     /// </summary>
-    public string GenerateJWTToken(LoginResultDTO user) {
+    public string GenerateJWTToken(LoginResultDTO user)
+    {
         var claims = new List<Claim> {
             new(ClaimUtil.USER_ID_IDENTIFIER, user.UserId.ToString()!),
             new(ClaimUtil.USER_ACCOUNT_IDENTIFIER, user.UserAccount!),

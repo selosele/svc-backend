@@ -34,6 +34,15 @@
         </IsNotEmpty>
     </Statement>
 
+    <!-- 직원을 추가한다. -->
+    <Statement Id="AddEmployee">
+      /* EmployeeRepository.AddEmployee */
+
+      INSERT INTO HM_EMPLOYEE (USER_ID, EMPLOYEE_NAME, GENDER_CODE, BIRTH_YMD, PHONE_NUMBER, CREATER_ID)
+      VALUES (@UserId, @EmployeeName, @GenderCode, @BirthYmd, @PhoneNumber, @CreaterId)
+      ;SELECT LAST_INSERT_ID()
+    </Statement>
+
     <!-- 직원을 수정한다. -->
     <Statement Id="UpdateEmployee">
       /* EmployeeRepository.UpdateEmployee */

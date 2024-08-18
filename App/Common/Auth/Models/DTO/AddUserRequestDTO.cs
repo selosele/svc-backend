@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Svc.App.Human.Employee.Models.DTO;
 using Svc.App.Shared.Models.DTO;
 
 namespace Svc.App.Common.Auth.Models.DTO;
@@ -31,7 +32,12 @@ public record AddUserRequestDTO : HttpRequestDTOBase
     /// <summary>
     /// 권한 ID 목록
     /// </summary>
-    public List<string>? RoleIdList { get; set; }
+    public List<string>? Roles { get; set; }
+
+    /// <summary>
+    /// 직원 정보
+    /// </summary>
+    public AddEmployeeRequestDTO? Employee { get; set; }
     #endregion
 
 }

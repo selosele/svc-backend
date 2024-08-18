@@ -34,6 +34,19 @@ public class EmployeeRepository : IEmployeeRepository
     }
 
     /// <summary>
+    /// 직원을 추가한다.
+    /// </summary>
+    public Task<int> AddEmployee(AddEmployeeRequestDTO addEmployeeRequestDTO)
+    {
+        return SqlMapper.ExecuteScalarAsync<int>(new RequestContext
+        {
+            Scope = nameof(EmployeeRepository),
+            SqlId = "AddEmployee",
+            Request = addEmployeeRequestDTO
+        });
+    }
+
+    /// <summary>
     /// 직원을 수정한다.
     /// </summary>
     public Task<int> UpdateEmployee(UpdateEmployeeRequestDTO updateEmployeeRequestDTO)
