@@ -1,5 +1,4 @@
 using SmartSql;
-using Svc.App.Human.Department.Models.DTO;
 using Svc.App.Human.Employee.Models.DTO;
 
 namespace Svc.App.Human.Employee.Repositories;
@@ -48,6 +47,19 @@ public class EmployeeCompanyRepository : IEmployeeCompanyRepository
     }
 
     /// <summary>
+    /// 직원 회사를 추가한다.
+    /// </summary>
+    public Task<int> AddEmployeeCompany(SaveEmployeeCompanyRequestDTO SaveEmployeeCompanyRequestDTO)
+    {
+        return SqlMapper.ExecuteScalarAsync<int>(new RequestContext
+        {
+            Scope = nameof(EmployeeCompanyRepository),
+            SqlId = "AddEmployeeCompany",
+            Request = SaveEmployeeCompanyRequestDTO
+        });
+    }
+
+    /// <summary>
     /// 직원 회사를 수정한다.
     /// </summary>
     public Task<int> UpdateEmployeeCompany(SaveEmployeeCompanyRequestDTO SaveEmployeeCompanyRequestDTO)
@@ -70,19 +82,6 @@ public class EmployeeCompanyRepository : IEmployeeCompanyRepository
             Scope = nameof(EmployeeCompanyRepository),
             SqlId = "RemoveEmployeeCompany",
             Request = new { UpdaterId = userId, employeeCompanyId }
-        });
-    }
-
-    /// <summary>
-    /// 직원 부서를 수정한다.
-    /// </summary>
-    public Task<int> UpdateEmployeeDepartment(UpdateDepartmentRequestDTO updateDepartmentRequestDTO)
-    {
-        return SqlMapper.ExecuteAsync(new RequestContext
-        {
-            Scope = nameof(EmployeeCompanyRepository),
-            SqlId = "UpdateEmployeeDepartment",
-            Request = updateDepartmentRequestDTO
         });
     }
     #endregion

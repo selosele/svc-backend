@@ -1,5 +1,3 @@
-using Svc.App.Human.Department.Models.DTO;
-
 namespace Svc.App.Human.Employee.Models.DTO;
 
 /// <summary>
@@ -12,11 +10,6 @@ public record EmployeeResponseDTO
     /// 직원 ID
     /// </summary>
     public int? EmployeeId { get; set; }
-    
-    /// <summary>
-    /// 부서 ID
-    /// </summary>
-    public int? DepartmentId { get; set; }
 
     /// <summary>
     /// 직원명
@@ -42,11 +35,6 @@ public record EmployeeResponseDTO
     /// 직원 회사 정보
     /// </summary>
     public IList<EmployeeCompanyResponseDTO>? EmployeeCompanies { get; set; } = [];
-
-    /// <summary>
-    /// 직원 부서 목록
-    /// </summary>
-    public IList<DepartmentResponseDTO>? Departments { get; set; } = [];
     #endregion
 
 }

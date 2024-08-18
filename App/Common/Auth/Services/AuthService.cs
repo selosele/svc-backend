@@ -11,8 +11,6 @@ using Svc.App.Shared.Exceptions;
 using Svc.App.Shared.Utils;
 using Svc.App.Human.Employee.Repositories;
 using Svc.App.Human.Employee.Models.DTO;
-using Svc.App.Human.Department.Repositories;
-using Svc.App.Human.Department.Models.DTO;
 
 namespace Svc.App.Common.Auth.Services;
 
@@ -31,7 +29,6 @@ public class AuthService
     private readonly IRoleRepository _roleRepository;
     private readonly IEmployeeRepository _employeeRepository;
     private readonly IEmployeeCompanyRepository _employeeCompanyRepository;
-    private readonly IDepartmentRepository _departmentRepository;
     #endregion
     
     #region Constructor
@@ -44,8 +41,7 @@ public class AuthService
         IMenuRoleRepository menuRoleRepository,
         IRoleRepository roleRepository,
         IEmployeeRepository employeeRepository,
-        IEmployeeCompanyRepository employeeCompanyRepository,
-        IDepartmentRepository departmentRepository
+        IEmployeeCompanyRepository employeeCompanyRepository
     )
     {
         _configuration = configuration;
@@ -57,7 +53,6 @@ public class AuthService
         _roleRepository = roleRepository;
         _employeeRepository = employeeRepository;
         _employeeCompanyRepository = employeeCompanyRepository;
-        _departmentRepository = departmentRepository;
     }
     #endregion
 
@@ -110,11 +105,6 @@ public class AuthService
             if (user.Employee != null)
             {
                 user.Employee.EmployeeCompanies = await _employeeCompanyRepository.ListEmployeeCompany(user.Employee.EmployeeId);
-                user.Employee.Departments = await _departmentRepository.ListDepartment(new GetDepartmentRequestDTO
-                {
-                    EmployeeId = user.Employee.EmployeeId,
-                    DepartmentId = user.Employee.DepartmentId
-                });
             }
         }
         return user;
@@ -263,16 +253,6 @@ public class AuthService
                 
                 await _employeeCompanyRepository.UpdateEmployeeCompany(updateUserRequestDTO.Employee.EmployeeCompany);
             }
-
-            // 직원 부서 수정
-            if (updateUserRequestDTO.Employee.Department != null)
-            {
-                updateUserRequestDTO.Employee.Department.CompanyId = updateUserRequestDTO.Employee.EmployeeCompany!.CompanyId;
-                updateUserRequestDTO.Employee.Department.EmployeeId = updateUserRequestDTO.Employee.EmployeeId;
-                updateUserRequestDTO.Employee.Department.UpdaterId = updateUserRequestDTO.UpdaterId;
-                
-                await _employeeCompanyRepository.UpdateEmployeeDepartment(updateUserRequestDTO.Employee.Department);
-            }
         }
 
         return await GetUser(new GetUserRequestDTO { UserId = updateUserRequestDTO.UserId });
@@ -287,11 +267,11 @@ public class AuthService
         // DB의 현재 비밀번호를 조회해서
         var currentHashedPassword = await _userRepository.GetUserPassword(updateUserPasswordRequestDTO.UserId);
 
-        // 입력받은 현재 비밀번호와 동일한지 확인한다.
+        // 입력받은 현재 비밀번호와 동일한지 확인하고
         if (!EncryptUtil.Verify(updateUserPasswordRequestDTO.CurrentPassword!, currentHashedPassword!))
             throw new BizException("현재 비밀번호를 확인하세요.");
 
-        // 새 비밀번호와 확인용 새 비밀번호가 동일한지 확인한다.
+        // 새 비밀번호와 확인용 새 비밀번호가 동일한지 확인하고
         if (updateUserPasswordRequestDTO.NewPassword != updateUserPasswordRequestDTO.NewPasswordConfirm)
             throw new BizException("새 비밀번호를 확인하세요.");
 

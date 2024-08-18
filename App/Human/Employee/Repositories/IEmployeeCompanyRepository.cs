@@ -1,4 +1,3 @@
-using Svc.App.Human.Department.Models.DTO;
 using Svc.App.Human.Employee.Models.DTO;
 
 namespace Svc.App.Human.Employee.Repositories;
@@ -20,6 +19,11 @@ public interface IEmployeeCompanyRepository
     Task<EmployeeCompanyResponseDTO> GetEmployeeCompany(GetEmployeeCompanyRequestDTO getEmployeeCompanyRequestDTO);
 
     /// <summary>
+    /// 직원 회사를 추가한다.
+    /// </summary>
+    Task<int> AddEmployeeCompany(SaveEmployeeCompanyRequestDTO SaveEmployeeCompanyRequestDTO);
+    
+    /// <summary>
     /// 직원 회사를 수정한다.
     /// </summary>
     Task<int> UpdateEmployeeCompany(SaveEmployeeCompanyRequestDTO SaveEmployeeCompanyRequestDTO);
@@ -28,11 +32,6 @@ public interface IEmployeeCompanyRepository
     /// 직원 회사를 삭제한다.
     /// </summary>
     Task<int> RemoveEmployeeCompany(int userId, int employeeCompanyId);
-
-    /// <summary>
-    /// 직원 부서를 수정한다.
-    /// </summary>
-    Task<int> UpdateEmployeeDepartment(UpdateDepartmentRequestDTO updateDepartmentRequestDTO);
     #endregion
 
 }

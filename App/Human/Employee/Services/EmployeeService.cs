@@ -1,7 +1,4 @@
 using SmartSql.AOP;
-using Svc.App.Common.Auth.Services;
-using Svc.App.Human.Department.Models.DTO;
-using Svc.App.Human.Department.Repositories;
 using Svc.App.Human.Employee.Models.DTO;
 using Svc.App.Human.Employee.Repositories;
 
@@ -13,24 +10,18 @@ namespace Svc.App.Human.Employee.Services;
 public class EmployeeService
 {
     #region Fields
-    private readonly AuthService _authService;
     private readonly IEmployeeRepository _employeeRepository;
     private readonly IEmployeeCompanyRepository _employeeCompanyRepository;
-    private readonly IDepartmentRepository _departmentRepository;
     #endregion
     
     #region Constructor
     public EmployeeService(
-        AuthService authService,
         IEmployeeRepository employeeRepository,
-        IEmployeeCompanyRepository employeeCompanyRepository,
-        IDepartmentRepository departmentRepository
+        IEmployeeCompanyRepository employeeCompanyRepository
     )
     {
-        _authService = authService;
         _employeeRepository = employeeRepository;
         _employeeCompanyRepository = employeeCompanyRepository;
-        _departmentRepository = departmentRepository;
     }
     #endregion
 
@@ -45,13 +36,18 @@ public class EmployeeService
         if (employee != null)
         {
             employee.EmployeeCompanies = await _employeeCompanyRepository.ListEmployeeCompany(employee.EmployeeId);
-            employee.Departments = await _departmentRepository.ListDepartment(new GetDepartmentRequestDTO
-            {
-                EmployeeId = employee.EmployeeId,
-                DepartmentId = employee.DepartmentId
-            });
         }
         return employee;
+    }
+
+    /// <summary>
+    /// 직원을 수정한다.
+    /// </summary>
+    [Transaction]
+    public async Task<EmployeeResponseDTO?> UpdateEmployee(UpdateEmployeeRequestDTO updateEmployeeRequestDTO)
+    {
+        await _employeeRepository.UpdateEmployee(updateEmployeeRequestDTO);
+        return await GetEmployee(new GetEmployeeRequestDTO { EmployeeId = updateEmployeeRequestDTO.EmployeeId });
     }
 
     /// <summary>
@@ -62,13 +58,49 @@ public class EmployeeService
         => await _employeeCompanyRepository.GetEmployeeCompany(getEmployeeCompanyRequestDTO);
 
     /// <summary>
-    /// 직원을 수정한다.
+    /// 직원 회사를 추가한다.
     /// </summary>
     [Transaction]
-    public async Task<EmployeeResponseDTO?> UpdateEmployee(UpdateEmployeeRequestDTO updateEmployeeRequestDTO)
+    public async Task<int> AddEmployeeCompany(SaveEmployeeCompanyRequestDTO saveEmployeeCompanyRequestDTO)
     {
-        await _employeeRepository.UpdateEmployee(updateEmployeeRequestDTO);
-        return await GetEmployee(new GetEmployeeRequestDTO { EmployeeId = updateEmployeeRequestDTO.EmployeeId });
+        // 퇴사일자 값이 없으면 재직 중인 회사이므로 직원 정보도 수정해준다.
+        if (string.IsNullOrWhiteSpace(saveEmployeeCompanyRequestDTO.QuitYmd))
+        {
+            var updateEmployeeRequestDTO = new UpdateEmployeeRequestDTO
+            {
+                EmployeeCompany = new SaveEmployeeCompanyRequestDTO
+                {
+                    CompanyId = saveEmployeeCompanyRequestDTO.CompanyId
+                },
+                EmployeeId = saveEmployeeCompanyRequestDTO.EmployeeId,
+                UpdaterId = saveEmployeeCompanyRequestDTO.UpdaterId
+            };
+            await _employeeRepository.UpdateEmployee(updateEmployeeRequestDTO);
+        }
+        return await _employeeCompanyRepository.AddEmployeeCompany(saveEmployeeCompanyRequestDTO);
+    }
+
+    /// <summary>
+    /// 직원 회사를 수정한다.
+    /// </summary>
+    [Transaction]
+    public async Task<int> UpdateEmployeeCompany(SaveEmployeeCompanyRequestDTO saveEmployeeCompanyRequestDTO)
+    {
+        // 퇴사일자 값이 없으면 재직 중인 회사이므로 직원 정보도 수정해준다.
+        if (string.IsNullOrWhiteSpace(saveEmployeeCompanyRequestDTO.QuitYmd))
+        {
+            var updateEmployeeRequestDTO = new UpdateEmployeeRequestDTO
+            {
+                EmployeeCompany = new SaveEmployeeCompanyRequestDTO
+                {
+                    CompanyId = saveEmployeeCompanyRequestDTO.CompanyId
+                },
+                EmployeeId = saveEmployeeCompanyRequestDTO.EmployeeId,
+                UpdaterId = saveEmployeeCompanyRequestDTO.UpdaterId
+            };
+            await _employeeRepository.UpdateEmployee(updateEmployeeRequestDTO);
+        }
+        return await _employeeCompanyRepository.UpdateEmployeeCompany(saveEmployeeCompanyRequestDTO);
     }
 
     /// <summary>

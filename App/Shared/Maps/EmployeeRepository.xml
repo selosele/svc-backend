@@ -4,7 +4,6 @@
   <ResultMaps>
     <ResultMap Id="EmployeeResultMap">
       <Result Column="EMPLOYEE_ID" Property="EmployeeId" />
-      <Result Column="DEPARTMENT_ID" Property="DepartmentId" />
       <Result Column="EMPLOYEE_NAME" Property="EmployeeName" />
       <Result Column="GENDER_CODE" Property="GenderCode" />
       <Result Column="BIRTH_YMD" Property="BirthYmd" />
@@ -20,7 +19,6 @@
 
       SELECT
         E.EMPLOYEE_ID,
-        E.DEPARTMENT_ID,
         E.EMPLOYEE_NAME,
         E.GENDER_CODE,
         E.BIRTH_YMD,
@@ -42,12 +40,21 @@
 
       UPDATE HM_EMPLOYEE
         SET
+          <IsNotEmpty Property="EmployeeCompany.CompanyId">
           COMPANY_ID = @EmployeeCompany.CompanyId,
-          DEPARTMENT_ID = @Department.DepartmentId,
+          </IsNotEmpty>
+          <IsNotEmpty Property="EmployeeName">
           EMPLOYEE_NAME = @EmployeeName,
+          </IsNotEmpty>
+          <IsNotEmpty Property="GenderCode">
           GENDER_CODE = @GenderCode,
+          </IsNotEmpty>
+          <IsNotEmpty Property="BirthYmd">
           BIRTH_YMD = @BirthYmd,
+          </IsNotEmpty>
+          <IsNotEmpty Property="PhoneNumber">
           PHONE_NUMBER = @PhoneNumber,
+          </IsNotEmpty>
           UPDATER_ID = @UpdaterId,
           UPDATE_DT = CURRENT_TIMESTAMP()
       WHERE EMPLOYEE_ID = @EmployeeId

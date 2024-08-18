@@ -25,6 +25,8 @@
         C.COMPANY_ID,
         C.CORPORATE_NAME,
         C.COMPANY_NAME,
+        EC.RANK_CODE,
+        EC.JOB_TITLE_CODE,
         EC.JOIN_YMD,
         EC.QUIT_YMD
       FROM HM_EMPLOYEE_COMPANY EC
@@ -61,6 +63,31 @@
         </IsNotEmpty>
     </Statement>
 
+    <!-- 직원 회사를 추가한다. -->
+    <Statement Id="AddEmployeeCompany">
+      /* EmployeeCompanyRepository.AddEmployeeCompany */
+
+      INSERT INTO HM_EMPLOYEE_COMPANY (
+        EMPLOYEE_ID,
+        COMPANY_ID,
+        RANK_CODE,
+        JOB_TITLE_CODE,
+        JOIN_YMD,
+        QUIT_YMD,
+        CREATER_ID
+      )
+      VALUES (
+        @EmployeeId,
+        @CompanyId,
+        @RankCode,
+        @JobTitleCode,
+        @JoinYmd,
+        @QuitYmd,
+        @CreaterId
+      )
+      ;SELECT LAST_INSERT_ID()
+    </Statement>
+
     <!-- 직원 회사를 수정한다. -->
     <Statement Id="UpdateEmployeeCompany">
       /* EmployeeCompanyRepository.UpdateEmployeeCompany */
@@ -76,9 +103,7 @@
           <IsNotEmpty Property="JoinYmd">
           JOIN_YMD = @JoinYmd,
           </IsNotEmpty>
-          <IsNotEmpty Property="QuitYmd">
           QUIT_YMD = @QuitYmd,
-          </IsNotEmpty>
           UPDATER_ID = @UpdaterId,
           UPDATE_DT = CURRENT_TIMESTAMP()
       WHERE EMPLOYEE_COMPANY_ID = @EmployeeCompanyId
@@ -91,19 +116,6 @@
       UPDATE HM_EMPLOYEE_COMPANY
         SET
           DELETE_YN = 'Y',
-          UPDATER_ID = @UpdaterId,
-          UPDATE_DT = CURRENT_TIMESTAMP()
-      WHERE EMPLOYEE_COMPANY_ID = @EmployeeCompanyId
-    </Statement>
-
-    <!-- 직원 부서를 수정한다. -->
-    <Statement Id="UpdateEmployeeDepartment">
-      /* EmployeeCompanyRepository.UpdateEmployeeDepartment */
-
-      UPDATE HM_EMPLOYEE_COMPANY
-        SET
-          RANK_CODE = @RankCode,
-          JOB_TITLE_CODE = @JobTitleCode,
           UPDATER_ID = @UpdaterId,
           UPDATE_DT = CURRENT_TIMESTAMP()
       WHERE EMPLOYEE_COMPANY_ID = @EmployeeCompanyId
