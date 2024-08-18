@@ -85,7 +85,8 @@ public class EmployeeService
                 CompanyId = saveEmployeeCompanyRequestDTO.CompanyId
             }
         );
-        if (employeeCompany != null) {
+        if (employeeCompany != null)
+        {
             // 있으면 수정을 하고
             return await _employeeCompanyRepository.UpdateEmployeeCompany(saveEmployeeCompanyRequestDTO);
         }
