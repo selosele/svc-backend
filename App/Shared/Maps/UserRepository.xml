@@ -57,6 +57,7 @@
             @roleId
           </For>
         </IsNotEmpty>
+      GROUP BY EC.EMPLOYEE_ID, EC.COMPANY_ID
       ORDER BY U.USER_ID DESC
     </Statement>
 
