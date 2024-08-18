@@ -1,4 +1,4 @@
-# svc
+# About this application...
 
 ## 작업기간
 
@@ -11,7 +11,7 @@
 - `MariaDB` - v10.6.16
 - `WSL2` - Ubuntu 22.04 LTS
 
-## 개발환경 구동 절차
+## 개발환경 구동 순서
 
 1. `service mariadb start` (MariaDB 구동)
 2. `dotnet build` (백엔드 소스코드 빌드)
