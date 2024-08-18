@@ -57,7 +57,7 @@
             @roleId
           </For>
         </IsNotEmpty>
-      ORDER BY U.USER_ID
+      ORDER BY U.USER_ID DESC
     </Statement>
 
     <!-- 사용자를 조회한다. -->
