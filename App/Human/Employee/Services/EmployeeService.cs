@@ -58,6 +58,42 @@ public class EmployeeService
         => await _employeeCompanyRepository.GetEmployeeCompany(getEmployeeCompanyRequestDTO);
 
     /// <summary>
+    /// 직원 회사를 추가/수정한다.
+    /// </summary>
+    [Transaction]
+    public async Task<int> SaveEmployeeCompany(SaveEmployeeCompanyRequestDTO saveEmployeeCompanyRequestDTO)
+    {
+        // 퇴사일자 값이 없으면 재직 중인 회사이므로 직원 정보도 수정해준다.
+        if (string.IsNullOrWhiteSpace(saveEmployeeCompanyRequestDTO.QuitYmd))
+        {
+            var updateEmployeeRequestDTO = new UpdateEmployeeRequestDTO
+            {
+                EmployeeCompany = new SaveEmployeeCompanyRequestDTO
+                {
+                    CompanyId = saveEmployeeCompanyRequestDTO.CompanyId
+                },
+                EmployeeId = saveEmployeeCompanyRequestDTO.EmployeeId,
+                UpdaterId = saveEmployeeCompanyRequestDTO.UpdaterId
+            };
+            await _employeeRepository.UpdateEmployee(updateEmployeeRequestDTO);
+        }
+
+        // 직원 회사 정보를 조회해서
+        var employeeCompany = await _employeeCompanyRepository.GetEmployeeCompany(new GetEmployeeCompanyRequestDTO
+            {
+                EmployeeId = saveEmployeeCompanyRequestDTO.EmployeeId,
+                CompanyId = saveEmployeeCompanyRequestDTO.CompanyId
+            }
+        );
+        if (employeeCompany != null) {
+            // 있으면 수정을 하고
+            return await _employeeCompanyRepository.UpdateEmployeeCompany(saveEmployeeCompanyRequestDTO);
+        }
+        // 없으면 추가를 한다.
+        return await _employeeCompanyRepository.AddEmployeeCompany(saveEmployeeCompanyRequestDTO);
+    }
+
+    /// <summary>
     /// 직원 회사를 추가한다.
     /// </summary>
     [Transaction]

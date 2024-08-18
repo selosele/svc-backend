@@ -11,6 +11,7 @@ using Svc.App.Shared.Exceptions;
 using Svc.App.Shared.Utils;
 using Svc.App.Human.Employee.Repositories;
 using Svc.App.Human.Employee.Models.DTO;
+using Svc.App.Human.Employee.Services;
 
 namespace Svc.App.Common.Auth.Services;
 
@@ -29,6 +30,7 @@ public class AuthService
     private readonly IRoleRepository _roleRepository;
     private readonly IEmployeeRepository _employeeRepository;
     private readonly IEmployeeCompanyRepository _employeeCompanyRepository;
+    private readonly EmployeeService _employeeService;
     #endregion
     
     #region Constructor
@@ -41,7 +43,8 @@ public class AuthService
         IMenuRoleRepository menuRoleRepository,
         IRoleRepository roleRepository,
         IEmployeeRepository employeeRepository,
-        IEmployeeCompanyRepository employeeCompanyRepository
+        IEmployeeCompanyRepository employeeCompanyRepository,
+        EmployeeService employeeService
     )
     {
         _configuration = configuration;
@@ -53,6 +56,7 @@ public class AuthService
         _roleRepository = roleRepository;
         _employeeRepository = employeeRepository;
         _employeeCompanyRepository = employeeCompanyRepository;
+        _employeeService = employeeService;
     }
     #endregion
 
@@ -251,7 +255,7 @@ public class AuthService
                 updateUserRequestDTO.Employee.EmployeeCompany.EmployeeId = updateUserRequestDTO.Employee.EmployeeId;
                 updateUserRequestDTO.Employee.EmployeeCompany.UpdaterId = updateUserRequestDTO.UpdaterId;
                 
-                await _employeeCompanyRepository.UpdateEmployeeCompany(updateUserRequestDTO.Employee.EmployeeCompany);
+                await _employeeService.SaveEmployeeCompany(updateUserRequestDTO.Employee.EmployeeCompany);
             }
         }
 
