@@ -51,7 +51,7 @@ public class EmployeeCompanyRepository : IEmployeeCompanyRepository
     /// </summary>
     public Task<int> AddEmployeeCompany(SaveEmployeeCompanyRequestDTO SaveEmployeeCompanyRequestDTO)
     {
-        return SqlMapper.ExecuteScalarAsync<int>(new RequestContext
+        return SqlMapper.ExecuteAsync(new RequestContext
         {
             Scope = nameof(EmployeeCompanyRepository),
             SqlId = "AddEmployeeCompany",

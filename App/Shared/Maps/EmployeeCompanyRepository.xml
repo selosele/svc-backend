@@ -85,7 +85,6 @@
         @QuitYmd,
         @CreaterId
       )
-      ;SELECT LAST_INSERT_ID()
     </Statement>
 
     <!-- 직원 회사를 수정한다. -->
