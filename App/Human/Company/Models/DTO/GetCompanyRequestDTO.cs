@@ -1,6 +1,6 @@
-using svc.App.Shared.Models.DTO;
+using Svc.App.Shared.Models.DTO;
 
-namespace svc.App.Human.Company.Models.DTO;
+namespace Svc.App.Human.Company.Models.DTO;
 
 /// <summary>
 /// 회사 조회 요청 DTO

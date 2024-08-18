@@ -1,4 +1,4 @@
-namespace svc.App.Shared.Models.DTO;
+namespace Svc.App.Shared.Models.DTO;
 
 /// <summary>
 /// HTTP 요청 DTO의 기본 클래스

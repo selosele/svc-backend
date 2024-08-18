@@ -1,4 +1,4 @@
-namespace svc.App.Shared.Exceptions;
+namespace Svc.App.Shared.Exceptions;
 
 /// <summary>
 /// 비즈니스 로직 예외 Exception 클래스

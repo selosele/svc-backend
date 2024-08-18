@@ -1,7 +1,7 @@
 using SmartSql;
-using svc.App.Common.Auth.Models.DTO;
+using Svc.App.Common.Auth.Models.DTO;
 
-namespace svc.App.Common.Auth.Repositories;
+namespace Svc.App.Common.Auth.Repositories;
 
 /// <summary>
 /// 사용자 메뉴 권한 리포지토리 클래스

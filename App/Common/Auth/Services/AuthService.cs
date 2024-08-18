@@ -3,18 +3,18 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using SmartSql.AOP;
-using svc.App.Common.Auth.Models.DTO;
-using svc.App.Common.Auth.Repositories;
-using svc.App.Common.Menu.Repositories;
-using svc.App.Common.Menu.Models.DTO;
-using svc.App.Shared.Exceptions;
-using svc.App.Shared.Utils;
-using svc.App.Human.Employee.Repositories;
-using svc.App.Human.Employee.Models.DTO;
-using svc.App.Human.Department.Repositories;
-using svc.App.Human.Department.Models.DTO;
+using Svc.App.Common.Auth.Models.DTO;
+using Svc.App.Common.Auth.Repositories;
+using Svc.App.Common.Menu.Repositories;
+using Svc.App.Common.Menu.Models.DTO;
+using Svc.App.Shared.Exceptions;
+using Svc.App.Shared.Utils;
+using Svc.App.Human.Employee.Repositories;
+using Svc.App.Human.Employee.Models.DTO;
+using Svc.App.Human.Department.Repositories;
+using Svc.App.Human.Department.Models.DTO;
 
-namespace svc.App.Common.Auth.Services;
+namespace Svc.App.Common.Auth.Services;
 
 /// <summary>
 /// 인증·인가 및 사용자, 권한 서비스 클래스

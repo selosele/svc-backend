@@ -1,8 +1,8 @@
 using SmartSql.AOP;
-using svc.App.Human.Department.Models.DTO;
-using svc.App.Human.Department.Repositories;
+using Svc.App.Human.Department.Models.DTO;
+using Svc.App.Human.Department.Repositories;
 
-namespace svc.App.Human.Department.Services;
+namespace Svc.App.Human.Department.Services;
 
 /// <summary>
 /// 부서 서비스 클래스

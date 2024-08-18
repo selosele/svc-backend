@@ -1,6 +1,6 @@
-using svc.App.Shared.Models.DTO;
+using Svc.App.Shared.Models.DTO;
 
-namespace svc.App.Human.Department.Models.DTO;
+namespace Svc.App.Human.Department.Models.DTO;
 
 /// <summary>
 /// 부서 수정 요청 DTO

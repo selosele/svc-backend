@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using svc.App.Common.Code.Models.DTO;
-using svc.App.Common.Code.Services;
+using Svc.App.Common.Code.Models.DTO;
+using Svc.App.Common.Code.Services;
 
-namespace svc.App.Common.Code.Controllers;
+namespace Svc.App.Common.Code.Controllers;
 
 /// <summary>
 /// 코드 컨트롤러 클래스

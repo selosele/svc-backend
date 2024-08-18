@@ -1,8 +1,8 @@
 using SmartSql.AOP;
-using svc.App.Common.Code.Repositories;
-using svc.App.Common.Code.Models.DTO;
+using Svc.App.Common.Code.Repositories;
+using Svc.App.Common.Code.Models.DTO;
 
-namespace svc.App.Common.Code.Services;
+namespace Svc.App.Common.Code.Services;
 
 /// <summary>
 /// 코드 서비스 클래스

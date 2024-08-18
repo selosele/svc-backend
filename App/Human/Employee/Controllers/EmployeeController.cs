@@ -1,12 +1,12 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using svc.App.Common.Auth.Services;
-using svc.App.Human.Employee.Models.DTO;
-using svc.App.Human.Employee.Services;
-using svc.App.Shared.Utils;
+using Svc.App.Common.Auth.Services;
+using Svc.App.Human.Employee.Models.DTO;
+using Svc.App.Human.Employee.Services;
+using Svc.App.Shared.Utils;
 
-namespace svc.App.Human.Employee.Controllers;
+namespace Svc.App.Human.Employee.Controllers;
 
 /// <summary>
 /// 직원 컨트롤러 클래스

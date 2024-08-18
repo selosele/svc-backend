@@ -1,4 +1,4 @@
-namespace svc.App.Common.Code.Models.DTO;
+namespace Svc.App.Common.Code.Models.DTO;
 
 /// <summary>
 /// 코드 응답 DTO

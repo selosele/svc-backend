@@ -1,7 +1,7 @@
 using SmartSql;
-using svc.App.Human.Employee.Models.DTO;
+using Svc.App.Human.Employee.Models.DTO;
 
-namespace svc.App.Human.Employee.Repositories;
+namespace Svc.App.Human.Employee.Repositories;
 
 /// <summary>
 /// 직원 리포지토리 클래스

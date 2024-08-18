@@ -1,4 +1,4 @@
-namespace svc.App.Human.Department.Models.DTO;
+namespace Svc.App.Human.Department.Models.DTO;
 
 /// <summary>
 /// 부서 응답 DTO

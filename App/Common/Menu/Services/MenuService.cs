@@ -1,11 +1,11 @@
 using System.Security.Claims;
 using SmartSql.AOP;
-using svc.App.Common.Auth.Services;
-using svc.App.Common.Menu.Models.DTO;
-using svc.App.Common.Menu.Repositories;
-using svc.App.Shared.Utils;
+using Svc.App.Common.Auth.Services;
+using Svc.App.Common.Menu.Models.DTO;
+using Svc.App.Common.Menu.Repositories;
+using Svc.App.Shared.Utils;
 
-namespace svc.App.Common.Menu.Services;
+namespace Svc.App.Common.Menu.Services;
 
 /// <summary>
 /// 메뉴 서비스 클래스

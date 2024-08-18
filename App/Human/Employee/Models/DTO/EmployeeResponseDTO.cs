@@ -1,6 +1,6 @@
-using svc.App.Human.Department.Models.DTO;
+using Svc.App.Human.Department.Models.DTO;
 
-namespace svc.App.Human.Employee.Models.DTO;
+namespace Svc.App.Human.Employee.Models.DTO;
 
 /// <summary>
 /// 직원 응답 DTO

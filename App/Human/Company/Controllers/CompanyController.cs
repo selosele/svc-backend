@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using svc.App.Human.Company.Models.DTO;
-using svc.App.Human.Company.Services;
+using Svc.App.Human.Company.Models.DTO;
+using Svc.App.Human.Company.Services;
 
-namespace svc.App.Human.Company.Controllers;
+namespace Svc.App.Human.Company.Controllers;
 
 /// <summary>
 /// 회사 컨트롤러 클래스

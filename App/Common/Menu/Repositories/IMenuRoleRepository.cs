@@ -1,6 +1,6 @@
-using svc.App.Common.Menu.Models.DTO;
+using Svc.App.Common.Menu.Models.DTO;
 
-namespace svc.App.Common.Menu.Repositories;
+namespace Svc.App.Common.Menu.Repositories;
 
 /// <summary>
 /// 메뉴 권한 리포지토리 인터페이스

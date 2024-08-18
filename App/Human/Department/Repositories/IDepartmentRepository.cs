@@ -1,6 +1,6 @@
-using svc.App.Human.Department.Models.DTO;
+using Svc.App.Human.Department.Models.DTO;
 
-namespace svc.App.Human.Department.Repositories;
+namespace Svc.App.Human.Department.Repositories;
 
 /// <summary>
 /// 부서 리포지토리 인터페이스

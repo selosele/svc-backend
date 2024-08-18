@@ -1,6 +1,6 @@
-using svc.App.Common.Code.Models.DTO;
+using Svc.App.Common.Code.Models.DTO;
 
-namespace svc.App.Common.Code.Repositories;
+namespace Svc.App.Common.Code.Repositories;
 
 /// <summary>
 /// 코드 리포지토리 인터페이스

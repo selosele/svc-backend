@@ -1,6 +1,6 @@
-using svc.App.Shared.Models.DTO;
+using Svc.App.Shared.Models.DTO;
 
-namespace svc.App.Common.Menu.Models.DTO;
+namespace Svc.App.Common.Menu.Models.DTO;
 
 /// <summary>
 /// 메뉴 조회 요청 DTO

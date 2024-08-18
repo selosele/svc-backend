@@ -1,7 +1,7 @@
 using System.Reflection;
 using AutoMapper;
 
-namespace svc.App.Shared.Utils;
+namespace Svc.App.Shared.Utils;
 
 /// <summary>
 /// IServiceCollection의 확장 메서드를 제공하는 유틸 클래스

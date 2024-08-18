@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using svc.App.Common.Menu.Models.DTO;
-using svc.App.Common.Menu.Services;
+using Svc.App.Common.Menu.Models.DTO;
+using Svc.App.Common.Menu.Services;
 
-namespace svc.App.Common.Menu.Controllers;
+namespace Svc.App.Common.Menu.Controllers;
 
 /// <summary>
 /// 메뉴 컨트롤러 클래스

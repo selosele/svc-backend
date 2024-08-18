@@ -1,8 +1,8 @@
 using SmartSql.AOP;
-using svc.App.Human.Company.Repositories;
-using svc.App.Human.Company.Models.DTO;
+using Svc.App.Human.Company.Repositories;
+using Svc.App.Human.Company.Models.DTO;
 
-namespace svc.App.Human.Company.Services;
+namespace Svc.App.Human.Company.Services;
 
 /// <summary>
 /// 회사 서비스 클래스

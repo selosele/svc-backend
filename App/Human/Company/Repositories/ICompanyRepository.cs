@@ -1,6 +1,6 @@
-using svc.App.Human.Company.Models.DTO;
+using Svc.App.Human.Company.Models.DTO;
 
-namespace svc.App.Human.Company.Repositories;
+namespace Svc.App.Human.Company.Repositories;
 
 /// <summary>
 /// 회사 리포지토리 인터페이스

@@ -1,4 +1,4 @@
-namespace svc.App.Human.Employee.Models.DTO;
+namespace Svc.App.Human.Employee.Models.DTO;
 
 /// <summary>
 /// 직원 회사 응답 DTO

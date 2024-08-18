@@ -1,4 +1,4 @@
-namespace svc.App.Common.Auth.Models.DTO;
+namespace Svc.App.Common.Auth.Models.DTO;
 
 /// <summary>
 /// 로그인 응답 DTO

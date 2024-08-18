@@ -1,16 +1,16 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using svc.App.Shared.Filters;
-using svc.App.Shared.Utils;
+using Svc.App.Shared.Filters;
+using Svc.App.Shared.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("secrets.json", optional: true, reloadOnChange: true);
 
-builder.Services.SingletonScan("svc.App.", ".Services");
-builder.Services.InterfaceScan("svc.App.", ".Repositories");
-builder.Services.AutoMapperProfileScan("svc.App.", ".Profiles");
+builder.Services.SingletonScan("Svc.App.", ".Services");
+builder.Services.InterfaceScan("Svc.App.", ".Repositories");
+builder.Services.AutoMapperProfileScan("Svc.App.", ".Profiles");
 
 var connectionStrings = builder.Configuration.GetSection("ConnectionStrings")
     .GetChildren()

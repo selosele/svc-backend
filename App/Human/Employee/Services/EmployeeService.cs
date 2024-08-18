@@ -1,11 +1,11 @@
 using SmartSql.AOP;
-using svc.App.Common.Auth.Services;
-using svc.App.Human.Department.Models.DTO;
-using svc.App.Human.Department.Repositories;
-using svc.App.Human.Employee.Models.DTO;
-using svc.App.Human.Employee.Repositories;
+using Svc.App.Common.Auth.Services;
+using Svc.App.Human.Department.Models.DTO;
+using Svc.App.Human.Department.Repositories;
+using Svc.App.Human.Employee.Models.DTO;
+using Svc.App.Human.Employee.Repositories;
 
-namespace svc.App.Human.Employee.Services;
+namespace Svc.App.Human.Employee.Services;
 
 /// <summary>
 /// 직원 서비스 클래스

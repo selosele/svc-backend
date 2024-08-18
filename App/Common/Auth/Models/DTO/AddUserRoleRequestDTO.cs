@@ -1,6 +1,6 @@
-using svc.App.Shared.Models.DTO;
+using Svc.App.Shared.Models.DTO;
 
-namespace svc.App.Common.Auth.Models.DTO;
+namespace Svc.App.Common.Auth.Models.DTO;
 
 /// <summary>
 /// 사용자 권한 추가 요청 DTO

@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using svc.App.Human.Department.Models.DTO;
-using svc.App.Human.Department.Services;
+using Svc.App.Human.Department.Models.DTO;
+using Svc.App.Human.Department.Services;
 
-namespace svc.App.Human.Department.Controllers;
+namespace Svc.App.Human.Department.Controllers;
 
 /// <summary>
 /// 부서 컨트롤러 클래스

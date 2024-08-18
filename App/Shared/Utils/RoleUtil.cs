@@ -1,4 +1,4 @@
-namespace svc.App.Shared.Utils;
+namespace Svc.App.Shared.Utils;
 
 /// <summary>
 /// 권한 유틸 클래스
