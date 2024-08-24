@@ -58,6 +58,14 @@ public class EmployeeController : ControllerBase
     }
 
     /// <summary>
+    /// 직원 회사 목록을 조회한다.
+    /// </summary>
+    [HttpGet("{employeeId}/companies")]
+    [Authorize]
+    public async Task<ActionResult<List<EmployeeCompanyResponseDTO>>> ListEmployeeCompany(int employeeId)
+        => Ok(await _employeeService.ListEmployeeCompany(new GetEmployeeCompanyRequestDTO { EmployeeId = employeeId }));
+    
+    /// <summary>
     /// 직원 회사를 조회한다.
     /// </summary>
     [HttpGet("{employeeId}/companies/{employeeCompanyId}")]

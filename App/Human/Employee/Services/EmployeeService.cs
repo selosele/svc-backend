@@ -51,6 +51,13 @@ public class EmployeeService
     }
 
     /// <summary>
+    /// 직원 회사 목록을 조회한다.
+    /// </summary>
+    [Transaction]
+    public async Task<IList<EmployeeCompanyResponseDTO>> ListEmployeeCompany(GetEmployeeCompanyRequestDTO getEmployeeCompanyRequestDTO)
+        => await _employeeCompanyRepository.ListEmployeeCompany(getEmployeeCompanyRequestDTO.EmployeeId);
+
+    /// <summary>
     /// 직원 회사를 조회한다.
     /// </summary>
     [Transaction]
