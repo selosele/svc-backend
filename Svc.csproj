@@ -53,6 +53,9 @@
     <None Update="App\Shared\Maps\UserRoleRepository.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="App\Shared\Maps\VacationRepository.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
