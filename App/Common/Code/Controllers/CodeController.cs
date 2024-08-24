@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using Svc.App.Common.Auth.Services;
 using Svc.App.Common.Code.Models.DTO;
 using Svc.App.Common.Code.Services;
+using Svc.App.Shared.Utils;
 
 namespace Svc.App.Common.Code.Controllers;
 
@@ -13,13 +16,16 @@ namespace Svc.App.Common.Code.Controllers;
 public class CodeController : ControllerBase
 {
     #region Fields
+    private readonly AuthService _authService;
     private readonly CodeService _codeService;
     #endregion
     
     #region Constructor
     public CodeController(
+        AuthService authService,
         CodeService codeService
     ) {
+        _authService = authService;
         _codeService = codeService;
     }
     #endregion
@@ -40,6 +46,48 @@ public class CodeController : ControllerBase
     [Authorize]
     public async Task<ActionResult<CodeResponseDTO>> GetCode(string codeId)
         => Ok(await _codeService.GetCode(codeId));
+
+    /// <summary>
+    /// 코드를 추가한다.
+    /// </summary>
+    [HttpPost]
+    [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
+    public async Task<ActionResult<CodeResponseDTO>> AddCode([FromBody] SaveCodeRequestDTO saveCodeRequestDTO)
+    {
+        var user = _authService.GetAuthenticatedUser();
+        var userId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+
+        saveCodeRequestDTO.CreaterId = userId;
+        return Created(string.Empty, await _codeService.AddCode(saveCodeRequestDTO));
+    }
+
+    /// <summary>
+    /// 코드를 수정한다.
+    /// </summary>
+    [HttpPut("{codeId}")]
+    [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
+    public async Task<ActionResult<CodeResponseDTO>> UpdateUser(string codeId, [FromBody] SaveCodeRequestDTO saveCodeRequestDTO)
+    {
+        var user = _authService.GetAuthenticatedUser();
+        var userId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+
+        saveCodeRequestDTO.UpdaterId = userId;
+        return Ok(await _codeService.UpdateCode(saveCodeRequestDTO));
+    }
+
+    /// <summary>
+    /// 코드를 삭제한다.
+    /// </summary>
+    [HttpDelete("{codeId}")]
+    [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
+    public async Task<ActionResult> RemoveCode(string codeId)
+    {
+        var user = _authService.GetAuthenticatedUser();
+        var userId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+
+        await _codeService.RemoveCode(codeId, userId);
+        return NoContent();
+    }
     #endregion
 
 }

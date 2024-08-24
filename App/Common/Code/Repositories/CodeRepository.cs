@@ -44,6 +44,45 @@ public class CodeRepository : ICodeRepository
             Request = new { codeId }
         });
     }
+
+    /// <summary>
+    /// 코드를 추가한다.
+    /// </summary>
+    public Task<string> AddCode(SaveCodeRequestDTO saveCodeRequestDTO)
+    {
+        return SqlMapper.ExecuteScalarAsync<string>(new RequestContext
+        {
+            Scope = nameof(CodeRepository),
+            SqlId = "AddCode",
+            Request = saveCodeRequestDTO
+        });
+    }
+
+    /// <summary>
+    /// 코드를 수정한다.
+    /// </summary>
+    public Task<int> UpdateCode(SaveCodeRequestDTO saveCodeRequestDTO)
+    {
+        return SqlMapper.ExecuteAsync(new RequestContext
+        {
+            Scope = nameof(CodeRepository),
+            SqlId = "UpdateCode",
+            Request = saveCodeRequestDTO
+        });
+    }
+
+    /// <summary>
+    /// 코드를 삭제한다.
+    /// </summary>
+    public Task<int> RemoveCode(string codeId, int updaterId)
+    {
+        return SqlMapper.ExecuteAsync(new RequestContext
+        {
+            Scope = nameof(CodeRepository),
+            SqlId = "RemoveCode",
+            Request = new { codeId, updaterId }
+        });
+    }
     #endregion
 
 }

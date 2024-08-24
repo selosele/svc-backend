@@ -17,6 +17,21 @@ public interface ICodeRepository
     /// 코드를 조회한다.
     /// </summary>
     Task<CodeResponseDTO> GetCode(string codeId);
+
+    /// <summary>
+    /// 코드를 추가한다.
+    /// </summary>
+    Task<string> AddCode(SaveCodeRequestDTO saveCodeRequestDTO);
+
+    /// <summary>
+    /// 코드를 수정한다.
+    /// </summary>
+    Task<int> UpdateCode(SaveCodeRequestDTO saveCodeRequestDTO);
+
+    /// <summary>
+    /// 코드를 삭제한다.
+    /// </summary>
+    Task<int> RemoveCode(string codeId, int updaterId);
     #endregion
 
 }

@@ -88,6 +88,66 @@
       WHERE CD.DELETE_YN = 'N'
         AND CD.CODE_ID = @CodeId
     </Statement>
+
+    <!-- 코드를 추가한다. -->
+    <Statement Id="AddCode">
+      /* CodeRepository.AddCode */
+
+      INSERT INTO CO_CODE (
+        CODE_ID,
+        UP_CODE_ID,
+        CODE_VALUE,
+        CODE_NAME,
+        CODE_CONTENT,
+        CODE_ORDER,
+        CODE_DEPTH,
+        USE_YN,
+        CREATER_ID
+      )
+      VALUES (
+        @CodeId,
+        @UpCodeId,
+        @CodeValue,
+        @CodeName,
+        @CodeContent,
+        @CodeOrder,
+        @CodeDepth,
+        @UseYn,
+        @CreaterId
+      )
+      ;SELECT LAST_INSERT_ID()
+    </Statement>
+
+    <!-- 코드를 수정한다. -->
+    <Statement Id="UpdateCode">
+      /* CodeRepository.UpdateCode */
+
+      UPDATE CO_CODE
+        SET
+          CODE_ID = @CodeId,
+          UP_CODE_ID = @UpCodeId,
+          CODE_VALUE = @CodeValue,
+          CODE_NAME = @CodeName,
+          CODE_CONTENT = @CodeContent,
+          CODE_ORDER = @CodeOrder,
+          CODE_DEPTH = @CodeDepth,
+          USE_YN = @UseYn,
+          UPDATER_ID = @UpdaterId,
+          UPDATE_DT = CURRENT_TIMESTAMP()
+      WHERE CODE_ID = @OriginalCodeId
+    </Statement>
+
+    <!-- 코드를 삭제한다. -->
+    <Statement Id="RemoveCode">
+      /* CodeRepository.RemoveCode */
+
+      UPDATE CO_CODE
+        SET
+          DELETE_YN = 'Y',
+          UPDATER_ID = @UpdaterId,
+          UPDATE_DT = CURRENT_TIMESTAMP()
+      WHERE CODE_ID = @CodeId
+    </Statement>
     
   </Statements>
 </SmartSqlMap>

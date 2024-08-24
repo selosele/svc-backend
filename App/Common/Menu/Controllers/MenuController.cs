@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using Svc.App.Common.Menu.Models.DTO;
 using Svc.App.Common.Menu.Services;
+using Svc.App.Common.Auth.Services;
+using Svc.App.Shared.Utils;
 
 namespace Svc.App.Common.Menu.Controllers;
 
@@ -13,13 +16,16 @@ namespace Svc.App.Common.Menu.Controllers;
 public class MenuController : ControllerBase
 {
     #region Fields
+    private readonly AuthService _authService;
     private readonly MenuService _menuService;
     #endregion
     
     #region Constructor
     public MenuController(
+        AuthService authService,
         MenuService menuService
     ) {
+        _authService = authService;
         _menuService = menuService;
     }
     #endregion
@@ -30,8 +36,13 @@ public class MenuController : ControllerBase
     /// </summary>
     [HttpGet]
     [Authorize]
-    public async Task<ActionResult<List<MenuResponseDTO>>> ListCode([FromQuery] GetMenuRequestDTO getMenuRequestDTO)
-        => Ok(await _menuService.ListMenu(getMenuRequestDTO));
+    public async Task<ActionResult<List<MenuResponseDTO>>> ListMenu([FromQuery] GetMenuRequestDTO getMenuRequestDTO)
+    {
+        var user = _authService.GetAuthenticatedUser();
+        getMenuRequestDTO.UserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+
+        return Ok(await _menuService.ListMenu(getMenuRequestDTO));
+    }
     #endregion
 
 }

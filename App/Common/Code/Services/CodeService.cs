@@ -1,6 +1,7 @@
 using SmartSql.AOP;
 using Svc.App.Common.Code.Repositories;
 using Svc.App.Common.Code.Models.DTO;
+using Svc.App.Common.Auth.Services;
 
 namespace Svc.App.Common.Code.Services;
 
@@ -14,8 +15,9 @@ public class CodeService
     #endregion
     
     #region Constructor
-    public CodeService(ICodeRepository codeRepository)
-    {
+    public CodeService(
+        ICodeRepository codeRepository
+    ) {
         _codeRepository = codeRepository;
     }
     #endregion
@@ -34,6 +36,33 @@ public class CodeService
     [Transaction]
     public async Task<CodeResponseDTO> GetCode(string codeId)
         => await _codeRepository.GetCode(codeId);
+
+    /// <summary>
+    /// 코드를 추가한다.
+    /// </summary>
+    [Transaction]
+    public async Task<CodeResponseDTO> AddCode(SaveCodeRequestDTO saveCodeRequestDTO)
+    {
+        var codeId = await _codeRepository.AddCode(saveCodeRequestDTO);
+        return await _codeRepository.GetCode(codeId);
+    }
+
+    /// <summary>
+    /// 코드를 수정한다.
+    /// </summary>
+    [Transaction]
+    public async Task<CodeResponseDTO> UpdateCode(SaveCodeRequestDTO saveCodeRequestDTO)
+    {
+        await _codeRepository.UpdateCode(saveCodeRequestDTO);
+        return await _codeRepository.GetCode(saveCodeRequestDTO.CodeId!);
+    }
+
+    /// <summary>
+    /// 코드를 삭제한다.
+    /// </summary>
+    [Transaction]
+    public async Task<int> RemoveCode(string codeId, int updaterId)
+        => await _codeRepository.RemoveCode(codeId, updaterId);
     #endregion
     
 }
