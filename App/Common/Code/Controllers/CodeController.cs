@@ -55,9 +55,9 @@ public class CodeController : ControllerBase
     public async Task<ActionResult<CodeResponseDTO>> AddCode([FromBody] SaveCodeRequestDTO saveCodeRequestDTO)
     {
         var user = _authService.GetAuthenticatedUser();
-        var userId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
 
-        saveCodeRequestDTO.CreaterId = userId;
+        saveCodeRequestDTO.CreaterId = myUserId;
         return Created(string.Empty, await _codeService.AddCode(saveCodeRequestDTO));
     }
 
@@ -69,9 +69,9 @@ public class CodeController : ControllerBase
     public async Task<ActionResult<CodeResponseDTO>> UpdateUser(string codeId, [FromBody] SaveCodeRequestDTO saveCodeRequestDTO)
     {
         var user = _authService.GetAuthenticatedUser();
-        var userId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
 
-        saveCodeRequestDTO.UpdaterId = userId;
+        saveCodeRequestDTO.UpdaterId = myUserId;
         return Ok(await _codeService.UpdateCode(saveCodeRequestDTO));
     }
 
@@ -83,9 +83,9 @@ public class CodeController : ControllerBase
     public async Task<ActionResult> RemoveCode(string codeId)
     {
         var user = _authService.GetAuthenticatedUser();
-        var userId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
 
-        await _codeService.RemoveCode(codeId, userId);
+        await _codeService.RemoveCode(codeId, myUserId);
         return NoContent();
     }
     #endregion

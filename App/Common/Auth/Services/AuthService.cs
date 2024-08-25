@@ -313,9 +313,9 @@ public class AuthService
     public async Task<int> RemoveUser(int userId)
     {
         var user = GetAuthenticatedUser();
-        var updaterId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
         
-        return await _userRepository.RemoveUser(userId, updaterId);
+        return await _userRepository.RemoveUser(userId, myUserId);
     }
 
     /// <summary>
