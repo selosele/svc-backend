@@ -17,6 +17,11 @@ public interface IVacationRepository
     /// 휴가를 조회한다.
     /// </summary>
     Task<VacationResponseDTO> GetVacation(int vacationId);
+
+    /// <summary>
+    /// 휴가를 삭제한다.
+    /// </summary>
+    Task<int> RemoveVacation(int vacationId, int updaterId);
     #endregion
 
 }

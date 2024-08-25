@@ -34,6 +34,13 @@ public class VacationService
     [Transaction]
     public async Task<VacationResponseDTO> GetVacation(int vacationId)
         => await _vacationRepository.GetVacation(vacationId);
+
+    /// <summary>
+    /// 휴가를 삭제한다.
+    /// </summary>
+    [Transaction]
+    public async Task<int> RemoveVacation(int vacationId, int updaterId)
+        => await _vacationRepository.RemoveVacation(vacationId, updaterId);
     #endregion
     
 }

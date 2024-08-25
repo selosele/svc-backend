@@ -45,6 +45,19 @@ public class VacationRepository : IVacationRepository
             Request = new { vacationId }
         });
     }
+
+    /// <summary>
+    /// 휴가를 삭제한다.
+    /// </summary>
+    public Task<int> RemoveVacation(int vacationId, int updaterId)
+    {
+        return SqlMapper.ExecuteAsync(new RequestContext
+        {
+            Scope = nameof(VacationRepository),
+            SqlId = "RemoveVacation",
+            Request = new { vacationId, updaterId }
+        });
+    }
     #endregion
 
 }
