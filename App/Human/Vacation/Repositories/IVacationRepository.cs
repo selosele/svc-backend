@@ -12,6 +12,11 @@ public interface IVacationRepository
     /// 휴가 목록을 조회한다.
     /// </summary>
     Task<IList<VacationResponseDTO>> ListVacation(GetVacationRequestDTO getVacationRequestDTO);
+
+    /// <summary>
+    /// 휴가를 조회한다.
+    /// </summary>
+    Task<VacationResponseDTO> GetVacation(int vacationId);
     #endregion
 
 }

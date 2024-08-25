@@ -32,6 +32,14 @@ public class VacationController : ControllerBase
     [Authorize]
     public async Task<ActionResult<List<VacationResponseDTO>>> ListVacation([FromQuery] GetVacationRequestDTO getVacationRequestDTO)
         => Ok(await _vacationService.ListVacation(getVacationRequestDTO));
+
+    /// <summary>
+    /// 휴가를 조회한다.
+    /// </summary>
+    [HttpGet("{vacationId}")]
+    [Authorize]
+    public async Task<ActionResult<VacationResponseDTO>> GetVacation(int vacationId)
+        => Ok(await _vacationService.GetVacation(vacationId));
     #endregion
 
 }

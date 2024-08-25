@@ -34,6 +34,24 @@
         AND V.EMPLOYEE_COMPANY_ID = @EmployeeCompanyId
       ORDER BY V.VACATION_START_YMD DESC
     </Statement>
+
+    <!-- 휴가를 조회한다. -->
+    <Statement Id="GetVacation" ResultMap="VacationResultMap">
+      /* VacationRepository.GetVacation */
+
+      SELECT
+        V.VACATION_ID,
+        V.EMPLOYEE_ID,
+        V.EMPLOYEE_COMPANY_ID,
+        V.VACATION_TYPE_CODE,
+        V.VACATION_CONTENT,
+        V.VACATION_START_YMD,
+        V.VACATION_END_YMD,
+        V.DELETE_YN
+      FROM HM_VACATION V
+      WHERE V.DELETE_YN = 'N'
+        AND V.VACATION_ID = @VacationId
+    </Statement>
     
   </Statements>
 </SmartSqlMap>

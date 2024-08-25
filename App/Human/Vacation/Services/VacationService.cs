@@ -27,6 +27,13 @@ public class VacationService
     [Transaction]
     public async Task<IList<VacationResponseDTO>> ListVacation(GetVacationRequestDTO getVacationRequestDTO)
         => await _vacationRepository.ListVacation(getVacationRequestDTO);
+
+    /// <summary>
+    /// 휴가를 조회한다.
+    /// </summary>
+    [Transaction]
+    public async Task<VacationResponseDTO> GetVacation(int vacationId)
+        => await _vacationRepository.GetVacation(vacationId);
     #endregion
     
 }

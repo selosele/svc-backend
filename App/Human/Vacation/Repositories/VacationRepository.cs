@@ -32,6 +32,19 @@ public class VacationRepository : IVacationRepository
             Request = getVacationRequestDTO
         });
     }
+
+    /// <summary>
+    /// 휴가를 조회한다.
+    /// </summary>
+    public Task<VacationResponseDTO> GetVacation(int vacationId)
+    {
+        return SqlMapper.QuerySingleAsync<VacationResponseDTO>(new RequestContext
+        {
+            Scope = nameof(VacationRepository),
+            SqlId = "GetVacation",
+            Request = new { vacationId }
+        });
+    }
     #endregion
 
 }
