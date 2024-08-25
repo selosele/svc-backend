@@ -125,6 +125,11 @@ public class AuthService
         {
             user.Roles = await _userRoleRepository.ListUserRole(new GetUserRoleRequestDTO { UserId = user.UserId });
             user.Employee = await _employeeRepository.GetEmployee(new GetEmployeeRequestDTO { UserId = user.UserId });
+
+            if (user.Employee != null)
+            {
+                user.Employee.EmployeeCompanies = await _employeeCompanyRepository.ListEmployeeCompany(user.Employee.EmployeeId);
+            }
         }
         return user;
     }
@@ -336,7 +341,7 @@ public class AuthService
         {
             new(ClaimUtil.USER_ID_IDENTIFIER, user.UserId.ToString()!),
             new(ClaimUtil.USER_ACCOUNT_IDENTIFIER, user.UserAccount!),
-            new(ClaimUtil.COMPANY_ID_IDENTIFIER, user.Employee!.CompanyId.ToString()!),
+            new(ClaimUtil.EMPLOYEE_COMPANY_ID_IDENTIFIER, user.Employee!.EmployeeCompanies![0].EmployeeCompanyId.ToString()!),
             new(ClaimUtil.EMPLOYEE_ID_IDENTIFIER, user.Employee!.EmployeeId.ToString()!),
             new(ClaimUtil.EMPLOYEE_NAME_IDENTIFIER, user.Employee!.EmployeeName!)
         };
@@ -360,7 +365,7 @@ public class AuthService
         var claims = new List<Claim> {
             new(ClaimUtil.USER_ID_IDENTIFIER, user.UserId.ToString()!),
             new(ClaimUtil.USER_ACCOUNT_IDENTIFIER, user.UserAccount!),
-            new(ClaimUtil.COMPANY_ID_IDENTIFIER, user.Employee!.CompanyId.ToString()!),
+            new(ClaimUtil.EMPLOYEE_COMPANY_ID_IDENTIFIER, user.Employee!.EmployeeCompanies![0].EmployeeCompanyId.ToString()!),
             new(ClaimUtil.EMPLOYEE_ID_IDENTIFIER, user.Employee!.EmployeeId.ToString()!),
             new(ClaimUtil.EMPLOYEE_NAME_IDENTIFIER, user.Employee!.EmployeeName!)
         };

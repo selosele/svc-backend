@@ -4,7 +4,6 @@
   <ResultMaps>
     <ResultMap Id="EmployeeResultMap">
       <Result Column="EMPLOYEE_ID" Property="EmployeeId" />
-      <Result Column="COMPANY_ID" Property="CompanyId" />
       <Result Column="EMPLOYEE_NAME" Property="EmployeeName" />
       <Result Column="GENDER_CODE" Property="GenderCode" />
       <Result Column="BIRTH_YMD" Property="BirthYmd" />
@@ -20,7 +19,6 @@
 
       SELECT
         E.EMPLOYEE_ID,
-        E.COMPANY_ID,
         E.EMPLOYEE_NAME,
         E.GENDER_CODE,
         E.BIRTH_YMD,
