@@ -29,7 +29,7 @@ public record EmployeeResponseDTO
     /// <summary>
     /// 휴대폰번호
     /// </summary>
-    public string? PhoneNumber { get; set; }
+    public string? phoneNo { get; set; }
 
     /// <summary>
     /// 직원 회사 정보

@@ -7,7 +7,7 @@
       <Result Column="EMPLOYEE_NAME" Property="EmployeeName" />
       <Result Column="GENDER_CODE" Property="GenderCode" />
       <Result Column="BIRTH_YMD" Property="BirthYmd" />
-      <Result Column="PHONE_NUMBER" Property="PhoneNumber" />
+      <Result Column="PHONE_NO" Property="phoneNo" />
     </ResultMap>
   </ResultMaps>
 
@@ -22,7 +22,7 @@
         E.EMPLOYEE_NAME,
         E.GENDER_CODE,
         E.BIRTH_YMD,
-        E.PHONE_NUMBER
+        E.PHONE_NO
       FROM HM_EMPLOYEE E
       INNER JOIN CO_USER U ON U.USER_ID = E.USER_ID AND U.DELETE_YN = 'N'
       WHERE 1=1
@@ -38,8 +38,8 @@
     <Statement Id="AddEmployee">
       /* EmployeeRepository.AddEmployee */
 
-      INSERT INTO HM_EMPLOYEE (USER_ID, EMPLOYEE_NAME, GENDER_CODE, BIRTH_YMD, PHONE_NUMBER, CREATER_ID)
-      VALUES (@UserId, @EmployeeName, @GenderCode, @BirthYmd, @PhoneNumber, @CreaterId)
+      INSERT INTO HM_EMPLOYEE (USER_ID, EMPLOYEE_NAME, GENDER_CODE, BIRTH_YMD, PHONE_NO, CREATER_ID)
+      VALUES (@UserId, @EmployeeName, @GenderCode, @BirthYmd, @phoneNo, @CreaterId)
       ;SELECT LAST_INSERT_ID()
     </Statement>
 
@@ -61,8 +61,8 @@
           <IsNotEmpty Property="BirthYmd">
           BIRTH_YMD = @BirthYmd,
           </IsNotEmpty>
-          <IsNotEmpty Property="PhoneNumber">
-          PHONE_NUMBER = @PhoneNumber,
+          <IsNotEmpty Property="phoneNo">
+          PHONE_NO = @phoneNo,
           </IsNotEmpty>
           UPDATER_ID = @UpdaterId,
           UPDATE_DT = CURRENT_TIMESTAMP()
