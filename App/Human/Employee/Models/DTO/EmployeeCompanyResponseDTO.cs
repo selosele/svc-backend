@@ -27,7 +27,7 @@ public record EmployeeCompanyResponseDTO
     public string? CompanyName { get; set; }
 
     /// <summary>
-    /// 직급 코드
+    /// 직위 코드
     /// </summary>
     public string? RankCode { get; set; }
 

@@ -24,7 +24,7 @@ public record SaveEmployeeCompanyRequestDTO : HttpRequestDTOBase
     public int? CompanyId { get; set; }
 
     /// <summary>
-    /// 직급 코드
+    /// 직위 코드
     /// </summary>
     public string? RankCode { get; set; }
 

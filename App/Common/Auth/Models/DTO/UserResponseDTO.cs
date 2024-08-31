@@ -29,7 +29,7 @@ public record UserResponseDTO
     public string? CompanyName { get; set; }
 
     /// <summary>
-    /// 직급 코드명
+    /// 직위 코드명
     /// </summary>
     public string? RankCodeName { get; set; }
 
