@@ -29,7 +29,7 @@ public class AuthService
     private readonly IMenuRoleRepository _menuRoleRepository;
     private readonly IRoleRepository _roleRepository;
     private readonly IEmployeeRepository _employeeRepository;
-    private readonly IEmployeeCompanyRepository _employeeCompanyRepository;
+    private readonly IWorkHistoryRepository _workHistoryRepository;
     private readonly EmployeeService _employeeService;
     #endregion
     
@@ -43,7 +43,7 @@ public class AuthService
         IMenuRoleRepository menuRoleRepository,
         IRoleRepository roleRepository,
         IEmployeeRepository employeeRepository,
-        IEmployeeCompanyRepository employeeCompanyRepository,
+        IWorkHistoryRepository workHistoryRepository,
         EmployeeService employeeService
     )
     {
@@ -55,7 +55,7 @@ public class AuthService
         _menuRoleRepository = menuRoleRepository;
         _roleRepository = roleRepository;
         _employeeRepository = employeeRepository;
-        _employeeCompanyRepository = employeeCompanyRepository;
+        _workHistoryRepository = workHistoryRepository;
         _employeeService = employeeService;
     }
     #endregion
@@ -108,7 +108,7 @@ public class AuthService
 
             if (user.Employee != null)
             {
-                user.Employee.EmployeeCompanies = await _employeeCompanyRepository.ListEmployeeCompany(user.Employee.EmployeeId);
+                user.Employee.WorkHistories = await _workHistoryRepository.ListWorkHistory(user.Employee.EmployeeId);
             }
         }
         return user;
@@ -128,7 +128,7 @@ public class AuthService
 
             if (user.Employee != null)
             {
-                user.Employee.EmployeeCompanies = await _employeeCompanyRepository.ListEmployeeCompany(user.Employee.EmployeeId);
+                user.Employee.WorkHistories = await _workHistoryRepository.ListWorkHistory(user.Employee.EmployeeId);
             }
         }
         return user;
@@ -193,13 +193,13 @@ public class AuthService
             addUserRequestDTO.Employee.CreaterId = addUserRequestDTO.CreaterId;
             var employeeId = await _employeeRepository.AddEmployee(addUserRequestDTO.Employee);
 
-            // 직원 회사 추가
-            if (addUserRequestDTO.Employee.EmployeeCompany != null)
+            // 근무이력 추가
+            if (addUserRequestDTO.Employee.WorkHistory != null)
             {
-                addUserRequestDTO.Employee.EmployeeCompany.EmployeeId = employeeId;
-                addUserRequestDTO.Employee.EmployeeCompany.CreaterId = addUserRequestDTO.CreaterId;
+                addUserRequestDTO.Employee.WorkHistory.EmployeeId = employeeId;
+                addUserRequestDTO.Employee.WorkHistory.CreaterId = addUserRequestDTO.CreaterId;
                 
-                await _employeeService.AddEmployeeCompany(addUserRequestDTO.Employee.EmployeeCompany);
+                await _employeeService.AddWorkHistory(addUserRequestDTO.Employee.WorkHistory);
             }
         }
 
@@ -269,13 +269,13 @@ public class AuthService
             
             await _employeeRepository.UpdateEmployee(updateUserRequestDTO.Employee);
 
-            // 직원 회사 수정
-            if (updateUserRequestDTO.Employee.EmployeeCompany != null)
+            // 근무이력 수정
+            if (updateUserRequestDTO.Employee.WorkHistory != null)
             {
-                updateUserRequestDTO.Employee.EmployeeCompany.EmployeeId = updateUserRequestDTO.Employee.EmployeeId;
-                updateUserRequestDTO.Employee.EmployeeCompany.UpdaterId = updateUserRequestDTO.UpdaterId;
+                updateUserRequestDTO.Employee.WorkHistory.EmployeeId = updateUserRequestDTO.Employee.EmployeeId;
+                updateUserRequestDTO.Employee.WorkHistory.UpdaterId = updateUserRequestDTO.UpdaterId;
                 
-                await _employeeService.SaveEmployeeCompany(updateUserRequestDTO.Employee.EmployeeCompany);
+                await _employeeService.SaveWorkHistory(updateUserRequestDTO.Employee.WorkHistory);
             }
         }
 
@@ -341,7 +341,7 @@ public class AuthService
         {
             new(ClaimUtil.USER_ID_IDENTIFIER, user.UserId.ToString()!),
             new(ClaimUtil.USER_ACCOUNT_IDENTIFIER, user.UserAccount!),
-            new(ClaimUtil.EMPLOYEE_COMPANY_ID_IDENTIFIER, user.Employee!.EmployeeCompanies![0].EmployeeCompanyId.ToString()!),
+            new(ClaimUtil.WORK_HISTORY_ID_IDENTIFIER, user.Employee!.WorkHistories![0].WorkHistoryId.ToString()!),
             new(ClaimUtil.EMPLOYEE_ID_IDENTIFIER, user.Employee!.EmployeeId.ToString()!),
             new(ClaimUtil.EMPLOYEE_NAME_IDENTIFIER, user.Employee!.EmployeeName!)
         };
@@ -365,7 +365,7 @@ public class AuthService
         var claims = new List<Claim> {
             new(ClaimUtil.USER_ID_IDENTIFIER, user.UserId.ToString()!),
             new(ClaimUtil.USER_ACCOUNT_IDENTIFIER, user.UserAccount!),
-            new(ClaimUtil.EMPLOYEE_COMPANY_ID_IDENTIFIER, user.Employee!.EmployeeCompanies![0].EmployeeCompanyId.ToString()!),
+            new(ClaimUtil.WORK_HISTORY_ID_IDENTIFIER, user.Employee!.WorkHistories![0].WorkHistoryId.ToString()!),
             new(ClaimUtil.EMPLOYEE_ID_IDENTIFIER, user.Employee!.EmployeeId.ToString()!),
             new(ClaimUtil.EMPLOYEE_NAME_IDENTIFIER, user.Employee!.EmployeeName!)
         };

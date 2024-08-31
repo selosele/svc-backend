@@ -11,17 +11,17 @@ public class EmployeeService
 {
     #region Fields
     private readonly IEmployeeRepository _employeeRepository;
-    private readonly IEmployeeCompanyRepository _employeeCompanyRepository;
+    private readonly IWorkHistoryRepository _workHistoryRepository;
     #endregion
     
     #region Constructor
     public EmployeeService(
         IEmployeeRepository employeeRepository,
-        IEmployeeCompanyRepository employeeCompanyRepository
+        IWorkHistoryRepository workHistoryRepository
     )
     {
         _employeeRepository = employeeRepository;
-        _employeeCompanyRepository = employeeCompanyRepository;
+        _workHistoryRepository = workHistoryRepository;
     }
     #endregion
 
@@ -35,7 +35,7 @@ public class EmployeeService
         var employee = await _employeeRepository.GetEmployee(getEmployeeRequestDTO);
         if (employee != null)
         {
-            employee.EmployeeCompanies = await _employeeCompanyRepository.ListEmployeeCompany(employee.EmployeeId);
+            employee.WorkHistories = await _workHistoryRepository.ListWorkHistory(employee.EmployeeId);
         }
         return employee;
     }
@@ -51,108 +51,108 @@ public class EmployeeService
     }
 
     /// <summary>
-    /// 직원 회사 목록을 조회한다.
+    /// 근무이력 목록을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<IList<EmployeeCompanyResponseDTO>> ListEmployeeCompany(GetEmployeeCompanyRequestDTO getEmployeeCompanyRequestDTO)
-        => await _employeeCompanyRepository.ListEmployeeCompany(getEmployeeCompanyRequestDTO.EmployeeId);
+    public async Task<IList<WorkHistoryResponseDTO>> ListWorkHistory(GetWorkHistoryRequestDTO getWorkHistoryRequestDTO)
+        => await _workHistoryRepository.ListWorkHistory(getWorkHistoryRequestDTO.EmployeeId);
 
     /// <summary>
-    /// 직원 회사를 조회한다.
+    /// 근무이력을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<EmployeeCompanyResponseDTO> GetEmployeeCompany(GetEmployeeCompanyRequestDTO getEmployeeCompanyRequestDTO)
-        => await _employeeCompanyRepository.GetEmployeeCompany(getEmployeeCompanyRequestDTO);
+    public async Task<WorkHistoryResponseDTO> GetWorkHistory(GetWorkHistoryRequestDTO getWorkHistoryRequestDTO)
+        => await _workHistoryRepository.GetWorkHistory(getWorkHistoryRequestDTO);
 
     /// <summary>
-    /// 직원 회사를 추가/수정한다.
+    /// 근무이력을 추가/수정한다.
     /// </summary>
     [Transaction]
-    public async Task<int> SaveEmployeeCompany(SaveEmployeeCompanyRequestDTO saveEmployeeCompanyRequestDTO)
+    public async Task<int> SaveWorkHistory(SaveWorkHistoryRequestDTO saveWorkHistoryRequestDTO)
     {
         // 퇴사일자 값이 없으면 재직 중인 회사이므로 직원 정보도 수정해준다.
-        if (string.IsNullOrWhiteSpace(saveEmployeeCompanyRequestDTO.QuitYmd))
+        if (string.IsNullOrWhiteSpace(saveWorkHistoryRequestDTO.QuitYmd))
         {
             var updateEmployeeRequestDTO = new UpdateEmployeeRequestDTO
             {
-                EmployeeCompany = new SaveEmployeeCompanyRequestDTO
+                WorkHistory = new SaveWorkHistoryRequestDTO
                 {
-                    CompanyId = saveEmployeeCompanyRequestDTO.CompanyId
+                    CompanyId = saveWorkHistoryRequestDTO.CompanyId
                 },
-                EmployeeId = saveEmployeeCompanyRequestDTO.EmployeeId,
-                UpdaterId = saveEmployeeCompanyRequestDTO.UpdaterId
+                EmployeeId = saveWorkHistoryRequestDTO.EmployeeId,
+                UpdaterId = saveWorkHistoryRequestDTO.UpdaterId
             };
             await _employeeRepository.UpdateEmployee(updateEmployeeRequestDTO);
         }
 
-        // 직원 회사 정보를 조회해서
-        var employeeCompany = await _employeeCompanyRepository.GetEmployeeCompany(new GetEmployeeCompanyRequestDTO
+        // 근무이력 정보를 조회해서
+        var workHistory = await _workHistoryRepository.GetWorkHistory(new GetWorkHistoryRequestDTO
             {
-                EmployeeId = saveEmployeeCompanyRequestDTO.EmployeeId,
-                CompanyId = saveEmployeeCompanyRequestDTO.CompanyId
+                EmployeeId = saveWorkHistoryRequestDTO.EmployeeId,
+                CompanyId = saveWorkHistoryRequestDTO.CompanyId
             }
         );
-        if (employeeCompany != null)
+        if (workHistory != null)
         {
             // 있으면 수정을 하고
-            return await _employeeCompanyRepository.UpdateEmployeeCompany(saveEmployeeCompanyRequestDTO);
+            return await _workHistoryRepository.UpdateWorkHistory(saveWorkHistoryRequestDTO);
         }
         // 없으면 추가를 한다.
-        return await _employeeCompanyRepository.AddEmployeeCompany(saveEmployeeCompanyRequestDTO);
+        return await _workHistoryRepository.AddWorkHistory(saveWorkHistoryRequestDTO);
     }
 
     /// <summary>
-    /// 직원 회사를 추가한다.
+    /// 근무이력을 추가한다.
     /// </summary>
     [Transaction]
-    public async Task<int> AddEmployeeCompany(SaveEmployeeCompanyRequestDTO saveEmployeeCompanyRequestDTO)
+    public async Task<int> AddWorkHistory(SaveWorkHistoryRequestDTO saveWorkHistoryRequestDTO)
     {
         // 퇴사일자 값이 없으면 재직 중인 회사이므로 직원 정보도 수정해준다.
-        if (string.IsNullOrWhiteSpace(saveEmployeeCompanyRequestDTO.QuitYmd))
+        if (string.IsNullOrWhiteSpace(saveWorkHistoryRequestDTO.QuitYmd))
         {
             var updateEmployeeRequestDTO = new UpdateEmployeeRequestDTO
             {
-                EmployeeCompany = new SaveEmployeeCompanyRequestDTO
+                WorkHistory = new SaveWorkHistoryRequestDTO
                 {
-                    CompanyId = saveEmployeeCompanyRequestDTO.CompanyId
+                    CompanyId = saveWorkHistoryRequestDTO.CompanyId
                 },
-                EmployeeId = saveEmployeeCompanyRequestDTO.EmployeeId,
-                UpdaterId = saveEmployeeCompanyRequestDTO.UpdaterId
+                EmployeeId = saveWorkHistoryRequestDTO.EmployeeId,
+                UpdaterId = saveWorkHistoryRequestDTO.UpdaterId
             };
             await _employeeRepository.UpdateEmployee(updateEmployeeRequestDTO);
         }
-        return await _employeeCompanyRepository.AddEmployeeCompany(saveEmployeeCompanyRequestDTO);
+        return await _workHistoryRepository.AddWorkHistory(saveWorkHistoryRequestDTO);
     }
 
     /// <summary>
-    /// 직원 회사를 수정한다.
+    /// 근무이력을 수정한다.
     /// </summary>
     [Transaction]
-    public async Task<int> UpdateEmployeeCompany(SaveEmployeeCompanyRequestDTO saveEmployeeCompanyRequestDTO)
+    public async Task<int> UpdateWorkHistory(SaveWorkHistoryRequestDTO saveWorkHistoryRequestDTO)
     {
         // 퇴사일자 값이 없으면 재직 중인 회사이므로 직원 정보도 수정해준다.
-        if (string.IsNullOrWhiteSpace(saveEmployeeCompanyRequestDTO.QuitYmd))
+        if (string.IsNullOrWhiteSpace(saveWorkHistoryRequestDTO.QuitYmd))
         {
             var updateEmployeeRequestDTO = new UpdateEmployeeRequestDTO
             {
-                EmployeeCompany = new SaveEmployeeCompanyRequestDTO
+                WorkHistory = new SaveWorkHistoryRequestDTO
                 {
-                    CompanyId = saveEmployeeCompanyRequestDTO.CompanyId
+                    CompanyId = saveWorkHistoryRequestDTO.CompanyId
                 },
-                EmployeeId = saveEmployeeCompanyRequestDTO.EmployeeId,
-                UpdaterId = saveEmployeeCompanyRequestDTO.UpdaterId
+                EmployeeId = saveWorkHistoryRequestDTO.EmployeeId,
+                UpdaterId = saveWorkHistoryRequestDTO.UpdaterId
             };
             await _employeeRepository.UpdateEmployee(updateEmployeeRequestDTO);
         }
-        return await _employeeCompanyRepository.UpdateEmployeeCompany(saveEmployeeCompanyRequestDTO);
+        return await _workHistoryRepository.UpdateWorkHistory(saveWorkHistoryRequestDTO);
     }
 
     /// <summary>
-    /// 직원 회사를 삭제한다.
+    /// 근무이력을 삭제한다.
     /// </summary>
     [Transaction]
-    public async Task<int> RemoveEmployeeCompany(int userId, int employeeCompanyId)
-        => await _employeeCompanyRepository.RemoveEmployeeCompany(userId, employeeCompanyId);
+    public async Task<int> RemoveWorkHistory(int userId, int workHistoryId)
+        => await _workHistoryRepository.RemoveWorkHistory(userId, workHistoryId);
     #endregion
     
 }

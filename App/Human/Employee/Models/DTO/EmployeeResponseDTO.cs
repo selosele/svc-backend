@@ -29,12 +29,12 @@ public record EmployeeResponseDTO
     /// <summary>
     /// 휴대폰번호
     /// </summary>
-    public string? phoneNo { get; set; }
+    public string? PhoneNo { get; set; }
 
     /// <summary>
-    /// 직원 회사 정보
+    /// 근무이력 정보
     /// </summary>
-    public IList<EmployeeCompanyResponseDTO>? EmployeeCompanies { get; set; } = [];
+    public IList<WorkHistoryResponseDTO>? WorkHistories { get; set; } = [];
     #endregion
 
 }

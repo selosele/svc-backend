@@ -17,9 +17,9 @@ public record VacationResponseDTO
     public int? EmployeeId { get; set; }
 
     /// <summary>
-    /// 직원 회사 ID
+    /// 근무이력 ID
     /// </summary>
-    public int? EmployeeCompanyId { get; set; }
+    public int? WorkHistoryId { get; set; }
 
     /// <summary>
     /// 휴가 구분 코드

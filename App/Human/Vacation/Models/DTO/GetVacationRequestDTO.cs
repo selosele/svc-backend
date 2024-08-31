@@ -14,9 +14,9 @@ public record GetVacationRequestDTO : HttpRequestDTOBase
     public int? VacationId { get; set; }
 
     /// <summary>
-    /// 직원 회사 ID
+    /// 근무이력 ID
     /// </summary>
-    public int? EmployeeCompanyId { get; set; }
+    public int? WorkHistoryId { get; set; }
     #endregion
 
 }

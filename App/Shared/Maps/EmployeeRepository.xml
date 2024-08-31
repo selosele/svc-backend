@@ -7,7 +7,7 @@
       <Result Column="EMPLOYEE_NAME" Property="EmployeeName" />
       <Result Column="GENDER_CODE" Property="GenderCode" />
       <Result Column="BIRTH_YMD" Property="BirthYmd" />
-      <Result Column="PHONE_NO" Property="phoneNo" />
+      <Result Column="PHONE_NO" Property="PhoneNo" />
     </ResultMap>
   </ResultMaps>
 
@@ -39,7 +39,7 @@
       /* EmployeeRepository.AddEmployee */
 
       INSERT INTO HM_EMPLOYEE (USER_ID, EMPLOYEE_NAME, GENDER_CODE, BIRTH_YMD, PHONE_NO, CREATER_ID)
-      VALUES (@UserId, @EmployeeName, @GenderCode, @BirthYmd, @phoneNo, @CreaterId)
+      VALUES (@UserId, @EmployeeName, @GenderCode, @BirthYmd, @PhoneNo, @CreaterId)
       ;SELECT LAST_INSERT_ID()
     </Statement>
 
@@ -49,8 +49,8 @@
 
       UPDATE HM_EMPLOYEE
         SET
-          <IsNotEmpty Property="EmployeeCompany.CompanyId">
-          COMPANY_ID = @EmployeeCompany.CompanyId,
+          <IsNotEmpty Property="WorkHistory.CompanyId">
+          COMPANY_ID = @WorkHistory.CompanyId,
           </IsNotEmpty>
           <IsNotEmpty Property="EmployeeName">
           EMPLOYEE_NAME = @EmployeeName,
@@ -61,8 +61,8 @@
           <IsNotEmpty Property="BirthYmd">
           BIRTH_YMD = @BirthYmd,
           </IsNotEmpty>
-          <IsNotEmpty Property="phoneNo">
-          PHONE_NO = @phoneNo,
+          <IsNotEmpty Property="PhoneNo">
+          PHONE_NO = @PhoneNo,
           </IsNotEmpty>
           UPDATER_ID = @UpdaterId,
           UPDATE_DT = CURRENT_TIMESTAMP()

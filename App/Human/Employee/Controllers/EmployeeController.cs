@@ -58,27 +58,27 @@ public class EmployeeController : ControllerBase
     }
 
     /// <summary>
-    /// 직원 회사 목록을 조회한다.
+    /// 근무이력 목록을 조회한다.
     /// </summary>
     [HttpGet("{employeeId}/companies")]
     [Authorize]
-    public async Task<ActionResult<List<EmployeeCompanyResponseDTO>>> ListEmployeeCompany(int employeeId)
-        => Ok(await _employeeService.ListEmployeeCompany(new GetEmployeeCompanyRequestDTO { EmployeeId = employeeId }));
+    public async Task<ActionResult<List<WorkHistoryResponseDTO>>> ListWorkHistory(int employeeId)
+        => Ok(await _employeeService.ListWorkHistory(new GetWorkHistoryRequestDTO { EmployeeId = employeeId }));
     
     /// <summary>
-    /// 직원 회사를 조회한다.
+    /// 근무이력을 조회한다.
     /// </summary>
-    [HttpGet("{employeeId}/companies/{employeeCompanyId}")]
+    [HttpGet("{employeeId}/companies/{workHistoryId}")]
     [Authorize]
-    public async Task<ActionResult<EmployeeCompanyResponseDTO>> GetEmployeeCompany(int employeeId, int employeeCompanyId)
-        => Ok(await _employeeService.GetEmployeeCompany(new GetEmployeeCompanyRequestDTO { EmployeeCompanyId = employeeCompanyId }));
+    public async Task<ActionResult<WorkHistoryResponseDTO>> GetWorkHistory(int employeeId, int workHistoryId)
+        => Ok(await _employeeService.GetWorkHistory(new GetWorkHistoryRequestDTO { WorkHistoryId = workHistoryId }));
 
     /// <summary>
-    /// 직원 회사를 추가한다.
+    /// 근무이력을 추가한다.
     /// </summary>
     [HttpPost("{employeeId}/companies")]
     [Authorize]
-    public async Task<ActionResult<int>> AddEmployeeCompany(int employeeId, [FromBody] SaveEmployeeCompanyRequestDTO saveEmployeeCompanyRequestDTO)
+    public async Task<ActionResult<int>> AddWorkHistory(int employeeId, [FromBody] SaveWorkHistoryRequestDTO saveWorkHistoryRequestDTO)
     {
         var user = _authService.GetAuthenticatedUser();
         var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
@@ -87,18 +87,18 @@ public class EmployeeController : ControllerBase
         if (employeeId != myEmployeeId)
             return NotFound();
 
-        saveEmployeeCompanyRequestDTO.EmployeeId = myEmployeeId;
-        saveEmployeeCompanyRequestDTO.CreaterId = myUserId;
+        saveWorkHistoryRequestDTO.EmployeeId = myEmployeeId;
+        saveWorkHistoryRequestDTO.CreaterId = myUserId;
 
-        return Created(string.Empty, await _employeeService.AddEmployeeCompany(saveEmployeeCompanyRequestDTO));
+        return Created(string.Empty, await _employeeService.AddWorkHistory(saveWorkHistoryRequestDTO));
     }
 
     /// <summary>
-    /// 직원 회사를 수정한다.
+    /// 근무이력을 수정한다.
     /// </summary>
-    [HttpPut("{employeeId}/companies/{employeeCompanyId}")]
+    [HttpPut("{employeeId}/companies/{workHistoryId}")]
     [Authorize]
-    public async Task<ActionResult<int>> UpdateEmployeeCompany(int employeeId, int employeeCompanyId, [FromBody] SaveEmployeeCompanyRequestDTO saveEmployeeCompanyRequestDTO)
+    public async Task<ActionResult<int>> UpdateWorkHistory(int employeeId, int workHistoryId, [FromBody] SaveWorkHistoryRequestDTO saveWorkHistoryRequestDTO)
     {
         var user = _authService.GetAuthenticatedUser();
         var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
@@ -107,17 +107,17 @@ public class EmployeeController : ControllerBase
         if (employeeId != myEmployeeId)
             return NotFound();
 
-        saveEmployeeCompanyRequestDTO.UpdaterId = myUserId;
+        saveWorkHistoryRequestDTO.UpdaterId = myUserId;
 
-        return Ok(await _employeeService.UpdateEmployeeCompany(saveEmployeeCompanyRequestDTO));
+        return Ok(await _employeeService.UpdateWorkHistory(saveWorkHistoryRequestDTO));
     }
 
     /// <summary>
-    /// 직원 회사를 삭제한다.
+    /// 근무이력을 삭제한다.
     /// </summary>
-    [HttpDelete("{employeeId}/companies/{employeeCompanyId}")]
+    [HttpDelete("{employeeId}/companies/{workHistoryId}")]
     [Authorize]
-    public async Task<ActionResult> RemoveEmployeeCompany(int employeeId, int employeeCompanyId)
+    public async Task<ActionResult> RemoveWorkHistory(int employeeId, int workHistoryId)
     {
         var user = _authService.GetAuthenticatedUser();
         var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
@@ -126,7 +126,7 @@ public class EmployeeController : ControllerBase
         if (employeeId != myEmployeeId)
             return NotFound();
 
-        await _employeeService.RemoveEmployeeCompany(myUserId, employeeCompanyId);
+        await _employeeService.RemoveWorkHistory(myUserId, workHistoryId);
         return NoContent();
     }
     #endregion

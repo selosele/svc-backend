@@ -35,12 +35,12 @@ public record AddEmployeeRequestDTO : HttpRequestDTOBase
     /// <summary>
     /// 휴대폰번호
     /// </summary>
-    public string? phoneNo { get; set; }
+    public string? PhoneNo { get; set; }
 
     /// <summary>
-    /// 직원 회사 정보
+    /// 근무이력 정보
     /// </summary>
-    public SaveEmployeeCompanyRequestDTO? EmployeeCompany { get; set; }
+    public SaveWorkHistoryRequestDTO? WorkHistory { get; set; }
     #endregion
 
 }

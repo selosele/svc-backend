@@ -17,9 +17,9 @@ public class ClaimUtil
     public const string EMPLOYEE_ID_IDENTIFIER = "employeeId";
 
     /// <summary>
-    /// 직원 회사 ID 식별자
+    /// 근무이력 ID 식별자
     /// </summary>
-    public const string EMPLOYEE_COMPANY_ID_IDENTIFIER = "employeeCompanyId";
+    public const string WORK_HISTORY_ID_IDENTIFIER = "workHistoryId";
 
     /// <summary>
     /// 사용자 계정 식별자

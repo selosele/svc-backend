@@ -1,15 +1,15 @@
 namespace Svc.App.Human.Employee.Models.DTO;
 
 /// <summary>
-/// 직원 회사 응답 DTO
+/// 근무이력 응답 DTO
 /// </summary>
-public record EmployeeCompanyResponseDTO
+public record WorkHistoryResponseDTO
 {
     #region Fields
     /// <summary>
-    /// 직원 회사 ID
+    /// 근무이력 ID
     /// </summary>
-    public int? EmployeeCompanyId { get; set; }
+    public int? WorkHistoryId { get; set; }
 
     /// <summary>
     /// 회사 ID
