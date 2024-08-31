@@ -36,6 +36,23 @@ public class VacationService
         => await _vacationRepository.GetVacation(vacationId);
 
     /// <summary>
+    /// 휴가를 추가한다.
+    /// </summary>
+    [Transaction]
+    public async Task<VacationResponseDTO> AddVacation(SaveVacationRequestDTO saveVacationRequestDTO)
+    {
+        var vacationId = await _vacationRepository.AddVacation(saveVacationRequestDTO);
+        return await _vacationRepository.GetVacation(vacationId);
+    }
+
+    /// <summary>
+    /// 휴가를 수정한다.
+    /// </summary>
+    [Transaction]
+    public async Task<int> UpdateVacation(SaveVacationRequestDTO saveVacationRequestDTO)
+        => await _vacationRepository.UpdateVacation(saveVacationRequestDTO);
+
+    /// <summary>
     /// 휴가를 삭제한다.
     /// </summary>
     [Transaction]

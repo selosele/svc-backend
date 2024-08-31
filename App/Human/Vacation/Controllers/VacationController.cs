@@ -48,6 +48,37 @@ public class VacationController : ControllerBase
         => Ok(await _vacationService.GetVacation(vacationId));
 
     /// <summary>
+    /// 휴가를 추가한다.
+    /// </summary>
+    [HttpPost]
+    [Authorize]
+    public async Task<ActionResult<VacationResponseDTO>> AddVacation([FromBody] SaveVacationRequestDTO saveVacationRequestDTO)
+    {
+        var user = _authService.GetAuthenticatedUser();
+        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+        var myEmployeeId = int.Parse(user?.FindFirstValue(ClaimUtil.EMPLOYEE_ID_IDENTIFIER)!);
+
+        saveVacationRequestDTO.CreaterId = myUserId;
+        saveVacationRequestDTO.EmployeeId = myEmployeeId;
+        
+        return Created(string.Empty, await _vacationService.AddVacation(saveVacationRequestDTO));
+    }
+
+    /// <summary>
+    /// 휴가를 수정한다.
+    /// </summary>
+    [HttpPut("{vacationId}")]
+    [Authorize]
+    public async Task<ActionResult<int>> UpdateVacation(int vacationId, [FromBody] SaveVacationRequestDTO saveVacationRequestDTO)
+    {
+        var user = _authService.GetAuthenticatedUser();
+        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+        
+        saveVacationRequestDTO.UpdaterId = myUserId;
+        return await _vacationService.UpdateVacation(saveVacationRequestDTO);
+    }
+
+    /// <summary>
     /// 휴가를 삭제한다.
     /// </summary>
     [HttpDelete("{vacationId}")]

@@ -47,6 +47,32 @@ public class VacationRepository : IVacationRepository
     }
 
     /// <summary>
+    /// 휴가를 추가한다.
+    /// </summary>
+    public Task<int> AddVacation(SaveVacationRequestDTO saveVacationRequestDTO)
+    {
+        return SqlMapper.ExecuteScalarAsync<int>(new RequestContext
+        {
+            Scope = nameof(VacationRepository),
+            SqlId = "AddVacation",
+            Request = saveVacationRequestDTO
+        });
+    }
+
+    /// <summary>
+    /// 휴가를 수정한다.
+    /// </summary>
+    public Task<int> UpdateVacation(SaveVacationRequestDTO saveVacationRequestDTO)
+    {
+        return SqlMapper.ExecuteAsync(new RequestContext
+        {
+            Scope = nameof(VacationRepository),
+            SqlId = "UpdateVacation",
+            Request = saveVacationRequestDTO
+        });
+    }
+
+    /// <summary>
     /// 휴가를 삭제한다.
     /// </summary>
     public Task<int> RemoveVacation(int vacationId, int updaterId)

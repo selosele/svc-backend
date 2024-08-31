@@ -19,6 +19,16 @@ public interface IVacationRepository
     Task<VacationResponseDTO> GetVacation(int vacationId);
 
     /// <summary>
+    /// 휴가를 추가한다.
+    /// </summary>
+    Task<int> AddVacation(SaveVacationRequestDTO saveVacationRequestDTO);
+
+    /// <summary>
+    /// 휴가를 수정한다.
+    /// </summary>
+    Task<int> UpdateVacation(SaveVacationRequestDTO saveVacationRequestDTO);
+
+    /// <summary>
     /// 휴가를 삭제한다.
     /// </summary>
     Task<int> RemoveVacation(int vacationId, int updaterId);

@@ -53,6 +53,46 @@
         AND V.VACATION_ID = @VacationId
     </Statement>
 
+    <!-- 휴가를 추가한다. -->
+    <Statement Id="AddVacation">
+      /* VacationRepository.AddVacation */
+
+      INSERT INTO HM_VACATION (
+        EMPLOYEE_ID,
+        WORK_HISTORY_ID,
+        VACATION_TYPE_CODE,
+        VACATION_CONTENT,
+        VACATION_START_YMD,
+        VACATION_END_YMD,
+        CREATER_ID
+      )
+      VALUES (
+        @EmployeeId,
+        @WorkHistoryId,
+        @VacationTypeCode,
+        @VacationContent,
+        @VacationStartYmd,
+        @VacationEndYmd,
+        @CreaterId
+      )
+      ;SELECT LAST_INSERT_ID()
+    </Statement>
+
+    <!-- 휴가를 수정한다. -->
+    <Statement Id="UpdateVacation">
+      /* VacationRepository.UpdateVacation */
+
+      UPDATE HM_VACATION
+        SET
+          VACATION_TYPE_CODE = @VacationTypeCode,
+          VACATION_CONTENT = @VacationContent,
+          VACATION_START_YMD = @VacationStartYmd,
+          VACATION_END_YMD = @VacationEndYmd,
+          UPDATER_ID = @UpdaterId,
+          UPDATE_DT = CURRENT_TIMESTAMP()
+      WHERE VACATION_ID = @VacationId
+    </Statement>
+
     <!-- 휴가를 삭제한다. -->
     <Statement Id="RemoveVacation">
       /* VacationRepository.RemoveVacation */
