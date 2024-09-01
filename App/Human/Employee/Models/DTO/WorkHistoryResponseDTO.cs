@@ -60,6 +60,11 @@ public record WorkHistoryResponseDTO
     /// 재직기간(월)
     /// </summary>
     public int? WorkDiffM { get; set; }
+
+    /// <summary>
+    /// 휴가 사용일수
+    /// </summary>
+    public int? VacationUseCount { get; set; }
     #endregion
 
 }

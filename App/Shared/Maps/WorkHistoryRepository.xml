@@ -14,6 +14,7 @@
       <Result Column="QUIT_YMD" Property="QuitYmd" />
       <Result Column="WORK_DIFF_Y" Property="WorkDiffY" />
       <Result Column="WORK_DIFF_M" Property="WorkDiffM" />
+      <Result Column="VACATION_USE_COUNT" Property="VacationUseCount" />
     </ResultMap>
   </ResultMaps>
 
@@ -34,7 +35,15 @@
         H.JOIN_YMD,
         H.QUIT_YMD,
         TIMESTAMPDIFF(YEAR, H.JOIN_YMD, IFNULL(H.QUIT_YMD, CURRENT_TIMESTAMP())) AS WORK_DIFF_Y,
-        TIMESTAMPDIFF(MONTH, H.JOIN_YMD, IFNULL(H.QUIT_YMD, CURRENT_TIMESTAMP())) % 12 AS WORK_DIFF_M
+        TIMESTAMPDIFF(MONTH, H.JOIN_YMD, IFNULL(H.QUIT_YMD, CURRENT_TIMESTAMP())) % 12 AS WORK_DIFF_M,
+        (
+          SELECT
+            SUM(FN_GET_VACATION_USE_COUNT(V.VACATION_START_YMD, V.VACATION_END_YMD))
+          FROM HM_VACATION V
+          WHERE V.WORK_HISTORY_ID = H.WORK_HISTORY_ID
+            AND V.DELETE_YN = 'N'
+            AND V.VACATION_TYPE_CODE NOT IN ('07', '08', '09', '10', '11')
+        ) AS VACATION_USE_COUNT
       FROM HM_WORK_HISTORY H
       INNER JOIN HM_COMPANY C ON C.COMPANY_ID = H.COMPANY_ID
       WHERE H.EMPLOYEE_ID = @EmployeeId
