@@ -9,6 +9,7 @@
       <Result Column="COMPANY_NAME" Property="CompanyName" />
       <Result Column="RANK_CODE" Property="RankCode" />
       <Result Column="JOB_TITLE_CODE" Property="JobTitleCode" />
+      <Result Column="ANNUAL_TYPE_CODE" Property="AnnualTypeCode" />
       <Result Column="JOIN_YMD" Property="JoinYmd" />
       <Result Column="QUIT_YMD" Property="QuitYmd" />
     </ResultMap>
@@ -27,6 +28,7 @@
         C.COMPANY_NAME,
         H.RANK_CODE,
         H.JOB_TITLE_CODE,
+        H.ANNUAL_TYPE_CODE,
         H.JOIN_YMD,
         H.QUIT_YMD
       FROM HM_WORK_HISTORY H
@@ -47,6 +49,7 @@
         C.COMPANY_NAME,
         H.RANK_CODE,
         H.JOB_TITLE_CODE,
+        H.ANNUAL_TYPE_CODE,
         H.JOIN_YMD,
         H.QUIT_YMD
       FROM HM_WORK_HISTORY H
@@ -72,6 +75,7 @@
         COMPANY_ID,
         RANK_CODE,
         JOB_TITLE_CODE,
+        ANNUAL_TYPE_CODE,
         JOIN_YMD,
         QUIT_YMD,
         CREATER_ID
@@ -81,6 +85,7 @@
         @CompanyId,
         @RankCode,
         @JobTitleCode,
+        @AnnualTypeCode,
         @JoinYmd,
         @QuitYmd,
         @CreaterId
@@ -98,6 +103,9 @@
           </IsNotEmpty>
           <IsNotEmpty Property="JobTitleCode">
           JOB_TITLE_CODE = @JobTitleCode,
+          </IsNotEmpty>
+          <IsNotEmpty Property="AnnualTypeCode">
+          ANNUAL_TYPE_CODE = @AnnualTypeCode,
           </IsNotEmpty>
           <IsNotEmpty Property="JoinYmd">
           JOIN_YMD = @JoinYmd,
