@@ -38,8 +38,22 @@
     <Statement Id="AddEmployee">
       /* EmployeeRepository.AddEmployee */
 
-      INSERT INTO HM_EMPLOYEE (USER_ID, EMPLOYEE_NAME, GENDER_CODE, BIRTH_YMD, PHONE_NO, CREATER_ID)
-      VALUES (@UserId, @EmployeeName, @GenderCode, @BirthYmd, @PhoneNo, @CreaterId)
+      INSERT INTO HM_EMPLOYEE (
+        USER_ID,
+        EMPLOYEE_NAME,
+        GENDER_CODE,
+        BIRTH_YMD,
+        PHONE_NO,
+        CREATER_ID
+      )
+      VALUES (
+        @UserId,
+        @EmployeeName,
+        @GenderCode,
+        @BirthYmd,
+        REPLACE(@PhoneNo, '-', ''),
+        @CreaterId
+      )
       ;SELECT LAST_INSERT_ID()
     </Statement>
 
@@ -62,7 +76,7 @@
           BIRTH_YMD = @BirthYmd,
           </IsNotEmpty>
           <IsNotEmpty Property="PhoneNo">
-          PHONE_NO = @PhoneNo,
+          PHONE_NO = REPLACE(@PhoneNo, '-', ''),
           </IsNotEmpty>
           UPDATER_ID = @UpdaterId,
           UPDATE_DT = CURRENT_TIMESTAMP()
