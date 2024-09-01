@@ -10,7 +10,7 @@
       <Result Column="VACATION_CONTENT" Property="VacationContent" />
       <Result Column="VACATION_START_YMD" Property="VacationStartYmd" />
       <Result Column="VACATION_END_YMD" Property="VacationEndYmd" />
-      <Result Column="VACATION_DIFF" Property="VacationDiff" />
+      <Result Column="VACATION_USE_COUNT" Property="VacationUseCount" />
       <Result Column="DELETE_YN" Property="DeleteYn" />
     </ResultMap>
   </ResultMaps>
@@ -29,13 +29,7 @@
         V.VACATION_CONTENT,
         V.VACATION_START_YMD,
         V.VACATION_END_YMD,
-        (
-          SELECT IF(
-            DATEDIFF(V.VACATION_END_YMD, V.VACATION_START_YMD) = 0,
-            DATEDIFF(V.VACATION_END_YMD, V.VACATION_START_YMD) + 1,
-            DATEDIFF(V.VACATION_END_YMD, V.VACATION_START_YMD) - 1
-          )
-        ) AS VACATION_DIFF,
+        FN_GET_VACATION_USE_COUNT(V.VACATION_START_YMD, V.VACATION_END_YMD) AS VACATION_USE_COUNT,
         V.DELETE_YN
       FROM HM_VACATION V
       WHERE V.DELETE_YN = 'N'
