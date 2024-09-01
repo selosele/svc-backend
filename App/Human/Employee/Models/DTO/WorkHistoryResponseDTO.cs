@@ -50,6 +50,16 @@ public record WorkHistoryResponseDTO
     /// 퇴사일자
     /// </summary>
     public string? QuitYmd { get; set; }
+
+    /// <summary>
+    /// 재직기간(년도)
+    /// </summary>
+    public int? WorkDiffY { get; set; }
+
+    /// <summary>
+    /// 재직기간(월)
+    /// </summary>
+    public int? WorkDiffM { get; set; }
     #endregion
 
 }

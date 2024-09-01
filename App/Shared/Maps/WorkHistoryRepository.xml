@@ -12,6 +12,8 @@
       <Result Column="ANNUAL_TYPE_CODE" Property="AnnualTypeCode" />
       <Result Column="JOIN_YMD" Property="JoinYmd" />
       <Result Column="QUIT_YMD" Property="QuitYmd" />
+      <Result Column="WORK_DIFF_Y" Property="WorkDiffY" />
+      <Result Column="WORK_DIFF_M" Property="WorkDiffM" />
     </ResultMap>
   </ResultMaps>
 
@@ -30,7 +32,9 @@
         H.JOB_TITLE_CODE,
         H.ANNUAL_TYPE_CODE,
         H.JOIN_YMD,
-        H.QUIT_YMD
+        H.QUIT_YMD,
+        TIMESTAMPDIFF(YEAR, H.JOIN_YMD, IFNULL(H.QUIT_YMD, CURRENT_TIMESTAMP())) AS WORK_DIFF_Y,
+        TIMESTAMPDIFF(MONTH, H.JOIN_YMD, IFNULL(H.QUIT_YMD, CURRENT_TIMESTAMP())) % 12 AS WORK_DIFF_M
       FROM HM_WORK_HISTORY H
       INNER JOIN HM_COMPANY C ON C.COMPANY_ID = H.COMPANY_ID
       WHERE H.EMPLOYEE_ID = @EmployeeId
