@@ -42,6 +42,11 @@ public record VacationResponseDTO
     public string? VacationEndYmd { get; set; }
 
     /// <summary>
+    /// 휴가 사용일수
+    /// </summary>
+    public int? VacationDiff { get; set; }
+
+    /// <summary>
     /// 삭제 여부
     /// </summary>
     public string? DeleteYn { get; set; }
