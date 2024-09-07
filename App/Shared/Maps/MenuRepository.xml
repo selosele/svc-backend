@@ -9,6 +9,7 @@
       <Result Column="MENU_URL" Property="MenuUrl" />
       <Result Column="MENU_ORDER" Property="MenuOrder" />
       <Result Column="MENU_DEPTH" Property="MenuDepth" />
+      <Result Column="MENU_SHOW_YN" Property="MenuShowYn" />
       <Result Column="USE_YN" Property="UseYn" />
       <Result Column="DELETE_YN" Property="DeleteYn" />
     </ResultMap>
@@ -29,6 +30,7 @@
           M.MENU_ORDER,
           M.MENU_DEPTH,
           CAST(M.MENU_ORDER AS CHAR(200)) AS SORT_ORDER,
+          M.MENU_SHOW_YN,
           M.USE_YN,
           M.DELETE_YN
         FROM CO_MENU M
@@ -42,6 +44,7 @@
           M.MENU_ORDER,
           M.MENU_DEPTH,
           CONCAT(R.SORT_ORDER, '-', LPAD(M.MENU_ORDER, 5, '0')) AS SORT_ORDER,
+          M.MENU_SHOW_YN,
           M.USE_YN,
           M.DELETE_YN
         FROM CO_MENU M
@@ -54,6 +57,7 @@
         R.MENU_URL,
         R.MENU_ORDER,
         R.MENU_DEPTH,
+        R.MENU_SHOW_YN,
         R.USE_YN,
         R.DELETE_YN
       FROM R

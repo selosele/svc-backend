@@ -35,6 +35,11 @@ public record MenuResponseDTO
     /// 메뉴 뎁스
     /// </summary>
     public int? MenuDepth { get; set; }
+
+    /// <summary>
+    /// 메뉴 표출 여부
+    /// </summary>
+    public string? MenuShowYn { get; set; }
     
     /// <summary>
     /// 사용 여부
