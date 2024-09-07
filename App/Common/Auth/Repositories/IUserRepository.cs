@@ -39,6 +39,11 @@ public interface IUserRepository
     Task<int> UpdateUser(UpdateUserRequestDTO updateUserRequestDTO);
 
     /// <summary>
+    /// 사용자 마지막 로그인 일시를 변경한다.
+    /// </summary>
+    Task<int> UpdateUserLastLoginDt(int? userId, int updaterId);
+
+    /// <summary>
     /// 사용자 비밀번호를 변경한다.
     /// </summary>
     Task<int> UpdateUserPassword(UpdateUserPasswordRequestDTO updateUserPasswordRequestDTO);

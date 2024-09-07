@@ -99,6 +99,19 @@ public class UserRepository : IUserRepository
     }
 
     /// <summary>
+    /// 사용자 마지막 로그인 일시를 변경한다.
+    /// </summary>
+    public Task<int> UpdateUserLastLoginDt(int? userId, int updaterId)
+    {
+        return SqlMapper.ExecuteAsync(new RequestContext
+        {
+            Scope = nameof(UserRepository),
+            SqlId = "UpdateUserLastLoginDt",
+            Request = new { userId, updaterId }
+        });
+    }
+
+    /// <summary>
     /// 사용자 비밀번호를 변경한다.
     /// </summary>
     public Task<int> UpdateUserPassword(UpdateUserPasswordRequestDTO updateUserPasswordRequestDTO)

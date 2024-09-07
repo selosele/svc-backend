@@ -73,11 +73,21 @@ public class AuthService
         if (user.UserActiveYn == "N")
             throw new BizException("비활성화된 사용자입니다.");
 
+        // 비밀번호를 비교한다.
         var isPasswordMatch = EncryptUtil.Verify(loginRequestDTO.UserPassword!, user.UserPassword!);
         if (!isPasswordMatch)
             throw new BizException("아이디 또는 비밀번호를 확인하세요.");
 
+        // 인증된 사용자 정보를 설정한다.
         SetAuthenticatedUser(user);
+
+        var myUser = GetAuthenticatedUser();
+        var myUserId = int.Parse(myUser?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+
+        // 사용자의 마지막 로그인 일시를 변경한다.
+        await _userRepository.UpdateUserLastLoginDt(user.UserId, myUserId);
+
+        // JWT를 생성해서 반환한다.
         return GenerateJWTToken(user);
     }
 
