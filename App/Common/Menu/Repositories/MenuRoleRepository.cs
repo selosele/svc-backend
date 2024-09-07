@@ -23,13 +23,13 @@ public class MenuRoleRepository : IMenuRoleRepository
     /// <summary>
     /// 메뉴 권한 목록을 조회한다.
     /// </summary>
-    public Task<IList<MenuRoleResponseDTO>> ListMenuRole(GetMenuRoleRequestDTO getMenuRoleRequestDTO)
+    public Task<IList<MenuRoleResponseDTO>> ListMenuRole(GetMenuRoleRequestDTO dto)
     {
         return SqlMapper.QueryAsync<MenuRoleResponseDTO>(new RequestContext
         {
             Scope = nameof(MenuRoleRepository),
             SqlId = "ListMenuRole",
-            Request = getMenuRoleRequestDTO
+            Request = dto
         });
     }
     #endregion

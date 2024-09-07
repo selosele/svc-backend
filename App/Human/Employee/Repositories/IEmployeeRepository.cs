@@ -11,17 +11,17 @@ public interface IEmployeeRepository
     /// <summary>
     /// 직원을 조회한다.
     /// </summary>
-    Task<EmployeeResponseDTO> GetEmployee(GetEmployeeRequestDTO getEmployeeRequestDTO);
+    Task<EmployeeResponseDTO> GetEmployee(GetEmployeeRequestDTO dto);
 
     /// <summary>
     /// 직원을 추가한다.
     /// </summary>
-    Task<int> AddEmployee(AddEmployeeRequestDTO addEmployeeRequestDTO);
+    Task<int> AddEmployee(AddEmployeeRequestDTO dto);
 
     /// <summary>
     /// 직원을 수정한다.
     /// </summary>
-    Task<int> UpdateEmployee(UpdateEmployeeRequestDTO updateEmployeeRequestDTO);
+    Task<int> UpdateEmployee(UpdateEmployeeRequestDTO dto);
     #endregion
 
 }

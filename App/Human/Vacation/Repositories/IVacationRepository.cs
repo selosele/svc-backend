@@ -11,7 +11,7 @@ public interface IVacationRepository
     /// <summary>
     /// 휴가 목록을 조회한다.
     /// </summary>
-    Task<IList<VacationResponseDTO>> ListVacation(GetVacationRequestDTO getVacationRequestDTO);
+    Task<IList<VacationResponseDTO>> ListVacation(GetVacationRequestDTO dto);
 
     /// <summary>
     /// 휴가를 조회한다.
@@ -21,12 +21,12 @@ public interface IVacationRepository
     /// <summary>
     /// 휴가를 추가한다.
     /// </summary>
-    Task<int> AddVacation(SaveVacationRequestDTO saveVacationRequestDTO);
+    Task<int> AddVacation(SaveVacationRequestDTO dto);
 
     /// <summary>
     /// 휴가를 수정한다.
     /// </summary>
-    Task<int> UpdateVacation(SaveVacationRequestDTO saveVacationRequestDTO);
+    Task<int> UpdateVacation(SaveVacationRequestDTO dto);
 
     /// <summary>
     /// 휴가를 삭제한다.

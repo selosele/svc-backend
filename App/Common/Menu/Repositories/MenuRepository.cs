@@ -23,13 +23,13 @@ public class MenuRepository : IMenuRepository
     /// <summary>
     /// 메뉴 목록을 조회한다.
     /// </summary>
-    public Task<IList<MenuResponseDTO>> ListMenu(GetMenuRequestDTO getMenuRequestDTO)
+    public Task<IList<MenuResponseDTO>> ListMenu(GetMenuRequestDTO dto)
     {
         return SqlMapper.QueryAsync<MenuResponseDTO>(new RequestContext
         {
             Scope = nameof(MenuRepository),
             SqlId = "ListMenu",
-            Request = getMenuRequestDTO
+            Request = dto
         });
     }
     #endregion

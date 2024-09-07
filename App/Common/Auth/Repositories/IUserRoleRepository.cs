@@ -11,12 +11,12 @@ public interface IUserRoleRepository
     /// <summary>
     /// 사용자 권한 목록을 조회한다.
     /// </summary>
-    Task<IList<UserRoleResponseDTO>> ListUserRole(GetUserRoleRequestDTO getUserRoleRequestDTO);
+    Task<IList<UserRoleResponseDTO>> ListUserRole(GetUserRoleRequestDTO dto);
 
     /// <summary>
     /// 사용자 권한을 추가한다.
     /// </summary>
-    Task<int> AddUserRole(List<AddUserRoleRequestDTO> addUserRoleRequestDTOList);
+    Task<int> AddUserRole(List<AddUserRoleRequestDTO> dtoList);
 
     /// <summary>
     /// 사용자 권한을 삭제한다.

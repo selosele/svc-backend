@@ -23,13 +23,13 @@ public class VacationRepository : IVacationRepository
     /// <summary>
     /// 휴가 목록을 조회한다.
     /// </summary>
-    public Task<IList<VacationResponseDTO>> ListVacation(GetVacationRequestDTO getVacationRequestDTO)
+    public Task<IList<VacationResponseDTO>> ListVacation(GetVacationRequestDTO dto)
     {
         return SqlMapper.QueryAsync<VacationResponseDTO>(new RequestContext
         {
             Scope = nameof(VacationRepository),
             SqlId = "ListVacation",
-            Request = getVacationRequestDTO
+            Request = dto
         });
     }
 
@@ -49,26 +49,26 @@ public class VacationRepository : IVacationRepository
     /// <summary>
     /// 휴가를 추가한다.
     /// </summary>
-    public Task<int> AddVacation(SaveVacationRequestDTO saveVacationRequestDTO)
+    public Task<int> AddVacation(SaveVacationRequestDTO dto)
     {
         return SqlMapper.ExecuteScalarAsync<int>(new RequestContext
         {
             Scope = nameof(VacationRepository),
             SqlId = "AddVacation",
-            Request = saveVacationRequestDTO
+            Request = dto
         });
     }
 
     /// <summary>
     /// 휴가를 수정한다.
     /// </summary>
-    public Task<int> UpdateVacation(SaveVacationRequestDTO saveVacationRequestDTO)
+    public Task<int> UpdateVacation(SaveVacationRequestDTO dto)
     {
         return SqlMapper.ExecuteAsync(new RequestContext
         {
             Scope = nameof(VacationRepository),
             SqlId = "UpdateVacation",
-            Request = saveVacationRequestDTO
+            Request = dto
         });
     }
 

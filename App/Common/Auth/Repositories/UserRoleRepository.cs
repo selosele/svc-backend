@@ -23,26 +23,26 @@ public class UserRoleRepository : IUserRoleRepository
     /// <summary>
     /// 사용자 권한 목록을 조회한다.
     /// </summary>
-    public Task<IList<UserRoleResponseDTO>> ListUserRole(GetUserRoleRequestDTO getUserRoleRequestDTO)
+    public Task<IList<UserRoleResponseDTO>> ListUserRole(GetUserRoleRequestDTO dto)
     {
         return SqlMapper.QueryAsync<UserRoleResponseDTO>(new RequestContext
         {
             Scope = nameof(UserRoleRepository),
             SqlId = "ListUserRole",
-            Request = getUserRoleRequestDTO
+            Request = dto
         });
     }
 
     /// <summary>
     /// 사용자 권한을 추가한다.
     /// </summary>
-    public Task<int> AddUserRole(List<AddUserRoleRequestDTO> addUserRoleRequestDTOList)
+    public Task<int> AddUserRole(List<AddUserRoleRequestDTO> dtoList)
     {
         return SqlMapper.ExecuteAsync(new RequestContext
         {
             Scope = nameof(UserRoleRepository),
             SqlId = "AddUserRole",
-            Request = new { DTOList = addUserRoleRequestDTOList }
+            Request = new { DTOList = dtoList }
         });
     }
 

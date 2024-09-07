@@ -11,7 +11,7 @@ public interface ICompanyRepository
     /// <summary>
     /// 회사 목록을 조회한다.
     /// </summary>
-    Task<IList<CompanyResponseDTO>> ListCompany(GetCompanyRequestDTO? getCompanyRequestDTO);
+    Task<IList<CompanyResponseDTO>> ListCompany(GetCompanyRequestDTO? dto);
     #endregion
 
 }

@@ -23,13 +23,13 @@ public class CompanyRepository : ICompanyRepository
     /// <summary>
     /// 회사 목록을 조회한다.
     /// </summary>
-    public Task<IList<CompanyResponseDTO>> ListCompany(GetCompanyRequestDTO? getCompanyRequestDTO)
+    public Task<IList<CompanyResponseDTO>> ListCompany(GetCompanyRequestDTO? dto)
     {
         return SqlMapper.QueryAsync<CompanyResponseDTO>(new RequestContext
         {
             Scope = nameof(CompanyRepository),
             SqlId = "ListCompany",
-            Request = getCompanyRequestDTO
+            Request = dto
         });
     }
     #endregion

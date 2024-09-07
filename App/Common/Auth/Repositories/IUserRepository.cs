@@ -11,17 +11,17 @@ public interface IUserRepository
     /// <summary>
     /// 사용자 목록을 조회한다.
     /// </summary>
-    Task<IList<UserResponseDTO>> ListUser(GetUserRequestDTO? getUserRequestDTO);
+    Task<IList<UserResponseDTO>> ListUser(GetUserRequestDTO? dto);
 
     /// <summary>
     /// 사용자를 조회한다.
     /// </summary>
-    Task<UserResponseDTO?> GetUser(GetUserRequestDTO getUserRequestDTO);
+    Task<UserResponseDTO?> GetUser(GetUserRequestDTO dto);
 
     /// <summary>
     /// 사용자를 조회한다(로그인용).
     /// </summary>
-    Task<LoginResultDTO?> GetUserLogin(LoginRequestDTO loginRequestDTO);
+    Task<LoginResultDTO?> GetUserLogin(LoginRequestDTO dto);
 
     /// <summary>
     /// 사용자 비밀번호를 조회한다.
@@ -31,12 +31,12 @@ public interface IUserRepository
     /// <summary>
     /// 사용자를 추가한다.
     /// </summary>
-    Task<int> AddUser(AddUserRequestDTO addUserRequestDTO);
+    Task<int> AddUser(AddUserRequestDTO dto);
 
     /// <summary>
     /// 사용자를 수정한다.
     /// </summary>
-    Task<int> UpdateUser(UpdateUserRequestDTO updateUserRequestDTO);
+    Task<int> UpdateUser(UpdateUserRequestDTO dto);
 
     /// <summary>
     /// 사용자 마지막 로그인 일시를 변경한다.
@@ -46,7 +46,7 @@ public interface IUserRepository
     /// <summary>
     /// 사용자 비밀번호를 변경한다.
     /// </summary>
-    Task<int> UpdateUserPassword(UpdateUserPasswordRequestDTO updateUserPasswordRequestDTO);
+    Task<int> UpdateUserPassword(UpdateUserPasswordRequestDTO dto);
 
     /// <summary>
     /// 사용자를 삭제한다.

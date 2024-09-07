@@ -11,7 +11,7 @@ public interface IMenuRoleRepository
     /// <summary>
     /// 메뉴 권한 목록을 조회한다.
     /// </summary>
-    Task<IList<MenuRoleResponseDTO>> ListMenuRole(GetMenuRoleRequestDTO getMenuRoleRequestDTO);
+    Task<IList<MenuRoleResponseDTO>> ListMenuRole(GetMenuRoleRequestDTO dto);
     #endregion
 
 }

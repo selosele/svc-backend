@@ -11,7 +11,7 @@ public interface IMenuRepository
     /// <summary>
     /// 메뉴 목록을 조회한다.
     /// </summary>
-    Task<IList<MenuResponseDTO>> ListMenu(GetMenuRequestDTO getMenuRequestDTO);
+    Task<IList<MenuResponseDTO>> ListMenu(GetMenuRequestDTO dto);
     #endregion
 
 }

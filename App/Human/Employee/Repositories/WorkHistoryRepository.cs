@@ -36,39 +36,39 @@ public class WorkHistoryRepository : IWorkHistoryRepository
     /// <summary>
     /// 근무이력을 조회한다.
     /// </summary>
-    public Task<WorkHistoryResponseDTO> GetWorkHistory(GetWorkHistoryRequestDTO getWorkHistoryRequestDTO)
+    public Task<WorkHistoryResponseDTO> GetWorkHistory(GetWorkHistoryRequestDTO dto)
     {
         return SqlMapper.QuerySingleAsync<WorkHistoryResponseDTO>(new RequestContext
         {
             Scope = nameof(WorkHistoryRepository),
             SqlId = "GetWorkHistory",
-            Request = getWorkHistoryRequestDTO
+            Request = dto
         });
     }
 
     /// <summary>
     /// 근무이력을 추가한다.
     /// </summary>
-    public Task<int> AddWorkHistory(SaveWorkHistoryRequestDTO saveWorkHistoryRequestDTO)
+    public Task<int> AddWorkHistory(SaveWorkHistoryRequestDTO dto)
     {
         return SqlMapper.ExecuteAsync(new RequestContext
         {
             Scope = nameof(WorkHistoryRepository),
             SqlId = "AddWorkHistory",
-            Request = saveWorkHistoryRequestDTO
+            Request = dto
         });
     }
 
     /// <summary>
     /// 근무이력을 수정한다.
     /// </summary>
-    public Task<int> UpdateWorkHistory(SaveWorkHistoryRequestDTO saveWorkHistoryRequestDTO)
+    public Task<int> UpdateWorkHistory(SaveWorkHistoryRequestDTO dto)
     {
         return SqlMapper.ExecuteAsync(new RequestContext
         {
             Scope = nameof(WorkHistoryRepository),
             SqlId = "UpdateWorkHistory",
-            Request = saveWorkHistoryRequestDTO
+            Request = dto
         });
     }
 

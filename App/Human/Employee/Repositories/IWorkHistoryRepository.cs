@@ -16,17 +16,17 @@ public interface IWorkHistoryRepository
     /// <summary>
     /// 근무이력을 조회한다.
     /// </summary>
-    Task<WorkHistoryResponseDTO> GetWorkHistory(GetWorkHistoryRequestDTO getWorkHistoryRequestDTO);
+    Task<WorkHistoryResponseDTO> GetWorkHistory(GetWorkHistoryRequestDTO dto);
 
     /// <summary>
     /// 근무이력을 추가한다.
     /// </summary>
-    Task<int> AddWorkHistory(SaveWorkHistoryRequestDTO saveWorkHistoryRequestDTO);
+    Task<int> AddWorkHistory(SaveWorkHistoryRequestDTO dto);
     
     /// <summary>
     /// 근무이력을 수정한다.
     /// </summary>
-    Task<int> UpdateWorkHistory(SaveWorkHistoryRequestDTO saveWorkHistoryRequestDTO);
+    Task<int> UpdateWorkHistory(SaveWorkHistoryRequestDTO dto);
 
     /// <summary>
     /// 근무이력을 삭제한다.

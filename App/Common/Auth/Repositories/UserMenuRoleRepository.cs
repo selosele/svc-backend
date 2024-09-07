@@ -23,13 +23,13 @@ public class UserMenuRoleRepository : IUserMenuRoleRepository
     /// <summary>
     /// 사용자 메뉴 권한을 추가한다.
     /// </summary>
-    public Task<int> AddUserMenuRole(List<AddUserMenuRoleRequestDTO> addUserMenuRoleRequestDTOList)
+    public Task<int> AddUserMenuRole(List<AddUserMenuRoleRequestDTO> dtoList)
     {
         return SqlMapper.ExecuteAsync(new RequestContext
         {
             Scope = nameof(UserMenuRoleRepository),
             SqlId = "AddUserMenuRole",
-            Request = new { DTOList = addUserMenuRoleRequestDTOList }
+            Request = new { DTOList = dtoList }
         });
     }
 

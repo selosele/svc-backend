@@ -23,39 +23,39 @@ public class EmployeeRepository : IEmployeeRepository
     /// <summary>
     /// 직원을 조회한다.
     /// </summary>
-    public Task<EmployeeResponseDTO> GetEmployee(GetEmployeeRequestDTO getEmployeeRequestDTO)
+    public Task<EmployeeResponseDTO> GetEmployee(GetEmployeeRequestDTO dto)
     {
         return SqlMapper.QuerySingleAsync<EmployeeResponseDTO>(new RequestContext
         {
             Scope = nameof(EmployeeRepository),
             SqlId = "GetEmployee",
-            Request = getEmployeeRequestDTO
+            Request = dto
         });
     }
 
     /// <summary>
     /// 직원을 추가한다.
     /// </summary>
-    public Task<int> AddEmployee(AddEmployeeRequestDTO addEmployeeRequestDTO)
+    public Task<int> AddEmployee(AddEmployeeRequestDTO dto)
     {
         return SqlMapper.ExecuteScalarAsync<int>(new RequestContext
         {
             Scope = nameof(EmployeeRepository),
             SqlId = "AddEmployee",
-            Request = addEmployeeRequestDTO
+            Request = dto
         });
     }
 
     /// <summary>
     /// 직원을 수정한다.
     /// </summary>
-    public Task<int> UpdateEmployee(UpdateEmployeeRequestDTO updateEmployeeRequestDTO)
+    public Task<int> UpdateEmployee(UpdateEmployeeRequestDTO dto)
     {
         return SqlMapper.ExecuteAsync(new RequestContext
         {
             Scope = nameof(EmployeeRepository),
             SqlId = "UpdateEmployee",
-            Request = updateEmployeeRequestDTO
+            Request = dto
         });
     }
     #endregion

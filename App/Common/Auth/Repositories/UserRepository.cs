@@ -23,39 +23,39 @@ public class UserRepository : IUserRepository
     /// <summary>
     /// 사용자 목록을 조회한다.
     /// </summary>
-    public Task<IList<UserResponseDTO>> ListUser(GetUserRequestDTO? getUserRequestDTO)
+    public Task<IList<UserResponseDTO>> ListUser(GetUserRequestDTO? dto)
     {
         return SqlMapper.QueryAsync<UserResponseDTO>(new RequestContext
         {
             Scope = nameof(UserRepository),
             SqlId = "ListUser",
-            Request = getUserRequestDTO
+            Request = dto
         });
     }
 
     /// <summary>
     /// 사용자를 조회한다.
     /// </summary>
-    public Task<UserResponseDTO?> GetUser(GetUserRequestDTO getUserRequestDTO)
+    public Task<UserResponseDTO?> GetUser(GetUserRequestDTO dto)
     {
         return SqlMapper.QuerySingleAsync<UserResponseDTO?>(new RequestContext
         {
             Scope = nameof(UserRepository),
             SqlId = "GetUser",
-            Request = getUserRequestDTO
+            Request = dto
         });
     }
 
     /// <summary>
     /// 사용자를 조회한다(로그인용).
     /// </summary>
-    public Task<LoginResultDTO?> GetUserLogin(LoginRequestDTO loginRequestDTO)
+    public Task<LoginResultDTO?> GetUserLogin(LoginRequestDTO dto)
     {
         return SqlMapper.QuerySingleAsync<LoginResultDTO?>(new RequestContext
         {
             Scope = nameof(UserRepository),
             SqlId = "GetUserLogin",
-            Request = loginRequestDTO
+            Request = dto
         });
     }
 
@@ -75,26 +75,26 @@ public class UserRepository : IUserRepository
     /// <summary>
     /// 사용자를 추가한다.
     /// </summary>
-    public Task<int> AddUser(AddUserRequestDTO addUserRequestDTO)
+    public Task<int> AddUser(AddUserRequestDTO dto)
     {
         return SqlMapper.ExecuteScalarAsync<int>(new RequestContext
         {
             Scope = nameof(UserRepository),
             SqlId = "AddUser",
-            Request = addUserRequestDTO
+            Request = dto
         });
     }
 
     /// <summary>
     /// 사용자를 수정한다.
     /// </summary>
-    public Task<int> UpdateUser(UpdateUserRequestDTO updateUserRequestDTO)
+    public Task<int> UpdateUser(UpdateUserRequestDTO dto)
     {
         return SqlMapper.ExecuteAsync(new RequestContext
         {
             Scope = nameof(UserRepository),
             SqlId = "UpdateUser",
-            Request = updateUserRequestDTO
+            Request = dto
         });
     }
 
@@ -114,13 +114,13 @@ public class UserRepository : IUserRepository
     /// <summary>
     /// 사용자 비밀번호를 변경한다.
     /// </summary>
-    public Task<int> UpdateUserPassword(UpdateUserPasswordRequestDTO updateUserPasswordRequestDTO)
+    public Task<int> UpdateUserPassword(UpdateUserPasswordRequestDTO dto)
     {
         return SqlMapper.ExecuteAsync(new RequestContext
         {
             Scope = nameof(UserRepository),
             SqlId = "UpdateUserPassword",
-            Request = updateUserPasswordRequestDTO
+            Request = dto
         });
     }
 
