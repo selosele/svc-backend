@@ -1,7 +1,6 @@
 using SmartSql.AOP;
 using Svc.App.Common.Code.Repositories;
 using Svc.App.Common.Code.Models.DTO;
-using Svc.App.Common.Auth.Services;
 
 namespace Svc.App.Common.Code.Services;
 
