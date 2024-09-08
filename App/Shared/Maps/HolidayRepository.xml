@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<SmartSqlMap Scope="HolidayRepository" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+  <ResultMaps>
+    <ResultMap Id="HolidayResultMap">
+      <Result Column="YMD" Property="YMD" />
+      <Result Column="YYYY" Property="YYYY" />
+      <Result Column="MM" Property="MM" />
+      <Result Column="DD" Property="DD" />
+      <Result Column="HOLIDAY_NAME" Property="HolidayName" />
+      <Result Column="HOLIDAY_CONTENT" Property="HolidayContent" />
+      <Result Column="USE_YN" Property="UseYn" />
+      <Result Column="DELETE_YN" Property="DeleteYn" />
+    </ResultMap>
+  </ResultMaps>
+
+  <Statements>
+
+    <!-- 휴일 목록을 조회한다. -->
+    <Statement Id="ListHoliday" ResultMap="HolidayResultMap">
+      /* HolidayRepository.ListHoliday */
+
+      SELECT
+        H.YMD,
+        H.YYYY,
+        H.MM,
+        H.DD,
+        H.HOLIDAY_NAME,
+        H.HOLIDAY_CONTENT,
+        H.USE_YN,
+        H.DELETE_YN
+      FROM CO_HOLIDAY H
+      WHERE H.DELETE_YN = 'N'
+        <IsNotEmpty Property="YYYY">
+        AND H.YYYY = @YYYY
+        </IsNotEmpty>
+        <IsNotEmpty Property="MM">
+        AND H.MM = @MM
+        </IsNotEmpty>
+        <IsNotEmpty Property="DD">
+        AND H.DD = @DD
+        </IsNotEmpty>
+      ORDER BY H.YMD DESC
+    </Statement>
+
+    <!-- 휴일을 조회한다. -->
+    <Statement Id="GetHoliday" ResultMap="HolidayResultMap">
+      /* HolidayRepository.GetHoliday */
+
+      SELECT
+        H.YMD,
+        H.YYYY,
+        H.MM,
+        H.DD,
+        H.HOLIDAY_NAME,
+        H.HOLIDAY_CONTENT,
+        H.USE_YN,
+        H.DELETE_YN
+      FROM CO_HOLIDAY H
+      WHERE H.DELETE_YN = 'N'
+        AND H.YMD = @YMD
+    </Statement>
+    
+  </Statements>
+</SmartSqlMap>
