@@ -91,7 +91,7 @@
           VACATION_START_YMD = @VacationStartYmd,
           VACATION_END_YMD = @VacationEndYmd,
           UPDATER_ID = @UpdaterId,
-          UPDATE_DT = CURRENT_TIMESTAMP()
+          UPDATE_DT = SYSDATE()
       WHERE VACATION_ID = @VacationId
     </Statement>
 
@@ -103,7 +103,7 @@
         SET
           DELETE_YN = 'Y',
           UPDATER_ID = @UpdaterId,
-          UPDATE_DT = CURRENT_TIMESTAMP()
+          UPDATE_DT = SYSDATE()
       WHERE VACATION_ID = @VacationId
     </Statement>
     

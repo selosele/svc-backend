@@ -133,7 +133,7 @@
           CODE_DEPTH = @CodeDepth,
           USE_YN = @UseYn,
           UPDATER_ID = @UpdaterId,
-          UPDATE_DT = CURRENT_TIMESTAMP()
+          UPDATE_DT = SYSDATE()
       WHERE CODE_ID = @OriginalCodeId
     </Statement>
 
@@ -145,7 +145,7 @@
         SET
           DELETE_YN = 'Y',
           UPDATER_ID = @UpdaterId,
-          UPDATE_DT = CURRENT_TIMESTAMP()
+          UPDATE_DT = SYSDATE()
       WHERE CODE_ID = @CodeId
     </Statement>
     

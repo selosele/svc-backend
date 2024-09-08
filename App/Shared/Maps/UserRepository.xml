@@ -126,7 +126,7 @@
           USER_ACTIVE_YN = @UserActiveYn,
           </IsNotEmpty>
           UPDATER_ID = @UpdaterId,
-          UPDATE_DT = CURRENT_TIMESTAMP()
+          UPDATE_DT = SYSDATE()
       WHERE USER_ID = @UserId
     </Statement>
 
@@ -136,9 +136,9 @@
 
       UPDATE CO_USER
         SET
-          LAST_LOGIN_DT = CURRENT_TIMESTAMP(),
+          LAST_LOGIN_DT = SYSDATE(),
           UPDATER_ID = @UpdaterId,
-          UPDATE_DT = CURRENT_TIMESTAMP()
+          UPDATE_DT = SYSDATE()
       WHERE USER_ID = @UserId
     </Statement>
 
@@ -150,7 +150,7 @@
         SET
           USER_PASSWORD = @NewPassword,
           UPDATER_ID = @UpdaterId,
-          UPDATE_DT = CURRENT_TIMESTAMP()
+          UPDATE_DT = SYSDATE()
       WHERE USER_ID = @UserId
     </Statement>
 
@@ -162,7 +162,7 @@
         SET
           DELETE_YN = 'Y',
           UPDATER_ID = @UpdaterId,
-          UPDATE_DT = CURRENT_TIMESTAMP()
+          UPDATE_DT = SYSDATE()
       WHERE USER_ID = @UserId
     </Statement>
     

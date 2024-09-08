@@ -34,8 +34,8 @@
         H.ANNUAL_TYPE_CODE,
         H.JOIN_YMD,
         H.QUIT_YMD,
-        TIMESTAMPDIFF(YEAR, H.JOIN_YMD, IFNULL(H.QUIT_YMD, CURRENT_TIMESTAMP())) AS WORK_DIFF_Y,
-        TIMESTAMPDIFF(MONTH, H.JOIN_YMD, IFNULL(H.QUIT_YMD, CURRENT_TIMESTAMP())) % 12 AS WORK_DIFF_M,
+        TIMESTAMPDIFF(YEAR, H.JOIN_YMD, IFNULL(H.QUIT_YMD, SYSDATE())) AS WORK_DIFF_Y,
+        TIMESTAMPDIFF(MONTH, H.JOIN_YMD, IFNULL(H.QUIT_YMD, SYSDATE())) % 12 AS WORK_DIFF_M,
         (
           SELECT
             SUM(FN_GET_VACATION_USE_COUNT(V.VACATION_START_YMD, V.VACATION_END_YMD))
@@ -130,7 +130,7 @@
           </IsNotEmpty>
           QUIT_YMD = @QuitYmd,
           UPDATER_ID = @UpdaterId,
-          UPDATE_DT = CURRENT_TIMESTAMP()
+          UPDATE_DT = SYSDATE()
       WHERE WORK_HISTORY_ID = @WorkHistoryId
     </Statement>
 
@@ -142,7 +142,7 @@
         SET
           DELETE_YN = 'Y',
           UPDATER_ID = @UpdaterId,
-          UPDATE_DT = CURRENT_TIMESTAMP()
+          UPDATE_DT = SYSDATE()
       WHERE WORK_HISTORY_ID = @WorkHistoryId
     </Statement>
     

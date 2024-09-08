@@ -79,7 +79,7 @@
           PHONE_NO = REPLACE(@PhoneNo, '-', ''),
           </IsNotEmpty>
           UPDATER_ID = @UpdaterId,
-          UPDATE_DT = CURRENT_TIMESTAMP()
+          UPDATE_DT = SYSDATE()
       WHERE EMPLOYEE_ID = @EmployeeId
     </Statement>
     
