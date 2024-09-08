@@ -42,7 +42,12 @@
           FROM HM_VACATION V
           WHERE V.WORK_HISTORY_ID = H.WORK_HISTORY_ID
             AND V.DELETE_YN = 'N'
-            AND V.VACATION_TYPE_CODE NOT IN ('07', '08', '09', '10', '11')
+            <IsNotEmpty Property="VacationTypeCodes">
+            AND V.VACATION_TYPE_CODE IN
+              <For Property="VacationTypeCodes" Key="vacationTypeCode" Open="(" Separator="," Close=")">
+                @vacationTypeCode
+              </For>
+            </IsNotEmpty>
         ) AS VACATION_USE_COUNT
       FROM HM_WORK_HISTORY H
       INNER JOIN HM_COMPANY C ON C.COMPANY_ID = H.COMPANY_ID

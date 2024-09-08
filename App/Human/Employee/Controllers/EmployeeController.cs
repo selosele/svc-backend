@@ -62,8 +62,8 @@ public class EmployeeController : ControllerBase
     /// </summary>
     [HttpGet("{employeeId}/companies")]
     [Authorize]
-    public async Task<ActionResult<List<WorkHistoryResponseDTO>>> ListWorkHistory(int employeeId)
-        => Ok(await _employeeService.ListWorkHistory(new GetWorkHistoryRequestDTO { EmployeeId = employeeId }));
+    public async Task<ActionResult<List<WorkHistoryResponseDTO>>> ListWorkHistory(int employeeId, [FromQuery] GetWorkHistoryRequestDTO getWorkHistoryRequestDTO)
+        => Ok(await _employeeService.ListWorkHistory(getWorkHistoryRequestDTO));
     
     /// <summary>
     /// 근무이력을 조회한다.

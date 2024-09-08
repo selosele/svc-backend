@@ -11,7 +11,7 @@ public interface IWorkHistoryRepository
     /// <summary>
     /// 근무이력 목록을 조회한다.
     /// </summary>
-    Task<IList<WorkHistoryResponseDTO>> ListWorkHistory(int? employeeId);
+    Task<IList<WorkHistoryResponseDTO>> ListWorkHistory(GetWorkHistoryRequestDTO dto);
 
     /// <summary>
     /// 근무이력을 조회한다.

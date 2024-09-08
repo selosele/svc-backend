@@ -23,13 +23,13 @@ public class WorkHistoryRepository : IWorkHistoryRepository
     /// <summary>
     /// 근무이력 목록을 조회한다.
     /// </summary>
-    public Task<IList<WorkHistoryResponseDTO>> ListWorkHistory(int? employeeId)
+    public Task<IList<WorkHistoryResponseDTO>> ListWorkHistory(GetWorkHistoryRequestDTO dto)
     {
         return SqlMapper.QueryAsync<WorkHistoryResponseDTO>(new RequestContext
         {
             Scope = nameof(WorkHistoryRepository),
             SqlId = "ListWorkHistory",
-            Request = new { employeeId }
+            Request = dto
         });
     }
 

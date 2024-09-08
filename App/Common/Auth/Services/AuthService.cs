@@ -118,7 +118,7 @@ public class AuthService
 
             if (user.Employee != null)
             {
-                user.Employee.WorkHistories = await _workHistoryRepository.ListWorkHistory(user.Employee.EmployeeId);
+                user.Employee.WorkHistories = await _workHistoryRepository.ListWorkHistory(new GetWorkHistoryRequestDTO { EmployeeId = user.Employee.EmployeeId });
             }
         }
         return user;
@@ -138,7 +138,7 @@ public class AuthService
 
             if (user.Employee != null)
             {
-                user.Employee.WorkHistories = await _workHistoryRepository.ListWorkHistory(user.Employee.EmployeeId);
+                user.Employee.WorkHistories = await _workHistoryRepository.ListWorkHistory(new GetWorkHistoryRequestDTO { EmployeeId = user.Employee.EmployeeId });
             }
         }
         return user;

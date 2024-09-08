@@ -35,7 +35,7 @@ public class EmployeeService
         var employee = await _employeeRepository.GetEmployee(getEmployeeRequestDTO);
         if (employee != null)
         {
-            employee.WorkHistories = await _workHistoryRepository.ListWorkHistory(employee.EmployeeId);
+            employee.WorkHistories = await _workHistoryRepository.ListWorkHistory(new GetWorkHistoryRequestDTO { EmployeeId = employee.EmployeeId });
         }
         return employee;
     }
@@ -55,7 +55,7 @@ public class EmployeeService
     /// </summary>
     [Transaction]
     public async Task<IList<WorkHistoryResponseDTO>> ListWorkHistory(GetWorkHistoryRequestDTO getWorkHistoryRequestDTO)
-        => await _workHistoryRepository.ListWorkHistory(getWorkHistoryRequestDTO.EmployeeId);
+        => await _workHistoryRepository.ListWorkHistory(getWorkHistoryRequestDTO);
 
     /// <summary>
     /// 근무이력을 조회한다.
