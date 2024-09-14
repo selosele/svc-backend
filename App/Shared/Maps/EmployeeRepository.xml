@@ -8,6 +8,7 @@
       <Result Column="GENDER_CODE" Property="GenderCode" />
       <Result Column="BIRTH_YMD" Property="BirthYmd" />
       <Result Column="PHONE_NO" Property="PhoneNo" />
+      <Result Column="LAST_LOGIN_DT" Property="LastLoginDt" />
     </ResultMap>
   </ResultMaps>
 
@@ -22,7 +23,8 @@
         E.EMPLOYEE_NAME,
         E.GENDER_CODE,
         E.BIRTH_YMD,
-        E.PHONE_NO
+        E.PHONE_NO,
+        U.LAST_LOGIN_DT
       FROM HM_EMPLOYEE E
       INNER JOIN CO_USER U ON U.USER_ID = E.USER_ID AND U.DELETE_YN = 'N'
       WHERE 1=1
