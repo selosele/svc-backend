@@ -12,9 +12,8 @@ public record SaveHolidayRequestDTO : HttpRequestDTOBase
     /// <summary>
     /// 일자
     /// </summary>
-    [Required]
     [MaxLength(8)]
-    public string? Ymd { get; set; }
+    public string? YMD { get; set; }
 
     /// <summary>
     /// 연도

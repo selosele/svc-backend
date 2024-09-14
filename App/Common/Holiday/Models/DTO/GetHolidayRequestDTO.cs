@@ -11,7 +11,7 @@ public record GetHolidayRequestDTO : HttpRequestDTOBase
     /// <summary>
     /// 일자
     /// </summary>
-    public string? Ymd { get; set; }
+    public string? YMD { get; set; }
 
     /// <summary>
     /// 연도

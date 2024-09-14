@@ -17,9 +17,9 @@ var connectionStrings = builder.Configuration.GetSection("ConnectionStrings")
     .ToDictionary(x => x.Key, x => x.Value);
 
 builder.Services.AddSmartSql((sp, builder) =>
-                {
-                    builder.UseProperties((IEnumerable<KeyValuePair<string, string>>) connectionStrings);
-                });
+{
+    builder.UseProperties((IEnumerable<KeyValuePair<string, string>>) connectionStrings);
+});
 builder.Services.AddControllers(x =>
 {
     x.Filters.Add(new BizExceptionFilter());

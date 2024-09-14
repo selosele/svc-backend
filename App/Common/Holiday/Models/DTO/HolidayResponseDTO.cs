@@ -40,11 +40,6 @@ public record HolidayResponseDTO
     /// 사용 여부
     /// </summary>
     public string? UseYn { get; set; }
-    
-    /// <summary>
-    /// 삭제 여부
-    /// </summary>
-    public string? DeleteYn { get; set; }
     #endregion
     
 }

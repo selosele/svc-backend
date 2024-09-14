@@ -10,7 +10,6 @@
       <Result Column="HOLIDAY_NAME" Property="HolidayName" />
       <Result Column="HOLIDAY_CONTENT" Property="HolidayContent" />
       <Result Column="USE_YN" Property="UseYn" />
-      <Result Column="DELETE_YN" Property="DeleteYn" />
     </ResultMap>
   </ResultMaps>
 
@@ -27,10 +26,9 @@
         H.DD,
         H.HOLIDAY_NAME,
         H.HOLIDAY_CONTENT,
-        H.USE_YN,
-        H.DELETE_YN
+        H.USE_YN
       FROM CO_HOLIDAY H
-      WHERE H.DELETE_YN = 'N'
+      WHERE 1=1
         <IsNotEmpty Property="YYYY">
         AND H.YYYY = @YYYY
         </IsNotEmpty>
@@ -54,11 +52,9 @@
         H.DD,
         H.HOLIDAY_NAME,
         H.HOLIDAY_CONTENT,
-        H.USE_YN,
-        H.DELETE_YN
+        H.USE_YN
       FROM CO_HOLIDAY H
-      WHERE H.DELETE_YN = 'N'
-        AND H.YMD = @YMD
+      WHERE H.YMD = @YMD
     </Statement>
     
   </Statements>
