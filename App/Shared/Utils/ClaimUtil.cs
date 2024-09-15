@@ -22,6 +22,31 @@ public class ClaimUtil
     public const string WORK_HISTORY_ID_IDENTIFIER = "workHistoryId";
 
     /// <summary>
+    /// 회사명 식별자
+    /// </summary>
+    public const string COMPANY_NAME_IDENTIFIER = "companyName";
+
+    /// <summary>
+    /// 직위 코드 식별자
+    /// </summary>
+    public const string RANK_CODE_IDENTIFIER = "rankCode";
+
+    /// <summary>
+    /// 직위 코드명 식별자
+    /// </summary>
+    public const string RANK_CODE_NAME_IDENTIFIER = "rankCodeName";
+
+    /// <summary>
+    /// 직책 코드 식별자
+    /// </summary>
+    public const string JOB_TITLE_CODE_IDENTIFIER = "jobTitleCode";
+
+    /// <summary>
+    /// 직책 코드명 식별자
+    /// </summary>
+    public const string JOB_TITLE_CODE_NAME_IDENTIFIER = "jobTitleCodeName";
+
+    /// <summary>
     /// 사용자 계정 식별자
     /// </summary>
     public const string USER_ACCOUNT_IDENTIFIER = "userAccount";

@@ -8,7 +8,9 @@
       <Result Column="CORPORATE_NAME" Property="CorporateName" />
       <Result Column="COMPANY_NAME" Property="CompanyName" />
       <Result Column="RANK_CODE" Property="RankCode" />
+      <Result Column="RANK_CODE_NAME" Property="RankCodeName" />
       <Result Column="JOB_TITLE_CODE" Property="JobTitleCode" />
+      <Result Column="JOB_TITLE_CODE_NAME" Property="JobTitleCodeName" />
       <Result Column="ANNUAL_TYPE_CODE" Property="AnnualTypeCode" />
       <Result Column="JOIN_YMD" Property="JoinYmd" />
       <Result Column="QUIT_YMD" Property="QuitYmd" />
@@ -30,7 +32,9 @@
         C.CORPORATE_NAME,
         C.COMPANY_NAME,
         H.RANK_CODE,
+        CD.CODE_NAME AS RANK_CODE_NAME,
         H.JOB_TITLE_CODE,
+        CD2.CODE_NAME AS JOB_TITLE_CODE_NAME,
         H.ANNUAL_TYPE_CODE,
         H.JOIN_YMD,
         H.QUIT_YMD,
@@ -51,6 +55,8 @@
         ) AS VACATION_USE_COUNT
       FROM HM_WORK_HISTORY H
       INNER JOIN HM_COMPANY C ON C.COMPANY_ID = H.COMPANY_ID
+      LEFT JOIN CO_CODE CD ON CD.CODE_VALUE = H.RANK_CODE AND CD.UP_CODE_ID = 'RANK_00'
+      LEFT JOIN CO_CODE CD2 ON CD2.CODE_VALUE = H.JOB_TITLE_CODE AND CD2.UP_CODE_ID = 'JOB_TITLE_00'
       WHERE H.EMPLOYEE_ID = @EmployeeId
         AND H.DELETE_YN = 'N'
       ORDER BY H.JOIN_YMD DESC

@@ -32,9 +32,19 @@ public record WorkHistoryResponseDTO
     public string? RankCode { get; set; }
 
     /// <summary>
+    /// 직위 코드명
+    /// </summary>
+    public string? RankCodeName { get; set; }
+
+    /// <summary>
     /// 직책 코드
     /// </summary>
     public string? JobTitleCode { get; set; }
+
+    /// <summary>
+    /// 직책 코드명
+    /// </summary>
+    public string? JobTitleCodeName { get; set; }
 
     /// <summary>
     /// 연차발생기준 코드
