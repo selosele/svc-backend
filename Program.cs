@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Svc.App.Shared.Filters;
 using Svc.App.Shared.Utils;
+using Svc.App.Shared.Models.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,7 @@ builder.Configuration.AddJsonFile("secrets.json", optional: true, reloadOnChange
 builder.Services.SingletonScan("Svc.App.", ".Services");
 builder.Services.InterfaceScan("Svc.App.", ".Repositories");
 builder.Services.AutoMapperProfileScan("Svc.App.", ".Profiles");
+builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
 
 var connectionStrings = builder.Configuration.GetSection("ConnectionStrings")
     .GetChildren()

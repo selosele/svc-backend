@@ -20,6 +20,14 @@
       <Result Column="USER_PASSWORD" Property="UserPassword" />
       <Result Column="USER_ACTIVE_YN" Property="UserActiveYn" />
     </ResultMap>
+
+    <ResultMap Id="FindAccountResultMap">
+      <Result Column="USER_ACCOUNT" Property="UserAccount" />
+      <Result Column="EMPLOYEE_NAME" Property="EmployeeName" />
+      <Result Column="EMAIL_ADDR" Property="EmailAddr" />
+      <Result Column="CREATE_DT" Property="CreateDt" />
+      <Result Column="LAST_LOGIN_DT" Property="LastLoginDt" />
+    </ResultMap>
   </ResultMaps>
 
   <Statements>
@@ -94,6 +102,22 @@
       FROM CO_USER U
       WHERE U.DELETE_YN = 'N'
         AND U.USER_ACCOUNT = @UserAccount
+    </Statement>
+
+    <!-- 사용자를 조회한다(아이디 찾기용). -->
+    <Statement Id="GetUserFindAccount" ResultMap="FindAccountResultMap">
+      /* UserRepository.GetUserFindAccount */
+
+      SELECT
+        U.USER_ACCOUNT,
+        E.EMPLOYEE_NAME,
+        E.EMAIL_ADDR,
+        U.CREATE_DT,
+        U.LAST_LOGIN_DT
+      FROM CO_USER U
+      INNER JOIN HM_EMPLOYEE E ON E.USER_ID = U.USER_ID
+      WHERE E.EMPLOYEE_NAME = @EmployeeName
+        AND E.EMAIL_ADDR = @EmailAddr
     </Statement>
 
     <!-- 사용자 비밀번호를 조회한다. -->

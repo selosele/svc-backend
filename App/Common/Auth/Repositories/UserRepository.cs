@@ -60,6 +60,19 @@ public class UserRepository : IUserRepository
     }
 
     /// <summary>
+    /// 사용자를 조회한다(아이디 찾기용).
+    /// </summary>
+    public Task<FindUserAccountResponseDTO?> GetUserFindAccount(FindUserAccountRequestDTO dto)
+    {
+        return SqlMapper.QuerySingleAsync<FindUserAccountResponseDTO?>(new RequestContext
+        {
+            Scope = nameof(UserRepository),
+            SqlId = "GetUserFindAccount",
+            Request = dto
+        });
+    }
+
+    /// <summary>
     /// 사용자 비밀번호를 조회한다.
     /// </summary>
     public Task<string> GetUserPassword(int? userId)

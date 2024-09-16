@@ -24,6 +24,11 @@ public interface IUserRepository
     Task<LoginResultDTO?> GetUserLogin(LoginRequestDTO dto);
 
     /// <summary>
+    /// 사용자를 조회한다(아이디 찾기용).
+    /// </summary>
+    Task<FindUserAccountResponseDTO?> GetUserFindAccount(FindUserAccountRequestDTO dto);
+
+    /// <summary>
     /// 사용자 비밀번호를 조회한다.
     /// </summary>
     Task<string> GetUserPassword(int? userId);

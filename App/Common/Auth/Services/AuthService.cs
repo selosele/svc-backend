@@ -346,6 +346,13 @@ public class AuthService
         => await _roleRepository.ListRole();
 
     /// <summary>
+    /// 사용자의 아이디를 찾는다.
+    /// </summary>
+    [Transaction]
+    public async Task<FindUserAccountResponseDTO?> GetUserFindAccount(FindUserAccountRequestDTO dto)
+        => await _userRepository.GetUserFindAccount(dto);
+
+    /// <summary>
     /// 인증된 사용자 정보를 반환한다.
     /// </summary>
     public ClaimsPrincipal? GetAuthenticatedUser()
