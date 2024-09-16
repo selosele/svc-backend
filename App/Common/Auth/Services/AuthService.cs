@@ -155,6 +155,11 @@ public class AuthService
         if (foundUser != null)
             throw new BizException("중복된 사용자입니다. 입력하신 정보를 다시 확인하세요.");
 
+        // 직원 이메일주소 중복 체크
+        var foundEmailCount = await _employeeRepository.CountEmployeeEmailAddr(addUserRequestDTO.Employee!.EmailAddr!, null);
+        if (foundEmailCount > 0)
+            throw new BizException("중복된 이메일주소입니다. 입력하신 정보를 다시 확인하세요.");
+
         // 비밀번호 암호화
         addUserRequestDTO.UserPassword = EncryptUtil.Encrypt(addUserRequestDTO.UserPassword!);
 
@@ -228,6 +233,11 @@ public class AuthService
     [Transaction]
     public async Task<UserResponseDTO?> UpdateUser(UpdateUserRequestDTO updateUserRequestDTO)
     {
+        // 직원 이메일주소 중복 체크
+        var foundEmailCount = await _employeeRepository.CountEmployeeEmailAddr(updateUserRequestDTO.Employee!.EmailAddr!, updateUserRequestDTO.Employee.EmployeeId);
+        if (foundEmailCount > 0)
+            throw new BizException("중복된 이메일주소입니다. 입력하신 정보를 다시 확인하세요.");
+
         var user = GetAuthenticatedUser();
         updateUserRequestDTO.UpdaterId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
         

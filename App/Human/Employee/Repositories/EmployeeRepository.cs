@@ -58,6 +58,19 @@ public class EmployeeRepository : IEmployeeRepository
             Request = dto
         });
     }
+
+    /// <summary>
+    /// 직원 이메일주소 중복 체크를 한다.
+    /// </summary>
+    public Task<int> CountEmployeeEmailAddr(string emailAddr, int? employeeId)
+    {
+        return SqlMapper.QuerySingleAsync<int>(new RequestContext
+        {
+            Scope = nameof(EmployeeRepository),
+            SqlId = "CountEmployeeEmailAddr",
+            Request = new { emailAddr, employeeId }
+        });
+    }
     #endregion
 
 }

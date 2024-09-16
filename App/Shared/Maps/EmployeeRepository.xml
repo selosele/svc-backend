@@ -8,6 +8,7 @@
       <Result Column="GENDER_CODE" Property="GenderCode" />
       <Result Column="BIRTH_YMD" Property="BirthYmd" />
       <Result Column="PHONE_NO" Property="PhoneNo" />
+      <Result Column="EMAIL_ADDR" Property="EmailAddr" />
       <Result Column="LAST_LOGIN_DT" Property="LastLoginDt" />
     </ResultMap>
   </ResultMaps>
@@ -24,6 +25,7 @@
         E.GENDER_CODE,
         E.BIRTH_YMD,
         E.PHONE_NO,
+        E.EMAIL_ADDR,
         U.LAST_LOGIN_DT
       FROM HM_EMPLOYEE E
       INNER JOIN CO_USER U ON U.USER_ID = E.USER_ID AND U.DELETE_YN = 'N'
@@ -46,6 +48,7 @@
         GENDER_CODE,
         BIRTH_YMD,
         PHONE_NO,
+        EMAIL_ADDR,
         CREATER_ID
       )
       VALUES (
@@ -54,6 +57,7 @@
         @GenderCode,
         @BirthYmd,
         REPLACE(@PhoneNo, '-', ''),
+        @EmailAddr
         @CreaterId
       )
       ;SELECT LAST_INSERT_ID()
@@ -80,9 +84,25 @@
           <IsNotEmpty Property="PhoneNo">
           PHONE_NO = REPLACE(@PhoneNo, '-', ''),
           </IsNotEmpty>
+          <IsNotEmpty Property="EmailAddr">
+          EMAIL_ADDR = @EmailAddr,
+          </IsNotEmpty>
           UPDATER_ID = @UpdaterId,
           UPDATE_DT = SYSDATE()
       WHERE EMPLOYEE_ID = @EmployeeId
+    </Statement>
+
+    <!-- 직원 이메일주소 중복 체크를 한다. -->
+    <Statement Id="CountEmployeeEmailAddr">
+      /* EmployeeRepository.CountEmployeeEmailAddr */
+
+      SELECT
+        COUNT(1)
+      FROM HM_EMPLOYEE E
+      WHERE E.EMAIL_ADDR = @EmailAddr
+        <IsNotEmpty Property="EmployeeId">
+        AND E.EMPLOYEE_ID != @EmployeeId
+        </IsNotEmpty>
     </Statement>
     
   </Statements>

@@ -30,6 +30,11 @@ public record EmployeeResponseDTO
     /// 휴대폰번호
     /// </summary>
     public string? PhoneNo { get; set; }
+
+    /// <summary>
+    /// 이메일주소
+    /// </summary>
+    public string? EmailAddr { get; set; }
     
     /// <summary>
     /// 사용자 마지막 로그인 일시

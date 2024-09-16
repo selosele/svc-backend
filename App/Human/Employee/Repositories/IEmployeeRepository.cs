@@ -22,6 +22,11 @@ public interface IEmployeeRepository
     /// 직원을 수정한다.
     /// </summary>
     Task<int> UpdateEmployee(UpdateEmployeeRequestDTO dto);
+
+    /// <summary>
+    /// 직원 이메일주소 중복 체크를 한다.
+    /// </summary>
+    Task<int> CountEmployeeEmailAddr(string emailAddr, int? employeeId);
     #endregion
 
 }

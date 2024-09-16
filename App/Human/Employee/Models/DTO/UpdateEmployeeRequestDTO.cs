@@ -39,6 +39,11 @@ public record UpdateEmployeeRequestDTO : HttpRequestDTOBase
     public string? PhoneNo { get; set; }
 
     /// <summary>
+    /// 이메일주소
+    /// </summary>
+    public string? EmailAddr { get; set; }
+
+    /// <summary>
     /// 근무이력 정보
     /// </summary>
     public SaveWorkHistoryRequestDTO? WorkHistory { get; set; }
