@@ -12,11 +12,13 @@ using Svc.App.Shared.Utils;
 using Svc.App.Human.Employee.Repositories;
 using Svc.App.Human.Employee.Models.DTO;
 using Svc.App.Human.Employee.Services;
+using Svc.App.Common.Mail.Models.DTO;
+using Svc.App.Common.Mail.Services;
 
 namespace Svc.App.Common.Auth.Services;
 
 /// <summary>
-/// 인증·인가 및 사용자, 권한 서비스 클래스
+/// 인증·인가 및 사용자 서비스 클래스
 /// </summary>
 public class AuthService
 {
@@ -31,6 +33,7 @@ public class AuthService
     private readonly IEmployeeRepository _employeeRepository;
     private readonly IWorkHistoryRepository _workHistoryRepository;
     private readonly EmployeeService _employeeService;
+    private readonly MyMailService _mailService;
     #endregion
     
     #region Constructor
@@ -44,7 +47,8 @@ public class AuthService
         IRoleRepository roleRepository,
         IEmployeeRepository employeeRepository,
         IWorkHistoryRepository workHistoryRepository,
-        EmployeeService employeeService
+        EmployeeService employeeService,
+        MyMailService mailService
     )
     {
         _configuration = configuration;
@@ -57,6 +61,7 @@ public class AuthService
         _employeeRepository = employeeRepository;
         _workHistoryRepository = workHistoryRepository;
         _employeeService = employeeService;
+        _mailService = mailService;
     }
     #endregion
 
@@ -88,7 +93,7 @@ public class AuthService
         await _userRepository.UpdateUserLastLoginDt(user.UserId, myUserId);
 
         // JWT를 생성해서 반환한다.
-        return GenerateJWTToken(user);
+        return GenerateJWT(user);
     }
 
     /// <summary>
@@ -339,18 +344,38 @@ public class AuthService
     }
 
     /// <summary>
-    /// 권한 목록을 조회한다.
-    /// </summary>
-    [Transaction]
-    public async Task<IList<RoleResponseDTO>> ListRole()
-        => await _roleRepository.ListRole();
-
-    /// <summary>
     /// 사용자의 아이디를 찾는다.
     /// </summary>
     [Transaction]
-    public async Task<FindUserAccountResponseDTO?> GetUserFindAccount(FindUserAccountRequestDTO dto)
-        => await _userRepository.GetUserFindAccount(dto);
+    public async Task<bool> FindUserAccount(FindUserAccountRequestDTO dto)
+    {
+        var foundUser = await _userRepository.GetUserFindAccount(dto)
+            ?? throw new BizException("가입된 정보가 없습니다. 입력하신 정보를 다시 확인하세요.");
+
+        var mailSend = await _mailService.Send(new SendMailDTO
+        {
+            To = foundUser?.EmailAddr,
+            Subject = "아이디 확인 메일",
+            Body = $@"
+                <p>{foundUser?.EmployeeName}님 안녕하세요.</p><br>
+                <p>회원님께서 조회하신 아이디는 다음과 같습니다.</p<br>
+
+                <ul>
+                    <li>아이디: {foundUser?.UserAccount}</li>
+                    <li>계정 생성일시: {DateTime.Parse(foundUser?.CreateDt!):yyyy-MM-dd HH:mm:ss}</li>
+                    <li>마지막 로그인 일시: {DateTime.Parse(foundUser?.LastLoginDt!):yyyy-MM-dd HH:mm:ss}</li>
+                </ul>
+
+                <p>아이디 확인 요청을 한 사람이 본인이 아닌 경우, 보안을 위해 시스템관리자(010-5594-3384)에게 연락해주시기 바랍니다.</p><br>
+                <p>감사합니다.</p><br>
+            "
+        });
+
+        if (!mailSend)
+            throw new BizException("메일 발송에 실패했습니다.");
+
+        return mailSend;
+    }
 
     /// <summary>
     /// 인증된 사용자 정보를 반환한다.
@@ -392,7 +417,7 @@ public class AuthService
     /// <summary>
     /// JWT를 생성해서 반환한다.
     /// </summary>
-    public string GenerateJWTToken(LoginResultDTO user)
+    public string GenerateJWT(LoginResultDTO user)
     {
         var claims = new List<Claim> {
             new(ClaimUtil.USER_ID_IDENTIFIER, user.UserId.ToString()!),

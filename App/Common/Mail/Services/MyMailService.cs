@@ -55,18 +55,15 @@ public class MyMailService
             await client.ConnectAsync(_smtpSettings.Server, _smtpSettings.Port, MailKit.Security.SecureSocketOptions.StartTls);
             await client.AuthenticateAsync(_smtpSettings.FromId, _smtpSettings.FromPw);
             await client.SendAsync(message);
+            await client.DisconnectAsync(true);
+            return true;
         }
         catch (Exception ex)
         {
             _logger.LogError(ex.Message);
+            await client.DisconnectAsync(true);
             return false;
         }
-        finally
-        {
-            await client.DisconnectAsync(true);
-        }
-
-        return true;
     }
     #endregion
     

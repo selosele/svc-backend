@@ -116,7 +116,8 @@
         U.LAST_LOGIN_DT
       FROM CO_USER U
       INNER JOIN HM_EMPLOYEE E ON E.USER_ID = U.USER_ID
-      WHERE E.EMPLOYEE_NAME = @EmployeeName
+      WHERE U.DELETE_YN = 'N'
+        AND E.EMPLOYEE_NAME = @EmployeeName
         AND E.EMAIL_ADDR = @EmailAddr
     </Statement>
 
