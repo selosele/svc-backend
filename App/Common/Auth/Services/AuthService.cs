@@ -381,26 +381,35 @@ public class AuthService
     /// 사용자의 비밀번호를 찾는다.
     /// </summary>
     [Transaction]
-    public async Task<bool> FindUserPassword(FindUserInfoRequestDTO dto)
+    public async Task<UserCertHistoryResponseDTO> FindUserPassword(FindUserInfoRequestDTO dto)
     {
         var foundUser = await _userRepository.GetUserFindInfo(dto)
             ?? throw new BizException("가입된 정보가 없습니다. 입력하신 정보를 다시 확인하세요.");
 
-        var user = GetAuthenticatedUser();
-        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+        // 본인인증 코드 생성
+        var certCode = RandomStringGeneratorUtil.Generate(6);
 
         // 사용자 본인인증 내역 추가
-        await _userCertHistoryRepository.AddUserCertHistory(new AddUserCertHistoryRequestDTO
+        int certHistoryId = await _userCertHistoryRepository.AddUserCertHistory(new AddUserCertHistoryRequestDTO
         {
             UserAccount = foundUser.UserAccount,
             PhoneNo = foundUser.PhoneNo,
             EmailAddr = foundUser.EmailAddr,
-            CertCode = RandomStringGeneratorUtil.Generate(6),
+            CertCode = certCode,
             CertMethodCode = "01",
-            CertTypeCode = "01",
-            ValidTime = 180, // 3분
-            CreaterId = myUserId
+            CertTypeCode = "02",
+            ValidTime = 180 // 3분
         });
+
+        // 사용자 본인인증 내역 조회
+        var userCertHistory = await _userCertHistoryRepository.GetUserCertHistory(new GetUserCertHistoryRequestDTO
+        {
+            CertHistoryId = certHistoryId
+        });
+
+        // 본인인증 코드 유효시간
+        TimeSpan validTime = TimeSpan.FromSeconds((double)userCertHistory.ValidTime!);
+        string validTimeToMinute = validTime.ToString(@"mm");
 
         var mailSend = await _mailService.Send(new SendMailDTO
         {
@@ -408,12 +417,12 @@ public class AuthService
             Subject = "비밀번호 찾기 본인인증 메일",
             Body = $@"
                 <p>{foundUser?.EmployeeName}님 안녕하세요.</p><br>
-                <p>비밀번호 찾기를 위한 본인인증 코드는 다음과 같습니다.</p<br>
+                <p>비밀번호 찾기를 위한 인증코드는 다음과 같습니다.</p<br>
 
                 <ul>
-                    <li>본인인증 코드: {foundUser?.UserAccount}</li>
-                    <li>본인인증 코드 발급일시: {DateTime.Parse(foundUser?.CreateDt!):yyyy-MM-dd HH:mm:ss}</li>
-                    <li>본인인증 코드 유효시간: {DateTime.Parse(foundUser?.CreateDt!):yyyy-MM-dd HH:mm:ss}</li>
+                    <li>인증코드: <strong>{userCertHistory.CertCode}</strong></li>
+                    <li>인증코드 발급일시: {DateTime.Parse(userCertHistory.CreateDt!):yyyy-MM-dd HH:mm:ss}</li>
+                    <li>인증코드 유효시간: {validTimeToMinute}분</li>
                 </ul>
 
                 <p>본인인증 요청을 한 사람이 본인이 아닌 경우, 보안을 위해 시스템관리자(010-5594-3384)에게 연락해주시기 바랍니다.</p><br>
@@ -424,8 +433,15 @@ public class AuthService
         if (!mailSend)
             throw new BizException("메일 발송에 실패했습니다.");
 
-        return mailSend;
+        return userCertHistory;
     }
+
+    /// <summary>
+    /// 사용자 본인인증 내역이 존재하는지 확인한다.
+    /// </summary>
+    [Transaction]
+    public async Task<int> CountUserCertHistory(GetUserCertHistoryRequestDTO dto)
+        => await _userCertHistoryRepository.CountUserCertHistory(dto);
 
     /// <summary>
     /// 인증된 사용자 정보를 반환한다.

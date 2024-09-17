@@ -120,8 +120,15 @@ public class AuthController : ControllerBase
     /// 사용자의 비밀번호를 찾는다.
     /// </summary>
     [HttpPost("find-user-password")]
-    public async Task<ActionResult<bool>> FindUserPassword([FromBody] FindUserInfoRequestDTO findUserInfoRequestDTO)
+    public async Task<ActionResult<UserCertHistoryResponseDTO>> FindUserPassword([FromBody] FindUserInfoRequestDTO findUserInfoRequestDTO)
         => Ok(await _authService.FindUserPassword(findUserInfoRequestDTO));
+
+    /// <summary>
+    /// 사용자 본인인증 내역이 존재하는지 확인한다.
+    /// </summary>
+    [HttpGet("certs/{userAccount}")]
+    public async Task<ActionResult<int>> CountUserCertHistory(string userAccount, [FromQuery] GetUserCertHistoryRequestDTO getUserCertHistoryRequestDTO)
+        => Ok(await _authService.CountUserCertHistory(getUserCertHistoryRequestDTO));
     #endregion
 
 }

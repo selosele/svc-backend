@@ -21,11 +21,37 @@ public class UserCertHistoryRepository : IUserCertHistoryRepository
 
     #region Methods
     /// <summary>
+    /// 사용자 본인인증 내역을 조회한다.
+    /// </summary>
+    public Task<UserCertHistoryResponseDTO> GetUserCertHistory(GetUserCertHistoryRequestDTO dto)
+    {
+        return SqlMapper.QuerySingleAsync<UserCertHistoryResponseDTO>(new RequestContext
+        {
+            Scope = nameof(UserCertHistoryRepository),
+            SqlId = "GetUserCertHistory",
+            Request = dto
+        });
+    }
+
+    /// <summary>
+    /// 사용자 본인인증 내역이 존재하는지 확인한다.
+    /// </summary>
+    public Task<int> CountUserCertHistory(GetUserCertHistoryRequestDTO dto)
+    {
+        return SqlMapper.QuerySingleAsync<int>(new RequestContext
+        {
+            Scope = nameof(UserCertHistoryRepository),
+            SqlId = "CountUserCertHistory",
+            Request = dto
+        });
+    }
+
+    /// <summary>
     /// 사용자 본인인증 내역을 추가한다.
     /// </summary>
     public Task<int> AddUserCertHistory(AddUserCertHistoryRequestDTO dto)
     {
-        return SqlMapper.ExecuteAsync(new RequestContext
+        return SqlMapper.ExecuteScalarAsync<int>(new RequestContext
         {
             Scope = nameof(UserCertHistoryRepository),
             SqlId = "AddUserCertHistory",

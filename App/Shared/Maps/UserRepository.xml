@@ -119,8 +119,10 @@
       FROM CO_USER U
       INNER JOIN HM_EMPLOYEE E ON E.USER_ID = U.USER_ID
       WHERE U.DELETE_YN = 'N'
-        AND E.EMPLOYEE_NAME = @EmployeeName
         AND E.EMAIL_ADDR = @EmailAddr
+        <IsNotEmpty Property="EmployeeName">
+        AND E.EMPLOYEE_NAME = @EmployeeName
+        </IsNotEmpty>
         <IsNotEmpty Property="UserAccount">
         AND U.USER_ACCOUNT = @UserAccount
         </IsNotEmpty>

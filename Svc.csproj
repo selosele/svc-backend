@@ -44,13 +44,13 @@
     <None Update="App\Shared\Maps\RoleRepository.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="App\Shared\Maps\UserCertHistoryRepository.xml.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="App\Shared\Maps\UserRepository.xml">
+    <None Update="App\Shared\Maps\UserCertHistoryRepository.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="App\Shared\Maps\UserMenuRoleRepository.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App\Shared\Maps\UserRepository.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="App\Shared\Maps\UserRoleRepository.xml">
