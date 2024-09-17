@@ -1,9 +1,9 @@
 namespace Svc.App.Common.Auth.Models.DTO;
 
 /// <summary>
-/// 아이디 찾기 응답 DTO
+/// 사용자 아이디/비밀번호 찾기 결과 DTO
 /// </summary>
-public record FindUserAccountResponseDTO
+public record FindUserInfoResultDTO
 {
     #region Fields
     /// <summary>
@@ -15,6 +15,11 @@ public record FindUserAccountResponseDTO
     /// 직원명
     /// </summary>
     public string? EmployeeName { get; set; }
+
+    /// <summary>
+    /// 휴대폰번호
+    /// </summary>
+    public string? PhoneNo { get; set; }
 
     /// <summary>
     /// 이메일주소

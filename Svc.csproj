@@ -44,6 +44,9 @@
     <None Update="App\Shared\Maps\RoleRepository.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="App\Shared\Maps\UserCertHistoryRepository.xml.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="App\Shared\Maps\UserRepository.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

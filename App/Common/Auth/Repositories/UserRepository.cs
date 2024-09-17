@@ -62,12 +62,12 @@ public class UserRepository : IUserRepository
     /// <summary>
     /// 사용자를 조회한다(아이디 찾기용).
     /// </summary>
-    public Task<FindUserAccountResponseDTO?> GetUserFindAccount(FindUserAccountRequestDTO dto)
+    public Task<FindUserInfoResultDTO?> GetUserFindInfo(FindUserInfoRequestDTO dto)
     {
-        return SqlMapper.QuerySingleAsync<FindUserAccountResponseDTO?>(new RequestContext
+        return SqlMapper.QuerySingleAsync<FindUserInfoResultDTO?>(new RequestContext
         {
             Scope = nameof(UserRepository),
-            SqlId = "GetUserFindAccount",
+            SqlId = "GetUserFindInfo",
             Request = dto
         });
     }

@@ -26,10 +26,10 @@ public class AuthService
     private readonly IConfiguration _configuration;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IUserRepository _userRepository;
+    private readonly IUserCertHistoryRepository _userCertHistoryRepository;
     private readonly IUserRoleRepository _userRoleRepository;
     private readonly IUserMenuRoleRepository _userMenuRoleRepository;
     private readonly IMenuRoleRepository _menuRoleRepository;
-    private readonly IRoleRepository _roleRepository;
     private readonly IEmployeeRepository _employeeRepository;
     private readonly IWorkHistoryRepository _workHistoryRepository;
     private readonly EmployeeService _employeeService;
@@ -41,10 +41,10 @@ public class AuthService
         IConfiguration configuration,
         IHttpContextAccessor httpContextAccessor,
         IUserRepository userRepository,
+        IUserCertHistoryRepository userCertHistoryRepository,
         IUserRoleRepository userRoleRepository,
         IUserMenuRoleRepository userMenuRoleRepository,
         IMenuRoleRepository menuRoleRepository,
-        IRoleRepository roleRepository,
         IEmployeeRepository employeeRepository,
         IWorkHistoryRepository workHistoryRepository,
         EmployeeService employeeService,
@@ -54,10 +54,10 @@ public class AuthService
         _configuration = configuration;
         _httpContextAccessor = httpContextAccessor;
         _userRepository = userRepository;
+        _userCertHistoryRepository = userCertHistoryRepository;
         _userRoleRepository = userRoleRepository;
         _userMenuRoleRepository = userMenuRoleRepository;
         _menuRoleRepository = menuRoleRepository;
-        _roleRepository = roleRepository;
         _employeeRepository = employeeRepository;
         _workHistoryRepository = workHistoryRepository;
         _employeeService = employeeService;
@@ -347,9 +347,9 @@ public class AuthService
     /// 사용자의 아이디를 찾는다.
     /// </summary>
     [Transaction]
-    public async Task<bool> FindUserAccount(FindUserAccountRequestDTO dto)
+    public async Task<bool> FindUserAccount(FindUserInfoRequestDTO dto)
     {
-        var foundUser = await _userRepository.GetUserFindAccount(dto)
+        var foundUser = await _userRepository.GetUserFindInfo(dto)
             ?? throw new BizException("가입된 정보가 없습니다. 입력하신 정보를 다시 확인하세요.");
 
         var mailSend = await _mailService.Send(new SendMailDTO
@@ -367,6 +367,56 @@ public class AuthService
                 </ul>
 
                 <p>아이디 확인 요청을 한 사람이 본인이 아닌 경우, 보안을 위해 시스템관리자(010-5594-3384)에게 연락해주시기 바랍니다.</p><br>
+                <p>감사합니다.</p><br>
+            "
+        });
+
+        if (!mailSend)
+            throw new BizException("메일 발송에 실패했습니다.");
+
+        return mailSend;
+    }
+
+    /// <summary>
+    /// 사용자의 비밀번호를 찾는다.
+    /// </summary>
+    [Transaction]
+    public async Task<bool> FindUserPassword(FindUserInfoRequestDTO dto)
+    {
+        var foundUser = await _userRepository.GetUserFindInfo(dto)
+            ?? throw new BizException("가입된 정보가 없습니다. 입력하신 정보를 다시 확인하세요.");
+
+        var user = GetAuthenticatedUser();
+        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+
+        // 사용자 본인인증 내역 추가
+        await _userCertHistoryRepository.AddUserCertHistory(new AddUserCertHistoryRequestDTO
+        {
+            UserAccount = foundUser.UserAccount,
+            PhoneNo = foundUser.PhoneNo,
+            EmailAddr = foundUser.EmailAddr,
+            CertCode = RandomStringGeneratorUtil.Generate(6),
+            CertMethodCode = "01",
+            CertTypeCode = "01",
+            ValidTime = 180, // 3분
+            CreaterId = myUserId
+        });
+
+        var mailSend = await _mailService.Send(new SendMailDTO
+        {
+            To = foundUser?.EmailAddr,
+            Subject = "비밀번호 찾기 본인인증 메일",
+            Body = $@"
+                <p>{foundUser?.EmployeeName}님 안녕하세요.</p><br>
+                <p>비밀번호 찾기를 위한 본인인증 코드는 다음과 같습니다.</p<br>
+
+                <ul>
+                    <li>본인인증 코드: {foundUser?.UserAccount}</li>
+                    <li>본인인증 코드 발급일시: {DateTime.Parse(foundUser?.CreateDt!):yyyy-MM-dd HH:mm:ss}</li>
+                    <li>본인인증 코드 유효시간: {DateTime.Parse(foundUser?.CreateDt!):yyyy-MM-dd HH:mm:ss}</li>
+                </ul>
+
+                <p>본인인증 요청을 한 사람이 본인이 아닌 경우, 보안을 위해 시스템관리자(010-5594-3384)에게 연락해주시기 바랍니다.</p><br>
                 <p>감사합니다.</p><br>
             "
         });

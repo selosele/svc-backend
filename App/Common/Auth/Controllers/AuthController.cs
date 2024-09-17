@@ -113,8 +113,15 @@ public class AuthController : ControllerBase
     /// 사용자의 아이디를 찾는다.
     /// </summary>
     [HttpPost("find-user-account")]
-    public async Task<ActionResult<bool>> FindUserAccount([FromBody] FindUserAccountRequestDTO findUserAccountRequestDTO)
-        => Ok(await _authService.FindUserAccount(findUserAccountRequestDTO));
+    public async Task<ActionResult<bool>> FindUserAccount([FromBody] FindUserInfoRequestDTO findUserInfoRequestDTO)
+        => Ok(await _authService.FindUserAccount(findUserInfoRequestDTO));
+
+    /// <summary>
+    /// 사용자의 비밀번호를 찾는다.
+    /// </summary>
+    [HttpPost("find-user-password")]
+    public async Task<ActionResult<bool>> FindUserPassword([FromBody] FindUserInfoRequestDTO findUserInfoRequestDTO)
+        => Ok(await _authService.FindUserPassword(findUserInfoRequestDTO));
     #endregion
 
 }

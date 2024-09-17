@@ -21,9 +21,10 @@
       <Result Column="USER_ACTIVE_YN" Property="UserActiveYn" />
     </ResultMap>
 
-    <ResultMap Id="FindAccountResultMap">
+    <ResultMap Id="FindInfoResultMap">
       <Result Column="USER_ACCOUNT" Property="UserAccount" />
       <Result Column="EMPLOYEE_NAME" Property="EmployeeName" />
+      <Result Column="PHONE_NO" Property="PhoneNo" />
       <Result Column="EMAIL_ADDR" Property="EmailAddr" />
       <Result Column="CREATE_DT" Property="CreateDt" />
       <Result Column="LAST_LOGIN_DT" Property="LastLoginDt" />
@@ -104,13 +105,14 @@
         AND U.USER_ACCOUNT = @UserAccount
     </Statement>
 
-    <!-- 사용자를 조회한다(아이디 찾기용). -->
-    <Statement Id="GetUserFindAccount" ResultMap="FindAccountResultMap">
-      /* UserRepository.GetUserFindAccount */
+    <!-- 사용자를 조회한다(아이디/비밀번호 찾기용). -->
+    <Statement Id="GetUserFindInfo" ResultMap="FindInfoResultMap">
+      /* UserRepository.GetUserFindInfo */
 
       SELECT
         U.USER_ACCOUNT,
         E.EMPLOYEE_NAME,
+        E.PHONE_NO,
         E.EMAIL_ADDR,
         U.CREATE_DT,
         U.LAST_LOGIN_DT
@@ -119,6 +121,9 @@
       WHERE U.DELETE_YN = 'N'
         AND E.EMPLOYEE_NAME = @EmployeeName
         AND E.EMAIL_ADDR = @EmailAddr
+        <IsNotEmpty Property="UserAccount">
+        AND U.USER_ACCOUNT = @UserAccount
+        </IsNotEmpty>
     </Statement>
 
     <!-- 사용자 비밀번호를 조회한다. -->
@@ -136,8 +141,18 @@
     <Statement Id="AddUser">
       /* UserRepository.AddUser */
 
-      INSERT INTO CO_USER (USER_ACCOUNT, USER_PASSWORD, USER_ACTIVE_YN, CREATER_ID)
-      VALUES (@UserAccount, @UserPassword, @UserActiveYn, @CreaterId)
+      INSERT INTO CO_USER (
+        USER_ACCOUNT,
+        USER_PASSWORD,
+        USER_ACTIVE_YN,
+        CREATER_ID
+      )
+      VALUES (
+        @UserAccount,
+        @UserPassword,
+        @UserActiveYn,
+        @CreaterId
+      )
       ;SELECT LAST_INSERT_ID()
     </Statement>
 
