@@ -31,7 +31,7 @@ public interface ICodeRepository
     /// <summary>
     /// 코드를 삭제한다.
     /// </summary>
-    Task<int> RemoveCode(string codeId, int updaterId);
+    Task<int> RemoveCode(string codeId);
     #endregion
 
 }

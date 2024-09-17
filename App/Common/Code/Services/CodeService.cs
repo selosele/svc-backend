@@ -60,8 +60,8 @@ public class CodeService
     /// 코드를 삭제한다.
     /// </summary>
     [Transaction]
-    public async Task<int> RemoveCode(string codeId, int updaterId)
-        => await _codeRepository.RemoveCode(codeId, updaterId);
+    public async Task<int> RemoveCode(string codeId)
+        => await _codeRepository.RemoveCode(codeId);
     #endregion
     
 }

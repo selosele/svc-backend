@@ -74,13 +74,13 @@ public class CodeRepository : ICodeRepository
     /// <summary>
     /// 코드를 삭제한다.
     /// </summary>
-    public Task<int> RemoveCode(string codeId, int updaterId)
+    public Task<int> RemoveCode(string codeId)
     {
         return SqlMapper.ExecuteAsync(new RequestContext
         {
             Scope = nameof(CodeRepository),
             SqlId = "RemoveCode",
-            Request = new { codeId, updaterId }
+            Request = new { codeId }
         });
     }
     #endregion

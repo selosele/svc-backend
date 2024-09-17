@@ -82,10 +82,7 @@ public class CodeController : ControllerBase
     [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
     public async Task<ActionResult> RemoveCode(string codeId)
     {
-        var user = _authService.GetAuthenticatedUser();
-        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
-
-        await _codeService.RemoveCode(codeId, myUserId);
+        await _codeService.RemoveCode(codeId);
         return NoContent();
     }
     #endregion

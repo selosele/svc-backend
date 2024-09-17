@@ -11,7 +11,6 @@
       <Result Column="CODE_ORDER" Property="CodeOrder" />
       <Result Column="CODE_DEPTH" Property="CodeDepth" />
       <Result Column="USE_YN" Property="UseYn" />
-      <Result Column="DELETE_YN" Property="DeleteYn" />
     </ResultMap>
   </ResultMaps>
 
@@ -31,8 +30,7 @@
           CD.CODE_ORDER,
           CAST(CD.CODE_ORDER AS CHAR(200)) AS SORT_ORDER,
           CD.CODE_DEPTH,
-          CD.USE_YN,
-          CD.DELETE_YN
+          CD.USE_YN
         FROM CO_CODE CD
         WHERE CD.UP_CODE_ID IS NULL
         UNION ALL
@@ -45,8 +43,7 @@
           CD.CODE_ORDER,
           CONCAT(R.SORT_ORDER, '-', LPAD(CD.CODE_ORDER, 5, '0')) AS SORT_ORDER,
           CD.CODE_DEPTH,
-          CD.USE_YN,
-          CD.DELETE_YN
+          CD.USE_YN
         FROM CO_CODE CD
         INNER JOIN R ON CD.UP_CODE_ID = R.CODE_ID
       )
@@ -58,10 +55,8 @@
         R.CODE_CONTENT,
         R.CODE_ORDER,
         R.CODE_DEPTH,
-        R.USE_YN,
-        R.DELETE_YN
+        R.USE_YN
       FROM R
-      WHERE R.DELETE_YN = 'N'
       ORDER BY
         CAST(SUBSTRING_INDEX(R.SORT_ORDER, '-', 1) AS UNSIGNED),
         CASE
@@ -82,11 +77,9 @@
         CD.CODE_CONTENT,
         CD.CODE_ORDER,
         CD.CODE_DEPTH,
-        CD.USE_YN,
-        CD.DELETE_YN
+        CD.USE_YN
       FROM CO_CODE CD
-      WHERE CD.DELETE_YN = 'N'
-        AND CD.CODE_ID = @CodeId
+      WHERE CD.CODE_ID = @CodeId
     </Statement>
 
     <!-- 코드를 추가한다. -->
@@ -141,11 +134,7 @@
     <Statement Id="RemoveCode">
       /* CodeRepository.RemoveCode */
 
-      UPDATE CO_CODE
-        SET
-          DELETE_YN = 'Y',
-          UPDATER_ID = @UpdaterId,
-          UPDATE_DT = SYSDATE()
+      DELETE FROM CO_CODE
       WHERE CODE_ID = @CodeId
     </Statement>
     
