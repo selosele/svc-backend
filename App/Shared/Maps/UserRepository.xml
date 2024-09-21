@@ -7,7 +7,9 @@
       <Result Column="USER_ACCOUNT" Property="UserAccount" />
       <Result Column="EMPLOYEE_NAME" Property="EmployeeName" />
       <Result Column="COMPANY_NAME" Property="CompanyName" />
+      <Result Column="RANK_CODE" Property="RankCode" />
       <Result Column="RANK_CODE_NAME" Property="RankCodeName" />
+      <Result Column="JOB_TITLE_CODE" Property="JobTitleCode" />
       <Result Column="JOB_TITLE_CODE_NAME" Property="JobTitleCodeName" />
       <Result Column="USER_ACTIVE_YN" Property="UserActiveYn" />
       <Result Column="LAST_LOGIN_DT" Property="LastLoginDt" />
@@ -42,7 +44,9 @@
         U.USER_ACCOUNT,
         E.EMPLOYEE_NAME,
         IF(H.QUIT_YMD IS NULL, C.COMPANY_NAME, CONCAT(C.COMPANY_NAME, '(퇴사)')) AS COMPANY_NAME,
+        CD.CODE_VALUE AS RANK_CODE,
         CD.CODE_NAME AS RANK_CODE_NAME,
+        CD2.CODE_VALUE AS JOB_TITLE_CODE,
         CD2.CODE_NAME AS JOB_TITLE_CODE_NAME,
         U.USER_ACTIVE_YN,
         (
