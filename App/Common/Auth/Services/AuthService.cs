@@ -361,7 +361,7 @@ public class AuthService
                 <p>회원님께서 조회하신 아이디는 다음과 같습니다.</p<br>
 
                 <ul>
-                    <li>아이디: {foundUser?.UserAccount}</li>
+                    <li>아이디: <strong>{foundUser?.UserAccount}</strong></li>
                     <li>계정 생성일시: {DateTime.Parse(foundUser?.CreateDt!):yyyy-MM-dd HH:mm:ss}</li>
                     <li>마지막 로그인 일시: {DateTime.Parse(foundUser?.LastLoginDt!):yyyy-MM-dd HH:mm:ss}</li>
                 </ul>
