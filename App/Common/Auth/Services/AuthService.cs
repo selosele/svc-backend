@@ -417,7 +417,7 @@ public class AuthService
             Subject = "비밀번호 찾기 본인인증 메일",
             Body = $@"
                 <p>{foundUser?.EmployeeName}님 안녕하세요.</p><br>
-                <p>비밀번호 찾기를 위한 인증코드는 다음과 같습니다.</p<br>
+                <p>비밀번호 찾기를 위한 인증코드는 다음과 같습니다.</p><br>
 
                 <ul>
                     <li>인증코드: <strong>{userCertHistory.CertCode}</strong></li>
