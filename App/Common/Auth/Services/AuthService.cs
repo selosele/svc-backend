@@ -71,9 +71,11 @@ public class AuthService
     [Transaction]
     public async Task<string> Login(LoginRequestDTO loginRequestDTO)
     {
+        // 사용자가 존재하는지 확인한다.
         var user = await GetUserLogin(loginRequestDTO)
             ?? throw new BizException("아이디 또는 비밀번호를 확인하세요.");
 
+        // 비활성화된 사용자는 로그인하지 못하도록 한다.
         if (user.UserActiveYn == "N")
             throw new BizException("비활성화된 사용자입니다.");
 
@@ -81,6 +83,14 @@ public class AuthService
         var isPasswordMatch = EncryptUtil.Verify(loginRequestDTO.UserPassword!, user.UserPassword!);
         if (!isPasswordMatch)
             throw new BizException("아이디 또는 비밀번호를 확인하세요.");
+
+        // 임시 비밀번호를 발급했을경우 임시 비밀번호의 유효시간을 검증한다.
+        if (user.TempPasswordYn == "Y")
+        {
+            var count = await _userRepository.CountUserTempPasswordValid(user.UserId);
+            if (count == 0)
+                throw new BizException("아이디 또는 비밀번호를 확인하세요.");
+        }
 
         // 인증된 사용자 정보를 설정한다.
         SetAuthenticatedUser(user);
@@ -156,10 +166,10 @@ public class AuthService
     }
 
     /// <summary>
-    /// 사용자의 비밀번호를 찾는다.
+    /// 사용자의 비밀번호를 찾는다(인증코드 발송).
     /// </summary>
     [Transaction]
-    public async Task<UserCertHistoryResponseDTO> FindUserPassword(FindUserInfoRequestDTO dto)
+    public async Task<UserCertHistoryResponseDTO> FindUserPassword1(FindUserInfoRequestDTO dto)
     {
         var foundUser = await _userRepository.GetUserFindInfo(dto)
             ?? throw new BizException("가입된 정보가 없습니다. 입력하신 정보를 다시 확인하세요.");
@@ -189,6 +199,7 @@ public class AuthService
         TimeSpan validTime = TimeSpan.FromSeconds((double)userCertHistory.ValidTime!);
         string validTimeToMinute = validTime.ToString(@"mm");
 
+        // 본인인증 코드 발송
         var mailSend = await _mailService.Send(new SendMailDTO
         {
             To = foundUser?.EmailAddr,
@@ -212,6 +223,66 @@ public class AuthService
             throw new BizException("메일 발송에 실패했습니다.");
 
         return userCertHistory;
+    }
+
+    /// <summary>
+    /// 사용자의 비밀번호를 찾는다(임시 비밀번호 발급).
+    /// </summary>
+    [Transaction]
+    public async Task<bool> FindUserPassword2(FindUserInfoRequestDTO dto)
+    {
+        var foundUser = await _userRepository.GetUserFindInfo(dto)
+            ?? throw new BizException("가입된 정보가 없습니다. 입력하신 정보를 다시 확인하세요.");
+
+        // 사용자 본인인증 내역 조회
+        var userCertHistory = await _userCertHistoryRepository.CountUserCertHistory(new GetUserCertHistoryRequestDTO
+        {
+            UserAccount = dto.UserAccount,
+            EmailAddr = dto.EmailAddr,
+            CertCode = dto.CertCode
+        });
+
+        if (userCertHistory == 0)
+            throw new BizException("본인인증 내역이 없습니다.");
+
+        // 임시 비밀번호 생성
+        var length = _configuration["ApplicationSettings:GenerateTempPasswordLength"]!;
+        var tempPassword = RandomStringGeneratorUtil.Generate(int.Parse(length));
+
+        // 사용자 비밀번호를 임시 비밀번호로 변경
+        await _userRepository.UpdateUserPassword(new UpdateUserPasswordRequestDTO
+        {
+            TempPasswordYn = "Y",
+            NewPassword = EncryptUtil.Encrypt(tempPassword),
+            UserAccount = foundUser.UserAccount,
+            UpdaterId = foundUser.UserId
+        });
+
+        // 임시 비밀번호 발송
+        var mailSend = await _mailService.Send(new SendMailDTO
+        {
+            To = foundUser?.EmailAddr,
+            Subject = "임시 비밀번호 발급 메일",
+            Body = $@"
+                <p>{foundUser?.EmployeeName}님 안녕하세요.</p><br>
+                <p>{foundUser?.EmployeeName}님의 임시 비밀번호는 다음과 같습니다.</p><br>
+
+                <ul>
+                    <li>임시 비밀번호: <strong>{tempPassword}</strong></li>
+                    <li>임시 비밀번호 발급일시: {DateTime.Parse(DateTime.Now.ToString()):yyyy-MM-dd HH:mm:ss}</li>
+                    <li>임시 비밀번호 유효시간: 2시간</li>
+                </ul>
+
+                <p><strong>로그인 후 반드시 비밀번호를 변경해주시기 바랍니다.</strong></p><br>
+                <p>임시 비밀번호 발급 요청을 한 사람이 본인이 아닌 경우, 보안을 위해 시스템관리자(010-5594-3384)에게 연락해주시기 바랍니다.</p><br>
+                <p>감사합니다.</p><br>
+            "
+        });
+
+        if (!mailSend)
+            throw new BizException("메일 발송에 실패했습니다.");
+        
+        return true;
     }
 
     /// <summary>

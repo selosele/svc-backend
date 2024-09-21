@@ -29,6 +29,16 @@ public record LoginResultDTO
     public string? UserActiveYn { get; set; }
 
     /// <summary>
+    /// 임시 비밀번호 발급 여부
+    /// </summary>
+    public string? TempPasswordYn { get; set; }
+
+    /// <summary>
+    /// 임시 비밀번호 발급 일시
+    /// </summary>
+    public string? TempPasswordDt { get; set; }
+
+    /// <summary>
     /// 사용자 권한 목록
     /// </summary>
     public IList<UserRoleResponseDTO>? Roles { get; set; } = [];

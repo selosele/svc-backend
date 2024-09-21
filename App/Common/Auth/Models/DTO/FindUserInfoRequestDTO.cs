@@ -22,6 +22,11 @@ public record FindUserInfoRequestDTO : HttpRequestDTOBase
     /// 이메일주소
     /// </summary>
     public string? EmailAddr { get; set; }
+
+    /// <summary>
+    /// 본인인증 코드
+    /// </summary>
+    public string? CertCode { get; set; }
     #endregion
     
 }

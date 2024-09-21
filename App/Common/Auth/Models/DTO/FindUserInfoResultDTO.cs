@@ -7,6 +7,11 @@ public record FindUserInfoResultDTO
 {
     #region Fields
     /// <summary>
+    /// 사용자 ID
+    /// </summary>
+    public int? UserId { get; set; }
+
+    /// <summary>
     /// 사용자 계정
     /// </summary>
     public string? UserAccount { get; set; }

@@ -51,8 +51,17 @@
           AND CH.USER_ACCOUNT = @UserAccount
           </IsNotEmpty>
           AND CH.EMAIL_ADDR = @EmailAddr
-          AND CH.CERT_CODE = @CertCode
           AND TIMESTAMPDIFF(SECOND, CH.CREATE_DT, SYSDATE()) &lt;= CH.VALID_TIME
+        HAVING MAX(CH.CERT_HISTORY_ID) = (
+          SELECT CH2.CERT_HISTORY_ID
+          FROM CO_USER_CERT_HISTORY CH2
+          WHERE 1=1
+            <IsNotEmpty Property="UserAccount">
+            AND CH2.USER_ACCOUNT = @UserAccount
+            </IsNotEmpty>
+            AND CH2.EMAIL_ADDR = @EmailAddr
+            AND CH2.CERT_CODE = @CertCode
+        )
       ) T
     </Statement>
 

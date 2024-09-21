@@ -13,6 +13,11 @@ public record UpdateUserPasswordRequestDTO : HttpRequestDTOBase
     /// 사용자 ID
     /// </summary>
     public int? UserId { get; set; }
+
+    /// <summary>
+    /// 사용자 계정
+    /// </summary>
+    public string? UserAccount { get; set; }
     
     /// <summary>
     /// 현재 비밀번호
@@ -34,6 +39,11 @@ public record UpdateUserPasswordRequestDTO : HttpRequestDTOBase
     [Required]
     [MaxLength(12)]
     public string? NewPasswordConfirm { get; set; }
+
+    /// <summary>
+    /// 임시 비밀번호 발급 여부
+    /// </summary>
+    public string? TempPasswordYn { get; set; } = "N";
     #endregion
 
 }

@@ -46,21 +46,28 @@ public class AuthController : ControllerBase
     /// </summary>
     [HttpPost("find-user-account")]
     public async Task<ActionResult<bool>> FindUserAccount([FromBody] FindUserInfoRequestDTO findUserInfoRequestDTO)
-        => Ok(await _authService.FindUserAccount(findUserInfoRequestDTO));
+        => Created(string.Empty, await _authService.FindUserAccount(findUserInfoRequestDTO));
 
     /// <summary>
-    /// 사용자의 비밀번호를 찾는다.
+    /// 사용자의 비밀번호를 찾는다(인증코드 발송).
     /// </summary>
-    [HttpPost("find-user-password")]
-    public async Task<ActionResult<UserCertHistoryResponseDTO>> FindUserPassword([FromBody] FindUserInfoRequestDTO findUserInfoRequestDTO)
-        => Ok(await _authService.FindUserPassword(findUserInfoRequestDTO));
+    [HttpPost("find-user-password1")]
+    public async Task<ActionResult<UserCertHistoryResponseDTO>> FindUserPassword1([FromBody] FindUserInfoRequestDTO findUserInfoRequestDTO)
+        => Created(string.Empty, await _authService.FindUserPassword1(findUserInfoRequestDTO));
+
+    /// <summary>
+    /// 사용자의 비밀번호를 찾는다(임시 비밀번호 발급).
+    /// </summary>
+    [HttpPost("find-user-password2")]
+    public async Task<ActionResult<bool>> FindUserPassword2([FromBody] FindUserInfoRequestDTO findUserInfoRequestDTO)
+        => Created(string.Empty, await _authService.FindUserPassword2(findUserInfoRequestDTO));
 
     /// <summary>
     /// 사용자 본인인증 내역이 존재하는지 확인한다.
     /// </summary>
-    [HttpGet("certs/{userAccount}")]
-    public async Task<ActionResult<int>> CountUserCertHistory(string userAccount, [FromQuery] GetUserCertHistoryRequestDTO getUserCertHistoryRequestDTO)
-        => Ok(await _authService.CountUserCertHistory(getUserCertHistoryRequestDTO));
+    [HttpPost("certs/{userAccount}")]
+    public async Task<ActionResult<int>> CountUserCertHistory(string userAccount, [FromBody] GetUserCertHistoryRequestDTO getUserCertHistoryRequestDTO)
+        => Created(string.Empty, await _authService.CountUserCertHistory(getUserCertHistoryRequestDTO));
     #endregion
 
 }

@@ -34,6 +34,11 @@ public interface IUserRepository
     Task<string> GetUserPassword(int? userId);
 
     /// <summary>
+    /// 사용자 임시 비밀번호의 유효시간을 검증한다.
+    /// </summary>
+    Task<int> CountUserTempPasswordValid(int? userId);
+
+    /// <summary>
     /// 사용자를 추가한다.
     /// </summary>
     Task<int> AddUser(AddUserRequestDTO dto);

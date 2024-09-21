@@ -21,9 +21,12 @@
       <Result Column="USER_ACCOUNT" Property="UserAccount" />
       <Result Column="USER_PASSWORD" Property="UserPassword" />
       <Result Column="USER_ACTIVE_YN" Property="UserActiveYn" />
+      <Result Column="TEMP_PASSWORD_YN" Property="TempPasswordYn" />
+      <Result Column="TEMP_PASSWORD_DT" Property="TempPasswordDt" />
     </ResultMap>
 
     <ResultMap Id="FindInfoResultMap">
+      <Result Column="USER_ID" Property="UserId" />
       <Result Column="USER_ACCOUNT" Property="UserAccount" />
       <Result Column="EMPLOYEE_NAME" Property="EmployeeName" />
       <Result Column="PHONE_NO" Property="PhoneNo" />
@@ -103,7 +106,9 @@
         U.USER_ID,
         U.USER_ACCOUNT,
         U.USER_PASSWORD,
-        U.USER_ACTIVE_YN
+        U.USER_ACTIVE_YN,
+        U.TEMP_PASSWORD_YN,
+        U.TEMP_PASSWORD_DT
       FROM CO_USER U
       WHERE U.DELETE_YN = 'N'
         AND U.USER_ACCOUNT = @UserAccount
@@ -114,6 +119,7 @@
       /* UserRepository.GetUserFindInfo */
 
       SELECT
+        U.USER_ID,
         U.USER_ACCOUNT,
         E.EMPLOYEE_NAME,
         E.PHONE_NO,
@@ -141,6 +147,17 @@
       FROM CO_USER U
       WHERE U.DELETE_YN = 'N'
         AND U.USER_ID = @UserId
+    </Statement>
+
+    <!-- 사용자 임시 비밀번호의 유효시간을 검증한다. -->
+    <Statement Id="CountUserTempPasswordValid">
+      /* UserRepository.CountUserTempPasswordValid */
+
+      SELECT
+        COUNT(1)
+      FROM CO_USER U
+      WHERE U.USER_ID = @UserId
+        AND TIMESTAMPDIFF(SECOND, U.TEMP_PASSWORD_DT, SYSDATE()) &lt;= 7200
     </Statement>
 
     <!-- 사용자를 추가한다. -->
@@ -195,9 +212,22 @@
       UPDATE CO_USER
         SET
           USER_PASSWORD = @NewPassword,
+          TEMP_PASSWORD_YN = @TempPasswordYn,
+          <IsEqual Property="TempPasswordYn" CompareValue="Y">
+          TEMP_PASSWORD_DT = SYSDATE(),
+          </IsEqual>
+          <IsEqual Property="TempPasswordYn" CompareValue="N">
+          TEMP_PASSWORD_DT = NULL,
+          </IsEqual>
           UPDATER_ID = @UpdaterId,
           UPDATE_DT = SYSDATE()
-      WHERE USER_ID = @UserId
+      WHERE 1=1
+        <IsNotEmpty Property="UserId">
+        AND USER_ID = @UserId
+        </IsNotEmpty>
+        <IsNotEmpty Property="UserAccount">
+        AND USER_ACCOUNT = @UserAccount
+        </IsNotEmpty>
     </Statement>
 
     <!-- 사용자를 삭제한다. -->
