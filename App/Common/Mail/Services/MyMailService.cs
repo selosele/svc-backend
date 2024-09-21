@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Options;
 using MimeKit;
+using MailKit.Net.Smtp;
 using Svc.App.Common.Mail.Models.DTO;
 using Svc.App.Shared.Models.Settings;
 
@@ -13,6 +14,7 @@ public class MyMailService
     #region Fields
     private readonly ILogger _logger;
     private readonly SmtpSettings _smtpSettings;
+    private readonly SmtpClient _client;
     #endregion
     
     #region Constructor
@@ -23,6 +25,7 @@ public class MyMailService
     {
         _logger = logger;
         _smtpSettings = smtpSettings.Value;
+        _client = new SmtpClient(); // SMTP 클라이언트 인스턴스 생성
     }
     #endregion
 
@@ -49,19 +52,18 @@ public class MyMailService
 
         message.Body = builder.ToMessageBody();
 
-        using var client = new MailKit.Net.Smtp.SmtpClient();
         try
         {
-            await client.ConnectAsync(_smtpSettings.Server, _smtpSettings.Port, MailKit.Security.SecureSocketOptions.StartTls);
-            await client.AuthenticateAsync(_smtpSettings.FromId, _smtpSettings.FromPw);
-            await client.SendAsync(message);
-            await client.DisconnectAsync(true);
+            await _client.ConnectAsync(_smtpSettings.Server, _smtpSettings.Port, MailKit.Security.SecureSocketOptions.StartTls);
+            await _client.AuthenticateAsync(_smtpSettings.FromId, _smtpSettings.FromPw);
+            await _client.SendAsync(message);
+            await _client.DisconnectAsync(true);
             return true;
         }
         catch (Exception ex)
         {
             _logger.LogError(ex.Message);
-            await client.DisconnectAsync(true);
+            await _client.DisconnectAsync(true);
             return false;
         }
     }
