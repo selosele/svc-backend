@@ -39,6 +39,8 @@ public class MyMailService
             return false;
 
         string id = dto.To.Split('@')[0];
+        if (!IsValidEmail(id, dto.To))
+            return false;
         
         var message = new MimeMessage();
         message.From.Add(new MailboxAddress(_smtpSettings.FromName, _smtpSettings.FromAddr));
@@ -64,6 +66,22 @@ public class MyMailService
         {
             _logger.LogError(ex.Message);
             await _client.DisconnectAsync(true);
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// 이메일 유효성을 검증한다.
+    /// </summary>
+    private static bool IsValidEmail(string name, string email)
+    {
+        try
+        {
+            var address = new MailboxAddress(name, email);
+            return true;
+        }
+        catch (FormatException)
+        {
             return false;
         }
     }
