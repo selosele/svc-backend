@@ -38,10 +38,10 @@ public class MyMailService
         if (!dto.To!.Contains('@', StringComparison.CurrentCulture))
             return false;
 
-        string id = dto.To.Split('@')[0];
-        if (!IsValidEmail(id, dto.To))
+        if (!IsValidEmail(dto.To))
             return false;
-        
+
+        var id = dto.To.Split('@')[0];
         var message = new MimeMessage();
         message.From.Add(new MailboxAddress(_smtpSettings.FromName, _smtpSettings.FromAddr));
         message.To.Add(new MailboxAddress(id, dto.To));
@@ -64,7 +64,7 @@ public class MyMailService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex.Message);
+            _logger.LogError(ex, "Failed to send email to {Email}", dto.To);
             await _client.DisconnectAsync(true);
             return false;
         }
@@ -73,11 +73,15 @@ public class MyMailService
     /// <summary>
     /// 이메일 유효성을 검증한다.
     /// </summary>
-    private static bool IsValidEmail(string name, string email)
+    private static bool IsValidEmail(string email)
     {
+        if (!email.Contains('@', StringComparison.CurrentCulture))
+            return false;
+
         try
         {
-            var address = new MailboxAddress(name, email);
+            var id = email.Split('@')[0];
+            var address = new MailboxAddress(id, email);
             return true;
         }
         catch (FormatException)
