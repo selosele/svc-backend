@@ -35,13 +35,10 @@ public class MyMailService
     /// </summary>
     public async Task<bool> Send(SendMailDTO dto)
     {
-        if (!dto.To!.Contains('@', StringComparison.CurrentCulture))
+        if (!IsValidEmail(dto.To!))
             return false;
 
-        if (!IsValidEmail(dto.To))
-            return false;
-
-        var id = dto.To.Split('@')[0];
+        var id = dto.To!.Split('@')[0];
         var message = new MimeMessage();
         message.From.Add(new MailboxAddress(_smtpSettings.FromName, _smtpSettings.FromAddr));
         message.To.Add(new MailboxAddress(id, dto.To));
