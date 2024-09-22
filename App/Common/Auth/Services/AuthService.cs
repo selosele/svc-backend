@@ -282,7 +282,7 @@ public class AuthService
         if (!mailSend)
             throw new BizException("메일 발송에 실패했습니다.");
         
-        return true;
+        return mailSend;
     }
 
     /// <summary>
