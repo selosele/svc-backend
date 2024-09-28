@@ -10,6 +10,11 @@ public record HolidayResponseDTO
     /// 일자
     /// </summary>
     public string? YMD { get; set; }
+
+    /// <summary>
+    /// 사용자 ID
+    /// </summary>
+    public int? UserId { get; set; }
     
     /// <summary>
     /// 연도
