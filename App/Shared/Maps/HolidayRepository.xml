@@ -61,6 +61,25 @@
       WHERE H.YMD = @YMD
         AND H.USER_ID = @UserId
     </Statement>
+
+    <!-- 휴일을 수정한다. -->
+    <Statement Id="UpdateHoliday">
+      /* HolidayRepository.UpdateHoliday */
+
+      UPDATE CO_HOLIDAY
+        SET
+          YMD = @YMD,
+          YYYY = SUBSTRING(@YMD, 1, 4),
+          MM = SUBSTRING(@YMD, 5, 2),
+          DD = SUBSTRING(@YMD, 7, 2),
+          HOLIDAY_NAME = @HolidayName,
+          HOLIDAY_CONTENT = @HolidayContent,
+          USE_YN = @UseYn,
+          UPDATER_ID = @UpdaterId,
+          UPDATE_DT = SYSDATE()
+      WHERE YMD = @OriginalYmd
+        AND USER_ID = @UserId
+    </Statement>
     
   </Statements>
 </SmartSqlMap>

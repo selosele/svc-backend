@@ -35,6 +35,13 @@ public class HolidayService
     [Transaction]
     public async Task<HolidayResponseDTO> GetHoliday(GetHolidayRequestDTO dto)
         => await _holidayRepository.GetHoliday(dto);
+
+    /// <summary>
+    /// 휴일을 수정한다.
+    /// </summary>
+    [Transaction]
+    public async Task<int> UpdateHoliday(SaveHolidayRequestDTO dto)
+        => await _holidayRepository.UpdateHoliday(dto);
     #endregion
     
 }

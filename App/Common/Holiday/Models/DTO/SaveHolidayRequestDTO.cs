@@ -16,6 +16,12 @@ public record SaveHolidayRequestDTO : HttpRequestDTOBase
     public string? YMD { get; set; }
 
     /// <summary>
+    /// 기존 일자
+    /// </summary>
+    [MaxLength(8)]
+    public string? OriginalYmd { get; set; }
+
+    /// <summary>
     /// 사용자 ID
     /// </summary>
     public int? UserId { get; set; }

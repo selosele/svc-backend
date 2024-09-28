@@ -64,6 +64,24 @@ public class HolidayController : ControllerBase
 
         return Ok(await _holidayService.GetHoliday(new GetHolidayRequestDTO { YMD = ymd, UserId = userId }));
     }
+
+    /// <summary>
+    /// 휴일을 수정한다.
+    /// </summary>
+    [HttpPut("{userId}/{ymd}")]
+    [Authorize]
+    public async Task<ActionResult<List<HolidayResponseDTO>>> UpdateHoliday(int userId, string ymd, [FromBody] SaveHolidayRequestDTO saveHolidayRequestDTO)
+    {
+        var user = _authService.GetAuthenticatedUser();
+        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+
+        if (userId != myUserId)
+            return NotFound();
+
+        saveHolidayRequestDTO.UpdaterId = userId;
+
+        return Ok(await _holidayService.UpdateHoliday(saveHolidayRequestDTO));
+    }
     #endregion
 
 }
