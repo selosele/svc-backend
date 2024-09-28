@@ -108,7 +108,6 @@
         @UseYn,
         @CreaterId
       )
-      ;SELECT LAST_INSERT_ID()
     </Statement>
 
     <!-- 코드를 수정한다. -->

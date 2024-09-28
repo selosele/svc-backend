@@ -48,9 +48,9 @@ public class CodeRepository : ICodeRepository
     /// <summary>
     /// 코드를 추가한다.
     /// </summary>
-    public Task<string> AddCode(SaveCodeRequestDTO dto)
+    public Task<int> AddCode(SaveCodeRequestDTO dto)
     {
-        return SqlMapper.ExecuteScalarAsync<string>(new RequestContext
+        return SqlMapper.ExecuteAsync(new RequestContext
         {
             Scope = nameof(CodeRepository),
             SqlId = "AddCode",

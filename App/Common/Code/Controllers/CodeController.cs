@@ -52,7 +52,7 @@ public class CodeController : ControllerBase
     /// </summary>
     [HttpPost]
     [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
-    public async Task<ActionResult<CodeResponseDTO>> AddCode([FromBody] SaveCodeRequestDTO saveCodeRequestDTO)
+    public async Task<ActionResult<int>> AddCode([FromBody] SaveCodeRequestDTO saveCodeRequestDTO)
     {
         var user = _authService.GetAuthenticatedUser();
         var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
