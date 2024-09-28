@@ -71,7 +71,16 @@ public class EmployeeController : ControllerBase
     [HttpGet("{employeeId}/companies/{workHistoryId}")]
     [Authorize]
     public async Task<ActionResult<WorkHistoryResponseDTO>> GetWorkHistory(int employeeId, int workHistoryId)
-        => Ok(await _employeeService.GetWorkHistory(new GetWorkHistoryRequestDTO { WorkHistoryId = workHistoryId }));
+    {
+        var user = _authService.GetAuthenticatedUser();
+        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+
+        return Ok(await _employeeService.GetWorkHistory(new GetWorkHistoryRequestDTO
+        {
+            WorkHistoryId = workHistoryId,
+            UserId = myUserId
+        }));
+    }
 
     /// <summary>
     /// 근무이력을 추가한다.

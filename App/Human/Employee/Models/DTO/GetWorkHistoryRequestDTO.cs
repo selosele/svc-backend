@@ -19,6 +19,11 @@ public record GetWorkHistoryRequestDTO : HttpRequestDTOBase
     public int? EmployeeId { get; set; }
 
     /// <summary>
+    /// 사용자 ID
+    /// </summary>
+    public int? UserId { get; set; }
+
+    /// <summary>
     /// 회사 ID
     /// </summary>
     public int? CompanyId { get; set; }

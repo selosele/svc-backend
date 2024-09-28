@@ -17,6 +17,11 @@ public record GetVacationRequestDTO : HttpRequestDTOBase
     /// 근무이력 ID
     /// </summary>
     public int? WorkHistoryId { get; set; }
+
+    /// <summary>
+    /// 사용자 ID
+    /// </summary>
+    public int? UserId { get; set; }
     #endregion
 
 }

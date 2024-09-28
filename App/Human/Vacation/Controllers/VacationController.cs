@@ -37,7 +37,13 @@ public class VacationController : ControllerBase
     [HttpGet]
     [Authorize]
     public async Task<ActionResult<List<VacationResponseDTO>>> ListVacation([FromQuery] GetVacationRequestDTO getVacationRequestDTO)
-        => Ok(await _vacationService.ListVacation(getVacationRequestDTO));
+    {
+        var user = _authService.GetAuthenticatedUser();
+        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+
+        getVacationRequestDTO.UserId = myUserId;
+        return Ok(await _vacationService.ListVacation(getVacationRequestDTO));
+    }
 
     /// <summary>
     /// 휴가를 조회한다.
