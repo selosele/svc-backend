@@ -72,9 +72,6 @@ public class MyMailService
     /// </summary>
     private static bool IsValidEmail(string email)
     {
-        if (!email.Contains('@', StringComparison.CurrentCulture))
-            return false;
-
         try
         {
             var id = email.Split('@')[0];
