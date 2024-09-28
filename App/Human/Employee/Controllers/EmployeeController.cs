@@ -63,7 +63,13 @@ public class EmployeeController : ControllerBase
     [HttpGet("{employeeId}/companies")]
     [Authorize]
     public async Task<ActionResult<List<WorkHistoryResponseDTO>>> ListWorkHistory(int employeeId, [FromQuery] GetWorkHistoryRequestDTO getWorkHistoryRequestDTO)
-        => Ok(await _employeeService.ListWorkHistory(getWorkHistoryRequestDTO));
+    {
+        var user = _authService.GetAuthenticatedUser();
+        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+        
+        getWorkHistoryRequestDTO.UserId = myUserId;
+        return Ok(await _employeeService.ListWorkHistory(getWorkHistoryRequestDTO));
+    }
     
     /// <summary>
     /// 근무이력을 조회한다.
@@ -71,16 +77,7 @@ public class EmployeeController : ControllerBase
     [HttpGet("{employeeId}/companies/{workHistoryId}")]
     [Authorize]
     public async Task<ActionResult<WorkHistoryResponseDTO>> GetWorkHistory(int employeeId, int workHistoryId)
-    {
-        var user = _authService.GetAuthenticatedUser();
-        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
-
-        return Ok(await _employeeService.GetWorkHistory(new GetWorkHistoryRequestDTO
-        {
-            WorkHistoryId = workHistoryId,
-            UserId = myUserId
-        }));
-    }
+        => Ok(await _employeeService.GetWorkHistory(new GetWorkHistoryRequestDTO { WorkHistoryId = workHistoryId }));
 
     /// <summary>
     /// 근무이력을 추가한다.
