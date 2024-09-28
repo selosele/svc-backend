@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using Svc.App.Common.Holiday.Services;
 using Svc.App.Common.Holiday.Models.DTO;
+using Svc.App.Common.Auth.Services;
 using Svc.App.Shared.Utils;
 
 namespace Svc.App.Common.Holiday.Controllers;
@@ -14,13 +16,16 @@ namespace Svc.App.Common.Holiday.Controllers;
 public class HolidayController : ControllerBase
 {
     #region Fields
+    private readonly AuthService _authService;
     private readonly HolidayService _holidayService;
     #endregion
     
     #region Constructor
     public HolidayController(
+        AuthService authService,
         HolidayService holidayService
     ) {
+        _authService = authService;
         _holidayService = holidayService;
     }
     #endregion
@@ -29,18 +34,36 @@ public class HolidayController : ControllerBase
     /// <summary>
     /// 휴일 목록을 조회한다.
     /// </summary>
-    [HttpGet]
-    [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
-    public async Task<ActionResult<List<HolidayResponseDTO>>> ListHoliday([FromQuery] GetHolidayRequestDTO? dto)
-        => Ok(await _holidayService.ListHoliday(dto));
+    [HttpGet("{userId}")]
+    [Authorize]
+    public async Task<ActionResult<List<HolidayResponseDTO>>> ListHoliday(int userId, [FromQuery] GetHolidayRequestDTO? dto)
+    {
+        var user = _authService.GetAuthenticatedUser();
+        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+
+        if (userId != myUserId)
+            return NotFound();
+
+        dto!.UserId = userId;
+        
+        return Ok(await _holidayService.ListHoliday(dto));
+    }
 
     /// <summary>
     /// 휴일을 조회한다.
     /// </summary>
-    [HttpGet("{ymd}")]
-    [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
-    public async Task<ActionResult<List<HolidayResponseDTO>>> GetHoliday(string ymd)
-        => Ok(await _holidayService.GetHoliday(ymd));
+    [HttpGet("{userId}/{ymd}")]
+    [Authorize]
+    public async Task<ActionResult<List<HolidayResponseDTO>>> GetHoliday(int userId, string ymd)
+    {
+        var user = _authService.GetAuthenticatedUser();
+        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+
+        if (userId != myUserId)
+            return NotFound();
+
+        return Ok(await _holidayService.GetHoliday(new GetHolidayRequestDTO { YMD = ymd, UserId = userId }));
+    }
     #endregion
 
 }

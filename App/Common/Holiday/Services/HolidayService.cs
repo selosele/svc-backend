@@ -33,8 +33,8 @@ public class HolidayService
     /// 휴일을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<HolidayResponseDTO> GetHoliday(string ymd)
-        => await _holidayRepository.GetHoliday(ymd);
+    public async Task<HolidayResponseDTO> GetHoliday(GetHolidayRequestDTO dto)
+        => await _holidayRepository.GetHoliday(dto);
     #endregion
     
 }

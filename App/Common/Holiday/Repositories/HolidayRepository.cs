@@ -36,13 +36,13 @@ public class HolidayRepository : IHolidayRepository
     /// <summary>
     /// 휴일을 조회한다.
     /// </summary>
-    public Task<HolidayResponseDTO> GetHoliday(string ymd)
+    public Task<HolidayResponseDTO> GetHoliday(GetHolidayRequestDTO dto)
     {
         return SqlMapper.QuerySingleAsync<HolidayResponseDTO>(new RequestContext
         {
             Scope = nameof(HolidayRepository),
             SqlId = "GetHoliday",
-            Request = new { ymd }
+            Request = dto
         });
     }
     #endregion

@@ -16,7 +16,7 @@ public interface IHolidayRepository
     /// <summary>
     /// 휴일을 조회한다.
     /// </summary>
-    Task<HolidayResponseDTO> GetHoliday(string ymd);
+    Task<HolidayResponseDTO> GetHoliday(GetHolidayRequestDTO dto);
     #endregion
 
 }

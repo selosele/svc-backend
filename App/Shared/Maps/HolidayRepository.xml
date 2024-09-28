@@ -4,6 +4,7 @@
   <ResultMaps>
     <ResultMap Id="HolidayResultMap">
       <Result Column="YMD" Property="YMD" />
+      <Result Column="USER_ID" Property="UserId" />
       <Result Column="YYYY" Property="YYYY" />
       <Result Column="MM" Property="MM" />
       <Result Column="DD" Property="DD" />
@@ -21,6 +22,7 @@
 
       SELECT
         H.YMD,
+        H.USER_ID,
         H.YYYY,
         H.MM,
         H.DD,
@@ -29,6 +31,7 @@
         H.USE_YN
       FROM CO_HOLIDAY H
       WHERE 1=1
+        AND H.USER_ID = @UserId
         <IsNotEmpty Property="YYYY">
         AND H.YYYY = @YYYY
         </IsNotEmpty>
@@ -47,6 +50,7 @@
 
       SELECT
         H.YMD,
+        H.USER_ID,
         H.YYYY,
         H.MM,
         H.DD,
@@ -55,6 +59,7 @@
         H.USE_YN
       FROM CO_HOLIDAY H
       WHERE H.YMD = @YMD
+        AND H.USER_ID = @UserId
     </Statement>
     
   </Statements>
