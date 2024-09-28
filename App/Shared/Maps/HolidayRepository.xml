@@ -80,6 +80,15 @@
       WHERE YMD = @OriginalYmd
         AND USER_ID = @UserId
     </Statement>
+
+    <!-- 휴일을 삭제한다. -->
+    <Statement Id="RemoveHoliday">
+      /* HolidayRepository.RemoveHoliday */
+
+      DELETE FROM CO_HOLIDAY
+      WHERE YMD = @YMD
+        AND USER_ID = @UserId
+    </Statement>
     
   </Statements>
 </SmartSqlMap>

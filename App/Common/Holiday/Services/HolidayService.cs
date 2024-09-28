@@ -42,6 +42,13 @@ public class HolidayService
     [Transaction]
     public async Task<int> UpdateHoliday(SaveHolidayRequestDTO dto)
         => await _holidayRepository.UpdateHoliday(dto);
+
+    /// <summary>
+    /// 휴일을 삭제한다.
+    /// </summary>
+    [Transaction]
+    public async Task<int> RemoveHoliday(string ymd, int userId)
+        => await _holidayRepository.RemoveHoliday(ymd, userId);
     #endregion
     
 }

@@ -58,6 +58,19 @@ public class HolidayRepository : IHolidayRepository
             Request = dto
         });
     }
+
+    /// <summary>
+    /// 휴일을 삭제한다.
+    /// </summary>
+    public Task<int> RemoveHoliday(string ymd, int userId)
+    {
+        return SqlMapper.ExecuteAsync(new RequestContext
+        {
+            Scope = nameof(HolidayRepository),
+            SqlId = "RemoveHoliday",
+            Request = new { ymd, userId }
+        });
+    }
     #endregion
 
 }

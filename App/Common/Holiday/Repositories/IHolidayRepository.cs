@@ -22,6 +22,11 @@ public interface IHolidayRepository
     /// 휴일을 수정한다.
     /// </summary>
     Task<int> UpdateHoliday(SaveHolidayRequestDTO dto);
+
+    /// <summary>
+    /// 휴일을 삭제한다.
+    /// </summary>
+    Task<int> RemoveHoliday(string ymd, int userId);
     #endregion
 
 }

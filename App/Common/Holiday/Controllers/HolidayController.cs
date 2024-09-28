@@ -82,6 +82,23 @@ public class HolidayController : ControllerBase
 
         return Ok(await _holidayService.UpdateHoliday(saveHolidayRequestDTO));
     }
+
+    /// <summary>
+    /// 휴일을 삭제한다.
+    /// </summary>
+    [HttpDelete("{userId}/{ymd}")]
+    [Authorize]
+    public async Task<ActionResult> RemoveCode(int userId, string ymd)
+    {
+        var user = _authService.GetAuthenticatedUser();
+        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+
+        if (userId != myUserId)
+            return NotFound();
+        
+        await _holidayService.RemoveHoliday(ymd, userId);
+        return NoContent();
+    }
     #endregion
 
 }
