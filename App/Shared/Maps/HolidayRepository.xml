@@ -62,6 +62,35 @@
         AND H.USER_ID = @UserId
     </Statement>
 
+    <!-- 휴일을 추가한다. -->
+    <Statement Id="AddHoliday">
+      /* HolidayRepository.AddHoliday */
+
+      INSERT INTO CO_HOLIDAY (
+        YMD,
+        USER_ID,
+        YYYY,
+        MM,
+        DD,
+        HOLIDAY_NAME,
+        HOLIDAY_CONTENT,
+        USE_YN,
+        CREATER_ID
+      )
+      VALUES (
+        @YMD,
+        @UserId,
+        SUBSTRING(@YMD, 1, 4),
+        SUBSTRING(@YMD, 5, 2),
+        SUBSTRING(@YMD, 7, 2),
+        @HolidayName,
+        @HolidayContent,
+        @UseYn,
+        @CreaterId
+      )
+      ;SELECT LAST_INSERT_ID()
+    </Statement>
+
     <!-- 휴일을 수정한다. -->
     <Statement Id="UpdateHoliday">
       /* HolidayRepository.UpdateHoliday */

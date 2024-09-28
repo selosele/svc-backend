@@ -19,6 +19,11 @@ public interface IHolidayRepository
     Task<HolidayResponseDTO> GetHoliday(GetHolidayRequestDTO dto);
 
     /// <summary>
+    /// 휴일을 추가한다.
+    /// </summary>
+    Task<int> AddHoliday(SaveHolidayRequestDTO dto);
+
+    /// <summary>
     /// 휴일을 수정한다.
     /// </summary>
     Task<int> UpdateHoliday(SaveHolidayRequestDTO dto);

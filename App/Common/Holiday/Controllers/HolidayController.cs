@@ -66,6 +66,23 @@ public class HolidayController : ControllerBase
     }
 
     /// <summary>
+    /// 휴일을 추가한다.
+    /// </summary>
+    [HttpPost("{userId}")]
+    [Authorize]
+    public async Task<ActionResult<int>> AddHoliday(int userId, [FromBody] SaveHolidayRequestDTO saveHolidayRequestDTO)
+    {
+        var user = _authService.GetAuthenticatedUser();
+        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+
+        if (userId != myUserId)
+            return NotFound();
+
+        saveHolidayRequestDTO.CreaterId = myUserId;
+        return Created(string.Empty, await _holidayService.AddHoliday(saveHolidayRequestDTO));
+    }
+
+    /// <summary>
     /// 휴일을 수정한다.
     /// </summary>
     [HttpPut("{userId}/{ymd}")]
@@ -79,7 +96,6 @@ public class HolidayController : ControllerBase
             return NotFound();
 
         saveHolidayRequestDTO.UpdaterId = userId;
-
         return Ok(await _holidayService.UpdateHoliday(saveHolidayRequestDTO));
     }
 
@@ -95,7 +111,7 @@ public class HolidayController : ControllerBase
 
         if (userId != myUserId)
             return NotFound();
-        
+
         await _holidayService.RemoveHoliday(ymd, userId);
         return NoContent();
     }
