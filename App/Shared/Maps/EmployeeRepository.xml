@@ -57,7 +57,7 @@
         @GenderCode,
         @BirthYmd,
         REPLACE(@PhoneNo, '-', ''),
-        @EmailAddr
+        @EmailAddr,
         @CreaterId
       )
       ;SELECT LAST_INSERT_ID()
