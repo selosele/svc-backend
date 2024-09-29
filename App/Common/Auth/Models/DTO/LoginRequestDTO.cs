@@ -18,8 +18,12 @@ public record LoginRequestDTO : HttpRequestDTOBase
     /// <summary>
     /// 사용자 비밀번호
     /// </summary>
-    [Required]
     [MaxLength(12)]
     public string? UserPassword { get; set; }
+
+    /// <summary>
+    /// 슈퍼로그인 여부
+    /// </summary>
+    public string? IsSuperLogin { get; set; }
     #endregion
 }

@@ -79,17 +79,21 @@ public class AuthService
         if (user.UserActiveYn == "N")
             throw new BizException("비활성화된 사용자입니다.");
 
-        // 비밀번호를 비교한다.
-        var isPasswordMatch = EncryptUtil.Verify(loginRequestDTO.UserPassword!, user.UserPassword!);
-        if (!isPasswordMatch)
-            throw new BizException("아이디 또는 비밀번호를 확인하세요.");
-
-        // 임시 비밀번호를 발급했을경우 임시 비밀번호의 유효시간을 검증한다.
-        if (user.TempPasswordYn == "Y")
+        // 슈퍼로그인이 아닌 경우에만 비밀번호 검증을 한다.
+        if (string.IsNullOrEmpty(loginRequestDTO.IsSuperLogin) || loginRequestDTO.IsSuperLogin == "N")
         {
-            var count = await _userRepository.CountUserTempPasswordValid(user.UserId);
-            if (count == 0)
+            // 비밀번호를 비교한다.
+            var isPasswordMatch = EncryptUtil.Verify(loginRequestDTO.UserPassword!, user.UserPassword!);
+            if (!isPasswordMatch)
                 throw new BizException("아이디 또는 비밀번호를 확인하세요.");
+
+            // 임시 비밀번호를 발급했을경우 임시 비밀번호의 유효시간을 검증한다.
+            if (user.TempPasswordYn == "Y")
+            {
+                var count = await _userRepository.CountUserTempPasswordValid(user.UserId);
+                if (count == 0)
+                    throw new BizException("아이디 또는 비밀번호를 확인하세요.");
+            }
         }
 
         // 인증된 사용자 정보를 설정한다.

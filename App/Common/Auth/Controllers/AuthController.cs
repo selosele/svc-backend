@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Svc.App.Common.Auth.Models.DTO;
 using Svc.App.Common.Auth.Services;
+using Svc.App.Shared.Utils;
 
 namespace Svc.App.Common.Auth.Controllers;
 
@@ -29,6 +31,17 @@ public class AuthController : ControllerBase
     /// </summary>
     [HttpPost("login")]
     public async Task<ActionResult<LoginResponseDTO>> Login([FromBody] LoginRequestDTO loginRequestDTO)
+    {
+        var accessToken = await _authService.Login(loginRequestDTO);
+        return Created(string.Empty, new LoginResponseDTO { AccessToken = accessToken });
+    }
+
+    /// <summary>
+    /// 특정 사용자를 시스템관리자 권한으로 로그인한다.
+    /// </summary>
+    [HttpPost("superlogin")]
+    [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
+    public async Task<ActionResult<LoginResponseDTO>> SuperLogin([FromBody] LoginRequestDTO loginRequestDTO)
     {
         var accessToken = await _authService.Login(loginRequestDTO);
         return Created(string.Empty, new LoginResponseDTO { AccessToken = accessToken });
