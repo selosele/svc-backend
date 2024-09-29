@@ -32,6 +32,9 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<ActionResult<LoginResponseDTO>> Login([FromBody] LoginRequestDTO loginRequestDTO)
     {
+        if (loginRequestDTO.IsSuperLogin == "Y")
+            return NotFound();
+
         var accessToken = await _authService.Login(loginRequestDTO);
         return Created(string.Empty, new LoginResponseDTO { AccessToken = accessToken });
     }
