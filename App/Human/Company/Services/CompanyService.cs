@@ -25,8 +25,8 @@ public class CompanyService
     /// 회사 목록을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<IList<CompanyResponseDTO>> ListCompany(GetCompanyRequestDTO? getCompanyRequestDTO)
-        => await _companyRepository.ListCompany(getCompanyRequestDTO);
+    public async Task<IList<CompanyResponseDTO>> ListCompany(GetCompanyRequestDTO? dto)
+        => await _companyRepository.ListCompany(dto);
     #endregion
     
 }

@@ -35,8 +35,8 @@ public class UserController : ControllerBase
     /// </summary>
     [HttpGet]
     [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
-    public async Task<ActionResult<List<UserResponseDTO>>> ListUser([FromQuery] GetUserRequestDTO getUserRequestDTO)
-        => Ok(await _userService.ListUser(getUserRequestDTO));
+    public async Task<ActionResult<List<UserResponseDTO>>> ListUser([FromQuery] GetUserRequestDTO dto)
+        => Ok(await _userService.ListUser(dto));
 
     /// <summary>
     /// 사용자를 조회한다.
@@ -51,18 +51,18 @@ public class UserController : ControllerBase
     /// </summary>
     [HttpPost]
     [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
-    public async Task<ActionResult<UserResponseDTO>> AddUser([FromBody] AddUserRequestDTO addUserRequestDTO)
-        => Created(string.Empty, await _userService.AddUser(addUserRequestDTO));
+    public async Task<ActionResult<UserResponseDTO>> AddUser([FromBody] AddUserRequestDTO dto)
+        => Created(string.Empty, await _userService.AddUser(dto));
 
     /// <summary>
     /// 사용자를 수정한다.
     /// </summary>
     [HttpPut("{userId}")]
     [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
-    public async Task<ActionResult<UserResponseDTO>> UpdateUser(int userId, [FromBody] UpdateUserRequestDTO updateUserRequestDTO)
+    public async Task<ActionResult<UserResponseDTO>> UpdateUser(int userId, [FromBody] UpdateUserRequestDTO dto)
     {
-        updateUserRequestDTO.UserId = userId;
-        return Ok(await _userService.UpdateUser(updateUserRequestDTO));
+        dto.UserId = userId;
+        return Ok(await _userService.UpdateUser(dto));
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ public class UserController : ControllerBase
     /// </summary>
     [HttpPut("{userId}/password")]
     [Authorize]
-    public async Task<ActionResult<int>> UpdateUserPassword(int userId, [FromBody] UpdateUserPasswordRequestDTO updateUserPasswordRequestDTO)
+    public async Task<ActionResult<int>> UpdateUserPassword(int userId, [FromBody] UpdateUserPasswordRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
         var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
@@ -78,10 +78,10 @@ public class UserController : ControllerBase
         if (userId != myUserId)
             return NotFound();
 
-        updateUserPasswordRequestDTO.UserId = myUserId;
-        updateUserPasswordRequestDTO.UpdaterId = myUserId;
+        dto.UserId = myUserId;
+        dto.UpdaterId = myUserId;
 
-        return Ok(await _userService.UpdateUserPassword(updateUserPasswordRequestDTO));
+        return Ok(await _userService.UpdateUserPassword(dto));
     }
 
     /// <summary>

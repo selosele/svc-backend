@@ -25,8 +25,8 @@ public class VacationService
     /// 휴가 목록을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<IList<VacationResponseDTO>> ListVacation(GetVacationRequestDTO getVacationRequestDTO)
-        => await _vacationRepository.ListVacation(getVacationRequestDTO);
+    public async Task<IList<VacationResponseDTO>> ListVacation(GetVacationRequestDTO dto)
+        => await _vacationRepository.ListVacation(dto);
 
     /// <summary>
     /// 휴가를 조회한다.
@@ -39,9 +39,9 @@ public class VacationService
     /// 휴가를 추가한다.
     /// </summary>
     [Transaction]
-    public async Task<VacationResponseDTO> AddVacation(SaveVacationRequestDTO saveVacationRequestDTO)
+    public async Task<VacationResponseDTO> AddVacation(SaveVacationRequestDTO dto)
     {
-        var vacationId = await _vacationRepository.AddVacation(saveVacationRequestDTO);
+        var vacationId = await _vacationRepository.AddVacation(dto);
         return await _vacationRepository.GetVacation(vacationId);
     }
 
@@ -49,8 +49,8 @@ public class VacationService
     /// 휴가를 수정한다.
     /// </summary>
     [Transaction]
-    public async Task<int> UpdateVacation(SaveVacationRequestDTO saveVacationRequestDTO)
-        => await _vacationRepository.UpdateVacation(saveVacationRequestDTO);
+    public async Task<int> UpdateVacation(SaveVacationRequestDTO dto)
+        => await _vacationRepository.UpdateVacation(dto);
 
     /// <summary>
     /// 휴가를 삭제한다.

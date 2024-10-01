@@ -30,8 +30,8 @@ public class CompanyController : ControllerBase
     /// </summary>
     [HttpGet]
     [Authorize]
-    public async Task<ActionResult<List<CompanyResponseDTO>>> ListCompany([FromQuery] GetCompanyRequestDTO? getCompanyRequestDTO)
-        => Ok(await _companyService.ListCompany(getCompanyRequestDTO));
+    public async Task<ActionResult<List<CompanyResponseDTO>>> ListCompany([FromQuery] GetCompanyRequestDTO? dto)
+        => Ok(await _companyService.ListCompany(dto));
     #endregion
 
 }

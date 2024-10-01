@@ -69,21 +69,21 @@ public class AuthService
     /// 로그인을 한다.
     /// </summary>
     [Transaction]
-    public async Task<string> Login(LoginRequestDTO loginRequestDTO)
+    public async Task<string> Login(LoginRequestDTO dto)
     {
         // 사용자가 존재하는지 확인한다.
-        var user = await GetUserLogin(loginRequestDTO)
+        var user = await GetUserLogin(dto)
             ?? throw new BizException("아이디 또는 비밀번호를 확인하세요.");
 
         // 슈퍼로그인이 아닌 경우에만 사용자 검증을 한다.
-        if (string.IsNullOrEmpty(loginRequestDTO.IsSuperLogin) || loginRequestDTO.IsSuperLogin == "N")
+        if (string.IsNullOrEmpty(dto.IsSuperLogin) || dto.IsSuperLogin == "N")
         {
             // 비활성화된 사용자는 로그인하지 못하도록 한다.
             if (user.UserActiveYn == "N")
                 throw new BizException("비활성화된 사용자입니다.");
 
             // 비밀번호를 비교한다.
-            var isPasswordMatch = EncryptUtil.Verify(loginRequestDTO.UserPassword!, user.UserPassword!);
+            var isPasswordMatch = EncryptUtil.Verify(dto.UserPassword!, user.UserPassword!);
             if (!isPasswordMatch)
                 throw new BizException("아이디 또는 비밀번호를 확인하세요.");
 
@@ -103,7 +103,7 @@ public class AuthService
         var myUserId = int.Parse(myUser?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
 
         // 슈퍼로그인이 아닌 경우에만 사용자의 마지막 로그인 일시를 변경한다.
-        if (string.IsNullOrEmpty(loginRequestDTO.IsSuperLogin) || loginRequestDTO.IsSuperLogin == "N")
+        if (string.IsNullOrEmpty(dto.IsSuperLogin) || dto.IsSuperLogin == "N")
         {
             await _userRepository.UpdateUserLastLoginDt(user.UserId, myUserId);
         }
@@ -122,9 +122,9 @@ public class AuthService
     /// 사용자를 조회한다(로그인용).
     /// </summary>
     [Transaction]
-    public async Task<LoginResultDTO?> GetUserLogin(LoginRequestDTO loginRequestDTO)
+    public async Task<LoginResultDTO?> GetUserLogin(LoginRequestDTO dto)
     {
-        var user = await _userRepository.GetUserLogin(loginRequestDTO);
+        var user = await _userRepository.GetUserLogin(dto);
         if (user != null)
         {
             user.Roles = await _userRoleRepository.ListUserRole(new GetUserRoleRequestDTO { UserId = user.UserId });

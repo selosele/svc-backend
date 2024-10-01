@@ -52,13 +52,13 @@ public class CodeController : ControllerBase
     /// </summary>
     [HttpPost]
     [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
-    public async Task<ActionResult<int>> AddCode([FromBody] SaveCodeRequestDTO saveCodeRequestDTO)
+    public async Task<ActionResult<int>> AddCode([FromBody] SaveCodeRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
         var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
 
-        saveCodeRequestDTO.CreaterId = myUserId;
-        return Created(string.Empty, await _codeService.AddCode(saveCodeRequestDTO));
+        dto.CreaterId = myUserId;
+        return Created(string.Empty, await _codeService.AddCode(dto));
     }
 
     /// <summary>
@@ -66,13 +66,13 @@ public class CodeController : ControllerBase
     /// </summary>
     [HttpPut("{codeId}")]
     [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
-    public async Task<ActionResult<CodeResponseDTO>> UpdateUser(string codeId, [FromBody] SaveCodeRequestDTO saveCodeRequestDTO)
+    public async Task<ActionResult<CodeResponseDTO>> UpdateUser(string codeId, [FromBody] SaveCodeRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
         var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
 
-        saveCodeRequestDTO.UpdaterId = myUserId;
-        return Ok(await _codeService.UpdateCode(saveCodeRequestDTO));
+        dto.UpdaterId = myUserId;
+        return Ok(await _codeService.UpdateCode(dto));
     }
 
     /// <summary>

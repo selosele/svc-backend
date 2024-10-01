@@ -36,12 +36,12 @@ public class MenuController : ControllerBase
     /// </summary>
     [HttpGet]
     [Authorize]
-    public async Task<ActionResult<List<MenuResponseDTO>>> ListMenu([FromQuery] GetMenuRequestDTO getMenuRequestDTO)
+    public async Task<ActionResult<List<MenuResponseDTO>>> ListMenu([FromQuery] GetMenuRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
-        getMenuRequestDTO.UserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+        dto.UserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
 
-        return Ok(await _menuService.ListMenu(getMenuRequestDTO));
+        return Ok(await _menuService.ListMenu(dto));
     }
     #endregion
 

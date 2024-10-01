@@ -36,13 +36,13 @@ public class VacationController : ControllerBase
     /// </summary>
     [HttpGet]
     [Authorize]
-    public async Task<ActionResult<List<VacationResponseDTO>>> ListVacation([FromQuery] GetVacationRequestDTO getVacationRequestDTO)
+    public async Task<ActionResult<List<VacationResponseDTO>>> ListVacation([FromQuery] GetVacationRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
         var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
 
-        getVacationRequestDTO.UserId = myUserId;
-        return Ok(await _vacationService.ListVacation(getVacationRequestDTO));
+        dto.UserId = myUserId;
+        return Ok(await _vacationService.ListVacation(dto));
     }
 
     /// <summary>
@@ -58,16 +58,16 @@ public class VacationController : ControllerBase
     /// </summary>
     [HttpPost]
     [Authorize]
-    public async Task<ActionResult<VacationResponseDTO>> AddVacation([FromBody] SaveVacationRequestDTO saveVacationRequestDTO)
+    public async Task<ActionResult<VacationResponseDTO>> AddVacation([FromBody] SaveVacationRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
         var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
         var myEmployeeId = int.Parse(user?.FindFirstValue(ClaimUtil.EMPLOYEE_ID_IDENTIFIER)!);
 
-        saveVacationRequestDTO.CreaterId = myUserId;
-        saveVacationRequestDTO.EmployeeId = myEmployeeId;
+        dto.CreaterId = myUserId;
+        dto.EmployeeId = myEmployeeId;
         
-        return Created(string.Empty, await _vacationService.AddVacation(saveVacationRequestDTO));
+        return Created(string.Empty, await _vacationService.AddVacation(dto));
     }
 
     /// <summary>
@@ -75,13 +75,13 @@ public class VacationController : ControllerBase
     /// </summary>
     [HttpPut("{vacationId}")]
     [Authorize]
-    public async Task<ActionResult<int>> UpdateVacation(int vacationId, [FromBody] SaveVacationRequestDTO saveVacationRequestDTO)
+    public async Task<ActionResult<int>> UpdateVacation(int vacationId, [FromBody] SaveVacationRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
         var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
         
-        saveVacationRequestDTO.UpdaterId = myUserId;
-        return await _vacationService.UpdateVacation(saveVacationRequestDTO);
+        dto.UpdaterId = myUserId;
+        return await _vacationService.UpdateVacation(dto);
     }
 
     /// <summary>

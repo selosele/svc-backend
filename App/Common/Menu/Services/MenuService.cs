@@ -31,8 +31,8 @@ public class MenuService
     /// 메뉴 목록을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<IList<MenuResponseDTO>> ListMenu(GetMenuRequestDTO getMenuRequestDTO)
-        => await _menuRepository.ListMenu(getMenuRequestDTO);
+    public async Task<IList<MenuResponseDTO>> ListMenu(GetMenuRequestDTO dto)
+        => await _menuRepository.ListMenu(dto);
     #endregion
     
 }

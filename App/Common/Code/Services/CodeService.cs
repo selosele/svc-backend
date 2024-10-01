@@ -40,17 +40,17 @@ public class CodeService
     /// 코드를 추가한다.
     /// </summary>
     [Transaction]
-    public async Task<int> AddCode(SaveCodeRequestDTO saveCodeRequestDTO)
-        => await _codeRepository.AddCode(saveCodeRequestDTO);
+    public async Task<int> AddCode(SaveCodeRequestDTO dto)
+        => await _codeRepository.AddCode(dto);
 
     /// <summary>
     /// 코드를 수정한다.
     /// </summary>
     [Transaction]
-    public async Task<CodeResponseDTO> UpdateCode(SaveCodeRequestDTO saveCodeRequestDTO)
+    public async Task<CodeResponseDTO> UpdateCode(SaveCodeRequestDTO dto)
     {
-        await _codeRepository.UpdateCode(saveCodeRequestDTO);
-        return await _codeRepository.GetCode(saveCodeRequestDTO.CodeId!);
+        await _codeRepository.UpdateCode(dto);
+        return await _codeRepository.GetCode(dto.CodeId!);
     }
 
     /// <summary>

@@ -56,16 +56,16 @@ public class UserService
     /// 사용자 목록을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<IList<UserResponseDTO>> ListUser(GetUserRequestDTO? getUserRequestDTO)
-        => await _userRepository.ListUser(getUserRequestDTO);
+    public async Task<IList<UserResponseDTO>> ListUser(GetUserRequestDTO? dto)
+        => await _userRepository.ListUser(dto);
 
     /// <summary>
     /// 사용자를 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<UserResponseDTO?> GetUser(GetUserRequestDTO getUserRequestDTO)
+    public async Task<UserResponseDTO?> GetUser(GetUserRequestDTO dto)
     {
-        var user = await _userRepository.GetUser(getUserRequestDTO);
+        var user = await _userRepository.GetUser(dto);
         if (user != null)
         {
             user.Roles = await _userRoleRepository.ListUserRole(new GetUserRoleRequestDTO { UserId = user.UserId });
@@ -83,36 +83,36 @@ public class UserService
     /// 사용자를 추가한다.
     /// </summary>
     [Transaction]
-    public async Task<UserResponseDTO?> AddUser(AddUserRequestDTO addUserRequestDTO)
+    public async Task<UserResponseDTO?> AddUser(AddUserRequestDTO dto)
     {
         // 사용자 중복 체크
-        var foundUser = await GetUser(new GetUserRequestDTO { UserAccount = addUserRequestDTO.UserAccount });
+        var foundUser = await GetUser(new GetUserRequestDTO { UserAccount = dto.UserAccount });
         if (foundUser != null)
             throw new BizException("중복된 사용자입니다. 입력하신 정보를 다시 확인하세요.");
 
         // 직원 이메일주소 중복 체크
-        var foundEmailCount = await _employeeRepository.CountEmployeeEmailAddr(addUserRequestDTO.Employee!.EmailAddr!, null);
+        var foundEmailCount = await _employeeRepository.CountEmployeeEmailAddr(dto.Employee!.EmailAddr!, null);
         if (foundEmailCount > 0)
             throw new BizException("중복된 이메일주소입니다. 입력하신 정보를 다시 확인하세요.");
 
         // 비밀번호 암호화
-        addUserRequestDTO.UserPassword = EncryptUtil.Encrypt(addUserRequestDTO.UserPassword!);
+        dto.UserPassword = EncryptUtil.Encrypt(dto.UserPassword!);
 
         // 등록자 ID
-        addUserRequestDTO.CreaterId = int.Parse(_authService.GetAuthenticatedUser()?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+        dto.CreaterId = int.Parse(_authService.GetAuthenticatedUser()?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
 
         // 사용자 추가
-        var userId = await _userRepository.AddUser(addUserRequestDTO);
+        var userId = await _userRepository.AddUser(dto);
 
         // 사용자 권한 추가
         List<AddUserRoleRequestDTO> addUserRoleRequestDTOList = [];
-        foreach (var roleId in addUserRequestDTO.Roles!)
+        foreach (var roleId in dto.Roles!)
         {
             addUserRoleRequestDTOList.Add(new AddUserRoleRequestDTO
                 {
                     UserId = userId,
                     RoleId = roleId,
-                    CreaterId = addUserRequestDTO.CreaterId
+                    CreaterId = dto.CreaterId
                 }
             );
         }
@@ -130,26 +130,26 @@ public class UserService
                     UserId = userId,
                     MenuId = menuRole.MenuId,
                     RoleId = menuRole.RoleId,
-                    CreaterId = addUserRequestDTO.CreaterId
+                    CreaterId = dto.CreaterId
                 }
             );
         }
         await _userMenuRoleRepository.AddUserMenuRole(addUserMenuRoleRequestDTOList);
 
         // 직원 추가
-        if (addUserRequestDTO.Employee != null)
+        if (dto.Employee != null)
         {
-            addUserRequestDTO.Employee.UserId = userId;
-            addUserRequestDTO.Employee.CreaterId = addUserRequestDTO.CreaterId;
-            var employeeId = await _employeeRepository.AddEmployee(addUserRequestDTO.Employee);
+            dto.Employee.UserId = userId;
+            dto.Employee.CreaterId = dto.CreaterId;
+            var employeeId = await _employeeRepository.AddEmployee(dto.Employee);
 
             // 근무이력 추가
-            if (addUserRequestDTO.Employee.WorkHistory != null)
+            if (dto.Employee.WorkHistory != null)
             {
-                addUserRequestDTO.Employee.WorkHistory.EmployeeId = employeeId;
-                addUserRequestDTO.Employee.WorkHistory.CreaterId = addUserRequestDTO.CreaterId;
+                dto.Employee.WorkHistory.EmployeeId = employeeId;
+                dto.Employee.WorkHistory.CreaterId = dto.CreaterId;
                 
-                await _employeeService.AddWorkHistory(addUserRequestDTO.Employee.WorkHistory);
+                await _employeeService.AddWorkHistory(dto.Employee.WorkHistory);
             }
         }
 
@@ -166,41 +166,41 @@ public class UserService
     /// 사용자를 수정한다.
     /// </summary>
     [Transaction]
-    public async Task<UserResponseDTO?> UpdateUser(UpdateUserRequestDTO updateUserRequestDTO)
+    public async Task<UserResponseDTO?> UpdateUser(UpdateUserRequestDTO dto)
     {
         // 직원 이메일주소 중복 체크
-        var foundEmailCount = await _employeeRepository.CountEmployeeEmailAddr(updateUserRequestDTO.Employee!.EmailAddr!, updateUserRequestDTO.Employee.EmployeeId);
+        var foundEmailCount = await _employeeRepository.CountEmployeeEmailAddr(dto.Employee!.EmailAddr!, dto.Employee.EmployeeId);
         if (foundEmailCount > 0)
             throw new BizException("중복된 이메일주소입니다. 입력하신 정보를 다시 확인하세요.");
 
         var user = _authService.GetAuthenticatedUser();
-        updateUserRequestDTO.UpdaterId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+        dto.UpdaterId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
         
         // 사용자 수정
-        await _userRepository.UpdateUser(updateUserRequestDTO);
+        await _userRepository.UpdateUser(dto);
 
         // 사용자 권한 삭제
-        await _userRoleRepository.RemoveUserRole(updateUserRequestDTO.UserId);
+        await _userRoleRepository.RemoveUserRole(dto.UserId);
 
         // 사용자 권한 추가
         List<AddUserRoleRequestDTO> addUserRoleRequestDTOList = [];
-        foreach (var roleId in updateUserRequestDTO.Roles!)
+        foreach (var roleId in dto.Roles!)
         {
             addUserRoleRequestDTOList.Add(new AddUserRoleRequestDTO
                 {
-                    UserId = updateUserRequestDTO.UserId,
+                    UserId = dto.UserId,
                     RoleId = roleId,
-                    UpdaterId = updateUserRequestDTO.UpdaterId
+                    UpdaterId = dto.UpdaterId
                 }
             );
         }
         await _userRoleRepository.AddUserRole(addUserRoleRequestDTOList);
 
         // 사용자 메뉴 권한 삭제
-        await _userMenuRoleRepository.RemoveUserMenuRole(updateUserRequestDTO.UserId);
+        await _userMenuRoleRepository.RemoveUserMenuRole(dto.UserId);
 
         // 메뉴 권한 목록 조회
-        var menuRoleList = await _menuRoleRepository.ListMenuRole(new GetMenuRoleRequestDTO { UserId = updateUserRequestDTO.UserId });
+        var menuRoleList = await _menuRoleRepository.ListMenuRole(new GetMenuRoleRequestDTO { UserId = dto.UserId });
 
         // 사용자 메뉴 권한 추가
         List<AddUserMenuRoleRequestDTO> addUserMenuRoleRequestDTOList = [];
@@ -208,57 +208,57 @@ public class UserService
         {
             addUserMenuRoleRequestDTOList.Add(new AddUserMenuRoleRequestDTO
                 {
-                    UserId = updateUserRequestDTO.UserId,
+                    UserId = dto.UserId,
                     MenuId = menuRole.MenuId,
                     RoleId = menuRole.RoleId,
-                    UpdaterId = updateUserRequestDTO.UpdaterId
+                    UpdaterId = dto.UpdaterId
                 }
             );
         }
         await _userMenuRoleRepository.AddUserMenuRole(addUserMenuRoleRequestDTOList);
 
         // 직원 수정
-        if (updateUserRequestDTO.Employee != null)
+        if (dto.Employee != null)
         {
-            updateUserRequestDTO.Employee.UpdaterId = updateUserRequestDTO.UpdaterId;
+            dto.Employee.UpdaterId = dto.UpdaterId;
             
-            await _employeeRepository.UpdateEmployee(updateUserRequestDTO.Employee);
+            await _employeeRepository.UpdateEmployee(dto.Employee);
 
             // 근무이력 수정
-            if (updateUserRequestDTO.Employee.WorkHistory != null)
+            if (dto.Employee.WorkHistory != null)
             {
-                updateUserRequestDTO.Employee.WorkHistory.EmployeeId = updateUserRequestDTO.Employee.EmployeeId;
-                updateUserRequestDTO.Employee.WorkHistory.UpdaterId = updateUserRequestDTO.UpdaterId;
+                dto.Employee.WorkHistory.EmployeeId = dto.Employee.EmployeeId;
+                dto.Employee.WorkHistory.UpdaterId = dto.UpdaterId;
                 
-                await _employeeService.SaveWorkHistory(updateUserRequestDTO.Employee.WorkHistory);
+                await _employeeService.SaveWorkHistory(dto.Employee.WorkHistory);
             }
         }
 
         // 수정한 사용자를 조회해서 반환
-        return await GetUser(new GetUserRequestDTO { UserId = updateUserRequestDTO.UserId });
+        return await GetUser(new GetUserRequestDTO { UserId = dto.UserId });
     }
 
     /// <summary>
     /// 사용자 비밀번호를 변경한다.
     /// </summary>
     [Transaction]
-    public async Task<int> UpdateUserPassword(UpdateUserPasswordRequestDTO updateUserPasswordRequestDTO)
+    public async Task<int> UpdateUserPassword(UpdateUserPasswordRequestDTO dto)
     {
         // DB의 현재 비밀번호를 조회해서
-        var currentHashedPassword = await _userRepository.GetUserPassword(updateUserPasswordRequestDTO.UserId);
+        var currentHashedPassword = await _userRepository.GetUserPassword(dto.UserId);
 
         // 입력받은 현재 비밀번호와 동일한지 확인하고
-        if (!EncryptUtil.Verify(updateUserPasswordRequestDTO.CurrentPassword!, currentHashedPassword!))
+        if (!EncryptUtil.Verify(dto.CurrentPassword!, currentHashedPassword!))
             throw new BizException("현재 비밀번호를 확인하세요.");
 
         // 새 비밀번호와 확인용 새 비밀번호가 동일한지 확인하고
-        if (updateUserPasswordRequestDTO.NewPassword != updateUserPasswordRequestDTO.NewPasswordConfirm)
+        if (dto.NewPassword != dto.NewPasswordConfirm)
             throw new BizException("새 비밀번호를 확인하세요.");
 
         // 새 비밀번호를 암호화한다.
-        updateUserPasswordRequestDTO.NewPassword = EncryptUtil.Encrypt(updateUserPasswordRequestDTO.NewPassword!);
+        dto.NewPassword = EncryptUtil.Encrypt(dto.NewPassword!);
 
-        return await _userRepository.UpdateUserPassword(updateUserPasswordRequestDTO);
+        return await _userRepository.UpdateUserPassword(dto);
     }
 
     /// <summary>
