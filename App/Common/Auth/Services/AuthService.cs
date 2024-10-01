@@ -102,8 +102,11 @@ public class AuthService
         var myUser = GetAuthenticatedUser();
         var myUserId = int.Parse(myUser?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
 
-        // 사용자의 마지막 로그인 일시를 변경한다.
-        await _userRepository.UpdateUserLastLoginDt(user.UserId, myUserId);
+        // 슈퍼로그인이 아닌 경우에만 사용자의 마지막 로그인 일시를 변경한다.
+        if (string.IsNullOrEmpty(loginRequestDTO.IsSuperLogin) || loginRequestDTO.IsSuperLogin == "N")
+        {
+            await _userRepository.UpdateUserLastLoginDt(user.UserId, myUserId);
+        }
 
         // JWT를 생성해서 반환한다.
         return GenerateJWT(user);
