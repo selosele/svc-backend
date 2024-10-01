@@ -75,13 +75,13 @@ public class AuthService
         var user = await GetUserLogin(loginRequestDTO)
             ?? throw new BizException("아이디 또는 비밀번호를 확인하세요.");
 
-        // 비활성화된 사용자는 로그인하지 못하도록 한다.
-        if (user.UserActiveYn == "N")
-            throw new BizException("비활성화된 사용자입니다.");
-
-        // 슈퍼로그인이 아닌 경우에만 비밀번호 검증을 한다.
+        // 슈퍼로그인이 아닌 경우에만 사용자 검증을 한다.
         if (string.IsNullOrEmpty(loginRequestDTO.IsSuperLogin) || loginRequestDTO.IsSuperLogin == "N")
         {
+            // 비활성화된 사용자는 로그인하지 못하도록 한다.
+            if (user.UserActiveYn == "N")
+                throw new BizException("비활성화된 사용자입니다.");
+
             // 비밀번호를 비교한다.
             var isPasswordMatch = EncryptUtil.Verify(loginRequestDTO.UserPassword!, user.UserPassword!);
             if (!isPasswordMatch)
