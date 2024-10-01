@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<SmartSqlMap Scope="NotificationRepository" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+  <ResultMaps>
+    <ResultMap Id="NotificationResultMap">
+      <Result Column="NOTIFICATION_ID" Property="NotificationId" />
+      <Result Column="USER_ID" Property="UserId" />
+      <Result Column="NOTIFICATION_TITLE" Property="NotificationTitle" />
+      <Result Column="NOTITICATION_CONTENT" Property="NotiticationContent" />
+      <Result Column="NOTIFICATION_TYPE_CODE" Property="NotificationTypeCode" />
+      <Result Column="NOTIFICATION_READ_DT" Property="NotificationReadDt" />
+    </ResultMap>
+  </ResultMaps>
+
+  <Statements>
+
+    <!-- 알림 목록 및 개수 조회조건 -->
+    <Statement Id="QueryParams">
+      WHERE N.USER_ID = @UserId
+        AND N.NOTIFICATION_READ_DT IS NULL
+    </Statement>
+
+    <!-- 알림 개수를 조회한다. -->
+    <Statement Id="CountNotification">
+      /* NotificationRepository.CountNotification */
+
+      SELECT
+        COUNT(1) AS NOTIFICATION_COUNT
+      FROM CO_NOTIFICATION N
+      <Include RefId="QueryParams" />
+    </Statement>
+
+    <!-- 알림 목록을 조회한다. -->
+    <Statement Id="ListNotification" ResultMap="NotificationResultMap">
+      /* NotificationRepository.ListNotification */
+
+      SELECT
+        N.NOTIFICATION_ID,
+        N.USER_ID,
+        N.NOTIFICATION_TITLE,
+        N.NOTITICATION_CONTENT,
+        N.NOTIFICATION_TYPE_CODE,
+        N.NOTIFICATION_READ_DT
+      FROM CO_NOTIFICATION N
+      <Include RefId="QueryParams" />
+      ORDER BY N.NOTIFICATION_ID DESC
+    </Statement>
+
+    <!-- 알림을 확인처리한다. -->
+    <Statement Id="UpdateNotificationReadDt">
+      /* NotificationRepository.UpdateNotificationReadDt */
+
+      UPDATE CO_NOTIFICATION
+        SET
+          NOTIFICATION_READ_DT = SYSDATE(),
+          UPDATER_ID = @UpdaterId,
+          UPDATE_DT = SYSDATE()
+      WHERE NOTIFICATION_ID = @NotificationId
+    </Statement>
+    
+  </Statements>
+</SmartSqlMap>
