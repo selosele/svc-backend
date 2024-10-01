@@ -40,7 +40,7 @@ public class AuthController : ControllerBase
     }
 
     /// <summary>
-    /// 특정 사용자를 시스템관리자 권한으로 로그인한다.
+    /// 특정 사용자로 로그인한다.
     /// </summary>
     [HttpPost("superlogin")]
     [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
