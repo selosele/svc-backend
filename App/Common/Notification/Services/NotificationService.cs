@@ -38,8 +38,15 @@ public class NotificationService
     /// 알림을 확인처리한다.
     /// </summary>
     [Transaction]
-    public async Task<int> UpdateNotificationReadDt(UpdateNotificationRequestDTO dto)
+    public async Task<int> UpdateNotificationReadDt(SaveNotificationRequestDTO dto)
         => await _notificationRepository.UpdateNotificationReadDt(dto);
+
+    /// <summary>
+    /// 알림을 삭제한다.
+    /// </summary>
+    [Transaction]
+    public async Task<int> RemoveNotification(SaveNotificationRequestDTO dto)
+        => await _notificationRepository.RemoveNotification(dto);
     #endregion
     
 }

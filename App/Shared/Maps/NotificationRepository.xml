@@ -57,6 +57,18 @@
           UPDATE_DT = SYSDATE()
       WHERE NOTIFICATION_ID = @NotificationId
     </Statement>
+
+    <!-- 알림을 삭제한다. -->
+    <Statement Id="RemoveNotification">
+      /* NotificationRepository.RemoveNotification */
+
+      UPDATE CO_NOTIFICATION
+        SET
+          DELETE_YN = 'Y',
+          UPDATER_ID = @UpdaterId,
+          UPDATE_DT = SYSDATE()
+      WHERE NOTIFICATION_ID = @NotificationId
+    </Statement>
     
   </Statements>
 </SmartSqlMap>

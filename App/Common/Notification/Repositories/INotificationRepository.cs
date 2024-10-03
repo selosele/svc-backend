@@ -21,7 +21,12 @@ public interface INotificationRepository
     /// <summary>
     /// 알림을 확인처리한다.
     /// </summary>
-    Task<int> UpdateNotificationReadDt(UpdateNotificationRequestDTO dto);
+    Task<int> UpdateNotificationReadDt(SaveNotificationRequestDTO dto);
+
+    /// <summary>
+    /// 알림을 삭제한다.
+    /// </summary>
+    Task<int> RemoveNotification(SaveNotificationRequestDTO dto);
     #endregion
 
 }

@@ -49,12 +49,25 @@ public class NotificationRepository : INotificationRepository
     /// <summary>
     /// 알림을 확인처리한다.
     /// </summary>
-    public Task<int> UpdateNotificationReadDt(UpdateNotificationRequestDTO dto)
+    public Task<int> UpdateNotificationReadDt(SaveNotificationRequestDTO dto)
     {
         return SqlMapper.ExecuteAsync(new RequestContext
         {
             Scope = nameof(NotificationRepository),
             SqlId = "UpdateNotificationReadDt",
+            Request = dto
+        });
+    }
+
+    /// <summary>
+    /// 알림을 삭제한다.
+    /// </summary>
+    public Task<int> RemoveNotification(SaveNotificationRequestDTO dto)
+    {
+        return SqlMapper.ExecuteAsync(new RequestContext
+        {
+            Scope = nameof(NotificationRepository),
+            SqlId = "RemoveNotification",
             Request = dto
         });
     }

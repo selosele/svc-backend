@@ -3,9 +3,9 @@ using Svc.App.Shared.Models.DTO;
 namespace Svc.App.Common.Notification.Models.DTO;
 
 /// <summary>
-/// 알림 수정 요청 DTO
+/// 알림 추가/수정 요청 DTO
 /// </summary>
-public record UpdateNotificationRequestDTO : HttpRequestDTOBase
+public record SaveNotificationRequestDTO : HttpRequestDTOBase
 {
     #region Fields
     /// <summary>

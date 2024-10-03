@@ -49,12 +49,28 @@ public class NotificationController : ControllerBase
     /// </summary>
     [HttpPut("{notificationId}")]
     [Authorize]
-    public async Task<ActionResult<int>> UpdateNotificationReadDt(int notificationId, [FromBody] UpdateNotificationRequestDTO dto)
+    public async Task<ActionResult<int>> UpdateNotificationReadDt(int notificationId, [FromBody] SaveNotificationRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
         dto.UpdaterId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
 
         return Ok(await _notificationService.UpdateNotificationReadDt(dto));
+    }
+
+    /// <summary>
+    /// 알림을 삭제한다.
+    /// </summary>
+    [HttpDelete("{notificationId}")]
+    [Authorize]
+    public async Task<ActionResult> RemoveNotification(int notificationId)
+    {
+        var user = _authService.GetAuthenticatedUser();
+        await _notificationService.UpdateNotificationReadDt(new SaveNotificationRequestDTO
+        {
+            NotificationId = notificationId,
+            UpdaterId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!)
+        });
+        return NoContent();
     }
     #endregion
 
