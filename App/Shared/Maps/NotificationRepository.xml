@@ -28,6 +28,7 @@
         COUNT(1) AS NOTIFICATION_COUNT
       FROM CO_NOTIFICATION N
       <Include RefId="QueryParams" />
+        AND N.NOTIFICATION_READ_DT IS NULL
     </Statement>
 
     <!-- 알림 목록을 조회한다. -->
