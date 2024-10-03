@@ -65,7 +65,7 @@ public class NotificationController : ControllerBase
     public async Task<ActionResult> RemoveNotification(int notificationId)
     {
         var user = _authService.GetAuthenticatedUser();
-        await _notificationService.UpdateNotificationReadDt(new SaveNotificationRequestDTO
+        await _notificationService.RemoveNotification(new SaveNotificationRequestDTO
         {
             NotificationId = notificationId,
             UpdaterId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!)
