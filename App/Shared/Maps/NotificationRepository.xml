@@ -16,7 +16,8 @@
 
     <!-- 알림 목록 및 개수 조회조건 -->
     <Statement Id="QueryParams">
-      WHERE N.USER_ID = @UserId
+      WHERE N.DELETE_YN = 'N'
+        AND N.USER_ID = @UserId
         AND N.NOTIFICATION_READ_DT IS NULL
     </Statement>
 
