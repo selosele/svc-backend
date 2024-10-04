@@ -9,6 +9,8 @@ using Svc.App.Shared.Utils;
 using Svc.App.Human.Employee.Repositories;
 using Svc.App.Human.Employee.Models.DTO;
 using Svc.App.Human.Employee.Services;
+using Svc.App.Common.Notification.Repositories;
+using Svc.App.Common.Notification.Models.DTO;
 
 namespace Svc.App.Common.Auth.Services;
 
@@ -24,6 +26,7 @@ public class UserService
     private readonly IMenuRoleRepository _menuRoleRepository;
     private readonly IEmployeeRepository _employeeRepository;
     private readonly IWorkHistoryRepository _workHistoryRepository;
+    private readonly INotificationRepository _notificationRepository;
     private readonly EmployeeService _employeeService;
     private readonly AuthService _authService;
     #endregion
@@ -36,6 +39,7 @@ public class UserService
         IMenuRoleRepository menuRoleRepository,
         IEmployeeRepository employeeRepository,
         IWorkHistoryRepository workHistoryRepository,
+        INotificationRepository notificationRepository,
         EmployeeService employeeService,
         AuthService authService
     )
@@ -46,6 +50,7 @@ public class UserService
         _menuRoleRepository = menuRoleRepository;
         _employeeRepository = employeeRepository;
         _workHistoryRepository = workHistoryRepository;
+        _notificationRepository = notificationRepository;
         _employeeService = employeeService;
         _authService = authService;
     }
@@ -109,12 +114,11 @@ public class UserService
         foreach (var roleId in dto.Roles!)
         {
             addUserRoleRequestDTOList.Add(new AddUserRoleRequestDTO
-                {
-                    UserId = userId,
-                    RoleId = roleId,
-                    CreaterId = dto.CreaterId
-                }
-            );
+            {
+                UserId = userId,
+                RoleId = roleId,
+                CreaterId = dto.CreaterId
+            });
         }
         await _userRoleRepository.AddUserRole(addUserRoleRequestDTOList);
 
@@ -126,13 +130,12 @@ public class UserService
         foreach (var menuRole in menuRoleList)
         {
             addUserMenuRoleRequestDTOList.Add(new AddUserMenuRoleRequestDTO
-                {
-                    UserId = userId,
-                    MenuId = menuRole.MenuId,
-                    RoleId = menuRole.RoleId,
-                    CreaterId = dto.CreaterId
-                }
-            );
+            {
+                UserId = userId,
+                MenuId = menuRole.MenuId,
+                RoleId = menuRole.RoleId,
+                CreaterId = dto.CreaterId
+            });
         }
         await _userMenuRoleRepository.AddUserMenuRole(addUserMenuRoleRequestDTOList);
 
@@ -187,12 +190,11 @@ public class UserService
         foreach (var roleId in dto.Roles!)
         {
             addUserRoleRequestDTOList.Add(new AddUserRoleRequestDTO
-                {
-                    UserId = dto.UserId,
-                    RoleId = roleId,
-                    UpdaterId = dto.UpdaterId
-                }
-            );
+            {
+                UserId = dto.UserId,
+                RoleId = roleId,
+                UpdaterId = dto.UpdaterId
+            });
         }
         await _userRoleRepository.AddUserRole(addUserRoleRequestDTOList);
 
@@ -207,13 +209,12 @@ public class UserService
         foreach (var menuRole in menuRoleList)
         {
             addUserMenuRoleRequestDTOList.Add(new AddUserMenuRoleRequestDTO
-                {
-                    UserId = dto.UserId,
-                    MenuId = menuRole.MenuId,
-                    RoleId = menuRole.RoleId,
-                    UpdaterId = dto.UpdaterId
-                }
-            );
+            {
+                UserId = dto.UserId,
+                MenuId = menuRole.MenuId,
+                RoleId = menuRole.RoleId,
+                UpdaterId = dto.UpdaterId
+            });
         }
         await _userMenuRoleRepository.AddUserMenuRole(addUserMenuRoleRequestDTOList);
 
@@ -258,7 +259,18 @@ public class UserService
         // 새 비밀번호를 암호화한다.
         dto.NewPassword = EncryptUtil.Encrypt(dto.NewPassword!);
 
-        return await _userRepository.UpdateUserPassword(dto);
+        var updateCount = await _userRepository.UpdateUserPassword(dto);
+        if (updateCount > 0)
+        {
+            // 임시 비밀번호 변경 알림을 삭제한다.
+            await _notificationRepository.RemoveNotification(new SaveNotificationRequestDTO
+            {
+                UpdaterId = dto.UserId,
+                UserId = dto.UserId,
+                NotificationKindCode = "02",
+            });
+        }
+        return updateCount;
     }
 
     /// <summary>
