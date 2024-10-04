@@ -11,7 +11,7 @@ namespace Svc.App.Common.Auth.Controllers;
 /// 사용자 컨트롤러 클래스
 /// </summary>
 [ApiController]
-[Route("api/common/users")]
+[Route("api/co/users")]
 public class UserController : ControllerBase
 {
     #region Fields

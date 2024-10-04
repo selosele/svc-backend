@@ -12,7 +12,7 @@ namespace Svc.App.Common.Holiday.Controllers;
 /// 휴일 컨트롤러 클래스
 /// </summary>
 [ApiController]
-[Route("api/common/holidays")]
+[Route("api/co/holidays")]
 public class HolidayController : ControllerBase
 {
     #region Fields

@@ -10,7 +10,7 @@ namespace Svc.App.Common.Auth.Controllers;
 /// 인증·인가 컨트롤러 클래스
 /// </summary>
 [ApiController]
-[Route("api/common/[controller]")]
+[Route("api/co/[controller]")]
 public class AuthController : ControllerBase
 {
     #region Fields

@@ -9,7 +9,7 @@ namespace Svc.App.Common.Auth.Controllers;
 /// 권한 컨트롤러 클래스
 /// </summary>
 [ApiController]
-[Route("api/common/roles")]
+[Route("api/co/roles")]
 public class RoleController : ControllerBase
 {
     #region Fields

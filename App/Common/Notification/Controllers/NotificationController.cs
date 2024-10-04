@@ -12,7 +12,7 @@ namespace Svc.App.Common.Notification.Controllers;
 /// 알림 컨트롤러 클래스
 /// </summary>
 [ApiController]
-[Route("api/common/notifications")]
+[Route("api/co/notifications")]
 public class NotificationController : ControllerBase
 {
     #region Fields
