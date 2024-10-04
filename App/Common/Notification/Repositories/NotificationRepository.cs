@@ -47,6 +47,19 @@ public class NotificationRepository : INotificationRepository
     }
 
     /// <summary>
+    /// 알림을 추가한다.
+    /// </summary>
+    public Task<int> AddNotification(AddNotificationRequestDTO dto)
+    {
+        return SqlMapper.ExecuteAsync(new RequestContext
+        {
+            Scope = nameof(NotificationRepository),
+            SqlId = "AddNotification",
+            Request = dto
+        });
+    }
+
+    /// <summary>
     /// 알림을 확인처리한다.
     /// </summary>
     public Task<int> UpdateNotificationReadDt(SaveNotificationRequestDTO dto)

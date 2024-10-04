@@ -19,6 +19,11 @@ public interface INotificationRepository
     Task<IList<NotificationResultDTO>> ListNotification(GetNotificationRequestDTO? dto);
 
     /// <summary>
+    /// 알림을 추가한다.
+    /// </summary>
+    Task<int> AddNotification(AddNotificationRequestDTO dto);
+
+    /// <summary>
     /// 알림을 확인처리한다.
     /// </summary>
     Task<int> UpdateNotificationReadDt(SaveNotificationRequestDTO dto);

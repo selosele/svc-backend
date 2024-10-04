@@ -32,6 +32,11 @@ public record NotificationResultDTO
     public string? NotificationTypeCode { get; set; }
     
     /// <summary>
+    /// 알림 종류 코드
+    /// </summary>
+    public string? NotificationKindCode { get; set; }
+    
+    /// <summary>
     /// 알림 확인일시
     /// </summary>
     public string? NotificationReadDt { get; set; }

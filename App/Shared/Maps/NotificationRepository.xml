@@ -8,6 +8,7 @@
       <Result Column="NOTIFICATION_TITLE" Property="NotificationTitle" />
       <Result Column="NOTITICATION_CONTENT" Property="NotiticationContent" />
       <Result Column="NOTIFICATION_TYPE_CODE" Property="NotificationTypeCode" />
+      <Result Column="NOTIFICATION_KIND_CODE" Property="NotificationKindCode" />
       <Result Column="NOTIFICATION_READ_DT" Property="NotificationReadDt" />
     </ResultMap>
   </ResultMaps>
@@ -41,10 +42,33 @@
         N.NOTIFICATION_TITLE,
         N.NOTITICATION_CONTENT,
         N.NOTIFICATION_TYPE_CODE,
+        N.NOTIFICATION_KIND_CODE,
         N.NOTIFICATION_READ_DT
       FROM CO_NOTIFICATION N
       <Include RefId="QueryParams" />
       ORDER BY N.NOTIFICATION_ID DESC
+    </Statement>
+
+    <!-- 알림을 추가한다. -->
+    <Statement Id="AddNotification">
+      /* NotificationRepository.AddNotification */
+
+      INSERT INTO CO_NOTIFICATION (
+        USER_ID,
+        NOTIFICATION_TITLE,
+        NOTITICATION_CONTENT,
+        NOTIFICATION_TYPE_CODE,
+        NOTIFICATION_KIND_CODE,
+        CREATER_ID
+      )
+      VALUES (
+        @UserId,
+        @NotificationTitle,
+        @NotiticationContent,
+        @NotificationTypeCode,
+        @NotificationKindCode,
+        @CreaterId
+      )
     </Statement>
 
     <!-- 알림을 확인처리한다. -->
@@ -68,7 +92,16 @@
           DELETE_YN = 'Y',
           UPDATER_ID = @UpdaterId,
           UPDATE_DT = SYSDATE()
-      WHERE NOTIFICATION_ID = @NotificationId
+      WHERE 1=1
+        <IsNotEmpty Property="NotificationId">
+        AND NOTIFICATION_ID = @NotificationId
+        </IsNotEmpty>
+        <IsNotEmpty Property="UserId">
+        AND USER_ID = @UserId
+        </IsNotEmpty>
+        <IsNotEmpty Property="NotificationKindCode">
+        AND NOTIFICATION_KIND_CODE = @NotificationKindCode
+        </IsNotEmpty>
     </Statement>
     
   </Statements>
