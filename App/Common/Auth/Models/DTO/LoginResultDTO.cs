@@ -39,6 +39,11 @@ public record LoginResultDTO
     public string? TempPasswordDt { get; set; }
 
     /// <summary>
+    /// 마지막 로그인 일시
+    /// </summary>
+    public string? LastLoginDt { get; set; }
+
+    /// <summary>
     /// 사용자 권한 목록
     /// </summary>
     public IList<UserRoleResponseDTO>? Roles { get; set; } = [];

@@ -5,14 +5,14 @@ using Microsoft.IdentityModel.Tokens;
 using SmartSql.AOP;
 using Svc.App.Common.Auth.Models.DTO;
 using Svc.App.Common.Auth.Repositories;
-using Svc.App.Common.Menu.Repositories;
 using Svc.App.Shared.Exceptions;
 using Svc.App.Shared.Utils;
 using Svc.App.Human.Employee.Repositories;
-using Svc.App.Human.Employee.Services;
 using Svc.App.Common.Mail.Models.DTO;
 using Svc.App.Common.Mail.Services;
 using Svc.App.Human.Employee.Models.DTO;
+using Svc.App.Common.Notification.Repositories;
+using Svc.App.Common.Notification.Models.DTO;
 
 namespace Svc.App.Common.Auth.Services;
 
@@ -27,11 +27,9 @@ public class AuthService
     private readonly IUserRepository _userRepository;
     private readonly IUserCertHistoryRepository _userCertHistoryRepository;
     private readonly IUserRoleRepository _userRoleRepository;
-    private readonly IUserMenuRoleRepository _userMenuRoleRepository;
-    private readonly IMenuRoleRepository _menuRoleRepository;
     private readonly IEmployeeRepository _employeeRepository;
     private readonly IWorkHistoryRepository _workHistoryRepository;
-    private readonly EmployeeService _employeeService;
+    private readonly INotificationRepository _notificationRepository;
     private readonly MyMailService _mailService;
     #endregion
     
@@ -42,11 +40,9 @@ public class AuthService
         IUserRepository userRepository,
         IUserCertHistoryRepository userCertHistoryRepository,
         IUserRoleRepository userRoleRepository,
-        IUserMenuRoleRepository userMenuRoleRepository,
-        IMenuRoleRepository menuRoleRepository,
         IEmployeeRepository employeeRepository,
         IWorkHistoryRepository workHistoryRepository,
-        EmployeeService employeeService,
+        INotificationRepository notificationRepository,
         MyMailService mailService
     )
     {
@@ -55,11 +51,9 @@ public class AuthService
         _userRepository = userRepository;
         _userCertHistoryRepository = userCertHistoryRepository;
         _userRoleRepository = userRoleRepository;
-        _userMenuRoleRepository = userMenuRoleRepository;
-        _menuRoleRepository = menuRoleRepository;
         _employeeRepository = employeeRepository;
         _workHistoryRepository = workHistoryRepository;
-        _employeeService = employeeService;
+        _notificationRepository = notificationRepository;
         _mailService = mailService;
     }
     #endregion
@@ -93,6 +87,34 @@ public class AuthService
                 var count = await _userRepository.CountUserTempPasswordValid(user.UserId);
                 if (count == 0)
                     throw new BizException("아이디 또는 비밀번호를 확인하세요.");
+
+                // 임시 비밀번호 변경 알림을 발송한다.
+                await _notificationRepository.AddNotification(new AddNotificationRequestDTO
+                {
+                    UserId = user.UserId,
+                    NotificationTitle = "임시 비밀번호를 변경해주시기 바랍니다.",
+                    NotiticationContent = $@"
+                        회원님께서는 {DateTime.Parse(user.TempPasswordDt!):yyyy-MM-dd HH:mm:ss} 임시 비밀번호를 발급받으셨습니다.
+                        임시 비밀번호의 유효시간은 2시간이므로 유효시간 내에 비밀번호를 변경하지 않으시면 다시 발급받으셔야 합니다.
+                        보안을 위해 반드시 비밀번호를 변경해주시기 바랍니다.
+                    ",
+                    NotificationTypeCode = "02",
+                    NotificationKindCode = "02",
+                    CreaterId = user.UserId
+                });
+            }
+
+            // 최초로 로그인하는 경우 알림을 발송한다.
+            if (string.IsNullOrEmpty(user.LastLoginDt))
+            {
+                await _notificationRepository.AddNotification(new AddNotificationRequestDTO
+                {
+                    UserId = user.UserId,
+                    NotificationTitle = "안녕하세요 환영합니다!",
+                    NotiticationContent = "서비스 이용 중 문의사항은 시스템관리자(01055943384)에게 문의해주시기 바랍니다.",
+                    NotificationTypeCode = "01",
+                    CreaterId = user.UserId
+                });
             }
         }
 

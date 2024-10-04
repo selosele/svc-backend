@@ -23,6 +23,7 @@
       <Result Column="USER_ACTIVE_YN" Property="UserActiveYn" />
       <Result Column="TEMP_PASSWORD_YN" Property="TempPasswordYn" />
       <Result Column="TEMP_PASSWORD_DT" Property="TempPasswordDt" />
+      <Result Column="LAST_LOGIN_DT" Property="LastLoginDt" />
     </ResultMap>
 
     <ResultMap Id="FindInfoResultMap">
@@ -108,7 +109,8 @@
         U.USER_PASSWORD,
         U.USER_ACTIVE_YN,
         U.TEMP_PASSWORD_YN,
-        U.TEMP_PASSWORD_DT
+        U.TEMP_PASSWORD_DT,
+        U.LAST_LOGIN_DT
       FROM CO_USER U
       WHERE U.DELETE_YN = 'N'
         AND U.USER_ACCOUNT = @UserAccount
