@@ -40,6 +40,11 @@ public record NotificationResultDTO
     /// 알림 확인일시
     /// </summary>
     public string? NotificationReadDt { get; set; }
+    
+    /// <summary>
+    /// 등록일시
+    /// </summary>
+    public string? CreateDt { get; set; }
     #endregion
 
 }
