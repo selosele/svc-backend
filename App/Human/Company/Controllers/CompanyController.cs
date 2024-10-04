@@ -9,7 +9,7 @@ namespace Svc.App.Human.Company.Controllers;
 /// 회사 컨트롤러 클래스
 /// </summary>
 [ApiController]
-[Route("api/human/companies")]
+[Route("api/hm/companies")]
 public class CompanyController : ControllerBase
 {
     #region Fields

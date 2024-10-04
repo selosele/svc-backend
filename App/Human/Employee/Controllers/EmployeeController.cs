@@ -12,7 +12,7 @@ namespace Svc.App.Human.Employee.Controllers;
 /// 직원 컨트롤러 클래스
 /// </summary>
 [ApiController]
-[Route("api/human/employees")]
+[Route("api/hm/employees")]
 public class EmployeeController : ControllerBase
 {
     #region Fields
