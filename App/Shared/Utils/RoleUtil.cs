@@ -7,7 +7,7 @@ public class RoleUtil
 {
     #region Fields
     /// <summary>
-    /// 시스템 관리자 권한
+    /// 시스템관리자 권한
     /// </summary>
     public const string SYSTEM_ADMIN = "ROLE_SYSTEM_ADMIN";
 
