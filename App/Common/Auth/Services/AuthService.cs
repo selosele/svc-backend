@@ -104,9 +104,9 @@ public class AuthService
                 });
             }
 
-            // 최초로 로그인하는 경우 알림을 발송한다.
             if (string.IsNullOrEmpty(user.LastLoginDt))
             {
+                // 처음 로그인하는 경우 알림을 발송한다.
                 await _notificationRepository.AddNotification(new AddNotificationRequestDTO
                 {
                     UserId = user.UserId,
