@@ -51,7 +51,7 @@ public class WorkHistoryRepository : IWorkHistoryRepository
     /// </summary>
     public Task<int> AddWorkHistory(SaveWorkHistoryRequestDTO dto)
     {
-        return SqlMapper.ExecuteAsync(new RequestContext
+        return SqlMapper.ExecuteScalarAsync<int>(new RequestContext
         {
             Scope = nameof(WorkHistoryRepository),
             SqlId = "AddWorkHistory",

@@ -21,7 +21,7 @@ public interface IHolidayRepository
     /// <summary>
     /// 휴일을 추가한다.
     /// </summary>
-    Task<int> AddHoliday(SaveHolidayRequestDTO dto);
+    Task<string> AddHoliday(SaveHolidayRequestDTO dto);
 
     /// <summary>
     /// 휴일을 수정한다.

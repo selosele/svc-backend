@@ -108,6 +108,7 @@
         @UseYn,
         @CreaterId
       )
+      ;SELECT @CodeId
     </Statement>
 
     <!-- 코드를 수정한다. -->

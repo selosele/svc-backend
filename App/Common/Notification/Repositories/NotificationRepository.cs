@@ -51,7 +51,7 @@ public class NotificationRepository : INotificationRepository
     /// </summary>
     public Task<int> AddNotification(AddNotificationRequestDTO dto)
     {
-        return SqlMapper.ExecuteAsync(new RequestContext
+        return SqlMapper.ExecuteScalarAsync<int>(new RequestContext
         {
             Scope = nameof(NotificationRepository),
             SqlId = "AddNotification",

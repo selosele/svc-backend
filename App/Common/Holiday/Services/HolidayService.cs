@@ -40,7 +40,7 @@ public class HolidayService
     /// 휴일을 추가한다.
     /// </summary>
     [Transaction]
-    public async Task<int> AddHoliday(SaveHolidayRequestDTO dto)
+    public async Task<string> AddHoliday(SaveHolidayRequestDTO dto)
         => await _holidayRepository.AddHoliday(dto);
 
     /// <summary>

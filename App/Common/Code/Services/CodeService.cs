@@ -40,8 +40,11 @@ public class CodeService
     /// 코드를 추가한다.
     /// </summary>
     [Transaction]
-    public async Task<int> AddCode(SaveCodeRequestDTO dto)
-        => await _codeRepository.AddCode(dto);
+    public async Task<CodeResponseDTO> AddCode(SaveCodeRequestDTO dto)
+    {
+        var codeId = await _codeRepository.AddCode(dto);
+        return await _codeRepository.GetCode(codeId);
+    }
 
     /// <summary>
     /// 코드를 수정한다.

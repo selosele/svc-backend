@@ -71,6 +71,7 @@
         @NotificationKindCode,
         @CreaterId
       )
+      ;SELECT LAST_INSERT_ID()
     </Statement>
 
     <!-- 알림을 확인처리한다. -->

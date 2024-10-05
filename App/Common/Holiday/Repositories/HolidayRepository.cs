@@ -49,9 +49,9 @@ public class HolidayRepository : IHolidayRepository
     /// <summary>
     /// 휴일을 추가한다.
     /// </summary>
-    public Task<int> AddHoliday(SaveHolidayRequestDTO dto)
+    public Task<string> AddHoliday(SaveHolidayRequestDTO dto)
     {
-        return SqlMapper.ExecuteAsync(new RequestContext
+        return SqlMapper.ExecuteScalarAsync<string>(new RequestContext
         {
             Scope = nameof(HolidayRepository),
             SqlId = "AddHoliday",

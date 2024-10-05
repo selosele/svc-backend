@@ -70,7 +70,7 @@ public class HolidayController : ControllerBase
     /// </summary>
     [HttpPost("{userId}")]
     [Authorize]
-    public async Task<ActionResult<int>> AddHoliday(int userId, [FromBody] SaveHolidayRequestDTO saveHolidayRequestDTO)
+    public async Task<ActionResult<string>> AddHoliday(int userId, [FromBody] SaveHolidayRequestDTO saveHolidayRequestDTO)
     {
         var user = _authService.GetAuthenticatedUser();
         var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);

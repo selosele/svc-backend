@@ -114,6 +114,7 @@
         @QuitYmd,
         @CreaterId
       )
+      ;SELECT LAST_INSERT_ID()
     </Statement>
 
     <!-- 근무이력을 수정한다. -->

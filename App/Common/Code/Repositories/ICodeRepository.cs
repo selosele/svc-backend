@@ -21,7 +21,7 @@ public interface ICodeRepository
     /// <summary>
     /// 코드를 추가한다.
     /// </summary>
-    Task<int> AddCode(SaveCodeRequestDTO dto);
+    Task<string> AddCode(SaveCodeRequestDTO dto);
 
     /// <summary>
     /// 코드를 수정한다.
