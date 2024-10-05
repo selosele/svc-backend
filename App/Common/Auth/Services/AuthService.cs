@@ -97,7 +97,7 @@ public class AuthService
                         회원님께서는 {DateTime.Parse(user.TempPasswordDt!):yyyy-MM-dd HH:mm:ss} 임시 비밀번호를 발급받으셨습니다.
                         임시 비밀번호의 유효시간은 2시간이므로 유효시간 내에 비밀번호를 변경하지 않으시면 다시 발급받으셔야 합니다.
                         보안을 위해 반드시 비밀번호를 변경해주시기 바랍니다.
-                    ",
+                    ".Trim(),
                     NotificationTypeCode = "02",
                     NotificationKindCode = "02",
                     CreaterId = user.UserId
