@@ -264,15 +264,15 @@ public class AuthService
             ?? throw new BizException("가입된 정보가 없습니다. 입력하신 정보를 다시 확인하세요.");
 
         // 사용자 본인인증 내역 조회
-        var userCertHistory = await _userCertHistoryRepository.CountUserCertHistory(new GetUserCertHistoryRequestDTO
+        var userCertHistoryCount = await _userCertHistoryRepository.CountUserCertHistory(new GetUserCertHistoryRequestDTO
         {
             UserAccount = dto.UserAccount,
             EmailAddr = dto.EmailAddr,
             CertCode = dto.CertCode
         });
 
-        if (userCertHistory == 0)
-            throw new BizException("본인인증 내역이 없습니다.");
+        if (userCertHistoryCount == 0)
+            throw new BizException("인증코드가 틀렸거나 유효시간이 만료되었습니다.");
 
         // 임시 비밀번호 생성
         var length = _configuration["ApplicationSettings:GenerateTempPasswordLength"]!;
@@ -313,13 +313,6 @@ public class AuthService
         
         return mailSend;
     }
-
-    /// <summary>
-    /// 사용자 본인인증 내역이 존재하는지 확인한다.
-    /// </summary>
-    [Transaction]
-    public async Task<int> CountUserCertHistory(GetUserCertHistoryRequestDTO dto)
-        => await _userCertHistoryRepository.CountUserCertHistory(dto);
 
     /// <summary>
     /// 인증된 사용자 정보를 반환한다.

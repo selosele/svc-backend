@@ -77,13 +77,6 @@ public class AuthController : ControllerBase
     [HttpPost("find-user-password2")]
     public async Task<ActionResult<bool>> FindUserPassword2([FromBody] FindUserInfoRequestDTO dto)
         => Created(string.Empty, await _authService.FindUserPassword2(dto));
-
-    /// <summary>
-    /// 사용자 본인인증 내역이 존재하는지 확인한다.
-    /// </summary>
-    [HttpPost("certs/{userAccount}")]
-    public async Task<ActionResult<int>> CountUserCertHistory(string userAccount, [FromBody] GetUserCertHistoryRequestDTO dto)
-        => Created(string.Empty, await _authService.CountUserCertHistory(dto));
     #endregion
 
 }
