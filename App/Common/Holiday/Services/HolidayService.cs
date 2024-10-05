@@ -40,8 +40,15 @@ public class HolidayService
     /// 휴일을 추가한다.
     /// </summary>
     [Transaction]
-    public async Task<string> AddHoliday(SaveHolidayRequestDTO dto)
-        => await _holidayRepository.AddHoliday(dto);
+    public async Task<HolidayResponseDTO> AddHoliday(SaveHolidayRequestDTO dto)
+    {
+        var holidayId = await _holidayRepository.AddHoliday(dto);
+        return await _holidayRepository.GetHoliday(new GetHolidayRequestDTO
+        {
+            YMD = holidayId.Split("-")[0],
+            UserId = int.Parse(holidayId.Split("-")[1])
+        });
+    }
 
     /// <summary>
     /// 휴일을 수정한다.
