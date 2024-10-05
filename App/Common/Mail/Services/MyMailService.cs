@@ -42,28 +42,34 @@ public class MyMailService
         var message = new MimeMessage();
         message.From.Add(new MailboxAddress(_smtpSettings.FromName, _smtpSettings.FromAddr));
         message.To.Add(new MailboxAddress(id, dto.To));
-        message.Subject = dto.Subject;
+        message.Subject = dto.Subject!.Trim();
 
         var builder = new BodyBuilder
         {
-            HtmlBody = dto.Body
+            HtmlBody = dto.Body!.Trim()
         };
 
         message.Body = builder.ToMessageBody();
 
         try
         {
-            await _client.ConnectAsync(_smtpSettings.Server, _smtpSettings.Port, MailKit.Security.SecureSocketOptions.StartTls);
-            await _client.AuthenticateAsync(_smtpSettings.FromId, _smtpSettings.FromPw);
+            // SMTP 클라이언트 연결 및 인증 상태 확인 후 연결
+            if (!_client.IsConnected || !_client.IsAuthenticated)
+            {
+                await _client.ConnectAsync(_smtpSettings.Server, _smtpSettings.Port, MailKit.Security.SecureSocketOptions.StartTls);
+                await _client.AuthenticateAsync(_smtpSettings.FromId, _smtpSettings.FromPw);
+            }
             await _client.SendAsync(message);
-            await _client.DisconnectAsync(true);
             return true;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Failed to send email to {Email}", dto.To);
-            await _client.DisconnectAsync(true);
+            _logger.LogError(ex, "Failed to send email to {Email}. Server: {Server}, Port: {Port}", dto.To, _smtpSettings.Server, _smtpSettings.Port);
             return false;
+        }
+        finally
+        {
+            await _client.DisconnectAsync(true);
         }
     }
 
@@ -71,18 +77,7 @@ public class MyMailService
     /// 이메일 유효성을 검증한다.
     /// </summary>
     private static bool IsValidEmail(string email)
-    {
-        try
-        {
-            var id = email.Split('@')[0];
-            var address = new MailboxAddress(id, email);
-            return true;
-        }
-        catch (FormatException)
-        {
-            return false;
-        }
-    }
+        => MailboxAddress.TryParse(email, out _);
     #endregion
     
 }
