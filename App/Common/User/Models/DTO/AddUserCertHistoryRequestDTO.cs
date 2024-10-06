@@ -1,31 +1,31 @@
+using System.ComponentModel.DataAnnotations;
 using Svc.App.Shared.Models.DTO;
 
-namespace Svc.App.Common.Auth.Models.DTO;
+namespace Svc.App.Common.User.Models.DTO;
 
 /// <summary>
-/// 사용자 본인인증 내역 조회 요청 DTO
+/// 사용자 본인인증 내역 추가 요청 DTO
 /// </summary>
-public record GetUserCertHistoryRequestDTO : HttpRequestDTOBase
+public record AddUserCertHistoryRequestDTO : HttpRequestDTOBase
 {
     #region Fields
     /// <summary>
-    /// 본인인증 내역 ID
-    /// </summary>
-    public int? CertHistoryId { get; set; }
-
-    /// <summary>
     /// 사용자 계정
     /// </summary>
+    [Required]
+    [MaxLength(20)]
     public string? UserAccount { get; set; }
 
     /// <summary>
     /// 휴대폰번호
     /// </summary>
+    [MaxLength(20)]
     public string? PhoneNo { get; set; }
 
     /// <summary>
     /// 이메일주소
     /// </summary>
+    [MaxLength(100)]
     public string? EmailAddr { get; set; }
 
     /// <summary>
@@ -42,6 +42,11 @@ public record GetUserCertHistoryRequestDTO : HttpRequestDTOBase
     /// 본인인증 구분 코드
     /// </summary>
     public string? CertTypeCode { get; set; }
+
+    /// <summary>
+    /// 유효시간(초)
+    /// </summary>
+    public int? ValidTime { get; set; }
     #endregion
-    
+
 }

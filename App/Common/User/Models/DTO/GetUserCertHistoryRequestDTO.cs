@@ -1,9 +1,11 @@
-namespace Svc.App.Common.Auth.Models.DTO;
+using Svc.App.Shared.Models.DTO;
+
+namespace Svc.App.Common.User.Models.DTO;
 
 /// <summary>
-/// 사용자 본인인증 내역 응답 DTO
+/// 사용자 본인인증 내역 조회 요청 DTO
 /// </summary>
-public record UserCertHistoryResponseDTO
+public record GetUserCertHistoryRequestDTO : HttpRequestDTOBase
 {
     #region Fields
     /// <summary>
@@ -40,16 +42,6 @@ public record UserCertHistoryResponseDTO
     /// 본인인증 구분 코드
     /// </summary>
     public string? CertTypeCode { get; set; }
-
-    /// <summary>
-    /// 유효시간(초)
-    /// </summary>
-    public int? ValidTime { get; set; }
-
-    /// <summary>
-    /// 등록일시
-    /// </summary>
-    public string? CreateDt { get; set; }
     #endregion
     
 }

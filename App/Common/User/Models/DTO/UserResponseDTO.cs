@@ -1,6 +1,6 @@
 using Svc.App.Human.Employee.Models.DTO;
 
-namespace Svc.App.Common.Auth.Models.DTO;
+namespace Svc.App.Common.User.Models.DTO;
 
 /// <summary>
 /// 사용자 응답 DTO

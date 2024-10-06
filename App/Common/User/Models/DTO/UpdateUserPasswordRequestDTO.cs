@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Svc.App.Shared.Models.DTO;
 
-namespace Svc.App.Common.Auth.Models.DTO;
+namespace Svc.App.Common.User.Models.DTO;
 
 /// <summary>
 /// 사용자 비밀번호 변경 요청 DTO

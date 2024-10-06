@@ -1,7 +1,7 @@
 using SmartSql;
-using Svc.App.Common.Auth.Models.DTO;
+using Svc.App.Common.User.Models.DTO;
 
-namespace Svc.App.Common.Auth.Repositories;
+namespace Svc.App.Common.User.Repositories;
 
 /// <summary>
 /// 사용자 본인인증 내역 리포지토리 클래스

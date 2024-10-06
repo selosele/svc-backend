@@ -1,6 +1,7 @@
+using Svc.App.Common.User.Models.DTO;
 using Svc.App.Common.Auth.Models.DTO;
 
-namespace Svc.App.Common.Auth.Repositories;
+namespace Svc.App.Common.User.Repositories;
 
 /// <summary>
 /// 사용자 리포지토리 인터페이스

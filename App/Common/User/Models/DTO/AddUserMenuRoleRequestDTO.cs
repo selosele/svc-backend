@@ -1,6 +1,6 @@
 using Svc.App.Shared.Models.DTO;
 
-namespace Svc.App.Common.Auth.Models.DTO;
+namespace Svc.App.Common.User.Models.DTO;
 
 /// <summary>
 /// 사용자 메뉴 권한 추가 요청 DTO

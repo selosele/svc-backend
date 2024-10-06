@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Svc.App.Common.Auth.Models.DTO;
+using Svc.App.Common.User.Models.DTO;
 using Svc.App.Common.Auth.Services;
 using Svc.App.Shared.Utils;
 

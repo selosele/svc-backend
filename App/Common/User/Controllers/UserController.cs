@@ -1,11 +1,12 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Svc.App.Common.Auth.Models.DTO;
+using Svc.App.Common.User.Models.DTO;
 using Svc.App.Common.Auth.Services;
+using Svc.App.Common.User.Services;
 using Svc.App.Shared.Utils;
 
-namespace Svc.App.Common.Auth.Controllers;
+namespace Svc.App.Common.User.Controllers;
 
 /// <summary>
 /// 사용자 컨트롤러 클래스

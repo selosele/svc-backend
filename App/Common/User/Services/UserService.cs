@@ -1,18 +1,19 @@
 using System.Security.Claims;
 using SmartSql.AOP;
-using Svc.App.Common.Auth.Models.DTO;
-using Svc.App.Common.Auth.Repositories;
+using Svc.App.Common.User.Models.DTO;
+using Svc.App.Common.User.Repositories;
 using Svc.App.Common.Menu.Repositories;
 using Svc.App.Common.Menu.Models.DTO;
 using Svc.App.Shared.Exceptions;
 using Svc.App.Shared.Utils;
+using Svc.App.Common.Auth.Services;
 using Svc.App.Human.Employee.Repositories;
 using Svc.App.Human.Employee.Models.DTO;
 using Svc.App.Human.Employee.Services;
 using Svc.App.Common.Notification.Repositories;
 using Svc.App.Common.Notification.Models.DTO;
 
-namespace Svc.App.Common.Auth.Services;
+namespace Svc.App.Common.User.Services;
 
 /// <summary>
 /// 사용자 서비스 클래스

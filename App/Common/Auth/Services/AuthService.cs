@@ -3,16 +3,17 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using SmartSql.AOP;
-using Svc.App.Common.Auth.Models.DTO;
-using Svc.App.Common.Auth.Repositories;
-using Svc.App.Shared.Exceptions;
 using Svc.App.Shared.Utils;
-using Svc.App.Human.Employee.Repositories;
+using Svc.App.Shared.Exceptions;
+using Svc.App.Common.Auth.Models.DTO;
+using Svc.App.Common.User.Models.DTO;
+using Svc.App.Common.User.Repositories;
 using Svc.App.Common.Mail.Models.DTO;
 using Svc.App.Common.Mail.Services;
 using Svc.App.Human.Employee.Models.DTO;
-using Svc.App.Common.Notification.Repositories;
+using Svc.App.Human.Employee.Repositories;
 using Svc.App.Common.Notification.Models.DTO;
+using Svc.App.Common.Notification.Repositories;
 
 namespace Svc.App.Common.Auth.Services;
 
