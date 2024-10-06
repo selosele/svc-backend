@@ -105,9 +105,9 @@ public class AuthService
                 });
             }
 
-            if (string.IsNullOrEmpty(user.LastLoginDt))
+            if (string.IsNullOrEmpty(user.LastLoginDt) && user.Roles!.Where(x => x.RoleId == RoleUtil.SYSTEM_ADMIN).IsNullOrEmpty())
             {
-                // 처음 로그인하는 경우 알림을 발송한다.
+                // 처음 로그인하는 경우 알림을 발송한다(시스템관리자 제외).
                 await _notificationRepository.AddNotification(new AddNotificationRequestDTO
                 {
                     UserId = user.UserId,
