@@ -1,4 +1,4 @@
-namespace Svc.App.Common.Auth.Models.DTO;
+namespace Svc.App.Common.Role.Models.DTO;
 
 /// <summary>
 /// 권한 응답 DTO

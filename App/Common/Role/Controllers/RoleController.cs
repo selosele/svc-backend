@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Svc.App.Common.Auth.Models.DTO;
-using Svc.App.Common.Auth.Services;
+using Svc.App.Common.Role.Models.DTO;
+using Svc.App.Common.Role.Services;
 
-namespace Svc.App.Common.Auth.Controllers;
+namespace Svc.App.Common.Role.Controllers;
 
 /// <summary>
 /// 권한 컨트롤러 클래스

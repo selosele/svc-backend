@@ -1,8 +1,8 @@
 using SmartSql.AOP;
-using Svc.App.Common.Auth.Models.DTO;
-using Svc.App.Common.Auth.Repositories;
+using Svc.App.Common.Role.Models.DTO;
+using Svc.App.Common.Role.Repositories;
 
-namespace Svc.App.Common.Auth.Services;
+namespace Svc.App.Common.Role.Services;
 
 /// <summary>
 /// 권한 서비스 클래스

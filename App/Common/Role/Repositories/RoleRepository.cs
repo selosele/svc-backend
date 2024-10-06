@@ -1,7 +1,7 @@
 using SmartSql;
-using Svc.App.Common.Auth.Models.DTO;
+using Svc.App.Common.Role.Models.DTO;
 
-namespace Svc.App.Common.Auth.Repositories;
+namespace Svc.App.Common.Role.Repositories;
 
 /// <summary>
 /// 사용자 리포지토리 클래스
