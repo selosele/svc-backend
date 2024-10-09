@@ -327,25 +327,7 @@ public class AuthService
     /// </summary>
     public void SetAuthenticatedUser(LoginResultDTO user)
     {
-        var claims = new List<Claim>
-        {
-            new(ClaimUtil.USER_ID_IDENTIFIER, user.UserId.ToString()!),
-            new(ClaimUtil.USER_ACCOUNT_IDENTIFIER, user.UserAccount!),
-            new(ClaimUtil.WORK_HISTORY_ID_IDENTIFIER, user.Employee!.WorkHistories![0].WorkHistoryId.ToString()!),
-            new(ClaimUtil.COMPANY_NAME_IDENTIFIER, user.Employee!.WorkHistories![0].CompanyName?.ToString()!),
-            new(ClaimUtil.RANK_CODE_IDENTIFIER, user.Employee!.WorkHistories![0].RankCode?.ToString()!),
-            new(ClaimUtil.RANK_CODE_NAME_IDENTIFIER, user.Employee!.WorkHistories![0].RankCodeName?.ToString()!),
-            new(ClaimUtil.JOB_TITLE_CODE_IDENTIFIER, user.Employee!.WorkHistories![0].JobTitleCode?.ToString()!),
-            new(ClaimUtil.JOB_TITLE_CODE_NAME_IDENTIFIER, user.Employee!.WorkHistories![0].JobTitleCodeName?.ToString()!),
-            new(ClaimUtil.EMPLOYEE_ID_IDENTIFIER, user.Employee!.EmployeeId.ToString()!),
-            new(ClaimUtil.EMPLOYEE_NAME_IDENTIFIER, user.Employee!.EmployeeName!)
-        };
-
-        foreach (var userRole in user.Roles!)
-        {
-            claims.Add(new Claim(ClaimUtil.ROLES_IDENTIFIER, userRole.RoleId!));
-        }
-
+        var claims = GetClaims(user);
         var identity = new ClaimsIdentity(claims, "Custom");
         var principal = new ClaimsPrincipal(identity);
 
@@ -356,6 +338,26 @@ public class AuthService
     /// JWT를 생성해서 반환한다.
     /// </summary>
     public string GenerateJWT(LoginResultDTO user)
+    {
+        var claims = GetClaims(user);
+        var accessToken = new JwtSecurityToken(
+            claims: claims,
+            notBefore: DateTime.UtcNow,
+            expires: DateTime.UtcNow.AddDays(7),
+            signingCredentials: new SigningCredentials(
+                new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(_configuration["ApplicationSettings:JWTSecret"]!)
+                ),
+                SecurityAlgorithms.HmacSha256Signature
+            )
+        );
+        return new JwtSecurityTokenHandler().WriteToken(accessToken);
+    }
+
+    /// <summary>
+    /// claim를 설정해서 반환한다.
+    /// </summary>
+    private static List<Claim> GetClaims(LoginResultDTO user)
     {
         var claims = new List<Claim>
         {
@@ -376,18 +378,7 @@ public class AuthService
             claims.Add(new Claim(ClaimUtil.ROLES_IDENTIFIER, userRole.RoleId!));
         }
 
-        var accessToken = new JwtSecurityToken(
-            claims: claims,
-            notBefore: DateTime.UtcNow,
-            expires: DateTime.UtcNow.AddDays(7),
-            signingCredentials: new SigningCredentials(
-                new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(_configuration["ApplicationSettings:JWTSecret"]!)
-                ),
-                SecurityAlgorithms.HmacSha256Signature
-            )
-        );
-        return new JwtSecurityTokenHandler().WriteToken(accessToken);
+        return claims;
     }
     #endregion
     
