@@ -37,7 +37,7 @@ public static class ClaimsPrincipalUtil
             }
         };
 
-        // TODO: 로그인시 user.Roles에 권한 정보가 담기지만, API 호출시 권한 리스트에 요소가 없음
+        // TODO: 로그인시 user.Roles에 권한 정보가 담기지만, API 호출시 user.Roles에 요소가 없음
         // var roleList = principal?.Claims
         //     .Where(x => x.Type == ClaimUtil.ROLES_IDENTIFIER)
         //     .Select(x => x.Value)
