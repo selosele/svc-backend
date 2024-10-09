@@ -26,7 +26,12 @@ public record AddNotificationRequestDTO : HttpRequestDTOBase
     /// <summary>
     /// 알림 내용
     /// </summary>
-    public string? NotiticationContent { get; set; }
+    public string? NotiticationContent
+    {
+        get => _notificationContent;
+        set => _notificationContent = value?.Trim();
+    }
+    private string? _notificationContent;
     
     /// <summary>
     /// 알림 유형 코드
