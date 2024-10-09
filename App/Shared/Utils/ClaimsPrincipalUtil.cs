@@ -7,7 +7,7 @@ namespace Svc.App.Shared.Utils;
 /// <summary>
 /// ClaimsPrincipal의 확장 메서드를 제공하는 유틸 클래스
 /// </summary>
-public static class AuthenticatedUserUtil
+public static class ClaimsPrincipalUtil
 {
     #region Methods
     /// <summary>
@@ -37,12 +37,16 @@ public static class AuthenticatedUserUtil
             }
         };
 
-        foreach (var roleId in principal?.FindAll(ClaimUtil.ROLES_IDENTIFIER)!)
-        {
-            user.Roles = [
-                new UserRoleResponseDTO { RoleId = roleId.Value }
-            ];
-        }
+        // TODO: 로그인시 user.Roles에 권한 정보가 담기지만, API 호출시 권한 리스트에 요소가 없음
+        // var roleList = principal?.Claims
+        //     .Where(x => x.Type == ClaimUtil.ROLES_IDENTIFIER)
+        //     .Select(x => x.Value)
+        //     .ToList();
+
+        // foreach (var roleId in roleList!)
+        // {
+        //     user.Roles?.Add(new UserRoleResponseDTO { RoleId = roleId, UserId = user.UserId });
+        // }
         
         return user;
     }
