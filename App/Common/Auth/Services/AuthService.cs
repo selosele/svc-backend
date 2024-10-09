@@ -357,7 +357,8 @@ public class AuthService
     /// </summary>
     public string GenerateJWT(LoginResultDTO user)
     {
-        var claims = new List<Claim> {
+        var claims = new List<Claim>
+        {
             new(ClaimUtil.USER_ID_IDENTIFIER, user.UserId.ToString()!),
             new(ClaimUtil.USER_ACCOUNT_IDENTIFIER, user.UserAccount!),
             new(ClaimUtil.WORK_HISTORY_ID_IDENTIFIER, user.Employee!.WorkHistories![0].WorkHistoryId.ToString()!),
