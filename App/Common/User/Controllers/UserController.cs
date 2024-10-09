@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Svc.App.Common.User.Models.DTO;
@@ -74,7 +73,7 @@ public class UserController : ControllerBase
     public async Task<ActionResult<int>> UpdateUserPassword(int userId, [FromBody] UpdateUserPasswordRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
-        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+        var myUserId = user?.UserId;
 
         if (userId != myUserId)
             return NotFound();

@@ -151,7 +151,7 @@ public class EmployeeService
     /// 근무이력을 삭제한다.
     /// </summary>
     [Transaction]
-    public async Task<int> RemoveWorkHistory(int userId, int workHistoryId)
+    public async Task<int> RemoveWorkHistory(int? userId, int workHistoryId)
         => await _workHistoryRepository.RemoveWorkHistory(userId, workHistoryId);
     #endregion
     

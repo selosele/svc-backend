@@ -52,7 +52,7 @@ public interface IUserRepository
     /// <summary>
     /// 사용자 마지막 로그인 일시를 변경한다.
     /// </summary>
-    Task<int> UpdateUserLastLoginDt(int? userId, int updaterId);
+    Task<int> UpdateUserLastLoginDt(int? userId, int? updaterId);
 
     /// <summary>
     /// 사용자 비밀번호를 변경한다.
@@ -62,7 +62,7 @@ public interface IUserRepository
     /// <summary>
     /// 사용자를 삭제한다.
     /// </summary>
-    Task<int> RemoveUser(int userId, int updaterId);
+    Task<int> RemoveUser(int userId, int? updaterId);
     #endregion
 
 }

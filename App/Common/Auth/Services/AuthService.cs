@@ -123,12 +123,11 @@ public class AuthService
         SetAuthenticatedUser(user);
 
         var myUser = GetAuthenticatedUser();
-        var myUserId = int.Parse(myUser?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
 
         // 슈퍼로그인이 아닌 경우에만 사용자의 마지막 로그인 일시를 변경한다.
         if (string.IsNullOrEmpty(dto.IsSuperLogin) || dto.IsSuperLogin == "N")
         {
-            await _userRepository.UpdateUserLastLoginDt(user.UserId, myUserId);
+            await _userRepository.UpdateUserLastLoginDt(user.UserId, myUser?.UserId);
         }
 
         // JWT를 생성해서 반환한다.
@@ -318,14 +317,17 @@ public class AuthService
     /// <summary>
     /// 인증된 사용자 정보를 반환한다.
     /// </summary>
-    public ClaimsPrincipal? GetAuthenticatedUser()
-        => _httpContextAccessor.HttpContext?.User
+    public UserResponseDTO? GetAuthenticatedUser()
+    {
+        var principal = _httpContextAccessor.HttpContext?.User
             ?? throw new InvalidOperationException("인증된 사용자를 찾을 수 없습니다.");
+        return principal.GetUser();
+    }
 
     /// <summary>
     /// 인증된 사용자 정보를 저장한다.
     /// </summary>
-    public void SetAuthenticatedUser(LoginResultDTO user)
+    private void SetAuthenticatedUser(LoginResultDTO user)
     {
         var claims = GetClaims(user);
         var identity = new ClaimsIdentity(claims, "Custom");
@@ -337,7 +339,7 @@ public class AuthService
     /// <summary>
     /// JWT를 생성해서 반환한다.
     /// </summary>
-    public string GenerateJWT(LoginResultDTO user)
+    private string GenerateJWT(LoginResultDTO user)
     {
         var claims = GetClaims(user);
         var accessToken = new JwtSecurityToken(
@@ -357,7 +359,7 @@ public class AuthService
     /// <summary>
     /// claim를 설정해서 반환한다.
     /// </summary>
-    private static List<Claim> GetClaims(LoginResultDTO user)
+    private List<Claim> GetClaims(LoginResultDTO user)
     {
         var claims = new List<Claim>
         {

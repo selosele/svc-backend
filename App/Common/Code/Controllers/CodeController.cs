@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using Svc.App.Common.Auth.Services;
 using Svc.App.Common.Code.Models.DTO;
 using Svc.App.Common.Code.Services;
@@ -55,9 +54,7 @@ public class CodeController : ControllerBase
     public async Task<ActionResult<CodeResponseDTO>> AddCode([FromBody] SaveCodeRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
-        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
-
-        dto.CreaterId = myUserId;
+        dto.CreaterId = user?.UserId;
         return Created(string.Empty, await _codeService.AddCode(dto));
     }
 
@@ -69,9 +66,7 @@ public class CodeController : ControllerBase
     public async Task<ActionResult<CodeResponseDTO>> UpdateUser(string codeId, [FromBody] SaveCodeRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
-        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
-
-        dto.UpdaterId = myUserId;
+        dto.UpdaterId = user?.UserId;
         return Ok(await _codeService.UpdateCode(dto));
     }
 

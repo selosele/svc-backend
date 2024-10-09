@@ -31,7 +31,7 @@ public interface IVacationRepository
     /// <summary>
     /// 휴가를 삭제한다.
     /// </summary>
-    Task<int> RemoveVacation(int vacationId, int updaterId);
+    Task<int> RemoveVacation(int vacationId, int? updaterId);
     #endregion
 
 }

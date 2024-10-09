@@ -75,7 +75,7 @@ public class VacationRepository : IVacationRepository
     /// <summary>
     /// 휴가를 삭제한다.
     /// </summary>
-    public Task<int> RemoveVacation(int vacationId, int updaterId)
+    public Task<int> RemoveVacation(int vacationId, int? updaterId)
     {
         return SqlMapper.ExecuteAsync(new RequestContext
         {

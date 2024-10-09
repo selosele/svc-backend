@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using Svc.App.Common.Notification.Models.DTO;
 using Svc.App.Common.Notification.Services;
-using Svc.App.Shared.Utils;
 using Svc.App.Common.Auth.Services;
 
 namespace Svc.App.Common.Notification.Controllers;
@@ -39,7 +37,7 @@ public class NotificationController : ControllerBase
     public async Task<ActionResult<NotificationResponseDTO>> ListAndCountNotification([FromQuery] GetNotificationRequestDTO? dto)
     {
         var user = _authService.GetAuthenticatedUser();
-        dto!.UserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+        dto!.UserId = user?.UserId;
 
         return Ok(await _notificationService.ListAndCountNotification(dto));
     }
@@ -52,7 +50,7 @@ public class NotificationController : ControllerBase
     public async Task<ActionResult<int>> UpdateNotificationReadDt(int notificationId, [FromBody] SaveNotificationRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
-        dto.UpdaterId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+        dto.UpdaterId = user?.UserId;
 
         return Ok(await _notificationService.UpdateNotificationReadDt(dto));
     }
@@ -68,7 +66,7 @@ public class NotificationController : ControllerBase
         await _notificationService.RemoveNotification(new SaveNotificationRequestDTO
         {
             NotificationId = notificationId,
-            UpdaterId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!)
+            UpdaterId = user?.UserId
         });
         return NoContent();
     }

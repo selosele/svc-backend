@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using Svc.App.Common.Auth.Services;
 using Svc.App.Human.Vacation.Models.DTO;
 using Svc.App.Human.Vacation.Services;
-using Svc.App.Shared.Utils;
 
 namespace Svc.App.Human.Vacation.Controllers;
 
@@ -39,9 +37,7 @@ public class VacationController : ControllerBase
     public async Task<ActionResult<List<VacationResponseDTO>>> ListVacation([FromQuery] GetVacationRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
-        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
-
-        dto.UserId = myUserId;
+        dto.UserId = user?.UserId;
         return Ok(await _vacationService.ListVacation(dto));
     }
 
@@ -61,12 +57,10 @@ public class VacationController : ControllerBase
     public async Task<ActionResult<VacationResponseDTO>> AddVacation([FromBody] SaveVacationRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
-        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
-        var myEmployeeId = int.Parse(user?.FindFirstValue(ClaimUtil.EMPLOYEE_ID_IDENTIFIER)!);
 
-        dto.CreaterId = myUserId;
-        dto.EmployeeId = myEmployeeId;
-        
+        dto.CreaterId = user?.UserId;
+        dto.EmployeeId = user?.Employee?.EmployeeId;
+
         return Created(string.Empty, await _vacationService.AddVacation(dto));
     }
 
@@ -78,9 +72,7 @@ public class VacationController : ControllerBase
     public async Task<ActionResult<int>> UpdateVacation(int vacationId, [FromBody] SaveVacationRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
-        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
-        
-        dto.UpdaterId = myUserId;
+        dto.UpdaterId = user?.UserId;
         return await _vacationService.UpdateVacation(dto);
     }
 
@@ -92,9 +84,7 @@ public class VacationController : ControllerBase
     public async Task<ActionResult> RemoveVacation(int vacationId)
     {
         var user = _authService.GetAuthenticatedUser();
-        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
-
-        await _vacationService.RemoveVacation(vacationId, myUserId);
+        await _vacationService.RemoveVacation(vacationId, user?.UserId);
         return NoContent();
     }
     #endregion

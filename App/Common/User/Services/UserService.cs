@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using SmartSql.AOP;
 using Svc.App.Common.User.Models.DTO;
 using Svc.App.Common.User.Repositories;
@@ -105,7 +104,7 @@ public class UserService
         dto.UserPassword = EncryptUtil.Encrypt(dto.UserPassword!);
 
         // 등록자 ID
-        dto.CreaterId = int.Parse(_authService.GetAuthenticatedUser()?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+        dto.CreaterId = _authService.GetAuthenticatedUser()?.UserId;
 
         // 사용자 추가
         var userId = await _userRepository.AddUser(dto);
@@ -178,7 +177,7 @@ public class UserService
             throw new BizException("중복된 이메일주소입니다. 입력하신 정보를 다시 확인하세요.");
 
         var user = _authService.GetAuthenticatedUser();
-        dto.UpdaterId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+        dto.UpdaterId = user?.UserId;
         
         // 사용자 수정
         await _userRepository.UpdateUser(dto);
@@ -281,9 +280,7 @@ public class UserService
     public async Task<int> RemoveUser(int userId)
     {
         var user = _authService.GetAuthenticatedUser();
-        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
-        
-        return await _userRepository.RemoveUser(userId, myUserId);
+        return await _userRepository.RemoveUser(userId, user?.UserId);
     }
     #endregion
     

@@ -1,10 +1,8 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Svc.App.Common.Auth.Services;
 using Svc.App.Human.Employee.Models.DTO;
 using Svc.App.Human.Employee.Services;
-using Svc.App.Shared.Utils;
 
 namespace Svc.App.Human.Employee.Controllers;
 
@@ -47,13 +45,12 @@ public class EmployeeController : ControllerBase
     public async Task<ActionResult<EmployeeResponseDTO>> UpdateEmployee(int employeeId, [FromBody] UpdateEmployeeRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
-        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
-        var myEmployeeId = int.Parse(user?.FindFirstValue(ClaimUtil.EMPLOYEE_ID_IDENTIFIER)!);
+        var myEmployeeId = user?.Employee?.EmployeeId;
 
         if (employeeId != myEmployeeId)
             return NotFound();
 
-        dto.UpdaterId = myUserId;
+        dto.UpdaterId = user?.UserId;
         return Ok(await _employeeService.UpdateEmployee(dto));
     }
 
@@ -65,9 +62,7 @@ public class EmployeeController : ControllerBase
     public async Task<ActionResult<List<WorkHistoryResponseDTO>>> ListWorkHistory(int employeeId, [FromQuery] GetWorkHistoryRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
-        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
-        
-        dto.UserId = myUserId;
+        dto.UserId = user?.UserId;
         return Ok(await _employeeService.ListWorkHistory(dto));
     }
     
@@ -87,14 +82,13 @@ public class EmployeeController : ControllerBase
     public async Task<ActionResult<int>> AddWorkHistory(int employeeId, [FromBody] SaveWorkHistoryRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
-        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
-        var myEmployeeId = int.Parse(user?.FindFirstValue(ClaimUtil.EMPLOYEE_ID_IDENTIFIER)!);
+        var myEmployeeId = user?.Employee?.EmployeeId;
 
         if (employeeId != myEmployeeId)
             return NotFound();
 
         dto.EmployeeId = myEmployeeId;
-        dto.CreaterId = myUserId;
+        dto.CreaterId = user?.UserId;
 
         return Created(string.Empty, await _employeeService.AddWorkHistory(dto));
     }
@@ -107,13 +101,12 @@ public class EmployeeController : ControllerBase
     public async Task<ActionResult<int>> UpdateWorkHistory(int employeeId, int workHistoryId, [FromBody] SaveWorkHistoryRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
-        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
-        var myEmployeeId = int.Parse(user?.FindFirstValue(ClaimUtil.EMPLOYEE_ID_IDENTIFIER)!);
+        var myEmployeeId = user?.Employee?.EmployeeId;
 
         if (employeeId != myEmployeeId)
             return NotFound();
 
-        dto.UpdaterId = myUserId;
+        dto.UpdaterId = user?.UserId;
 
         return Ok(await _employeeService.UpdateWorkHistory(dto));
     }
@@ -126,13 +119,12 @@ public class EmployeeController : ControllerBase
     public async Task<ActionResult> RemoveWorkHistory(int employeeId, int workHistoryId)
     {
         var user = _authService.GetAuthenticatedUser();
-        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
-        var myEmployeeId = int.Parse(user?.FindFirstValue(ClaimUtil.EMPLOYEE_ID_IDENTIFIER)!);
+        var myEmployeeId = user?.Employee?.EmployeeId;
 
         if (employeeId != myEmployeeId)
             return NotFound();
 
-        await _employeeService.RemoveWorkHistory(myUserId, workHistoryId);
+        await _employeeService.RemoveWorkHistory(user?.UserId, workHistoryId);
         return NoContent();
     }
     #endregion

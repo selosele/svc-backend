@@ -31,7 +31,7 @@ public interface IHolidayRepository
     /// <summary>
     /// 휴일을 삭제한다.
     /// </summary>
-    Task<int> RemoveHoliday(string ymd, int userId);
+    Task<int> RemoveHoliday(string ymd, int? userId);
     #endregion
 
 }

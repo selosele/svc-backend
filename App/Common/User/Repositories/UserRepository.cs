@@ -128,7 +128,7 @@ public class UserRepository : IUserRepository
     /// <summary>
     /// 사용자 마지막 로그인 일시를 변경한다.
     /// </summary>
-    public Task<int> UpdateUserLastLoginDt(int? userId, int updaterId)
+    public Task<int> UpdateUserLastLoginDt(int? userId, int? updaterId)
     {
         return SqlMapper.ExecuteAsync(new RequestContext
         {
@@ -154,7 +154,7 @@ public class UserRepository : IUserRepository
     /// <summary>
     /// 사용자를 삭제한다.
     /// </summary>
-    public Task<int> RemoveUser(int userId, int updaterId)
+    public Task<int> RemoveUser(int userId, int? updaterId)
     {
         return SqlMapper.ExecuteAsync(new RequestContext
         {

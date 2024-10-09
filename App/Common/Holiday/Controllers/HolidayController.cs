@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using Svc.App.Common.Holiday.Services;
 using Svc.App.Common.Holiday.Models.DTO;
 using Svc.App.Common.Auth.Services;
-using Svc.App.Shared.Utils;
 
 namespace Svc.App.Common.Holiday.Controllers;
 
@@ -39,12 +37,12 @@ public class HolidayController : ControllerBase
     public async Task<ActionResult<List<HolidayResponseDTO>>> ListHoliday(int userId, [FromQuery] GetHolidayRequestDTO? dto)
     {
         var user = _authService.GetAuthenticatedUser();
-        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+        var myUserId = user?.UserId;
 
         if (userId != myUserId)
             return NotFound();
 
-        dto!.UserId = userId;
+        dto!.UserId = myUserId;
         
         return Ok(await _holidayService.ListHoliday(dto));
     }
@@ -57,12 +55,12 @@ public class HolidayController : ControllerBase
     public async Task<ActionResult<List<HolidayResponseDTO>>> GetHoliday(int userId, string ymd)
     {
         var user = _authService.GetAuthenticatedUser();
-        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+        var myUserId = user?.UserId;
 
         if (userId != myUserId)
             return NotFound();
 
-        return Ok(await _holidayService.GetHoliday(new GetHolidayRequestDTO { YMD = ymd, UserId = userId }));
+        return Ok(await _holidayService.GetHoliday(new GetHolidayRequestDTO { YMD = ymd, UserId = myUserId }));
     }
 
     /// <summary>
@@ -73,7 +71,7 @@ public class HolidayController : ControllerBase
     public async Task<ActionResult<HolidayResponseDTO>> AddHoliday(int userId, [FromBody] SaveHolidayRequestDTO saveHolidayRequestDTO)
     {
         var user = _authService.GetAuthenticatedUser();
-        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+        var myUserId = user?.UserId;
 
         if (userId != myUserId)
             return NotFound();
@@ -90,12 +88,12 @@ public class HolidayController : ControllerBase
     public async Task<ActionResult<int>> UpdateHoliday(int userId, string ymd, [FromBody] SaveHolidayRequestDTO saveHolidayRequestDTO)
     {
         var user = _authService.GetAuthenticatedUser();
-        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+        var myUserId = user?.UserId;
 
         if (userId != myUserId)
             return NotFound();
 
-        saveHolidayRequestDTO.UpdaterId = userId;
+        saveHolidayRequestDTO.UpdaterId = myUserId;
         return Ok(await _holidayService.UpdateHoliday(saveHolidayRequestDTO));
     }
 
@@ -107,12 +105,12 @@ public class HolidayController : ControllerBase
     public async Task<ActionResult> RemoveCode(int userId, string ymd)
     {
         var user = _authService.GetAuthenticatedUser();
-        var myUserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+        var myUserId = user?.UserId;
 
         if (userId != myUserId)
             return NotFound();
 
-        await _holidayService.RemoveHoliday(ymd, userId);
+        await _holidayService.RemoveHoliday(ymd, myUserId);
         return NoContent();
     }
     #endregion

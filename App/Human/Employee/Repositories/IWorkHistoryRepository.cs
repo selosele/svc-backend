@@ -31,7 +31,7 @@ public interface IWorkHistoryRepository
     /// <summary>
     /// 근무이력을 삭제한다.
     /// </summary>
-    Task<int> RemoveWorkHistory(int userId, int workHistoryId);
+    Task<int> RemoveWorkHistory(int? userId, int workHistoryId);
     #endregion
 
 }

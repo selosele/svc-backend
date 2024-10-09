@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using Svc.App.Common.Menu.Models.DTO;
 using Svc.App.Common.Menu.Services;
 using Svc.App.Common.Auth.Services;
-using Svc.App.Shared.Utils;
 
 namespace Svc.App.Common.Menu.Controllers;
 
@@ -39,7 +37,7 @@ public class MenuController : ControllerBase
     public async Task<ActionResult<List<MenuResponseDTO>>> ListMenu([FromQuery] GetMenuRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
-        dto.UserId = int.Parse(user?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!);
+        dto.UserId = user?.UserId;
 
         return Ok(await _menuService.ListMenu(dto));
     }

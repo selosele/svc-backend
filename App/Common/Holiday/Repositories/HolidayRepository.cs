@@ -75,7 +75,7 @@ public class HolidayRepository : IHolidayRepository
     /// <summary>
     /// 휴일을 삭제한다.
     /// </summary>
-    public Task<int> RemoveHoliday(string ymd, int userId)
+    public Task<int> RemoveHoliday(string ymd, int? userId)
     {
         return SqlMapper.ExecuteAsync(new RequestContext
         {

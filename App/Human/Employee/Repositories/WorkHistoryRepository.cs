@@ -75,7 +75,7 @@ public class WorkHistoryRepository : IWorkHistoryRepository
     /// <summary>
     /// 근무이력을 삭제한다.
     /// </summary>
-    public Task<int> RemoveWorkHistory(int userId, int workHistoryId)
+    public Task<int> RemoveWorkHistory(int? userId, int workHistoryId)
     {
         return SqlMapper.ExecuteAsync(new RequestContext
         {
