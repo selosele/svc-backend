@@ -37,7 +37,7 @@ public class MenuController : ControllerBase
     public async Task<ActionResult<List<MenuResponseDTO>>> ListMenu([FromQuery] GetMenuRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
-        dto.UserId = user?.UserId;
+        dto.UserId = user.UserId;
 
         return Ok(await _menuService.ListMenu(dto));
     }

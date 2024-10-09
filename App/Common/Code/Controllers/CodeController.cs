@@ -54,7 +54,7 @@ public class CodeController : ControllerBase
     public async Task<ActionResult<CodeResponseDTO>> AddCode([FromBody] SaveCodeRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
-        dto.CreaterId = user?.UserId;
+        dto.CreaterId = user.UserId;
         return Created(string.Empty, await _codeService.AddCode(dto));
     }
 
@@ -66,7 +66,7 @@ public class CodeController : ControllerBase
     public async Task<ActionResult<CodeResponseDTO>> UpdateUser(string codeId, [FromBody] SaveCodeRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
-        dto.UpdaterId = user?.UserId;
+        dto.UpdaterId = user.UserId;
         return Ok(await _codeService.UpdateCode(dto));
     }
 

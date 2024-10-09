@@ -317,7 +317,7 @@ public class AuthService
     /// <summary>
     /// 인증된 사용자 정보를 반환한다.
     /// </summary>
-    public UserResponseDTO? GetAuthenticatedUser()
+    public UserResponseDTO GetAuthenticatedUser()
     {
         var principal = _httpContextAccessor.HttpContext?.User
             ?? throw new InvalidOperationException("인증된 사용자를 찾을 수 없습니다.");
@@ -359,7 +359,7 @@ public class AuthService
     /// <summary>
     /// claim를 설정해서 반환한다.
     /// </summary>
-    private List<Claim> GetClaims(LoginResultDTO user)
+    private static List<Claim> GetClaims(LoginResultDTO user)
     {
         var claims = new List<Claim>
         {

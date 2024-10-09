@@ -104,7 +104,7 @@ public class UserService
         dto.UserPassword = EncryptUtil.Encrypt(dto.UserPassword!);
 
         // 등록자 ID
-        dto.CreaterId = _authService.GetAuthenticatedUser()?.UserId;
+        dto.CreaterId = _authService.GetAuthenticatedUser().UserId;
 
         // 사용자 추가
         var userId = await _userRepository.AddUser(dto);
@@ -177,7 +177,7 @@ public class UserService
             throw new BizException("중복된 이메일주소입니다. 입력하신 정보를 다시 확인하세요.");
 
         var user = _authService.GetAuthenticatedUser();
-        dto.UpdaterId = user?.UserId;
+        dto.UpdaterId = user.UserId;
         
         // 사용자 수정
         await _userRepository.UpdateUser(dto);
@@ -280,7 +280,7 @@ public class UserService
     public async Task<int> RemoveUser(int userId)
     {
         var user = _authService.GetAuthenticatedUser();
-        return await _userRepository.RemoveUser(userId, user?.UserId);
+        return await _userRepository.RemoveUser(userId, user.UserId);
     }
     #endregion
     

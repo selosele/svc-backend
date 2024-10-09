@@ -37,7 +37,7 @@ public class VacationController : ControllerBase
     public async Task<ActionResult<List<VacationResponseDTO>>> ListVacation([FromQuery] GetVacationRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
-        dto.UserId = user?.UserId;
+        dto.UserId = user.UserId;
         return Ok(await _vacationService.ListVacation(dto));
     }
 
@@ -58,8 +58,8 @@ public class VacationController : ControllerBase
     {
         var user = _authService.GetAuthenticatedUser();
 
-        dto.CreaterId = user?.UserId;
-        dto.EmployeeId = user?.Employee?.EmployeeId;
+        dto.CreaterId = user.UserId;
+        dto.EmployeeId = user.Employee?.EmployeeId;
 
         return Created(string.Empty, await _vacationService.AddVacation(dto));
     }
@@ -72,7 +72,7 @@ public class VacationController : ControllerBase
     public async Task<ActionResult<int>> UpdateVacation(int vacationId, [FromBody] SaveVacationRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
-        dto.UpdaterId = user?.UserId;
+        dto.UpdaterId = user.UserId;
         return await _vacationService.UpdateVacation(dto);
     }
 
@@ -84,7 +84,7 @@ public class VacationController : ControllerBase
     public async Task<ActionResult> RemoveVacation(int vacationId)
     {
         var user = _authService.GetAuthenticatedUser();
-        await _vacationService.RemoveVacation(vacationId, user?.UserId);
+        await _vacationService.RemoveVacation(vacationId, user.UserId);
         return NoContent();
     }
     #endregion

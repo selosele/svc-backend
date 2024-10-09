@@ -37,7 +37,7 @@ public class HolidayController : ControllerBase
     public async Task<ActionResult<List<HolidayResponseDTO>>> ListHoliday(int userId, [FromQuery] GetHolidayRequestDTO? dto)
     {
         var user = _authService.GetAuthenticatedUser();
-        var myUserId = user?.UserId;
+        var myUserId = user.UserId;
 
         if (userId != myUserId)
             return NotFound();
@@ -55,7 +55,7 @@ public class HolidayController : ControllerBase
     public async Task<ActionResult<List<HolidayResponseDTO>>> GetHoliday(int userId, string ymd)
     {
         var user = _authService.GetAuthenticatedUser();
-        var myUserId = user?.UserId;
+        var myUserId = user.UserId;
 
         if (userId != myUserId)
             return NotFound();
@@ -71,7 +71,7 @@ public class HolidayController : ControllerBase
     public async Task<ActionResult<HolidayResponseDTO>> AddHoliday(int userId, [FromBody] SaveHolidayRequestDTO saveHolidayRequestDTO)
     {
         var user = _authService.GetAuthenticatedUser();
-        var myUserId = user?.UserId;
+        var myUserId = user.UserId;
 
         if (userId != myUserId)
             return NotFound();
@@ -88,7 +88,7 @@ public class HolidayController : ControllerBase
     public async Task<ActionResult<int>> UpdateHoliday(int userId, string ymd, [FromBody] SaveHolidayRequestDTO saveHolidayRequestDTO)
     {
         var user = _authService.GetAuthenticatedUser();
-        var myUserId = user?.UserId;
+        var myUserId = user.UserId;
 
         if (userId != myUserId)
             return NotFound();
@@ -105,7 +105,7 @@ public class HolidayController : ControllerBase
     public async Task<ActionResult> RemoveCode(int userId, string ymd)
     {
         var user = _authService.GetAuthenticatedUser();
-        var myUserId = user?.UserId;
+        var myUserId = user.UserId;
 
         if (userId != myUserId)
             return NotFound();

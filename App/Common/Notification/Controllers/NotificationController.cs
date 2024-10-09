@@ -37,7 +37,7 @@ public class NotificationController : ControllerBase
     public async Task<ActionResult<NotificationResponseDTO>> ListAndCountNotification([FromQuery] GetNotificationRequestDTO? dto)
     {
         var user = _authService.GetAuthenticatedUser();
-        dto!.UserId = user?.UserId;
+        dto!.UserId = user.UserId;
 
         return Ok(await _notificationService.ListAndCountNotification(dto));
     }
@@ -50,7 +50,7 @@ public class NotificationController : ControllerBase
     public async Task<ActionResult<int>> UpdateNotificationReadDt(int notificationId, [FromBody] SaveNotificationRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
-        dto.UpdaterId = user?.UserId;
+        dto.UpdaterId = user.UserId;
 
         return Ok(await _notificationService.UpdateNotificationReadDt(dto));
     }
@@ -66,7 +66,7 @@ public class NotificationController : ControllerBase
         await _notificationService.RemoveNotification(new SaveNotificationRequestDTO
         {
             NotificationId = notificationId,
-            UpdaterId = user?.UserId
+            UpdaterId = user.UserId
         });
         return NoContent();
     }

@@ -73,7 +73,7 @@ public class UserController : ControllerBase
     public async Task<ActionResult<int>> UpdateUserPassword(int userId, [FromBody] UpdateUserPasswordRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
-        var myUserId = user?.UserId;
+        var myUserId = user.UserId;
 
         if (userId != myUserId)
             return NotFound();
