@@ -123,12 +123,10 @@ public class AuthService
         // 인증된 사용자 정보를 설정한다.
         SetAuthenticatedUser(user);
 
-        var myUser = GetAuthenticatedUser();
-
         // 슈퍼로그인이 아닌 경우에만 사용자의 마지막 로그인 일시를 변경한다.
         if (string.IsNullOrEmpty(dto.IsSuperLogin) || dto.IsSuperLogin == "N")
         {
-            await _userMapper.UpdateUserLastLoginDt(user.UserId, myUser?.UserId);
+            await _userMapper.UpdateUserLastLoginDt(user.UserId, user.UserId);
         }
 
         // JWT를 생성해서 반환한다.
