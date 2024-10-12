@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<SmartSqlMap Scope="CompanyMapper" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+  <ResultMaps>
+    <ResultMap Id="CompanyResultMap">
+      <Result Column="COMPANY_ID" Property="CompanyId" />
+      <Result Column="CORPORATE_NAME" Property="CorporateName" />
+      <Result Column="COMPANY_NAME" Property="CompanyName" />
+      <Result Column="REGISTRATION_NO" Property="RegistrationNo" />
+      <Result Column="DELETE_YN" Property="DeleteYn" />
+    </ResultMap>
+  </ResultMaps>
+
+  <Statements>
+
+    <!-- 회사 목록을 조회한다. -->
+    <Statement Id="ListCompany" ResultMap="CompanyResultMap">
+      /* CompanyMapper.ListCompany */
+
+      SELECT
+        C.COMPANY_ID,
+        C.CORPORATE_NAME,
+        C.COMPANY_NAME,
+        C.REGISTRATION_NO,
+        C.DELETE_YN
+      FROM HM_COMPANY C
+      WHERE C.DELETE_YN = @DeleteYn
+        <IsNotEmpty Property="CorporateName">
+        AND C.CORPORATE_NAME LIKE CONCAT('%', @CorporateName, '%')
+        </IsNotEmpty>
+        <IsNotEmpty Property="CompanyName">
+        AND C.COMPANY_NAME LIKE CONCAT('%', @CompanyName, '%')
+        </IsNotEmpty>
+        <IsNotEmpty Property="RegistrationNo">
+        AND C.REGISTRATION_NO LIKE CONCAT('%', @RegistrationNo, '%')
+        </IsNotEmpty>
+      ORDER BY C.CORPORATE_NAME, C.COMPANY_NAME
+    </Statement>
+    
+  </Statements>
+</SmartSqlMap>

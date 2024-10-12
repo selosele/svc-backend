@@ -1,5 +1,5 @@
 using SmartSql.AOP;
-using Svc.App.Human.Vacation.Repositories;
+using Svc.App.Human.Vacation.Mappers;
 using Svc.App.Human.Vacation.Models.DTO;
 
 namespace Svc.App.Human.Vacation.Services;
@@ -10,13 +10,13 @@ namespace Svc.App.Human.Vacation.Services;
 public class VacationService
 {
     #region Fields
-    private readonly IVacationRepository _vacationRepository;
+    private readonly IVacationMapper _vacationMapper;
     #endregion
     
     #region Constructor
-    public VacationService(IVacationRepository vacationRepository)
+    public VacationService(IVacationMapper vacationMapper)
     {
-        _vacationRepository = vacationRepository;
+        _vacationMapper = vacationMapper;
     }
     #endregion
 
@@ -26,14 +26,14 @@ public class VacationService
     /// </summary>
     [Transaction]
     public async Task<IList<VacationResponseDTO>> ListVacation(GetVacationRequestDTO dto)
-        => await _vacationRepository.ListVacation(dto);
+        => await _vacationMapper.ListVacation(dto);
 
     /// <summary>
     /// 휴가를 조회한다.
     /// </summary>
     [Transaction]
     public async Task<VacationResponseDTO> GetVacation(int vacationId)
-        => await _vacationRepository.GetVacation(vacationId);
+        => await _vacationMapper.GetVacation(vacationId);
 
     /// <summary>
     /// 휴가를 추가한다.
@@ -41,8 +41,8 @@ public class VacationService
     [Transaction]
     public async Task<VacationResponseDTO> AddVacation(SaveVacationRequestDTO dto)
     {
-        var vacationId = await _vacationRepository.AddVacation(dto);
-        return await _vacationRepository.GetVacation(vacationId);
+        var vacationId = await _vacationMapper.AddVacation(dto);
+        return await _vacationMapper.GetVacation(vacationId);
     }
 
     /// <summary>
@@ -50,14 +50,14 @@ public class VacationService
     /// </summary>
     [Transaction]
     public async Task<int> UpdateVacation(SaveVacationRequestDTO dto)
-        => await _vacationRepository.UpdateVacation(dto);
+        => await _vacationMapper.UpdateVacation(dto);
 
     /// <summary>
     /// 휴가를 삭제한다.
     /// </summary>
     [Transaction]
     public async Task<int> RemoveVacation(int vacationId, int? updaterId)
-        => await _vacationRepository.RemoveVacation(vacationId, updaterId);
+        => await _vacationMapper.RemoveVacation(vacationId, updaterId);
     #endregion
     
 }

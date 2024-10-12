@@ -1,6 +1,6 @@
 using SmartSql.AOP;
 using Svc.App.Common.Role.Models.DTO;
-using Svc.App.Common.Role.Repositories;
+using Svc.App.Common.Role.Mappers;
 
 namespace Svc.App.Common.Role.Services;
 
@@ -10,15 +10,15 @@ namespace Svc.App.Common.Role.Services;
 public class RoleService
 {
     #region Fields
-    private readonly IRoleRepository _roleRepository;
+    private readonly IRoleMapper _roleMapper;
     #endregion
     
     #region Constructor
     public RoleService(
-        IRoleRepository roleRepository
+        IRoleMapper roleMapper
     )
     {
-        _roleRepository = roleRepository;
+        _roleMapper = roleMapper;
     }
     #endregion
 
@@ -28,7 +28,7 @@ public class RoleService
     /// </summary>
     [Transaction]
     public async Task<IList<RoleResponseDTO>> ListRole()
-        => await _roleRepository.ListRole();
+        => await _roleMapper.ListRole();
     #endregion
     
 }

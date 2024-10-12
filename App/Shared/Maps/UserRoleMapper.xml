@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<SmartSqlMap Scope="UserRoleMapper" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+  <ResultMaps>
+    <ResultMap Id="UserRoleResultMap">
+      <Result Column="USER_ID" Property="UserId" />
+      <Result Column="ROLE_ID" Property="RoleId" />
+      <Result Column="ROLE_NAME" Property="RoleName" />
+    </ResultMap>
+  </ResultMaps>
+
+  <Statements>
+
+    <!-- 사용자 권한 목록을 조회한다. -->
+    <Statement Id="ListUserRole" ResultMap="UserRoleResultMap">
+      /* UserRoleMapper.ListUserRole */
+
+      SELECT
+        UR.USER_ID,
+        UR.ROLE_ID,
+        R.ROLE_NAME
+      FROM CO_USER_ROLE UR
+      INNER JOIN CO_USER U ON U.USER_ID = UR.USER_ID AND U.DELETE_YN = 'N'
+      INNER JOIN CO_ROLE R ON R.ROLE_ID = UR.ROLE_ID
+      WHERE U.USER_ID = @UserId
+      ORDER BY R.ROLE_ORDER
+    </Statement>
+
+    <!-- 사용자 권한을 추가한다. -->
+    <Statement Id="AddUserRole">
+      /* UserRoleMapper.AddUserRole */
+
+      INSERT INTO CO_USER_ROLE (
+        USER_ID,
+        ROLE_ID,
+        CREATER_ID
+      )
+      VALUES
+      <For Property="DTOList" Key="dto" Open="" Close="" Separator=",">
+        (@dto.UserId, @dto.RoleId, @dto.CreaterId)
+      </For>
+    </Statement>
+
+    <!-- 사용자 권한을 삭제한다. -->
+    <Statement Id="RemoveUserRole">
+      /* UserRoleMapper.RemoveUserRole */
+
+      DELETE FROM CO_USER_ROLE
+      WHERE USER_ID = @UserId
+    </Statement>
+    
+  </Statements>
+</SmartSqlMap>

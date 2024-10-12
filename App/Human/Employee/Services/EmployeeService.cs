@@ -1,6 +1,6 @@
 using SmartSql.AOP;
 using Svc.App.Human.Employee.Models.DTO;
-using Svc.App.Human.Employee.Repositories;
+using Svc.App.Human.Employee.Mappers;
 
 namespace Svc.App.Human.Employee.Services;
 
@@ -10,18 +10,18 @@ namespace Svc.App.Human.Employee.Services;
 public class EmployeeService
 {
     #region Fields
-    private readonly IEmployeeRepository _employeeRepository;
-    private readonly IWorkHistoryRepository _workHistoryRepository;
+    private readonly IEmployeeMapper _employeeMapper;
+    private readonly IWorkHistoryMapper _workHistoryMapper;
     #endregion
     
     #region Constructor
     public EmployeeService(
-        IEmployeeRepository employeeRepository,
-        IWorkHistoryRepository workHistoryRepository
+        IEmployeeMapper employeeMapper,
+        IWorkHistoryMapper workHistoryMapper
     )
     {
-        _employeeRepository = employeeRepository;
-        _workHistoryRepository = workHistoryRepository;
+        _employeeMapper = employeeMapper;
+        _workHistoryMapper = workHistoryMapper;
     }
     #endregion
 
@@ -32,10 +32,10 @@ public class EmployeeService
     [Transaction]
     public async Task<EmployeeResponseDTO?> GetEmployee(GetEmployeeRequestDTO dto)
     {
-        var employee = await _employeeRepository.GetEmployee(dto);
+        var employee = await _employeeMapper.GetEmployee(dto);
         if (employee != null)
         {
-            employee.WorkHistories = await _workHistoryRepository.ListWorkHistory(new GetWorkHistoryRequestDTO { EmployeeId = employee.EmployeeId });
+            employee.WorkHistories = await _workHistoryMapper.ListWorkHistory(new GetWorkHistoryRequestDTO { EmployeeId = employee.EmployeeId });
         }
         return employee;
     }
@@ -46,7 +46,7 @@ public class EmployeeService
     [Transaction]
     public async Task<EmployeeResponseDTO?> UpdateEmployee(UpdateEmployeeRequestDTO dto)
     {
-        await _employeeRepository.UpdateEmployee(dto);
+        await _employeeMapper.UpdateEmployee(dto);
         return await GetEmployee(new GetEmployeeRequestDTO { EmployeeId = dto.EmployeeId });
     }
 
@@ -55,14 +55,14 @@ public class EmployeeService
     /// </summary>
     [Transaction]
     public async Task<IList<WorkHistoryResponseDTO>> ListWorkHistory(GetWorkHistoryRequestDTO dto)
-        => await _workHistoryRepository.ListWorkHistory(dto);
+        => await _workHistoryMapper.ListWorkHistory(dto);
 
     /// <summary>
     /// 근무이력을 조회한다.
     /// </summary>
     [Transaction]
     public async Task<WorkHistoryResponseDTO> GetWorkHistory(GetWorkHistoryRequestDTO dto)
-        => await _workHistoryRepository.GetWorkHistory(dto);
+        => await _workHistoryMapper.GetWorkHistory(dto);
 
     /// <summary>
     /// 근무이력을 추가/수정한다.
@@ -82,11 +82,11 @@ public class EmployeeService
                 EmployeeId = dto.EmployeeId,
                 UpdaterId = dto.UpdaterId
             };
-            await _employeeRepository.UpdateEmployee(updateEmployeeRequestDTO);
+            await _employeeMapper.UpdateEmployee(updateEmployeeRequestDTO);
         }
 
         // 근무이력 정보를 조회해서
-        var workHistory = await _workHistoryRepository.GetWorkHistory(new GetWorkHistoryRequestDTO
+        var workHistory = await _workHistoryMapper.GetWorkHistory(new GetWorkHistoryRequestDTO
             {
                 EmployeeId = dto.EmployeeId,
                 CompanyId = dto.CompanyId
@@ -95,10 +95,10 @@ public class EmployeeService
         if (workHistory != null)
         {
             // 있으면 수정을 하고
-            return await _workHistoryRepository.UpdateWorkHistory(dto);
+            return await _workHistoryMapper.UpdateWorkHistory(dto);
         }
         // 없으면 추가를 한다.
-        return await _workHistoryRepository.AddWorkHistory(dto);
+        return await _workHistoryMapper.AddWorkHistory(dto);
     }
 
     /// <summary>
@@ -119,9 +119,9 @@ public class EmployeeService
                 EmployeeId = dto.EmployeeId,
                 UpdaterId = dto.UpdaterId
             };
-            await _employeeRepository.UpdateEmployee(updateEmployeeRequestDTO);
+            await _employeeMapper.UpdateEmployee(updateEmployeeRequestDTO);
         }
-        return await _workHistoryRepository.AddWorkHistory(dto);
+        return await _workHistoryMapper.AddWorkHistory(dto);
     }
 
     /// <summary>
@@ -142,9 +142,9 @@ public class EmployeeService
                 EmployeeId = dto.EmployeeId,
                 UpdaterId = dto.UpdaterId
             };
-            await _employeeRepository.UpdateEmployee(updateEmployeeRequestDTO);
+            await _employeeMapper.UpdateEmployee(updateEmployeeRequestDTO);
         }
-        return await _workHistoryRepository.UpdateWorkHistory(dto);
+        return await _workHistoryMapper.UpdateWorkHistory(dto);
     }
 
     /// <summary>
@@ -152,7 +152,7 @@ public class EmployeeService
     /// </summary>
     [Transaction]
     public async Task<int> RemoveWorkHistory(int? userId, int workHistoryId)
-        => await _workHistoryRepository.RemoveWorkHistory(userId, workHistoryId);
+        => await _workHistoryMapper.RemoveWorkHistory(userId, workHistoryId);
     #endregion
     
 }

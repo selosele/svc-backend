@@ -8,13 +8,13 @@ using Svc.App.Shared.Extensions;
 using Svc.App.Shared.Exceptions;
 using Svc.App.Common.Auth.Models.DTO;
 using Svc.App.Common.User.Models.DTO;
-using Svc.App.Common.User.Repositories;
+using Svc.App.Common.User.Mappers;
 using Svc.App.Common.Mail.Models.DTO;
 using Svc.App.Common.Mail.Services;
 using Svc.App.Human.Employee.Models.DTO;
-using Svc.App.Human.Employee.Repositories;
+using Svc.App.Human.Employee.Mappers;
 using Svc.App.Common.Notification.Models.DTO;
-using Svc.App.Common.Notification.Repositories;
+using Svc.App.Common.Notification.Mappers;
 
 namespace Svc.App.Common.Auth.Services;
 
@@ -26,12 +26,12 @@ public class AuthService
     #region Fields
     private readonly IConfiguration _configuration;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IUserRepository _userRepository;
-    private readonly IUserCertHistoryRepository _userCertHistoryRepository;
-    private readonly IUserRoleRepository _userRoleRepository;
-    private readonly IEmployeeRepository _employeeRepository;
-    private readonly IWorkHistoryRepository _workHistoryRepository;
-    private readonly INotificationRepository _notificationRepository;
+    private readonly IUserMapper _userMapper;
+    private readonly IUserCertHistoryMapper _userCertHistoryMapper;
+    private readonly IUserRoleMapper _userRoleMapper;
+    private readonly IEmployeeMapper _employeeMapper;
+    private readonly IWorkHistoryMapper _workHistoryMapper;
+    private readonly INotificationMapper _notificationMapper;
     private readonly MyMailService _mailService;
     #endregion
     
@@ -39,23 +39,23 @@ public class AuthService
     public AuthService(
         IConfiguration configuration,
         IHttpContextAccessor httpContextAccessor,
-        IUserRepository userRepository,
-        IUserCertHistoryRepository userCertHistoryRepository,
-        IUserRoleRepository userRoleRepository,
-        IEmployeeRepository employeeRepository,
-        IWorkHistoryRepository workHistoryRepository,
-        INotificationRepository notificationRepository,
+        IUserMapper userMapper,
+        IUserCertHistoryMapper userCertHistoryMapper,
+        IUserRoleMapper userRoleMapper,
+        IEmployeeMapper employeeMapper,
+        IWorkHistoryMapper workHistoryMapper,
+        INotificationMapper notificationMapper,
         MyMailService mailService
     )
     {
         _configuration = configuration;
         _httpContextAccessor = httpContextAccessor;
-        _userRepository = userRepository;
-        _userCertHistoryRepository = userCertHistoryRepository;
-        _userRoleRepository = userRoleRepository;
-        _employeeRepository = employeeRepository;
-        _workHistoryRepository = workHistoryRepository;
-        _notificationRepository = notificationRepository;
+        _userMapper = userMapper;
+        _userCertHistoryMapper = userCertHistoryMapper;
+        _userRoleMapper = userRoleMapper;
+        _employeeMapper = employeeMapper;
+        _workHistoryMapper = workHistoryMapper;
+        _notificationMapper = notificationMapper;
         _mailService = mailService;
     }
     #endregion
@@ -86,12 +86,12 @@ public class AuthService
             // 임시 비밀번호를 발급했을경우 임시 비밀번호의 유효시간을 검증한다.
             if (user.TempPasswordYn == "Y")
             {
-                var count = await _userRepository.CountUserTempPasswordValid(user.UserId);
+                var count = await _userMapper.CountUserTempPasswordValid(user.UserId);
                 if (count == 0)
                     throw new BizException("아이디 또는 비밀번호를 확인하세요.");
 
                 // 임시 비밀번호 변경 알림을 발송한다.
-                await _notificationRepository.AddNotification(new AddNotificationRequestDTO
+                await _notificationMapper.AddNotification(new AddNotificationRequestDTO
                 {
                     UserId = user.UserId,
                     NotificationTitle = "임시 비밀번호를 변경해주시기 바랍니다.",
@@ -109,7 +109,7 @@ public class AuthService
             if (string.IsNullOrEmpty(user.LastLoginDt) && user.Roles!.Where(x => x.RoleId == RoleUtil.SYSTEM_ADMIN).IsNullOrEmpty())
             {
                 // 처음 로그인하는 경우 알림을 발송한다(시스템관리자 제외).
-                await _notificationRepository.AddNotification(new AddNotificationRequestDTO
+                await _notificationMapper.AddNotification(new AddNotificationRequestDTO
                 {
                     UserId = user.UserId,
                     NotificationTitle = "안녕하세요 환영합니다!",
@@ -128,7 +128,7 @@ public class AuthService
         // 슈퍼로그인이 아닌 경우에만 사용자의 마지막 로그인 일시를 변경한다.
         if (string.IsNullOrEmpty(dto.IsSuperLogin) || dto.IsSuperLogin == "N")
         {
-            await _userRepository.UpdateUserLastLoginDt(user.UserId, myUser?.UserId);
+            await _userMapper.UpdateUserLastLoginDt(user.UserId, myUser?.UserId);
         }
 
         // JWT를 생성해서 반환한다.
@@ -147,15 +147,15 @@ public class AuthService
     [Transaction]
     public async Task<LoginResultDTO?> GetUserLogin(LoginRequestDTO dto)
     {
-        var user = await _userRepository.GetUserLogin(dto);
+        var user = await _userMapper.GetUserLogin(dto);
         if (user != null)
         {
-            user.Roles = await _userRoleRepository.ListUserRole(new GetUserRoleRequestDTO { UserId = user.UserId });
-            user.Employee = await _employeeRepository.GetEmployee(new GetEmployeeRequestDTO { UserId = user.UserId });
+            user.Roles = await _userRoleMapper.ListUserRole(new GetUserRoleRequestDTO { UserId = user.UserId });
+            user.Employee = await _employeeMapper.GetEmployee(new GetEmployeeRequestDTO { UserId = user.UserId });
 
             if (user.Employee != null)
             {
-                user.Employee.WorkHistories = await _workHistoryRepository.ListWorkHistory(new GetWorkHistoryRequestDTO { EmployeeId = user.Employee.EmployeeId });
+                user.Employee.WorkHistories = await _workHistoryMapper.ListWorkHistory(new GetWorkHistoryRequestDTO { EmployeeId = user.Employee.EmployeeId });
             }
         }
         return user;
@@ -167,7 +167,7 @@ public class AuthService
     [Transaction]
     public async Task<bool> FindUserAccount(FindUserInfoRequestDTO dto)
     {
-        var foundUser = await _userRepository.GetUserFindInfo(dto)
+        var foundUser = await _userMapper.GetUserFindInfo(dto)
             ?? throw new BizException("가입된 정보가 없습니다. 입력하신 정보를 다시 확인하세요.");
 
         var mailSend = await _mailService.Send(new SendMailDTO
@@ -201,14 +201,14 @@ public class AuthService
     [Transaction]
     public async Task<UserCertHistoryResponseDTO> FindUserPassword1(FindUserInfoRequestDTO dto)
     {
-        var foundUser = await _userRepository.GetUserFindInfo(dto)
+        var foundUser = await _userMapper.GetUserFindInfo(dto)
             ?? throw new BizException("가입된 정보가 없습니다. 입력하신 정보를 다시 확인하세요.");
 
         // 본인인증 코드 생성
         var certCode = RandomStringGeneratorUtil.Generate(6);
 
         // 사용자 본인인증 내역 추가
-        int certHistoryId = await _userCertHistoryRepository.AddUserCertHistory(new AddUserCertHistoryRequestDTO
+        int certHistoryId = await _userCertHistoryMapper.AddUserCertHistory(new AddUserCertHistoryRequestDTO
         {
             UserAccount = foundUser.UserAccount,
             PhoneNo = foundUser.PhoneNo,
@@ -220,7 +220,7 @@ public class AuthService
         });
 
         // 사용자 본인인증 내역 조회
-        var userCertHistory = await _userCertHistoryRepository.GetUserCertHistory(new GetUserCertHistoryRequestDTO
+        var userCertHistory = await _userCertHistoryMapper.GetUserCertHistory(new GetUserCertHistoryRequestDTO
         {
             CertHistoryId = certHistoryId
         });
@@ -261,11 +261,11 @@ public class AuthService
     [Transaction]
     public async Task<bool> FindUserPassword2(FindUserInfoRequestDTO dto)
     {
-        var foundUser = await _userRepository.GetUserFindInfo(dto)
+        var foundUser = await _userMapper.GetUserFindInfo(dto)
             ?? throw new BizException("가입된 정보가 없습니다. 입력하신 정보를 다시 확인하세요.");
 
         // 사용자 본인인증 내역 조회
-        var userCertHistoryCount = await _userCertHistoryRepository.CountUserCertHistory(new GetUserCertHistoryRequestDTO
+        var userCertHistoryCount = await _userCertHistoryMapper.CountUserCertHistory(new GetUserCertHistoryRequestDTO
         {
             UserAccount = dto.UserAccount,
             EmailAddr = dto.EmailAddr,
@@ -280,7 +280,7 @@ public class AuthService
         var tempPassword = RandomStringGeneratorUtil.Generate(int.Parse(length));
 
         // 사용자 비밀번호를 임시 비밀번호로 변경
-        await _userRepository.UpdateUserPassword(new UpdateUserPasswordRequestDTO
+        await _userMapper.UpdateUserPassword(new UpdateUserPasswordRequestDTO
         {
             TempPasswordYn = "Y",
             NewPassword = EncryptUtil.Encrypt(tempPassword),

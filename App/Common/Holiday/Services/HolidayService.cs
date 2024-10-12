@@ -1,6 +1,6 @@
 using SmartSql.AOP;
 using Svc.App.Common.Holiday.Models.DTO;
-using Svc.App.Common.Holiday.Repositories;
+using Svc.App.Common.Holiday.Mappers;
 
 namespace Svc.App.Common.Holiday.Services;
 
@@ -10,14 +10,14 @@ namespace Svc.App.Common.Holiday.Services;
 public class HolidayService
 {
     #region Fields
-    private readonly IHolidayRepository _holidayRepository;
+    private readonly IHolidayMapper _holidayMapper;
     #endregion
     
     #region Constructor
     public HolidayService(
-        IHolidayRepository holidayRepository
+        IHolidayMapper holidayMapper
     ) {
-        _holidayRepository = holidayRepository;
+        _holidayMapper = holidayMapper;
     }
     #endregion
 
@@ -27,14 +27,14 @@ public class HolidayService
     /// </summary>
     [Transaction]
     public async Task<IList<HolidayResponseDTO>> ListHoliday(GetHolidayRequestDTO? dto)
-        => await _holidayRepository.ListHoliday(dto);
+        => await _holidayMapper.ListHoliday(dto);
 
     /// <summary>
     /// 휴일을 조회한다.
     /// </summary>
     [Transaction]
     public async Task<HolidayResponseDTO> GetHoliday(GetHolidayRequestDTO dto)
-        => await _holidayRepository.GetHoliday(dto);
+        => await _holidayMapper.GetHoliday(dto);
 
     /// <summary>
     /// 휴일을 추가한다.
@@ -42,8 +42,8 @@ public class HolidayService
     [Transaction]
     public async Task<HolidayResponseDTO> AddHoliday(SaveHolidayRequestDTO dto)
     {
-        var holidayId = await _holidayRepository.AddHoliday(dto);
-        return await _holidayRepository.GetHoliday(new GetHolidayRequestDTO
+        var holidayId = await _holidayMapper.AddHoliday(dto);
+        return await _holidayMapper.GetHoliday(new GetHolidayRequestDTO
         {
             YMD = holidayId.Split("-")[0],
             UserId = int.Parse(holidayId.Split("-")[1])
@@ -55,14 +55,14 @@ public class HolidayService
     /// </summary>
     [Transaction]
     public async Task<int> UpdateHoliday(SaveHolidayRequestDTO dto)
-        => await _holidayRepository.UpdateHoliday(dto);
+        => await _holidayMapper.UpdateHoliday(dto);
 
     /// <summary>
     /// 휴일을 삭제한다.
     /// </summary>
     [Transaction]
     public async Task<int> RemoveHoliday(string ymd, int? userId)
-        => await _holidayRepository.RemoveHoliday(ymd, userId);
+        => await _holidayMapper.RemoveHoliday(ymd, userId);
     #endregion
     
 }

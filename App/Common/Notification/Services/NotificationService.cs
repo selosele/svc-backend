@@ -1,6 +1,6 @@
 using SmartSql.AOP;
 using Svc.App.Common.Notification.Models.DTO;
-using Svc.App.Common.Notification.Repositories;
+using Svc.App.Common.Notification.Mappers;
 
 namespace Svc.App.Common.Notification.Services;
 
@@ -10,15 +10,15 @@ namespace Svc.App.Common.Notification.Services;
 public class NotificationService
 {
     #region Fields
-    private readonly INotificationRepository _notificationRepository;
+    private readonly INotificationMapper _notificationMapper;
     #endregion
     
     #region Constructor
     public NotificationService(
-        INotificationRepository notificationRepository
+        INotificationMapper notificationMapper
     )
     {
-        _notificationRepository = notificationRepository;
+        _notificationMapper = notificationMapper;
     }
     #endregion
 
@@ -29,8 +29,8 @@ public class NotificationService
     [Transaction]
     public async Task<NotificationResponseDTO> ListAndCountNotification(GetNotificationRequestDTO? dto)
     {
-        var count = await _notificationRepository.CountNotification(dto);
-        var list = await _notificationRepository.ListNotification(dto);
+        var count = await _notificationMapper.CountNotification(dto);
+        var list = await _notificationMapper.ListNotification(dto);
         return new NotificationResponseDTO { Total = count, List = list };
     }
 
@@ -39,14 +39,14 @@ public class NotificationService
     /// </summary>
     [Transaction]
     public async Task<int> UpdateNotificationReadDt(SaveNotificationRequestDTO dto)
-        => await _notificationRepository.UpdateNotificationReadDt(dto);
+        => await _notificationMapper.UpdateNotificationReadDt(dto);
 
     /// <summary>
     /// 알림을 삭제한다.
     /// </summary>
     [Transaction]
     public async Task<int> RemoveNotification(SaveNotificationRequestDTO dto)
-        => await _notificationRepository.RemoveNotification(dto);
+        => await _notificationMapper.RemoveNotification(dto);
     #endregion
     
 }

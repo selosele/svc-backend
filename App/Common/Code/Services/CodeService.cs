@@ -1,5 +1,5 @@
 using SmartSql.AOP;
-using Svc.App.Common.Code.Repositories;
+using Svc.App.Common.Code.Mappers;
 using Svc.App.Common.Code.Models.DTO;
 
 namespace Svc.App.Common.Code.Services;
@@ -10,14 +10,14 @@ namespace Svc.App.Common.Code.Services;
 public class CodeService
 {
     #region Fields
-    private readonly ICodeRepository _codeRepository;
+    private readonly ICodeMapper _codeMapper;
     #endregion
     
     #region Constructor
     public CodeService(
-        ICodeRepository codeRepository
+        ICodeMapper codeMapper
     ) {
-        _codeRepository = codeRepository;
+        _codeMapper = codeMapper;
     }
     #endregion
 
@@ -27,14 +27,14 @@ public class CodeService
     /// </summary>
     [Transaction]
     public async Task<IList<CodeResponseDTO>> ListCode()
-        => await _codeRepository.ListCode();
+        => await _codeMapper.ListCode();
 
     /// <summary>
     /// 코드를 조회한다.
     /// </summary>
     [Transaction]
     public async Task<CodeResponseDTO> GetCode(string codeId)
-        => await _codeRepository.GetCode(codeId);
+        => await _codeMapper.GetCode(codeId);
 
     /// <summary>
     /// 코드를 추가한다.
@@ -42,8 +42,8 @@ public class CodeService
     [Transaction]
     public async Task<CodeResponseDTO> AddCode(SaveCodeRequestDTO dto)
     {
-        var codeId = await _codeRepository.AddCode(dto);
-        return await _codeRepository.GetCode(codeId);
+        var codeId = await _codeMapper.AddCode(dto);
+        return await _codeMapper.GetCode(codeId);
     }
 
     /// <summary>
@@ -52,8 +52,8 @@ public class CodeService
     [Transaction]
     public async Task<CodeResponseDTO> UpdateCode(SaveCodeRequestDTO dto)
     {
-        await _codeRepository.UpdateCode(dto);
-        return await _codeRepository.GetCode(dto.CodeId!);
+        await _codeMapper.UpdateCode(dto);
+        return await _codeMapper.GetCode(dto.CodeId!);
     }
 
     /// <summary>
@@ -61,7 +61,7 @@ public class CodeService
     /// </summary>
     [Transaction]
     public async Task<int> RemoveCode(string codeId)
-        => await _codeRepository.RemoveCode(codeId);
+        => await _codeMapper.RemoveCode(codeId);
     #endregion
     
 }

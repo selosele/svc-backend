@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<SmartSqlMap Scope="HolidayMapper" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+  <ResultMaps>
+    <ResultMap Id="HolidayResultMap">
+      <Result Column="YMD" Property="YMD" />
+      <Result Column="USER_ID" Property="UserId" />
+      <Result Column="YYYY" Property="YYYY" />
+      <Result Column="MM" Property="MM" />
+      <Result Column="DD" Property="DD" />
+      <Result Column="HOLIDAY_NAME" Property="HolidayName" />
+      <Result Column="HOLIDAY_CONTENT" Property="HolidayContent" />
+      <Result Column="USE_YN" Property="UseYn" />
+    </ResultMap>
+  </ResultMaps>
+
+  <Statements>
+
+    <!-- 휴일 목록을 조회한다. -->
+    <Statement Id="ListHoliday" ResultMap="HolidayResultMap">
+      /* HolidayMapper.ListHoliday */
+
+      SELECT
+        H.YMD,
+        H.USER_ID,
+        H.YYYY,
+        H.MM,
+        H.DD,
+        H.HOLIDAY_NAME,
+        H.HOLIDAY_CONTENT,
+        H.USE_YN
+      FROM CO_HOLIDAY H
+      WHERE 1=1
+        AND H.USER_ID = @UserId
+        <IsNotEmpty Property="YYYY">
+        AND H.YYYY = @YYYY
+        </IsNotEmpty>
+        <IsNotEmpty Property="MM">
+        AND H.MM = @MM
+        </IsNotEmpty>
+        <IsNotEmpty Property="DD">
+        AND H.DD = @DD
+        </IsNotEmpty>
+      ORDER BY H.YMD DESC
+    </Statement>
+
+    <!-- 휴일을 조회한다. -->
+    <Statement Id="GetHoliday" ResultMap="HolidayResultMap">
+      /* HolidayMapper.GetHoliday */
+
+      SELECT
+        H.YMD,
+        H.USER_ID,
+        H.YYYY,
+        H.MM,
+        H.DD,
+        H.HOLIDAY_NAME,
+        H.HOLIDAY_CONTENT,
+        H.USE_YN
+      FROM CO_HOLIDAY H
+      WHERE H.YMD = @YMD
+        AND H.USER_ID = @UserId
+    </Statement>
+
+    <!-- 휴일을 추가한다. -->
+    <Statement Id="AddHoliday">
+      /* HolidayMapper.AddHoliday */
+
+      INSERT INTO CO_HOLIDAY (
+        YMD,
+        USER_ID,
+        YYYY,
+        MM,
+        DD,
+        HOLIDAY_NAME,
+        HOLIDAY_CONTENT,
+        USE_YN,
+        CREATER_ID
+      )
+      VALUES (
+        @YMD,
+        @UserId,
+        SUBSTRING(@YMD, 1, 4),
+        SUBSTRING(@YMD, 5, 2),
+        SUBSTRING(@YMD, 7, 2),
+        @HolidayName,
+        @HolidayContent,
+        @UseYn,
+        @CreaterId
+      )
+      ;SELECT CONCAT(@YMD, '-', @UserId)
+    </Statement>
+
+    <!-- 휴일을 수정한다. -->
+    <Statement Id="UpdateHoliday">
+      /* HolidayMapper.UpdateHoliday */
+
+      UPDATE CO_HOLIDAY
+        SET
+          YMD = @YMD,
+          YYYY = SUBSTRING(@YMD, 1, 4),
+          MM = SUBSTRING(@YMD, 5, 2),
+          DD = SUBSTRING(@YMD, 7, 2),
+          HOLIDAY_NAME = @HolidayName,
+          HOLIDAY_CONTENT = @HolidayContent,
+          USE_YN = @UseYn,
+          UPDATER_ID = @UpdaterId,
+          UPDATE_DT = SYSDATE()
+      WHERE YMD = @OriginalYmd
+        AND USER_ID = @UserId
+    </Statement>
+
+    <!-- 휴일을 삭제한다. -->
+    <Statement Id="RemoveHoliday">
+      /* HolidayMapper.RemoveHoliday */
+
+      DELETE FROM CO_HOLIDAY
+      WHERE YMD = @YMD
+        AND USER_ID = @UserId
+    </Statement>
+    
+  </Statements>
+</SmartSqlMap>

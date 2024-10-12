@@ -1,7 +1,6 @@
 using SmartSql.AOP;
-using Svc.App.Common.Auth.Services;
 using Svc.App.Common.Menu.Models.DTO;
-using Svc.App.Common.Menu.Repositories;
+using Svc.App.Common.Menu.Mappers;
 
 namespace Svc.App.Common.Menu.Services;
 
@@ -11,18 +10,15 @@ namespace Svc.App.Common.Menu.Services;
 public class MenuService
 {
     #region Fields
-    private readonly AuthService _authService;
-    private readonly IMenuRepository _menuRepository;
+    private readonly IMenuMapper _menuMapper;
     #endregion
     
     #region Constructor
     public MenuService(
-        AuthService authService,
-        IMenuRepository menuRepository
+        IMenuMapper menuMapper
     )
     {
-        _authService = authService;
-        _menuRepository = menuRepository;
+        _menuMapper = menuMapper;
     }
     #endregion
 
@@ -32,7 +28,7 @@ public class MenuService
     /// </summary>
     [Transaction]
     public async Task<IList<MenuResponseDTO>> ListMenu(GetMenuRequestDTO dto)
-        => await _menuRepository.ListMenu(dto);
+        => await _menuMapper.ListMenu(dto);
     #endregion
     
 }

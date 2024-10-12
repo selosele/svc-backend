@@ -1,5 +1,5 @@
 using SmartSql.AOP;
-using Svc.App.Human.Company.Repositories;
+using Svc.App.Human.Company.Mappers;
 using Svc.App.Human.Company.Models.DTO;
 
 namespace Svc.App.Human.Company.Services;
@@ -10,13 +10,13 @@ namespace Svc.App.Human.Company.Services;
 public class CompanyService
 {
     #region Fields
-    private readonly ICompanyRepository _companyRepository;
+    private readonly ICompanyMapper _companyMapper;
     #endregion
     
     #region Constructor
-    public CompanyService(ICompanyRepository companyRepository)
+    public CompanyService(ICompanyMapper companyMapper)
     {
-        _companyRepository = companyRepository;
+        _companyMapper = companyMapper;
     }
     #endregion
 
@@ -26,7 +26,7 @@ public class CompanyService
     /// </summary>
     [Transaction]
     public async Task<IList<CompanyResponseDTO>> ListCompany(GetCompanyRequestDTO? dto)
-        => await _companyRepository.ListCompany(dto);
+        => await _companyMapper.ListCompany(dto);
     #endregion
     
 }

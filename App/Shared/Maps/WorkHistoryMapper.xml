@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<SmartSqlMap Scope="WorkHistoryMapper" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+  <ResultMaps>
+    <ResultMap Id="WorkHistoryResultMap">
+      <Result Column="WORK_HISTORY_ID" Property="WorkHistoryId" />
+      <Result Column="COMPANY_ID" Property="CompanyId" />
+      <Result Column="CORPORATE_NAME" Property="CorporateName" />
+      <Result Column="COMPANY_NAME" Property="CompanyName" />
+      <Result Column="RANK_CODE" Property="RankCode" />
+      <Result Column="RANK_CODE_NAME" Property="RankCodeName" />
+      <Result Column="JOB_TITLE_CODE" Property="JobTitleCode" />
+      <Result Column="JOB_TITLE_CODE_NAME" Property="JobTitleCodeName" />
+      <Result Column="ANNUAL_TYPE_CODE" Property="AnnualTypeCode" />
+      <Result Column="JOIN_YMD" Property="JoinYmd" />
+      <Result Column="QUIT_YMD" Property="QuitYmd" />
+      <Result Column="WORK_DIFF_Y" Property="WorkDiffY" />
+      <Result Column="WORK_DIFF_M" Property="WorkDiffM" />
+      <Result Column="VACATION_USE_COUNT" Property="VacationUseCount" />
+    </ResultMap>
+  </ResultMaps>
+
+  <Statements>
+
+    <!-- 근무이력 목록을 조회한다. -->
+    <Statement Id="ListWorkHistory" ResultMap="WorkHistoryResultMap">
+      /* WorkHistoryMapper.ListWorkHistory */
+
+      SELECT
+        H.WORK_HISTORY_ID,
+        C.COMPANY_ID,
+        C.CORPORATE_NAME,
+        C.COMPANY_NAME,
+        H.RANK_CODE,
+        CD.CODE_NAME AS RANK_CODE_NAME,
+        H.JOB_TITLE_CODE,
+        CD2.CODE_NAME AS JOB_TITLE_CODE_NAME,
+        H.ANNUAL_TYPE_CODE,
+        H.JOIN_YMD,
+        H.QUIT_YMD,
+        TIMESTAMPDIFF(YEAR, H.JOIN_YMD, IFNULL(H.QUIT_YMD, SYSDATE())) AS WORK_DIFF_Y,
+        TIMESTAMPDIFF(MONTH, H.JOIN_YMD, IFNULL(H.QUIT_YMD, SYSDATE())) % 12 AS WORK_DIFF_M,
+        (
+          SELECT
+            SUM(FN_GET_VACATION_USE_COUNT(V.VACATION_START_YMD, V.VACATION_END_YMD, @UserId))
+          FROM HM_VACATION V
+          WHERE V.WORK_HISTORY_ID = H.WORK_HISTORY_ID
+            AND V.DELETE_YN = 'N'
+            <IsNotEmpty Property="VacationTypeCodes">
+            AND V.VACATION_TYPE_CODE IN
+              <For Property="VacationTypeCodes" Key="vacationTypeCode" Open="(" Separator="," Close=")">
+                @vacationTypeCode
+              </For>
+            </IsNotEmpty>
+        ) AS VACATION_USE_COUNT
+      FROM HM_WORK_HISTORY H
+      INNER JOIN HM_COMPANY C ON C.COMPANY_ID = H.COMPANY_ID
+      LEFT JOIN CO_CODE CD ON CD.CODE_VALUE = H.RANK_CODE AND CD.UP_CODE_ID = 'RANK_00'
+      LEFT JOIN CO_CODE CD2 ON CD2.CODE_VALUE = H.JOB_TITLE_CODE AND CD2.UP_CODE_ID = 'JOB_TITLE_00'
+      WHERE H.EMPLOYEE_ID = @EmployeeId
+        AND H.DELETE_YN = 'N'
+      ORDER BY H.JOIN_YMD DESC
+    </Statement>
+
+    <!-- 근무이력을 조회한다. -->
+    <Statement Id="GetWorkHistory" ResultMap="WorkHistoryResultMap">
+      /* WorkHistoryMapper.GetWorkHistory */
+
+      SELECT
+        H.WORK_HISTORY_ID,
+        C.COMPANY_ID,
+        C.CORPORATE_NAME,
+        C.COMPANY_NAME,
+        H.RANK_CODE,
+        H.JOB_TITLE_CODE,
+        H.ANNUAL_TYPE_CODE,
+        H.JOIN_YMD,
+        H.QUIT_YMD
+      FROM HM_WORK_HISTORY H
+      INNER JOIN HM_COMPANY C ON C.COMPANY_ID = H.COMPANY_ID
+      WHERE 1=1
+        <IsNotEmpty Property="WorkHistoryId">
+        AND H.WORK_HISTORY_ID = @WorkHistoryId
+        </IsNotEmpty>
+        <IsNotEmpty Property="EmployeeId">
+        AND H.EMPLOYEE_ID = @EmployeeId
+        </IsNotEmpty>
+        <IsNotEmpty Property="CompanyId">
+        AND C.COMPANY_ID = @CompanyId
+        </IsNotEmpty>
+    </Statement>
+
+    <!-- 근무이력을 추가한다. -->
+    <Statement Id="AddWorkHistory">
+      /* WorkHistoryMapper.AddWorkHistory */
+
+      INSERT INTO HM_WORK_HISTORY (
+        EMPLOYEE_ID,
+        COMPANY_ID,
+        RANK_CODE,
+        JOB_TITLE_CODE,
+        ANNUAL_TYPE_CODE,
+        JOIN_YMD,
+        QUIT_YMD,
+        CREATER_ID
+      )
+      VALUES (
+        @EmployeeId,
+        @CompanyId,
+        @RankCode,
+        @JobTitleCode,
+        @AnnualTypeCode,
+        @JoinYmd,
+        @QuitYmd,
+        @CreaterId
+      )
+      ;SELECT LAST_INSERT_ID()
+    </Statement>
+
+    <!-- 근무이력을 수정한다. -->
+    <Statement Id="UpdateWorkHistory">
+      /* WorkHistoryMapper.UpdateWorkHistory */
+
+      UPDATE HM_WORK_HISTORY
+        SET
+          <IsNotEmpty Property="RankCode">
+          RANK_CODE = @RankCode,
+          </IsNotEmpty>
+          <IsNotEmpty Property="JobTitleCode">
+          JOB_TITLE_CODE = @JobTitleCode,
+          </IsNotEmpty>
+          <IsNotEmpty Property="AnnualTypeCode">
+          ANNUAL_TYPE_CODE = @AnnualTypeCode,
+          </IsNotEmpty>
+          <IsNotEmpty Property="JoinYmd">
+          JOIN_YMD = @JoinYmd,
+          </IsNotEmpty>
+          QUIT_YMD = @QuitYmd,
+          UPDATER_ID = @UpdaterId,
+          UPDATE_DT = SYSDATE()
+      WHERE WORK_HISTORY_ID = @WorkHistoryId
+    </Statement>
+
+    <!-- 근무이력을 삭제한다. -->
+    <Statement Id="RemoveWorkHistory">
+      /* WorkHistoryMapper.RemoveWorkHistory */
+
+      UPDATE HM_WORK_HISTORY
+        SET
+          DELETE_YN = 'Y',
+          UPDATER_ID = @UpdaterId,
+          UPDATE_DT = SYSDATE()
+      WHERE WORK_HISTORY_ID = @WorkHistoryId
+    </Statement>
+    
+  </Statements>
+</SmartSqlMap>
