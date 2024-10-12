@@ -1,13 +1,14 @@
 using System.Security.Claims;
 using Svc.App.Common.User.Models.DTO;
 using Svc.App.Human.Employee.Models.DTO;
+using Svc.App.Shared.Utils;
 
-namespace Svc.App.Shared.Utils;
+namespace Svc.App.Shared.Extensions;
 
 /// <summary>
-/// ClaimsPrincipal의 확장 메서드를 제공하는 유틸 클래스
+/// ClaimsPrincipal의 확장 메서드를 제공하는 클래스
 /// </summary>
-public static class ClaimsPrincipalUtil
+public static class ClaimsPrincipalExtension
 {
     #region Methods
     /// <summary>

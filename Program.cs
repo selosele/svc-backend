@@ -2,7 +2,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Svc.App.Shared.Filters;
-using Svc.App.Shared.Utils;
+using Svc.App.Shared.Extensions;
 using Svc.App.Shared.Models.Settings;
 
 var builder = WebApplication.CreateBuilder(args);

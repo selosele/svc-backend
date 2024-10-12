@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using SmartSql.AOP;
 using Svc.App.Shared.Utils;
+using Svc.App.Shared.Extensions;
 using Svc.App.Shared.Exceptions;
 using Svc.App.Common.Auth.Models.DTO;
 using Svc.App.Common.User.Models.DTO;
