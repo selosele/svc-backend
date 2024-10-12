@@ -16,7 +16,7 @@ public static class ServiceCollectionUtil
     {
         var types = Assembly.GetExecutingAssembly()
                             .GetTypes()
-                            .Where(t => t.IsClass && t.Namespace != null && t.Namespace.StartsWith(prefixStart) && t.Namespace.EndsWith(prefixEnd));
+                            .Where(x => x.IsClass && x.Namespace != null && x.Namespace.StartsWith(prefixStart) && x.Namespace.EndsWith(prefixEnd));
 
         foreach (var type in types)
         {
@@ -31,17 +31,17 @@ public static class ServiceCollectionUtil
     {
         var types = Assembly.GetExecutingAssembly()
                             .GetTypes()
-                            .Where(t => t.IsClass || t.IsInterface)
-                            .Where(t => t.Namespace != null && t.Namespace.StartsWith(prefixStart) && t.Namespace.EndsWith(prefixEnd));
+                            .Where(x => x.IsClass || x.IsInterface)
+                            .Where(x => x.Namespace != null && x.Namespace.StartsWith(prefixStart) && x.Namespace.EndsWith(prefixEnd));
 
         // 인터페이스와 해당 구현체 찾기 및 등록
         foreach (var type in types.Where(t => t.IsInterface))
         {
-            var implementation = types.FirstOrDefault(t => t.IsClass && !t.IsAbstract && t.GetInterfaces().Contains(type));
-            if (implementation != null)
+            var impl = types.FirstOrDefault(t => t.IsClass && !t.IsAbstract && t.GetInterfaces().Contains(type));
+            if (impl != null)
             {
                 // 구현체가 인터페이스를 구현하는 경우 등록
-                services.AddSingleton(type, implementation);
+                services.AddSingleton(type, impl);
             }
         }
     }
