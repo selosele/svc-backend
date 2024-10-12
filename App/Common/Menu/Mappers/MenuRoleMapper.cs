@@ -6,7 +6,7 @@ namespace Svc.App.Common.Menu.Mappers;
 /// <summary>
 /// 메뉴 권한 매퍼 클래스
 /// </summary>
-public class MenuRoleMapper : IMenuRoleMapper
+public class MenuRoleMapper
 {
     #region Fields
     public ISqlMapper SqlMapper { get; }

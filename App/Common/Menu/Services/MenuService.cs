@@ -10,12 +10,12 @@ namespace Svc.App.Common.Menu.Services;
 public class MenuService
 {
     #region Fields
-    private readonly IMenuMapper _menuMapper;
+    private readonly MenuMapper _menuMapper;
     #endregion
     
     #region Constructor
     public MenuService(
-        IMenuMapper menuMapper
+        MenuMapper menuMapper
     )
     {
         _menuMapper = menuMapper;

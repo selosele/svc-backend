@@ -6,7 +6,7 @@ namespace Svc.App.Common.User.Mappers;
 /// <summary>
 /// 사용자 본인인증 내역 매퍼 클래스
 /// </summary>
-public class UserCertHistoryMapper : IUserCertHistoryMapper
+public class UserCertHistoryMapper
 {
     #region Fields
     public ISqlMapper SqlMapper { get; }

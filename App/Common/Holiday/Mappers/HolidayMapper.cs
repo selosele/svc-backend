@@ -6,7 +6,7 @@ namespace Svc.App.Common.Holiday.Mappers;
 /// <summary>
 /// 휴일 매퍼 클래스
 /// </summary>
-public class HolidayMapper : IHolidayMapper
+public class HolidayMapper
 {
     #region Fields
     public ISqlMapper SqlMapper { get; }

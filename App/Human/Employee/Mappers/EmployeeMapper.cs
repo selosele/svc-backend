@@ -6,7 +6,7 @@ namespace Svc.App.Human.Employee.Mappers;
 /// <summary>
 /// 직원 매퍼 클래스
 /// </summary>
-public class EmployeeMapper : IEmployeeMapper
+public class EmployeeMapper
 {
     #region Fields
     public ISqlMapper SqlMapper { get; }

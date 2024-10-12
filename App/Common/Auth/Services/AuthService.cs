@@ -26,12 +26,12 @@ public class AuthService
     #region Fields
     private readonly IConfiguration _configuration;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IUserMapper _userMapper;
-    private readonly IUserCertHistoryMapper _userCertHistoryMapper;
-    private readonly IUserRoleMapper _userRoleMapper;
-    private readonly IEmployeeMapper _employeeMapper;
-    private readonly IWorkHistoryMapper _workHistoryMapper;
-    private readonly INotificationMapper _notificationMapper;
+    private readonly UserMapper _userMapper;
+    private readonly UserCertHistoryMapper _userCertHistoryMapper;
+    private readonly UserRoleMapper _userRoleMapper;
+    private readonly EmployeeMapper _employeeMapper;
+    private readonly WorkHistoryMapper _workHistoryMapper;
+    private readonly NotificationMapper _notificationMapper;
     private readonly MyMailService _mailService;
     #endregion
     
@@ -39,12 +39,12 @@ public class AuthService
     public AuthService(
         IConfiguration configuration,
         IHttpContextAccessor httpContextAccessor,
-        IUserMapper userMapper,
-        IUserCertHistoryMapper userCertHistoryMapper,
-        IUserRoleMapper userRoleMapper,
-        IEmployeeMapper employeeMapper,
-        IWorkHistoryMapper workHistoryMapper,
-        INotificationMapper notificationMapper,
+        UserMapper userMapper,
+        UserCertHistoryMapper userCertHistoryMapper,
+        UserRoleMapper userRoleMapper,
+        EmployeeMapper employeeMapper,
+        WorkHistoryMapper workHistoryMapper,
+        NotificationMapper notificationMapper,
         MyMailService mailService
     )
     {

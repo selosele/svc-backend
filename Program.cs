@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("secrets.json", optional: true, reloadOnChange: true);
 
 builder.Services.SingletonScan("Svc.App.", ".Services");
-builder.Services.InterfaceScan("Svc.App.", ".Mappers");
+builder.Services.SingletonScan("Svc.App.", ".Mappers");
 builder.Services.AutoMapperProfileScan("Svc.App.", ".Profiles");
 builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
 

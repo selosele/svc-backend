@@ -10,12 +10,12 @@ namespace Svc.App.Common.Notification.Services;
 public class NotificationService
 {
     #region Fields
-    private readonly INotificationMapper _notificationMapper;
+    private readonly NotificationMapper _notificationMapper;
     #endregion
     
     #region Constructor
     public NotificationService(
-        INotificationMapper notificationMapper
+        NotificationMapper notificationMapper
     )
     {
         _notificationMapper = notificationMapper;

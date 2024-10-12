@@ -7,7 +7,7 @@ namespace Svc.App.Common.User.Mappers;
 /// <summary>
 /// 사용자 매퍼 클래스
 /// </summary>
-public class UserMapper : IUserMapper
+public class UserMapper
 {
     #region Fields
     public ISqlMapper SqlMapper { get; }

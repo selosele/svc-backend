@@ -20,26 +20,26 @@ namespace Svc.App.Common.User.Services;
 public class UserService
 {
     #region Fields
-    private readonly IUserMapper _userMapper;
-    private readonly IUserRoleMapper _userRoleMapper;
-    private readonly IUserMenuRoleMapper _userMenuRoleMapper;
-    private readonly IMenuRoleMapper _menuRoleMapper;
-    private readonly IEmployeeMapper _employeeMapper;
-    private readonly IWorkHistoryMapper _workHistoryMapper;
-    private readonly INotificationMapper _notificationMapper;
+    private readonly UserMapper _userMapper;
+    private readonly UserRoleMapper _userRoleMapper;
+    private readonly UserMenuRoleMapper _userMenuRoleMapper;
+    private readonly MenuRoleMapper _menuRoleMapper;
+    private readonly EmployeeMapper _employeeMapper;
+    private readonly WorkHistoryMapper _workHistoryMapper;
+    private readonly NotificationMapper _notificationMapper;
     private readonly EmployeeService _employeeService;
     private readonly AuthService _authService;
     #endregion
     
     #region Constructor
     public UserService(
-        IUserMapper userMapper,
-        IUserRoleMapper userRoleMapper,
-        IUserMenuRoleMapper userMenuRoleMapper,
-        IMenuRoleMapper menuRoleMapper,
-        IEmployeeMapper employeeMapper,
-        IWorkHistoryMapper workHistoryMapper,
-        INotificationMapper notificationMapper,
+        UserMapper userMapper,
+        UserRoleMapper userRoleMapper,
+        UserMenuRoleMapper userMenuRoleMapper,
+        MenuRoleMapper menuRoleMapper,
+        EmployeeMapper employeeMapper,
+        WorkHistoryMapper workHistoryMapper,
+        NotificationMapper notificationMapper,
         EmployeeService employeeService,
         AuthService authService
     )

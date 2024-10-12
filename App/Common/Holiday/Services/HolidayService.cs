@@ -10,12 +10,12 @@ namespace Svc.App.Common.Holiday.Services;
 public class HolidayService
 {
     #region Fields
-    private readonly IHolidayMapper _holidayMapper;
+    private readonly HolidayMapper _holidayMapper;
     #endregion
     
     #region Constructor
     public HolidayService(
-        IHolidayMapper holidayMapper
+        HolidayMapper holidayMapper
     ) {
         _holidayMapper = holidayMapper;
     }

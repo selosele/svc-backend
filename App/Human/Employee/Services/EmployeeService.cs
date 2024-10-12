@@ -10,14 +10,14 @@ namespace Svc.App.Human.Employee.Services;
 public class EmployeeService
 {
     #region Fields
-    private readonly IEmployeeMapper _employeeMapper;
-    private readonly IWorkHistoryMapper _workHistoryMapper;
+    private readonly EmployeeMapper _employeeMapper;
+    private readonly WorkHistoryMapper _workHistoryMapper;
     #endregion
     
     #region Constructor
     public EmployeeService(
-        IEmployeeMapper employeeMapper,
-        IWorkHistoryMapper workHistoryMapper
+        EmployeeMapper employeeMapper,
+        WorkHistoryMapper workHistoryMapper
     )
     {
         _employeeMapper = employeeMapper;

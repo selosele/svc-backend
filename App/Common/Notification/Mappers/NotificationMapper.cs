@@ -6,7 +6,7 @@ namespace Svc.App.Common.Notification.Mappers;
 /// <summary>
 /// 알림 매퍼 클래스
 /// </summary>
-public class NotificationMapper : INotificationMapper
+public class NotificationMapper
 {
     #region Fields
     public ISqlMapper SqlMapper { get; }

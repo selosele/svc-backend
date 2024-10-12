@@ -6,7 +6,7 @@ namespace Svc.App.Common.Role.Mappers;
 /// <summary>
 /// 권한 매퍼 클래스
 /// </summary>
-public class RoleMapper : IRoleMapper
+public class RoleMapper
 {
     #region Fields
     public ISqlMapper SqlMapper { get; }

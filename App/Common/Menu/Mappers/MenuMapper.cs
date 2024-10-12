@@ -6,7 +6,7 @@ namespace Svc.App.Common.Menu.Mappers;
 /// <summary>
 /// 메뉴 매퍼 클래스
 /// </summary>
-public class MenuMapper : IMenuMapper
+public class MenuMapper
 {
     #region Fields
     public ISqlMapper SqlMapper { get; }

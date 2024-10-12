@@ -6,7 +6,7 @@ namespace Svc.App.Human.Company.Mappers;
 /// <summary>
 /// 회사 매퍼 클래스
 /// </summary>
-public class CompanyMapper : ICompanyMapper
+public class CompanyMapper
 {
     #region Fields
     public ISqlMapper SqlMapper { get; }

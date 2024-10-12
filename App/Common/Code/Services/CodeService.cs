@@ -10,12 +10,12 @@ namespace Svc.App.Common.Code.Services;
 public class CodeService
 {
     #region Fields
-    private readonly ICodeMapper _codeMapper;
+    private readonly CodeMapper _codeMapper;
     #endregion
     
     #region Constructor
     public CodeService(
-        ICodeMapper codeMapper
+        CodeMapper codeMapper
     ) {
         _codeMapper = codeMapper;
     }

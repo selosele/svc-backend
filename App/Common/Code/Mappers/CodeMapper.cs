@@ -6,7 +6,7 @@ namespace Svc.App.Common.Code.Mappers;
 /// <summary>
 /// 코드 매퍼 클래스
 /// </summary>
-public class CodeMapper : ICodeMapper
+public class CodeMapper
 {
     #region Fields
     public ISqlMapper SqlMapper { get; }

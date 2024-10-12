@@ -10,11 +10,11 @@ namespace Svc.App.Human.Vacation.Services;
 public class VacationService
 {
     #region Fields
-    private readonly IVacationMapper _vacationMapper;
+    private readonly VacationMapper _vacationMapper;
     #endregion
     
     #region Constructor
-    public VacationService(IVacationMapper vacationMapper)
+    public VacationService(VacationMapper vacationMapper)
     {
         _vacationMapper = vacationMapper;
     }

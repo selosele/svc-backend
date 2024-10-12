@@ -6,7 +6,7 @@ namespace Svc.App.Human.Employee.Mappers;
 /// <summary>
 /// 근무이력 매퍼 클래스
 /// </summary>
-public class WorkHistoryMapper : IWorkHistoryMapper
+public class WorkHistoryMapper
 {
     #region Fields
     public ISqlMapper SqlMapper { get; }

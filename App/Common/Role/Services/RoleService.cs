@@ -10,12 +10,12 @@ namespace Svc.App.Common.Role.Services;
 public class RoleService
 {
     #region Fields
-    private readonly IRoleMapper _roleMapper;
+    private readonly RoleMapper _roleMapper;
     #endregion
     
     #region Constructor
     public RoleService(
-        IRoleMapper roleMapper
+        RoleMapper roleMapper
     )
     {
         _roleMapper = roleMapper;

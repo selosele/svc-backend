@@ -10,11 +10,11 @@ namespace Svc.App.Human.Company.Services;
 public class CompanyService
 {
     #region Fields
-    private readonly ICompanyMapper _companyMapper;
+    private readonly CompanyMapper _companyMapper;
     #endregion
     
     #region Constructor
-    public CompanyService(ICompanyMapper companyMapper)
+    public CompanyService(CompanyMapper companyMapper)
     {
         _companyMapper = companyMapper;
     }

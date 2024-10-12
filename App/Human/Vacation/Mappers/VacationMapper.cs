@@ -6,7 +6,7 @@ namespace Svc.App.Human.Vacation.Mappers;
 /// <summary>
 /// 휴가 매퍼 인터페이스
 /// </summary>
-public class VacationMapper : IVacationMapper
+public class VacationMapper
 {
     #region Fields
     public ISqlMapper SqlMapper { get; }
