@@ -44,7 +44,7 @@ public record VacationResponseDTO
     /// <summary>
     /// 휴가 사용일수
     /// </summary>
-    public int? VacationUseCount { get; set; }
+    public double? VacationUseCount { get; set; }
 
     /// <summary>
     /// 삭제 여부

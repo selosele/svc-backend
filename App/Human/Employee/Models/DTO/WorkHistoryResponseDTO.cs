@@ -74,7 +74,7 @@ public record WorkHistoryResponseDTO
     /// <summary>
     /// 휴가 사용일수
     /// </summary>
-    public int? VacationUseCount { get; set; }
+    public double? VacationUseCount { get; set; }
     #endregion
 
 }
