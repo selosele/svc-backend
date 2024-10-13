@@ -127,13 +127,13 @@ public class UserService
 
         // 사용자 메뉴 권한 추가
         List<AddUserMenuRoleRequestDTO> addUserMenuRoleRequestDTOList = [];
-        foreach (var menuRole in menuRoleList)
+        foreach (var i in menuRoleList)
         {
             addUserMenuRoleRequestDTOList.Add(new AddUserMenuRoleRequestDTO
             {
                 UserId = userId,
-                MenuId = menuRole.MenuId,
-                RoleId = menuRole.RoleId,
+                MenuId = i.MenuId,
+                RoleId = i.RoleId,
                 CreaterId = dto.CreaterId
             });
         }
@@ -206,13 +206,13 @@ public class UserService
 
         // 사용자 메뉴 권한 추가
         List<AddUserMenuRoleRequestDTO> addUserMenuRoleRequestDTOList = [];
-        foreach (var menuRole in menuRoleList)
+        foreach (var i in menuRoleList)
         {
             addUserMenuRoleRequestDTOList.Add(new AddUserMenuRoleRequestDTO
             {
                 UserId = dto.UserId,
-                MenuId = menuRole.MenuId,
-                RoleId = menuRole.RoleId,
+                MenuId = i.MenuId,
+                RoleId = i.RoleId,
                 UpdaterId = dto.UpdaterId
             });
         }
