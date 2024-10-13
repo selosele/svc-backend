@@ -38,16 +38,17 @@ public static class ClaimsPrincipalExtension
             }
         };
 
-        // TODO: 로그인시 user.Roles에 권한 정보가 담기지만, API 호출시 user.Roles에 요소가 없음
-        // var roleList = principal?.Claims
-        //     .Where(x => x.Type == ClaimUtil.ROLES_IDENTIFIER)
-        //     .Select(x => x.Value)
-        //     .ToList();
+        // Claims에서 권한 목록을 추출해서
+        var roleList = principal?.Claims
+            .Where(x => x.Type == ClaimTypes.Role) // ClaimUtil.ROLES_IDENTIFIER 값이 아닌 ClaimTypes.Role 값이 들어가 있음
+            .Select(x => x.Value)
+            .ToList();
 
-        // foreach (var roleId in roleList!)
-        // {
-        //     user.Roles?.Add(new UserRoleResponseDTO { RoleId = roleId, UserId = user.UserId });
-        // }
+        // UserResponseDTO의 권한 목록에 담아준다.
+        foreach (var roleId in roleList!)
+        {
+            user.Roles?.Add(new UserRoleResponseDTO { RoleId = roleId, UserId = user.UserId });
+        }
         
         return user;
     }

@@ -376,7 +376,7 @@ public class AuthService
 
         foreach (var i in user.Roles!)
         {
-            claims.Add(new Claim(ClaimUtil.ROLES_IDENTIFIER, i.RoleId!));
+            claims.Add(new(ClaimUtil.ROLES_IDENTIFIER, i.RoleId!));
         }
 
         return claims;
