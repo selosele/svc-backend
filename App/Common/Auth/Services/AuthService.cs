@@ -212,7 +212,7 @@ public class AuthService
             PhoneNo = foundUser.PhoneNo,
             EmailAddr = foundUser.EmailAddr,
             CertCode = certCode,
-            CertMethodCode = "01",
+            CertMethodCode = "EMAIL",
             CertTypeCode = "02",
             ValidTime = 180 // 3분
         });
