@@ -34,11 +34,6 @@ public record SaveWorkHistoryRequestDTO : HttpRequestDTOBase
     public string? JobTitleCode { get; set; }
 
     /// <summary>
-    /// 연차발생기준 코드
-    /// </summary>
-    public string? AnnualTypeCode { get; set; }
-
-    /// <summary>
     /// 입사일자
     /// </summary>
     public string? JoinYmd { get; set; }
