@@ -31,7 +31,7 @@ public record GetUserRequestDTO : HttpRequestDTOBase
     /// <summary>
     /// 권한 ID 목록
     /// </summary>
-    public List<string>? RoleIdList { get; set; }
+    public IList<string>? RoleIdList { get; set; }
     #endregion
     
 }

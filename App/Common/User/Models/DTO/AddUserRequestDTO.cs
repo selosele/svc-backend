@@ -32,7 +32,7 @@ public record AddUserRequestDTO : HttpRequestDTOBase
     /// <summary>
     /// 권한 ID 목록
     /// </summary>
-    public List<string>? Roles { get; set; }
+    public IList<string>? Roles { get; set; }
 
     /// <summary>
     /// 직원 정보
