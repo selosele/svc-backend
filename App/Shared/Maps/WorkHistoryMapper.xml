@@ -27,46 +27,43 @@
     <Statement Id="ListWorkHistory" ResultMap="WorkHistoryResultMap">
       /* WorkHistoryMapper.ListWorkHistory */
 
-      SELECT
-        T.*,
-        FN_GET_VACATION_REMAIN_COUNT(T.JOIN_YMD, T.ANNUAL_TYPE_CODE, T.VACATION_USE_COUNT, @UserId) AS VACATION_REMAIN_COUNT
-      FROM (
+      WITH VACATION_CALC AS (
         SELECT
-          H.WORK_HISTORY_ID,
-          C.COMPANY_ID,
-          C.CORPORATE_NAME,
-          C.COMPANY_NAME,
-          H.RANK_CODE,
-          CD.CODE_NAME AS RANK_CODE_NAME,
-          H.JOB_TITLE_CODE,
-          CD2.CODE_NAME AS JOB_TITLE_CODE_NAME,
-          H.ANNUAL_TYPE_CODE,
-          H.JOIN_YMD,
-          H.QUIT_YMD,
-          TIMESTAMPDIFF(YEAR, H.JOIN_YMD, IFNULL(H.QUIT_YMD, SYSDATE())) AS WORK_DIFF_Y,
-          TIMESTAMPDIFF(MONTH, H.JOIN_YMD, IFNULL(H.QUIT_YMD, SYSDATE())) % 12 AS WORK_DIFF_M,
-          (
-            SELECT
-              IFNULL(SUM(FN_GET_VACATION_USE_COUNT(V.VACATION_START_YMD, V.VACATION_END_YMD, V.VACATION_TYPE_CODE, @UserId)), 0)
-            FROM HM_VACATION V
-            WHERE V.WORK_HISTORY_ID = H.WORK_HISTORY_ID
-              AND V.DELETE_YN = 'N'
-              <IsNotEmpty Property="VacationTypeCodes">
-              AND V.VACATION_TYPE_CODE IN
-                <For Property="VacationTypeCodes" Key="vacationTypeCode" Open="(" Separator="," Close=")">
-                  @vacationTypeCode
-                </For>
-              </IsNotEmpty>
-          ) AS VACATION_USE_COUNT
-        FROM HM_WORK_HISTORY H
-        INNER JOIN HM_COMPANY C ON C.COMPANY_ID = H.COMPANY_ID
-        LEFT JOIN CO_CODE CD ON CD.CODE_VALUE = H.RANK_CODE AND CD.UP_CODE_ID = 'RANK_00'
-        LEFT JOIN CO_CODE CD2 ON CD2.CODE_VALUE = H.JOB_TITLE_CODE AND CD2.UP_CODE_ID = 'JOB_TITLE_00'
-        WHERE H.EMPLOYEE_ID = @EmployeeId
-          AND H.DELETE_YN = 'N'
-      ) T
-      GROUP BY 1,2,3,4,5,6,7,8,9,10,11,12,13,14
-      ORDER BY T.JOIN_YMD DESC
+          V.WORK_HISTORY_ID,
+          IFNULL(SUM(FN_GET_VACATION_USE_COUNT(V.VACATION_START_YMD, V.VACATION_END_YMD, V.VACATION_TYPE_CODE, 1)), 0) AS VACATION_USE_COUNT
+        FROM HM_VACATION V
+        WHERE V.DELETE_YN = 'N'
+          <IsNotEmpty Property="VacationTypeCodes">
+          AND V.VACATION_TYPE_CODE IN
+            <For Property="VacationTypeCodes" Key="vacationTypeCode" Open="(" Separator="," Close=")">
+              @vacationTypeCode
+            </For>
+          </IsNotEmpty>
+      )
+      SELECT
+        H.WORK_HISTORY_ID,
+        C.COMPANY_ID,
+        C.CORPORATE_NAME,
+        C.COMPANY_NAME,
+        H.RANK_CODE,
+        CD.CODE_NAME AS RANK_CODE_NAME,
+        H.JOB_TITLE_CODE,
+        CD2.CODE_NAME AS JOB_TITLE_CODE_NAME,
+        H.ANNUAL_TYPE_CODE,
+        H.JOIN_YMD,
+        H.QUIT_YMD,
+        TIMESTAMPDIFF(YEAR, H.JOIN_YMD, IFNULL(H.QUIT_YMD, SYSDATE())) AS WORK_DIFF_Y,
+        TIMESTAMPDIFF(MONTH, H.JOIN_YMD, IFNULL(H.QUIT_YMD, SYSDATE())) % 12 AS WORK_DIFF_M,
+        IFNULL(VC.VACATION_USE_COUNT, 0) AS VACATION_USE_COUNT,
+        FN_GET_VACATION_REMAIN_COUNT(H.JOIN_YMD, H.ANNUAL_TYPE_CODE, IFNULL(VC.VACATION_USE_COUNT, 0), 1) AS VACATION_REMAIN_COUNT
+      FROM HM_WORK_HISTORY H
+      LEFT JOIN VACATION_CALC VC ON VC.WORK_HISTORY_ID = H.WORK_HISTORY_ID
+      INNER JOIN HM_COMPANY C ON C.COMPANY_ID = H.COMPANY_ID
+      LEFT JOIN CO_CODE CD ON CD.CODE_VALUE = H.RANK_CODE AND CD.UP_CODE_ID = 'RANK_00'
+      LEFT JOIN CO_CODE CD2 ON CD2.CODE_VALUE = H.JOB_TITLE_CODE AND CD2.UP_CODE_ID = 'JOB_TITLE_00'
+      WHERE H.EMPLOYEE_ID = @EmployeeId
+        AND H.DELETE_YN = 'N'
+      ORDER BY H.JOIN_YMD DESC
     </Statement>
 
     <!-- 근무이력을 조회한다. -->
