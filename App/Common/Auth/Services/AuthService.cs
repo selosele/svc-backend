@@ -213,7 +213,7 @@ public class AuthService
             EmailAddr = foundUser.EmailAddr,
             CertCode = certCode,
             CertMethodCode = "EMAIL",
-            CertTypeCode = "02",
+            CertTypeCode = "FIND_PW",
             ValidTime = 180 // 3분
         });
 
