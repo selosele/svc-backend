@@ -29,6 +29,11 @@ public record GetWorkHistoryRequestDTO : HttpRequestDTOBase
     public int? CompanyId { get; set; }
 
     /// <summary>
+    /// 연차발생기준 코드
+    /// </summary>
+    public string? AnnualTypeCode { get; set; }
+
+    /// <summary>
     /// 휴가 계산에 포함할 휴가 구분 코드 목록
     /// </summary>
     public IList<string>? VacationTypeCodes { get; set; }
