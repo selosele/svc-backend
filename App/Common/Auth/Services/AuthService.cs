@@ -101,7 +101,7 @@ public class AuthService
                         보안을 위해 반드시 비밀번호를 변경해주시기 바랍니다.
                     ",
                     NotificationTypeCode = "02",
-                    NotificationKindCode = "02",
+                    NotificationKindCode = "CHANGE_PW",
                     CreaterId = user.UserId
                 });
             }

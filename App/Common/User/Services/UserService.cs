@@ -267,7 +267,7 @@ public class UserService
             {
                 UpdaterId = dto.UserId,
                 UserId = dto.UserId,
-                NotificationKindCode = "02",
+                NotificationKindCode = "CHANGE_PW",
             });
         }
         return updateCount;
