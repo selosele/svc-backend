@@ -100,7 +100,7 @@ public class AuthService
                         임시 비밀번호의 유효시간은 2시간이므로 유효시간 내에 비밀번호를 변경하지 않으시면 다시 발급받으셔야 합니다.
                         보안을 위해 반드시 비밀번호를 변경해주시기 바랍니다.
                     ",
-                    NotificationTypeCode = "02",
+                    NotificationTypeCode = "URGENT",
                     NotificationKindCode = "CHANGE_PW",
                     CreaterId = user.UserId
                 });
@@ -114,7 +114,8 @@ public class AuthService
                     UserId = user.UserId,
                     NotificationTitle = "안녕하세요 환영합니다!",
                     NotiticationContent = "서비스 이용 중 문의사항은 시스템관리자(01055943384)에게 문의해주시기 바랍니다.",
-                    NotificationTypeCode = "01",
+                    NotificationTypeCode = "NORMAL",
+                    NotificationKindCode = "FIRST_LOGIN",
                     CreaterId = user.UserId
                 });
             }
