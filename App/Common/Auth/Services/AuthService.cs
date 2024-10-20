@@ -371,6 +371,7 @@ public class AuthService
             new(ClaimUtil.RANK_CODE_NAME_IDENTIFIER, user.Employee!.WorkHistories![0].RankCodeName?.ToString()!),
             new(ClaimUtil.JOB_TITLE_CODE_IDENTIFIER, user.Employee!.WorkHistories![0].JobTitleCode?.ToString()!),
             new(ClaimUtil.JOB_TITLE_CODE_NAME_IDENTIFIER, user.Employee!.WorkHistories![0].JobTitleCodeName?.ToString()!),
+            new(ClaimUtil.JOIN_YMD_IDENTIFIER, user.Employee!.WorkHistories![0].JoinYmd?.ToString()!),
             new(ClaimUtil.EMPLOYEE_ID_IDENTIFIER, user.Employee!.EmployeeId.ToString()!),
             new(ClaimUtil.EMPLOYEE_NAME_IDENTIFIER, user.Employee!.EmployeeName!)
         };

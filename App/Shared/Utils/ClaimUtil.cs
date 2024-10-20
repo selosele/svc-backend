@@ -47,6 +47,11 @@ public class ClaimUtil
     public const string JOB_TITLE_CODE_NAME_IDENTIFIER = "jobTitleCodeName";
 
     /// <summary>
+    /// 입사일자 식별자
+    /// </summary>
+    public const string JOIN_YMD_IDENTIFIER = "joinYmd";
+
+    /// <summary>
     /// 사용자 계정 식별자
     /// </summary>
     public const string USER_ACCOUNT_IDENTIFIER = "userAccount";
