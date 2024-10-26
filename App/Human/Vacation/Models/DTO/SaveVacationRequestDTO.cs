@@ -42,6 +42,11 @@ public record SaveVacationRequestDTO : HttpRequestDTOBase
     /// 휴가 종료일자
     /// </summary>
     public string? VacationEndYmd { get; set; }
+
+    /// <summary>
+    /// 휴가 사용일수
+    /// </summary>
+    public double? VacationUseCount { get; set; }
     #endregion
 
 }
