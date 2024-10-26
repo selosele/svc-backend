@@ -72,11 +72,6 @@ public record WorkHistoryResponseDTO
     public int? WorkDiffM { get; set; }
 
     /// <summary>
-    /// 휴가 사용일수
-    /// </summary>
-    public double? VacationUseCount { get; set; }
-
-    /// <summary>
     /// 잔여 휴가 개수
     /// </summary>
     public double? VacationRemainCount { get; set; }

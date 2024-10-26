@@ -16,7 +16,6 @@
       <Result Column="QUIT_YMD" Property="QuitYmd" />
       <Result Column="WORK_DIFF_Y" Property="WorkDiffY" />
       <Result Column="WORK_DIFF_M" Property="WorkDiffM" />
-      <Result Column="VACATION_USE_COUNT" Property="VacationUseCount" />
       <Result Column="VACATION_REMAIN_COUNT" Property="VacationRemainCount" />
     </ResultMap>
   </ResultMaps>
@@ -56,7 +55,6 @@
         H.QUIT_YMD,
         TIMESTAMPDIFF(YEAR, H.JOIN_YMD, IFNULL(H.QUIT_YMD, SYSDATE())) AS WORK_DIFF_Y,
         TIMESTAMPDIFF(MONTH, H.JOIN_YMD, IFNULL(H.QUIT_YMD, SYSDATE())) % 12 AS WORK_DIFF_M,
-        IFNULL(VC.VACATION_USE_COUNT, 0) AS VACATION_USE_COUNT,
         FN_GET_VACATION_REMAIN_COUNT(
           H.JOIN_YMD,
           @AnnualTypeCode,
