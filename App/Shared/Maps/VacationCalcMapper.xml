@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<SmartSqlMap Scope="VacationCalcMapper" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+  <ResultMaps>
+    <ResultMap Id="VacationCalcResultMap">
+      <Result Column="VACATION_CALC_ID" Property="VacationCalcId" />
+      <Result Column="EMPLOYEE_ID" Property="EmployeeId" />
+      <Result Column="ANNUAL_TYPE_CODE" Property="AnnualTypeCode" />
+      <Result Column="VACATION_TYPE_CODE" Property="VacationTypeCode" />
+    </ResultMap>
+  </ResultMaps>
+
+  <Statements>
+
+    <!-- 휴가 계산 설정 목록을 조회한다. -->
+    <Statement Id="ListVacationCalc" ResultMap="VacationCalcResultMap">
+      /* VacationCalcMapper.ListVacationCalc */
+
+      SELECT
+        C.VACATION_CALC_ID,
+        C.EMPLOYEE_ID,
+        C.ANNUAL_TYPE_CODE,
+        C.VACATION_TYPE_CODE
+      FROM HM_VACATION_CALC C
+      WHERE C.EMPLOYEE_ID = @EmployeeId
+    </Statement>
+
+    <!-- 휴가 계산 설정을 추가한다. -->
+    <Statement Id="AddVacationCalc">
+      /* VacationCalcMapper.AddVacationCalc */
+
+      INSERT INTO HM_VACATION_CALC (
+        EMPLOYEE_ID,
+        ANNUAL_TYPE_CODE,
+        VACATION_TYPE_CODE,
+        CREATER_ID
+      )
+      VALUES (
+        @EmployeeId,
+        @AnnualTypeCode,
+        @VacationTypeCode,
+        @CreaterId
+      )
+      ;SELECT LAST_INSERT_ID()
+    </Statement>
+
+    <!-- 휴가 계산 설정을 삭제한다. -->
+    <Statement Id="RemoveVacationCalc">
+      /* VacationCalcMapper.RemoveVacationCalc */
+
+      DELETE FROM HM_VACATION_CALC
+      WHERE EMPLOYEE_ID = @EmployeeId
+    </Statement>
+    
+  </Statements>
+</SmartSqlMap>

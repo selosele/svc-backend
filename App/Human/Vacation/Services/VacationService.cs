@@ -11,12 +11,17 @@ public class VacationService
 {
     #region Fields
     private readonly VacationMapper _vacationMapper;
+    private readonly VacationCalcMapper _vacationCalcMapper;
     #endregion
     
     #region Constructor
-    public VacationService(VacationMapper vacationMapper)
+    public VacationService(
+        VacationMapper vacationMapper,
+        VacationCalcMapper vacationCalcMapper
+    )
     {
         _vacationMapper = vacationMapper;
+        _vacationCalcMapper = vacationCalcMapper;
     }
     #endregion
 
@@ -58,6 +63,13 @@ public class VacationService
     [Transaction]
     public async Task<int> RemoveVacation(int vacationId, int? updaterId)
         => await _vacationMapper.RemoveVacation(vacationId, updaterId);
+
+    /// <summary>
+    /// 휴가 계산 설정 목록을 조회한다.
+    /// </summary>
+    [Transaction]
+    public async Task<IList<VacationCalcResponseDTO>> ListVacationCalc(int employeeId)
+        => await _vacationCalcMapper.ListVacationCalc(employeeId);
     #endregion
     
 }

@@ -87,6 +87,14 @@ public class VacationController : ControllerBase
         await _vacationService.RemoveVacation(vacationId, user.UserId);
         return NoContent();
     }
+
+    /// <summary>
+    /// 휴가 계산 설정 목록을 조회한다.
+    /// </summary>
+    [HttpGet("calcs/{employeeId}")]
+    [Authorize]
+    public async Task<ActionResult<List<VacationCalcResponseDTO>>> ListVacationCalc(int employeeId)
+        => Ok(await _vacationService.ListVacationCalc(employeeId));
     #endregion
 
 }
