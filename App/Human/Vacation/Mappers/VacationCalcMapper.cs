@@ -38,7 +38,7 @@ public class VacationCalcMapper
     /// </summary>
     public Task<int> AddVacationCalc(AddVacationCalcRequestDTO dto)
     {
-        return SqlMapper.ExecuteScalarAsync<int>(new RequestContext
+        return SqlMapper.ExecuteAsync(new RequestContext
         {
             Scope = nameof(VacationCalcMapper),
             SqlId = "AddVacationCalc",
