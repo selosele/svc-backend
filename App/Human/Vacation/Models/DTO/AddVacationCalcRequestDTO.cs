@@ -19,9 +19,9 @@ public record AddVacationCalcRequestDTO : HttpRequestDTOBase
     public string? AnnualTypeCode { get; set; }
 
     /// <summary>
-    /// 휴가 구분 코드
+    /// 휴가 구분 코드 목록
     /// </summary>
-    public string? VacationTypeCode { get; set; }
+    public IList<string>? VacationTypeCodes { get; set; }
     #endregion
 
 }

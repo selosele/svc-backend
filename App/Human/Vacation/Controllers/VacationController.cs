@@ -95,6 +95,25 @@ public class VacationController : ControllerBase
     [Authorize]
     public async Task<ActionResult<List<VacationCalcResponseDTO>>> ListVacationCalc(int employeeId)
         => Ok(await _vacationService.ListVacationCalc(employeeId));
+
+    /// <summary>
+    /// 휴가 계산 설정을 추가한다.
+    /// </summary>
+    [HttpPost("calcs/{employeeId}")]
+    [Authorize]
+    public async Task<ActionResult<int>> AddVacationCalc(int employeeId, [FromBody] AddVacationCalcRequestDTO dto)
+    {
+        var user = _authService.GetAuthenticatedUser();
+        var myEmployeeId = user.Employee?.EmployeeId;
+
+        if (employeeId != myEmployeeId)
+            return NotFound();
+
+        dto.EmployeeId = myEmployeeId;
+        dto.CreaterId = user.UserId;
+
+        return Created(string.Empty, await _vacationService.AddVacationCalc(dto));
+    }
     #endregion
 
 }

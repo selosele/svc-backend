@@ -35,13 +35,10 @@
         VACATION_TYPE_CODE,
         CREATER_ID
       )
-      VALUES (
-        @EmployeeId,
-        @AnnualTypeCode,
-        @VacationTypeCode,
-        @CreaterId
-      )
-      ;SELECT LAST_INSERT_ID()
+      VALUES
+      <For Property="DTO.VacationTypeCodes" Key="vacationTypeCode" Open="" Close="" Separator=",">
+        (@DTO.EmployeeId, @DTO.AnnualTypeCode, @vacationTypeCode, @DTO.CreaterId)
+      </For>
     </Statement>
 
     <!-- 휴가 계산 설정을 삭제한다. -->

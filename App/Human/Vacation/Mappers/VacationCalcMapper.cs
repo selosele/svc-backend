@@ -42,20 +42,20 @@ public class VacationCalcMapper
         {
             Scope = nameof(VacationCalcMapper),
             SqlId = "AddVacationCalc",
-            Request = dto
+            Request = new { DTO = dto }
         });
     }
 
     /// <summary>
     /// 휴가 계산 설정을 삭제한다.
     /// </summary>
-    public Task<int> RemoveVacationCalc(int? workHistoryId)
+    public Task<int> RemoveVacationCalc(int? employeeId)
     {
         return SqlMapper.ExecuteAsync(new RequestContext
         {
             Scope = nameof(VacationCalcMapper),
             SqlId = "RemoveVacationCalc",
-            Request = new { workHistoryId }
+            Request = new { employeeId }
         });
     }
     #endregion
