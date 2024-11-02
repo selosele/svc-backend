@@ -27,6 +27,11 @@ public record VacationResponseDTO
     public string? VacationTypeCode { get; set; }
 
     /// <summary>
+    /// 휴가 구분 코드명
+    /// </summary>
+    public string? VacationTypeCodeName { get; set; }
+
+    /// <summary>
     /// 휴가 내용
     /// </summary>
     public string? VacationContent { get; set; }

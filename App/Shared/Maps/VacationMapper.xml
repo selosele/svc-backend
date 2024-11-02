@@ -7,6 +7,7 @@
       <Result Column="EMPLOYEE_ID" Property="EmployeeId" />
       <Result Column="WORK_HISTORY_ID" Property="WorkHistoryId" />
       <Result Column="VACATION_TYPE_CODE" Property="VacationTypeCode" />
+      <Result Column="VACATION_TYPE_CODE_NAME" Property="VacationTypeCodeName" />
       <Result Column="VACATION_CONTENT" Property="VacationContent" />
       <Result Column="VACATION_START_YMD" Property="VacationStartYmd" />
       <Result Column="VACATION_END_YMD" Property="VacationEndYmd" />
@@ -26,12 +27,14 @@
         V.EMPLOYEE_ID,
         V.WORK_HISTORY_ID,
         V.VACATION_TYPE_CODE,
+        CD.CODE_NAME AS VACATION_TYPE_CODE_NAME,
         V.VACATION_CONTENT,
         V.VACATION_START_YMD,
         V.VACATION_END_YMD,
         V.VACATION_USE_COUNT,
         V.DELETE_YN
       FROM HM_VACATION V
+      LEFT JOIN CO_CODE CD ON CD.CODE_VALUE =  V.VACATION_TYPE_CODE AND CD.UP_CODE_ID = 'VACATION_TYPE_00'
       WHERE V.DELETE_YN = 'N'
         AND V.WORK_HISTORY_ID = @WorkHistoryId
       ORDER BY V.VACATION_START_YMD DESC
