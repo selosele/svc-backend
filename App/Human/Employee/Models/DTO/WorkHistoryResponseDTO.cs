@@ -62,7 +62,7 @@ public record WorkHistoryResponseDTO
     public string? QuitYmd { get; set; }
 
     /// <summary>
-    /// 재직기간(년도)
+    /// 재직기간(연도)
     /// </summary>
     public int? WorkDiffY { get; set; }
 
