@@ -22,6 +22,16 @@ public record GetVacationRequestDTO : HttpRequestDTOBase
     /// 사용자 ID
     /// </summary>
     public int? UserId { get; set; }
+
+    /// <summary>
+    /// 휴가 시작일자
+    /// </summary>
+    public string? VacationStartYmd { get; set; }
+
+    /// <summary>
+    /// 휴가 종료일자
+    /// </summary>
+    public string? VacationEndYmd { get; set; }
     #endregion
 
 }

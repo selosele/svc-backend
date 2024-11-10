@@ -37,7 +37,13 @@
       LEFT JOIN CO_CODE CD ON CD.CODE_VALUE =  V.VACATION_TYPE_CODE AND CD.UP_CODE_ID = 'VACATION_TYPE_00'
       WHERE V.DELETE_YN = 'N'
         AND V.WORK_HISTORY_ID = @WorkHistoryId
-      ORDER BY V.VACATION_START_YMD DESC
+        <IsNotEmpty Property="VacationStartYmd">
+        AND V.VACATION_START_YMD &gt;= @VacationStartYmd
+        </IsNotEmpty>
+        <IsNotEmpty Property="VacationEndYmd">
+        AND V.VACATION_END_YMD &lt;= @VacationEndYmd
+        </IsNotEmpty>
+      ORDER BY V.VACATION_START_YMD DESC, V.VACATION_END_YMD DESC
     </Statement>
 
     <!-- 휴가를 조회한다. -->
