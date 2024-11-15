@@ -18,7 +18,6 @@ public record LoginRequestDTO : HttpRequestDTOBase
     /// <summary>
     /// 사용자 비밀번호
     /// </summary>
-    [MaxLength(12)]
     public string? UserPassword { get; set; }
 
     /// <summary>
