@@ -18,6 +18,9 @@ public class APIResponse
     #region Fields
     [JsonProperty("body")]
     public ResponseBody? Body { get; set; }
+
+    [JsonProperty("header")]
+    public Header? Header { get; set; }
     #endregion
 }
 
@@ -43,5 +46,16 @@ public class Items
     #region Fields
     [JsonProperty("item")]
     public List<CompanyOpenAPIResponseDTO>? Item { get; set; }
+    #endregion
+}
+
+public class Header
+{
+    #region Fields
+    [JsonProperty("resultCode")]
+    public string? ResultCode { get; set; }
+
+    [JsonProperty("resultMsg")]
+    public string? ResultMsg { get; set; }
     #endregion
 }
