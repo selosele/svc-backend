@@ -7,7 +7,7 @@
 ## 기술스택 및 개발환경 (백엔드)
 
 - `.NET` - v8.0.105
-- `ASP.NET Core` - v6.4.0
+- `ASP.NET Core` - v8.0.5
 - `MariaDB` - v10.6.16
 - `WSL2` - Ubuntu 22.04 LTS
 
