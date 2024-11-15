@@ -27,6 +27,16 @@ public record GetCompanyRequestDTO : HttpRequestDTOBase
     /// 사업자등록번호
     /// </summary>
     public string? RegistrationNo { get; set; }
+
+    /// <summary>
+    /// 페이지 번호
+    /// </summary>
+    public int? PageNo { get; set; } = 1;
+
+    /// <summary>
+    /// 페이지당 표시할 결과 개수
+    /// </summary>
+    public int? NumOfRows { get; set; } = 10;
     #endregion
     
 }

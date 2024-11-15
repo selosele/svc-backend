@@ -32,6 +32,14 @@ public class CompanyController : ControllerBase
     [Authorize]
     public async Task<ActionResult<List<CompanyResponseDTO>>> ListCompany([FromQuery] GetCompanyRequestDTO? dto)
         => Ok(await _companyService.ListCompany(dto));
+
+    /// <summary>
+    /// 금융위원회_기업기본정보 - 기업개요조회 API로 회사 목록을 조회한다.
+    /// </summary>
+    [HttpGet("openapi")]
+    [Authorize]
+    public async Task<ActionResult<List<CompanyResponseDTO>>> ListCompanyOpenAPI([FromQuery] GetCompanyRequestDTO? dto)
+        => Ok(await _companyService.ListCompanyOpenAPI(dto));
     #endregion
 
 }
