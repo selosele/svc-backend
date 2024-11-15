@@ -13,6 +13,7 @@
     <PackageReference Include="MailKit" Version="4.7.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.6" />
     <PackageReference Include="MySql.Data" Version="8.4.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="SmartSql" Version="4.1.67" />
     <PackageReference Include="SmartSql.AOP" Version="4.1.67" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
