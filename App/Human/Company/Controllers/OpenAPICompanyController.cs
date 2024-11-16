@@ -9,7 +9,7 @@ namespace Svc.App.Human.Company.Controllers;
 /// 회사(Open API 사용) 컨트롤러 클래스
 /// </summary>
 [ApiController]
-[Route("api/hm/openapi/companies")]
+[Route("api/public/hm/companies")]
 public class OpenAPICompanyController : ControllerBase
 {
     #region Fields
@@ -30,7 +30,7 @@ public class OpenAPICompanyController : ControllerBase
     /// </summary>
     [HttpGet]
     [Authorize]
-    public async Task<ActionResult<List<CompanyResponseDTO>>> ListCompanyOpenAPI([FromQuery] GetCompanyRequestDTO? dto)
+    public async Task<ActionResult<List<CompanyResponseDTO>>> ListCompany([FromQuery] GetCompanyRequestDTO? dto)
         => Ok(await _companyService.ListCompanyOpenAPI(dto));
     #endregion
 
