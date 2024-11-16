@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<SmartSqlMap Scope="CompanyApplyMapper" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+  <ResultMaps>
+    <ResultMap Id="CompanyApplyResultMap">
+      <Result Column="COMPANY_APPLY_ID" Property="CompanyApplyId" />
+      <Result Column="REGISTRATION_NO" Property="RegistrationNo" />
+      <Result Column="CORPORATE_NAME" Property="CorporateName" />
+      <Result Column="COMPANY_NAME" Property="CompanyName" />
+      <Result Column="APPLY_CONTENT" Property="ApplyContent" />
+      <Result Column="APPLY_STATE_CODE" Property="ApplyStateCode" />
+      <Result Column="APPLY_STATE_CODE_NAME" Property="ApplyStateCodeName" />
+      <Result Column="APPLICANT_ID" Property="ApplicantId" />
+      <Result Column="APPLICANT_NAME" Property="ApplicantName" />
+      <Result Column="APPLY_DT" Property="ApplyDt" />
+    </ResultMap>
+  </ResultMaps>
+
+  <Statements>
+
+    <!-- 회사등록신청 목록을 조회한다. -->
+    <Statement Id="ListCompanyApply" ResultMap="CompanyApplyResultMap">
+      /* CompanyApplyMapper.ListCompanyApply */
+
+      SELECT
+        CA.COMPANY_APPLY_ID,
+        CA.REGISTRATION_NO,
+        CA.CORPORATE_NAME,
+        CA.COMPANY_NAME,
+        CA.APPLY_CONTENT,
+        CA.APPLY_STATE_CODE,
+        CD.CODE_NAME AS APPLY_STATE_CODE_NAME,
+        CA.APPLICANT_ID,
+        E.EMPLOYEE_NAME AS APPLICANT_NAME,
+        CA.APPLY_DT
+      FROM HM_COMPANY_APPLY CA
+      LEFT JOIN CO_CODE CD ON CD.CODE_VALUE = CA.APPLY_STATE_CODE AND CD.UP_CODE_ID = 'APPLY_STATE_00'
+      INNER JOIN HM_EMPLOYEE E ON E.USER_ID = CA.APPLICANT_ID
+      ORDER BY CA.APPLY_DT DESC
+    </Statement>
+
+    <!-- 회사등록신청을 추가한다. -->
+    <Statement Id="AddCompanyApply">
+      /* CompanyApplyMapper.AddCompanyApply */
+
+      INSERT INTO HM_COMPANY_APPLY (
+        REGISTRATION_NO,
+        CORPORATE_NAME,
+        COMPANY_NAME,
+        APPLY_CONTENT,
+        APPLY_STATE_CODE,
+        APPLICANT_ID,
+        CREATER_ID
+      )
+      VALUES (
+        REPLACE(@RegistrationNo, '-', ''),
+        @CorporateName,
+        @CompanyName,
+        @ApplyContent,
+        @ApplyStateCode,
+        @CreaterId,
+        @CreaterId
+      )
+      ;SELECT LAST_INSERT_ID()
+    </Statement>
+
+    <!-- 회사등록신청을 수정한다. -->
+    <Statement Id="UpdateCompanyApply">
+      /* CompanyApplyMapper.UpdateCompanyApply */
+
+      UPDATE HM_COMPANY_APPLY
+        SET
+          APPLY_STATE_CODE = @ApplyStateCode,
+          UPDATER_ID = @UpdaterId,
+          UPDATE_DT = SYSDATE()
+      WHERE COMPANY_APPLY_ID = @CompanyApplyId
+    </Statement>
+    
+  </Statements>
+</SmartSqlMap>

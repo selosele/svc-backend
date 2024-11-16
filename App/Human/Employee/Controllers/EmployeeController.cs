@@ -89,6 +89,7 @@ public class EmployeeController : ControllerBase
 
         dto.EmployeeId = myEmployeeId;
         dto.CreaterId = user.UserId;
+        dto.UpdaterId = user.UserId;
 
         return Created(string.Empty, await _employeeService.AddWorkHistory(dto));
     }
@@ -106,6 +107,8 @@ public class EmployeeController : ControllerBase
         if (employeeId != myEmployeeId)
             return NotFound();
 
+        dto.EmployeeId = myEmployeeId;
+        dto.CreaterId = user.UserId;
         dto.UpdaterId = user.UserId;
 
         return Ok(await _employeeService.UpdateWorkHistory(dto));

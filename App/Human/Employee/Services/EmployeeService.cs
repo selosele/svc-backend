@@ -1,6 +1,8 @@
 using SmartSql.AOP;
 using Svc.App.Human.Employee.Models.DTO;
 using Svc.App.Human.Employee.Mappers;
+using Svc.App.Human.Company.Mappers;
+using Svc.App.Human.Company.Models.DTO;
 
 namespace Svc.App.Human.Employee.Services;
 
@@ -11,16 +13,19 @@ public class EmployeeService
 {
     #region Fields
     private readonly EmployeeMapper _employeeMapper;
+    private readonly CompanyMapper _companyMapper;
     private readonly WorkHistoryMapper _workHistoryMapper;
     #endregion
     
     #region Constructor
     public EmployeeService(
         EmployeeMapper employeeMapper,
+        CompanyMapper companyMapper,
         WorkHistoryMapper workHistoryMapper
     )
     {
         _employeeMapper = employeeMapper;
+        _companyMapper = companyMapper;
         _workHistoryMapper = workHistoryMapper;
     }
     #endregion
@@ -107,6 +112,24 @@ public class EmployeeService
     [Transaction]
     public async Task<int> AddWorkHistory(SaveWorkHistoryRequestDTO dto)
     {
+        // 회사 ID가 없으면(Open API로 회사 정보를 조회해서 선택한경우) 회사 정보가 존재하는지 확인해서
+        var companyCount = await _companyMapper.CountCompany(new GetCompanyRequestDTO
+        {
+            CompanyId = dto.CompanyId,
+            RegistrationNo = dto.RegistrationNo
+        });
+
+        // 없으면 회사 정보를 추가한다.
+        if (companyCount == 0) {
+            await _companyMapper.AddCompany(new AddCompanyRequestDTO
+            {
+                RegistrationNo = dto.RegistrationNo,
+                CorporateName = dto.CorporateName,
+                CompanyName = dto.CompanyName,
+                CreaterId = dto.EmployeeId,
+            });
+        }
+
         // 퇴사일자 값이 없으면 재직 중인 회사이므로 직원 정보도 수정해준다.
         if (string.IsNullOrWhiteSpace(dto.QuitYmd))
         {
@@ -130,6 +153,24 @@ public class EmployeeService
     [Transaction]
     public async Task<int> UpdateWorkHistory(SaveWorkHistoryRequestDTO dto)
     {
+        // 회사 ID가 없으면(Open API로 회사 정보를 조회해서 선택한경우) 회사 정보가 존재하는지 확인해서
+        var companyCount = await _companyMapper.CountCompany(new GetCompanyRequestDTO
+        {
+            CompanyId = dto.CompanyId,
+            RegistrationNo = dto.RegistrationNo
+        });
+
+        // 없으면 회사 정보를 추가한다.
+        if (companyCount == 0) {
+            await _companyMapper.AddCompany(new AddCompanyRequestDTO
+            {
+                RegistrationNo = dto.RegistrationNo,
+                CorporateName = dto.CorporateName,
+                CompanyName = dto.CompanyName,
+                CreaterId = dto.EmployeeId,
+            });
+        }
+
         // 퇴사일자 값이 없으면 재직 중인 회사이므로 직원 정보도 수정해준다.
         if (string.IsNullOrWhiteSpace(dto.QuitYmd))
         {

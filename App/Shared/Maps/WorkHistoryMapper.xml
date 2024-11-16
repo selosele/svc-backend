@@ -7,6 +7,7 @@
       <Result Column="COMPANY_ID" Property="CompanyId" />
       <Result Column="CORPORATE_NAME" Property="CorporateName" />
       <Result Column="COMPANY_NAME" Property="CompanyName" />
+      <Result Column="REGISTRATION_NO" Property="RegistrationNo" />
       <Result Column="RANK_CODE" Property="RankCode" />
       <Result Column="RANK_CODE_NAME" Property="RankCodeName" />
       <Result Column="JOB_TITLE_CODE" Property="JobTitleCode" />
@@ -80,6 +81,7 @@
         C.COMPANY_ID,
         C.CORPORATE_NAME,
         C.COMPANY_NAME,
+        C.REGISTRATION_NO,
         H.RANK_CODE,
         H.JOB_TITLE_CODE,
         H.JOIN_YMD,
@@ -113,7 +115,9 @@
       )
       VALUES (
         @EmployeeId,
-        @CompanyId,
+        IFNULL(@CompanyId, (
+          SELECT C.COMPANY_ID FROM HM_COMPANY C WHERE C.REGISTRATION_NO = @RegistrationNo
+        )),
         @RankCode,
         @JobTitleCode,
         @JoinYmd,

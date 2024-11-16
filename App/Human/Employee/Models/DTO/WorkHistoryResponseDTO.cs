@@ -27,6 +27,11 @@ public record WorkHistoryResponseDTO
     public string? CompanyName { get; set; }
 
     /// <summary>
+    /// 사업자등록번호
+    /// </summary>
+    public string? RegistrationNo { get; set; }
+
+    /// <summary>
     /// 직위 코드
     /// </summary>
     public string? RankCode { get; set; }

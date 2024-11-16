@@ -32,6 +32,32 @@ public class CompanyMapper
             Request = dto
         });
     }
+
+    /// <summary>
+    /// 회사 정보가 존재하는지 확인한다.
+    /// </summary>
+    public Task<int> CountCompany(GetCompanyRequestDTO dto)
+    {
+        return SqlMapper.QuerySingleAsync<int>(new RequestContext
+        {
+            Scope = nameof(CompanyMapper),
+            SqlId = "CountCompany",
+            Request = dto
+        });
+    }
+
+    /// <summary>
+    /// 회사를 추가한다.
+    /// </summary>
+    public Task<int> AddCompany(AddCompanyRequestDTO dto)
+    {
+        return SqlMapper.ExecuteScalarAsync<int>(new RequestContext
+        {
+            Scope = nameof(CompanyMapper),
+            SqlId = "AddCompany",
+            Request = dto
+        });
+    }
     #endregion
 
 }

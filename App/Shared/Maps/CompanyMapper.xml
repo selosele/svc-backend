@@ -25,16 +25,51 @@
         C.DELETE_YN
       FROM HM_COMPANY C
       WHERE C.DELETE_YN = @DeleteYn
-        <IsNotEmpty Property="CorporateName">
-        AND C.CORPORATE_NAME LIKE CONCAT('%', @CorporateName, '%')
-        </IsNotEmpty>
         <IsNotEmpty Property="CompanyName">
-        AND C.COMPANY_NAME LIKE CONCAT('%', @CompanyName, '%')
+        AND (
+          C.CORPORATE_NAME LIKE CONCAT('%', @CompanyName, '%')
+          OR C.COMPANY_NAME LIKE CONCAT('%', @CompanyName, '%')
+        )
         </IsNotEmpty>
         <IsNotEmpty Property="RegistrationNo">
         AND C.REGISTRATION_NO LIKE CONCAT('%', @RegistrationNo, '%')
         </IsNotEmpty>
       ORDER BY C.CORPORATE_NAME, C.COMPANY_NAME
+    </Statement>
+
+    <!-- 회사 정보가 존재하는지 확인한다. -->
+    <Statement Id="CountCompany">
+      /* CompanyMapper.CountCompany */
+
+      SELECT
+        COUNT(1)
+      FROM HM_COMPANY C
+      WHERE 1=1
+        <IsNotEmpty Property="CompanyId">
+        AND C.COMPANY_ID = @CompanyId
+        </IsNotEmpty>
+        <IsNotEmpty Property="RegistrationNo">
+        AND C.REGISTRATION_NO = @RegistrationNo
+        </IsNotEmpty>
+    </Statement>
+
+    <!-- 회사를 추가한다. -->
+    <Statement Id="AddCompany">
+      /* CompanyMapper.AddCompany */
+
+      INSERT INTO HM_COMPANY (
+        REGISTRATION_NO,
+        CORPORATE_NAME,
+        COMPANY_NAME,
+        CREATER_ID
+      )
+      VALUES (
+        REPLACE(@RegistrationNo, '-', ''),
+        @CorporateName,
+        @CompanyName,
+        @CreaterId
+      )
+      ;SELECT LAST_INSERT_ID()
     </Statement>
     
   </Statements>
