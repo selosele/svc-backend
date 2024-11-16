@@ -93,12 +93,12 @@ public class UserService
         // 사용자 중복 체크
         var foundUser = await GetUser(new GetUserRequestDTO { UserAccount = dto.UserAccount });
         if (foundUser != null)
-            throw new BizException("중복된 사용자입니다. 입력하신 정보를 다시 확인하세요.");
+            throw new BizException("해당 사용자는 이미 존재해요. 입력하신 정보를 다시 확인하세요.");
 
         // 직원 이메일주소 중복 체크
         var foundEmailCount = await _employeeMapper.CountEmployeeEmailAddr(dto.Employee!.EmailAddr!, null);
         if (foundEmailCount > 0)
-            throw new BizException("중복된 이메일주소입니다. 입력하신 정보를 다시 확인하세요.");
+            throw new BizException("이메일주소가 이미 있어요. 입력하신 정보를 다시 확인하세요.");
 
         // 비밀번호 암호화
         dto.UserPassword = EncryptUtil.Encrypt(dto.UserPassword!);
@@ -174,7 +174,7 @@ public class UserService
         // 직원 이메일주소 중복 체크
         var foundEmailCount = await _employeeMapper.CountEmployeeEmailAddr(dto.Employee!.EmailAddr!, dto.Employee.EmployeeId);
         if (foundEmailCount > 0)
-            throw new BizException("중복된 이메일주소입니다. 입력하신 정보를 다시 확인하세요.");
+            throw new BizException("이메일주소가 이미 있어요. 입력하신 정보를 다시 확인하세요.");
 
         var user = _authService.GetAuthenticatedUser();
         dto.UpdaterId = user.UserId;

@@ -21,7 +21,7 @@ public class RandomStringGeneratorUtil
     /// </summary>
     public static string Generate(int length)
     {
-        if (length <= 0) throw new ArgumentException("0 이상의 숫자가 입력되어야 합니다.");
+        if (length <= 0) throw new ArgumentException("0 이상의 숫자가 입력되어야 해요.");
 
         var result = new StringBuilder(length);     // 생성할 문자열을 저장할 StringBuilder 초기화
         var rng = RandomNumberGenerator.Create();   // 암호학적으로 안전한 난수 생성기를 사용하여 난수 생성

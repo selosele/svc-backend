@@ -76,7 +76,7 @@ public class AuthService
         {
             // 비활성화된 사용자는 로그인하지 못하도록 한다.
             if (user.UserActiveYn == "N")
-                throw new BizException("비활성화된 사용자입니다.");
+                throw new BizException("해당 사용자는 비활성화되었어요.");
 
             // 비밀번호를 비교한다.
             var isPasswordMatch = EncryptUtil.Verify(dto.UserPassword!, user.UserPassword!);
@@ -94,11 +94,11 @@ public class AuthService
                 await _notificationMapper.AddNotification(new AddNotificationRequestDTO
                 {
                     UserId = user.UserId,
-                    NotificationTitle = "임시 비밀번호를 변경해주시기 바랍니다.",
+                    NotificationTitle = "임시 비밀번호를 변경해주세요.",
                     NotiticationContent = $@"
-                        회원님께서는 {DateTime.Parse(user.TempPasswordDt!):yyyy-MM-dd HH:mm:ss} 임시 비밀번호를 발급받으셨습니다.
-                        임시 비밀번호의 유효시간은 2시간이므로 유효시간 내에 비밀번호를 변경하지 않으시면 다시 발급받으셔야 합니다.
-                        보안을 위해 반드시 비밀번호를 변경해주시기 바랍니다.
+                        회원님께서는 {DateTime.Parse(user.TempPasswordDt!):yyyy-MM-dd HH:mm:ss} 임시 비밀번호를 발급받으셨어요.
+                        임시 비밀번호의 유효시간은 2시간이므로 유효시간 내에 비밀번호를 변경하지 않으시면 다시 발급받으셔야 해요.
+                        보안을 위해 반드시 비밀번호를 변경해주세요.
                     ",
                     NotificationTypeCode = "URGENT",
                     NotificationKindCode = "CHANGE_PW",
@@ -112,8 +112,8 @@ public class AuthService
                 await _notificationMapper.AddNotification(new AddNotificationRequestDTO
                 {
                     UserId = user.UserId,
-                    NotificationTitle = "안녕하세요 환영합니다!",
-                    NotiticationContent = "서비스 이용 중 문의사항은 시스템관리자(01055943384)에게 문의해주시기 바랍니다.",
+                    NotificationTitle = "안녕하세요 반가워요.",
+                    NotiticationContent = "서비스 이용 중 문의사항은 시스템관리자(01055943384)에게 문의해주세요.",
                     NotificationTypeCode = "NORMAL",
                     NotificationKindCode = "FIRST_LOGIN",
                     CreaterId = user.UserId
@@ -167,7 +167,7 @@ public class AuthService
     public async Task<bool> FindUserAccount(FindUserInfoRequestDTO dto)
     {
         var foundUser = await _userMapper.GetUserFindInfo(dto)
-            ?? throw new BizException("가입된 정보가 없습니다. 입력하신 정보를 다시 확인하세요.");
+            ?? throw new BizException("가입된 정보가 없어요. 입력하신 정보를 다시 확인하세요.");
 
         var mailSend = await _mailService.Send(new SendMailDTO
         {
@@ -175,7 +175,7 @@ public class AuthService
             Subject = "아이디 확인 메일",
             Body = $@"
                 <p>{foundUser?.EmployeeName}님 안녕하세요.</p><br>
-                <p>회원님께서 조회하신 아이디는 다음과 같습니다.</p<br>
+                <p>회원님께서 조회하신 아이디는 아래와 같아요.</p<br>
 
                 <ul>
                     <li>아이디: <strong>{foundUser?.UserAccount}</strong></li>
@@ -183,13 +183,13 @@ public class AuthService
                     <li>마지막 로그인 일시: {DateTime.Parse(foundUser?.LastLoginDt!):yyyy-MM-dd HH:mm:ss}</li>
                 </ul>
 
-                <p>아이디 확인 요청을 한 사람이 본인이 아닌 경우, 보안을 위해 시스템관리자(010-5594-3384)에게 연락해주시기 바랍니다.</p><br>
+                <p>아이디 확인 요청을 한 사람이 본인이 아닌 경우, 보안을 위해 시스템관리자(010-5594-3384)에게 연락해주세요.</p><br>
                 <p>감사합니다.</p>
             "
         });
 
         if (!mailSend)
-            throw new BizException("메일 발송에 실패했습니다.");
+            throw new BizException("메일 발송에 실패했어요.");
 
         return true;
     }
@@ -201,7 +201,7 @@ public class AuthService
     public async Task<UserCertHistoryResponseDTO> FindUserPassword1(FindUserInfoRequestDTO dto)
     {
         var foundUser = await _userMapper.GetUserFindInfo(dto)
-            ?? throw new BizException("가입된 정보가 없습니다. 입력하신 정보를 다시 확인하세요.");
+            ?? throw new BizException("가입된 정보가 없어요. 입력하신 정보를 다시 확인하세요.");
 
         // 본인인증 코드 생성
         var certCode = RandomStringGeneratorUtil.Generate(6);
@@ -235,7 +235,7 @@ public class AuthService
             Subject = "비밀번호 찾기 본인인증 메일",
             Body = $@"
                 <p>{foundUser?.EmployeeName}님 안녕하세요.</p><br>
-                <p>비밀번호 찾기를 위한 인증코드는 다음과 같습니다.</p><br>
+                <p>비밀번호 찾기를 위한 인증코드는 아래와 같아요.</p><br>
 
                 <ul>
                     <li>인증코드: <strong>{userCertHistory.CertCode}</strong></li>
@@ -243,13 +243,13 @@ public class AuthService
                     <li>인증코드 유효시간: {validTimeToMinute}분</li>
                 </ul>
 
-                <p>본인인증 요청을 한 사람이 본인이 아닌 경우, 보안을 위해 시스템관리자(010-5594-3384)에게 연락해주시기 바랍니다.</p><br>
+                <p>본인인증 요청을 한 사람이 본인이 아닌 경우, 보안을 위해 시스템관리자(010-5594-3384)에게 연락해주세요.</p><br>
                 <p>감사합니다.</p>
             "
         });
 
         if (!mailSend)
-            throw new BizException("메일 발송에 실패했습니다.");
+            throw new BizException("메일 발송에 실패했어요.");
 
         return userCertHistory;
     }
@@ -261,7 +261,7 @@ public class AuthService
     public async Task<bool> FindUserPassword2(FindUserInfoRequestDTO dto)
     {
         var foundUser = await _userMapper.GetUserFindInfo(dto)
-            ?? throw new BizException("가입된 정보가 없습니다. 입력하신 정보를 다시 확인하세요.");
+            ?? throw new BizException("가입된 정보가 없어요. 입력하신 정보를 다시 확인하세요.");
 
         // 사용자 본인인증 내역 조회
         var userCertHistoryCount = await _userCertHistoryMapper.CountUserCertHistory(new GetUserCertHistoryRequestDTO
@@ -272,7 +272,7 @@ public class AuthService
         });
 
         if (userCertHistoryCount == 0)
-            throw new BizException("인증코드가 틀렸거나 유효시간이 만료되었습니다.");
+            throw new BizException("인증코드가 틀렸거나 유효시간이 만료되었어요.");
 
         // 임시 비밀번호 생성
         var length = _configuration["ApplicationSettings:GenerateTempPasswordLength"]!;
@@ -294,7 +294,7 @@ public class AuthService
             Subject = "임시 비밀번호 발급 메일",
             Body = $@"
                 <p>{foundUser?.EmployeeName}님 안녕하세요.</p><br>
-                <p>{foundUser?.EmployeeName}님의 임시 비밀번호는 다음과 같습니다.</p><br>
+                <p>{foundUser?.EmployeeName}님의 임시 비밀번호는 아래와 같아요.</p><br>
 
                 <ul>
                     <li>임시 비밀번호: <strong>{tempPassword}</strong></li>
@@ -302,14 +302,14 @@ public class AuthService
                     <li>임시 비밀번호 유효시간: 2시간</li>
                 </ul>
 
-                <p><strong>로그인 후 반드시 비밀번호를 변경해주시기 바랍니다.</strong></p><br>
-                <p>임시 비밀번호 발급 요청을 한 사람이 본인이 아닌 경우, 보안을 위해 시스템관리자(010-5594-3384)에게 연락해주시기 바랍니다.</p><br>
+                <p><strong>로그인 후 반드시 비밀번호를 변경해주세요.</strong></p><br>
+                <p>임시 비밀번호 발급 요청을 한 사람이 본인이 아닌 경우, 보안을 위해 시스템관리자(010-5594-3384)에게 연락해주세요.</p><br>
                 <p>감사합니다.</p>
             "
         });
 
         if (!mailSend)
-            throw new BizException("메일 발송에 실패했습니다.");
+            throw new BizException("메일 발송에 실패했어요.");
         
         return true;
     }
@@ -320,7 +320,7 @@ public class AuthService
     public UserResponseDTO GetAuthenticatedUser()
     {
         var principal = _httpContextAccessor.HttpContext?.User
-            ?? throw new InvalidOperationException("인증된 사용자를 찾을 수 없습니다.");
+            ?? throw new InvalidOperationException("인증된 사용자를 찾을 수 없어요.");
         return principal.GetUser();
     }
 
