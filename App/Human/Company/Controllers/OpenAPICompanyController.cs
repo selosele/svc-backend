@@ -30,7 +30,7 @@ public class OpenAPICompanyController : ControllerBase
     /// </summary>
     [HttpGet]
     [Authorize]
-    public async Task<ActionResult<List<CompanyResponseDTO>>> ListCompany([FromQuery] GetCompanyRequestDTO? dto)
+    public async Task<ActionResult<List<CompanyOpenAPIResponseDTO>>> ListCompany([FromQuery] GetCompanyRequestDTO? dto)
         => Ok(await _companyService.ListCompanyOpenAPI(dto));
     #endregion
 
