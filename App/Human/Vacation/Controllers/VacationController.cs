@@ -91,23 +91,20 @@ public class VacationController : ControllerBase
     /// <summary>
     /// 휴가 계산 설정 목록을 조회한다.
     /// </summary>
-    [HttpGet("calcs/{employeeId}")]
+    [HttpGet("calcs/{workHistoryId}")]
     [Authorize]
-    public async Task<ActionResult<List<VacationCalcResponseDTO>>> ListVacationCalc(int employeeId)
-        => Ok(await _vacationService.ListVacationCalc(employeeId));
+    public async Task<ActionResult<List<VacationCalcResponseDTO>>> ListVacationCalc(int workHistoryId)
+        => Ok(await _vacationService.ListVacationCalc(workHistoryId));
 
     /// <summary>
     /// 휴가 계산 설정을 추가한다.
     /// </summary>
-    [HttpPost("calcs/{employeeId}")]
+    [HttpPost("calcs/{workHistoryId}")]
     [Authorize]
-    public async Task<ActionResult<int>> AddVacationCalc(int employeeId, [FromBody] AddVacationCalcRequestDTO dto)
+    public async Task<ActionResult<int>> AddVacationCalc(int workHistoryId, [FromBody] AddVacationCalcRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
         var myEmployeeId = user.Employee?.EmployeeId;
-
-        if (employeeId != myEmployeeId)
-            return NotFound();
 
         dto.EmployeeId = myEmployeeId;
         dto.CreaterId = user.UserId;

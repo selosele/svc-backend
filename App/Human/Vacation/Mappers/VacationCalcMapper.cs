@@ -23,13 +23,13 @@ public class VacationCalcMapper
     /// <summary>
     /// 휴가 계산 설정 목록을 조회한다.
     /// </summary>
-    public Task<IList<VacationCalcResponseDTO>> ListVacationCalc(int? employeeId)
+    public Task<IList<VacationCalcResponseDTO>> ListVacationCalc(int? workHistoryId)
     {
         return SqlMapper.QueryAsync<VacationCalcResponseDTO>(new RequestContext
         {
             Scope = nameof(VacationCalcMapper),
             SqlId = "ListVacationCalc",
-            Request = new { employeeId }
+            Request = new { workHistoryId }
         });
     }
 
@@ -49,13 +49,13 @@ public class VacationCalcMapper
     /// <summary>
     /// 휴가 계산 설정을 삭제한다.
     /// </summary>
-    public Task<int> RemoveVacationCalc(int? employeeId)
+    public Task<int> RemoveVacationCalc(int? workHistoryId)
     {
         return SqlMapper.ExecuteAsync(new RequestContext
         {
             Scope = nameof(VacationCalcMapper),
             SqlId = "RemoveVacationCalc",
-            Request = new { employeeId }
+            Request = new { workHistoryId }
         });
     }
     #endregion

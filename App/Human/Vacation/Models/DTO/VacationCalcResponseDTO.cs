@@ -12,6 +12,11 @@ public record VacationCalcResponseDTO
     public int? VacationCalcId { get; set; }
 
     /// <summary>
+    /// 근무이력 ID
+    /// </summary>
+    public int? WorkHistoryId { get; set; }
+
+    /// <summary>
     /// 직원 ID
     /// </summary>
     public int? EmployeeId { get; set; }

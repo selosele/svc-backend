@@ -68,8 +68,8 @@ public class VacationService
     /// 휴가 계산 설정 목록을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<IList<VacationCalcResponseDTO>> ListVacationCalc(int employeeId)
-        => await _vacationCalcMapper.ListVacationCalc(employeeId);
+    public async Task<IList<VacationCalcResponseDTO>> ListVacationCalc(int workHistoryId)
+        => await _vacationCalcMapper.ListVacationCalc(workHistoryId);
 
     /// <summary>
     /// 휴가 계산 설정을 추가한다.
@@ -78,7 +78,7 @@ public class VacationService
     public async Task<int> AddVacationCalc(AddVacationCalcRequestDTO dto)
     {
         // 모든 휴가 계산 설정을 삭제하고
-        await _vacationCalcMapper.RemoveVacationCalc(dto.EmployeeId);
+        await _vacationCalcMapper.RemoveVacationCalc(dto.WorkHistoryId);
 
         // 다시 추가한다.
         return await _vacationCalcMapper.AddVacationCalc(dto);
