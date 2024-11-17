@@ -13,6 +13,8 @@
       <Result Column="APPLICANT_ID" Property="ApplicantId" />
       <Result Column="APPLICANT_NAME" Property="ApplicantName" />
       <Result Column="APPLY_DT" Property="ApplyDt" />
+      <Result Column="REJECT_CONTENT" Property="RejectContent" />
+      <Result Column="REJECT_DT" Property="RejectDt" />
     </ResultMap>
   </ResultMaps>
 
@@ -32,7 +34,9 @@
         CD.CODE_NAME AS APPLY_STATE_CODE_NAME,
         CA.APPLICANT_ID,
         E.EMPLOYEE_NAME AS APPLICANT_NAME,
-        DATE_FORMAT(CA.APPLY_DT, '%Y-%m-%d %H:%i:%s') AS APPLY_DT
+        DATE_FORMAT(CA.APPLY_DT, '%Y-%m-%d %H:%i:%s') AS APPLY_DT,
+        CA.REJECT_CONTENT,
+        DATE_FORMAT(CA.REJECT_DT, '%Y-%m-%d %H:%i:%s') AS REJECT_DT
       FROM HM_COMPANY_APPLY CA
       LEFT JOIN CO_CODE CD ON CD.CODE_VALUE = CA.APPLY_STATE_CODE AND CD.UP_CODE_ID = 'APPLY_STATE_00'
       INNER JOIN HM_EMPLOYEE E ON E.USER_ID = CA.APPLICANT_ID
@@ -57,7 +61,9 @@
         CD.CODE_NAME AS APPLY_STATE_CODE_NAME,
         CA.APPLICANT_ID,
         E.EMPLOYEE_NAME AS APPLICANT_NAME,
-        DATE_FORMAT(CA.APPLY_DT, '%Y-%m-%d %H:%i:%s') AS APPLY_DT
+        DATE_FORMAT(CA.APPLY_DT, '%Y-%m-%d %H:%i:%s') AS APPLY_DT,
+        CA.REJECT_CONTENT,
+        DATE_FORMAT(CA.REJECT_DT, '%Y-%m-%d %H:%i:%s') AS REJECT_DT
       FROM HM_COMPANY_APPLY CA
       LEFT JOIN CO_CODE CD ON CD.CODE_VALUE = CA.APPLY_STATE_CODE AND CD.UP_CODE_ID = 'APPLY_STATE_00'
       INNER JOIN HM_EMPLOYEE E ON E.USER_ID = CA.APPLICANT_ID
@@ -96,6 +102,10 @@
       UPDATE HM_COMPANY_APPLY
         SET
           APPLY_STATE_CODE = @ApplyStateCode,
+          <IsEqual Property="ApplyStateCode" CompareValue="REJECT">
+          REJECT_CONTENT = @RejectContent,
+          REJECT_DT = SYSDATE,
+          </IsEqual>
           UPDATER_ID = @UpdaterId,
           UPDATE_DT = SYSDATE()
       WHERE COMPANY_APPLY_ID = @CompanyApplyId

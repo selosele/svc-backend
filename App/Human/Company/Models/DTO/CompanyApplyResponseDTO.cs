@@ -55,6 +55,16 @@ public record CompanyApplyResponseDTO
     /// 신청일시
     /// </summary>
     public string? ApplyDt { get; set; }
+
+    /// <summary>
+    /// 반려 사유
+    /// </summary>
+    public string? RejectContent { get; set; }
+
+    /// <summary>
+    /// 반려일시
+    /// </summary>
+    public string? RejectDt { get; set; }
     #endregion
     
 }
