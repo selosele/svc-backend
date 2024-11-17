@@ -58,7 +58,7 @@ public class CompanyApplyController : ControllerBase
     /// </summary>
     [HttpPost]
     [Authorize]
-    public async Task<ActionResult<int>> AddCompanyApply([FromBody] AddCompanyApplyRequestDTO dto)
+    public async Task<ActionResult<int>> AddCompanyApply([FromBody] SaveCompanyApplyRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
         dto.CreaterId = user.UserId;

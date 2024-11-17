@@ -99,7 +99,7 @@ public class CompanyService
     /// 회사등록신청을 추가한다.
     /// </summary>
     [Transaction]
-    public async Task<int> AddCompanyApply(AddCompanyApplyRequestDTO dto)
+    public async Task<int> AddCompanyApply(SaveCompanyApplyRequestDTO dto)
     {
         // 회사 정보가 존재하는지 확인해서
         var count = await _companyMapper.CountCompany(new GetCompanyRequestDTO { RegistrationNo = dto.RegistrationNo });

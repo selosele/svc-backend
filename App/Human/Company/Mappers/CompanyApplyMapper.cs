@@ -49,7 +49,7 @@ public class CompanyApplyMapper
     /// <summary>
     /// 회사등록신청을 추가한다.
     /// </summary>
-    public Task<int> AddCompanyApply(AddCompanyApplyRequestDTO dto)
+    public Task<int> AddCompanyApply(SaveCompanyApplyRequestDTO dto)
     {
         return SqlMapper.ExecuteScalarAsync<int>(new RequestContext
         {
