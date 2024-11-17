@@ -5,7 +5,7 @@ namespace Svc.App.Human.Company.Models.DTO;
 /// <summary>
 /// 금융위원회_기업기본정보 - 기업개요조회 API로 조회한 회사 조회 결과 DTO
 /// </summary>
-public class CompanyOpenAPIResultDTO
+public record CompanyOpenAPIResultDTO
 {
     #region Fields
     [JsonProperty("response")]
@@ -13,7 +13,7 @@ public class CompanyOpenAPIResultDTO
     #endregion
 }
 
-public class APIResponse
+public record APIResponse
 {
     #region Fields
     [JsonProperty("body")]
@@ -24,7 +24,7 @@ public class APIResponse
     #endregion
 }
 
-public class ResponseBody
+public record ResponseBody
 {
     #region Fields
     [JsonProperty("items")]
@@ -41,7 +41,7 @@ public class ResponseBody
     #endregion
 }
 
-public class Items
+public record Items
 {
     #region Fields
     [JsonProperty("item")]
@@ -49,7 +49,7 @@ public class Items
     #endregion
 }
 
-public class Header
+public record Header
 {
     #region Fields
     [JsonProperty("resultCode")]
