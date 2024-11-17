@@ -10,6 +10,11 @@ public record CompanyResponseDTO
     /// 회사 ID
     /// </summary>
     public int? CompanyId { get; set; }
+
+    /// <summary>
+    /// 사업자등록번호
+    /// </summary>
+    public string? RegistrationNo { get; set; }
     
     /// <summary>
     /// 법인명
@@ -20,11 +25,11 @@ public record CompanyResponseDTO
     /// 회사명
     /// </summary>
     public string? CompanyName { get; set; }
-    
+
     /// <summary>
-    /// 사업자등록번호
+    /// 회사 소재지
     /// </summary>
-    public string? RegistrationNo { get; set; }
+    public string? CompanyAddr { get; set; }
     
     /// <summary>
     /// 삭제 여부

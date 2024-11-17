@@ -25,6 +25,11 @@ public record AddCompanyRequestDTO : HttpRequestDTOBase
     /// </summary>
     [Required]
     public string? CompanyName { get; set; }
+
+    /// <summary>
+    /// 회사 소재지
+    /// </summary>
+    public string? CompanyAddr { get; set; }
     #endregion
 
 }

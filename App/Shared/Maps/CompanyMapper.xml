@@ -4,9 +4,10 @@
   <ResultMaps>
     <ResultMap Id="CompanyResultMap">
       <Result Column="COMPANY_ID" Property="CompanyId" />
+      <Result Column="REGISTRATION_NO" Property="RegistrationNo" />
       <Result Column="CORPORATE_NAME" Property="CorporateName" />
       <Result Column="COMPANY_NAME" Property="CompanyName" />
-      <Result Column="REGISTRATION_NO" Property="RegistrationNo" />
+      <Result Column="COMPANY_ADDR" Property="CompanyAddr" />
       <Result Column="DELETE_YN" Property="DeleteYn" />
     </ResultMap>
   </ResultMaps>
@@ -19,9 +20,10 @@
 
       SELECT
         C.COMPANY_ID,
+        C.REGISTRATION_NO,
         C.CORPORATE_NAME,
         C.COMPANY_NAME,
-        C.REGISTRATION_NO,
+        C.COMPANY_ADDR,
         C.DELETE_YN
       FROM HM_COMPANY C
       WHERE C.DELETE_YN = @DeleteYn
@@ -61,12 +63,14 @@
         REGISTRATION_NO,
         CORPORATE_NAME,
         COMPANY_NAME,
+        COMPANY_ADDR,
         CREATER_ID
       )
       VALUES (
         REPLACE(@RegistrationNo, '-', ''),
         @CorporateName,
         @CompanyName,
+        @CompanyAddr,
         @CreaterId
       )
       ;SELECT LAST_INSERT_ID()
