@@ -2,6 +2,7 @@ using SmartSql.AOP;
 using Newtonsoft.Json;
 using Svc.App.Human.Company.Mappers;
 using Svc.App.Human.Company.Models.DTO;
+using Svc.App.Shared.Exceptions;
 
 namespace Svc.App.Human.Company.Services;
 
@@ -14,18 +15,21 @@ public class CompanyService
     private readonly IConfiguration _configuration;
     private readonly HttpClient _httpClient;
     private readonly CompanyMapper _companyMapper;
+    private readonly CompanyApplyMapper _companyApplyMapper;
     #endregion
     
     #region Constructor
     public CompanyService(
         IConfiguration configuration,
         HttpClient httpClient,
-        CompanyMapper companyMapper
+        CompanyMapper companyMapper,
+        CompanyApplyMapper companyApplyMapper
     )
     {
         _configuration = configuration;
         _httpClient = httpClient;
         _companyMapper = companyMapper;
+        _companyApplyMapper = companyApplyMapper;
     }
     #endregion
 
@@ -76,7 +80,35 @@ public class CompanyService
 
         return jsonDeserialized?.Response?.Body?.Items?.Item ?? [];
     }
+
+    /// <summary>
+    /// 회사등록신청 목록을 조회한다.
+    /// </summary>
+    [Transaction]
+    public async Task<IList<CompanyApplyResponseDTO>> ListCompanyApply(GetCompanyApplyRequestDTO? dto)
+        => await _companyApplyMapper.ListCompanyApply(dto);
+
+    /// <summary>
+    /// 회사등록신청을 조회한다.
+    /// </summary>
+    [Transaction]
+    public async Task<CompanyApplyResponseDTO> GetCompanyApply(int companyApplyId)
+        => await _companyApplyMapper.GetCompanyApply(companyApplyId);
+
+    /// <summary>
+    /// 회사등록신청을 추가한다.
+    /// </summary>
+    [Transaction]
+    public async Task<int> AddCompanyApply(AddCompanyApplyRequestDTO dto)
+    {
+        // 회사 정보가 존재하는지 확인해서
+        var count = await _companyMapper.CountCompany(new GetCompanyRequestDTO { RegistrationNo = dto.RegistrationNo });
+        if (count > 0) {
+            throw new BizException("이미 존재하는 회사 정보에요. 사업자등록번호를 다시 확인해주세요.");
+        }
+        // 없으면 등록신청을 추가한다.
+        return await _companyApplyMapper.AddCompanyApply(dto);
+    }
     #endregion
     
 }
-

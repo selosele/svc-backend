@@ -36,7 +36,32 @@
       FROM HM_COMPANY_APPLY CA
       LEFT JOIN CO_CODE CD ON CD.CODE_VALUE = CA.APPLY_STATE_CODE AND CD.UP_CODE_ID = 'APPLY_STATE_00'
       INNER JOIN HM_EMPLOYEE E ON E.USER_ID = CA.APPLICANT_ID
+      WHERE 1=1
+        <IsNotEmpty Property="ApplicantId">
+        AND CA.APPLICANT_ID = @ApplicantId
+        </IsNotEmpty>
       ORDER BY CA.APPLY_DT DESC
+    </Statement>
+
+    <!-- 회사등록신청을 조회한다. -->
+    <Statement Id="GetCompanyApply" ResultMap="CompanyApplyResultMap">
+      /* CompanyApplyMapper.GetCompanyApply */
+
+      SELECT
+        CA.COMPANY_APPLY_ID,
+        CA.REGISTRATION_NO,
+        CA.CORPORATE_NAME,
+        CA.COMPANY_NAME,
+        CA.APPLY_CONTENT,
+        CA.APPLY_STATE_CODE,
+        CD.CODE_NAME AS APPLY_STATE_CODE_NAME,
+        CA.APPLICANT_ID,
+        E.EMPLOYEE_NAME AS APPLICANT_NAME,
+        DATE_FORMAT(CA.APPLY_DT, '%Y-%m-%d %H:%i:%s') AS APPLY_DT
+      FROM HM_COMPANY_APPLY CA
+      LEFT JOIN CO_CODE CD ON CD.CODE_VALUE = CA.APPLY_STATE_CODE AND CD.UP_CODE_ID = 'APPLY_STATE_00'
+      INNER JOIN HM_EMPLOYEE E ON E.USER_ID = CA.APPLICANT_ID
+      WHERE CA.COMPANY_APPLY_ID = @companyApplyId
     </Statement>
 
     <!-- 회사등록신청을 추가한다. -->
