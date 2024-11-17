@@ -30,6 +30,11 @@ public record AddCompanyRequestDTO : HttpRequestDTOBase
     /// 회사 소재지
     /// </summary>
     public string? CompanyAddr { get; set; }
+
+    /// <summary>
+    /// 대표자명
+    /// </summary>
+    public string? CeoName { get; set; }
     #endregion
 
 }
