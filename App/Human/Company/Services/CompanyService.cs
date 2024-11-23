@@ -12,6 +12,7 @@ namespace Svc.App.Human.Company.Services;
 public class CompanyService
 {
     #region Fields
+    private readonly ILogger _logger;
     private readonly IConfiguration _configuration;
     private readonly HttpClient _httpClient;
     private readonly CompanyMapper _companyMapper;
@@ -20,12 +21,14 @@ public class CompanyService
     
     #region Constructor
     public CompanyService(
+        ILogger<CompanyService> logger,
         IConfiguration configuration,
         HttpClient httpClient,
         CompanyMapper companyMapper,
         CompanyApplyMapper companyApplyMapper
     )
     {
+        _logger = logger;
         _configuration = configuration;
         _httpClient = httpClient;
         _companyMapper = companyMapper;
@@ -72,6 +75,7 @@ public class CompanyService
         // 오류가 발생했을 경우
         if (!response.IsSuccessStatusCode)
         {
+            _logger.LogError("{}", response.StatusCode);
             return [];
         }
 
