@@ -37,7 +37,11 @@ public class VacationController : ControllerBase
     public async Task<ActionResult<List<VacationResponseDTO>>> ListVacation([FromQuery] GetVacationRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
-        dto.UserId = user.UserId;
+        var myUserId = user.UserId;
+        
+        if (myUserId != dto.UserId)
+            return NotFound();
+
         return Ok(await _vacationService.ListVacation(dto));
     }
 
