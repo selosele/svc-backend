@@ -14,12 +14,12 @@ namespace Svc.App.Common.Code.Controllers;
 [Route("api/co/codes")]
 public class CodeController : ControllerBase
 {
-    #region Fields
+    #region [필드]
     private readonly AuthService _authService;
     private readonly CodeService _codeService;
     #endregion
     
-    #region Constructor
+    #region [생성자]
     public CodeController(
         AuthService authService,
         CodeService codeService
@@ -29,7 +29,7 @@ public class CodeController : ControllerBase
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 코드 목록을 조회한다.
     /// </summary>

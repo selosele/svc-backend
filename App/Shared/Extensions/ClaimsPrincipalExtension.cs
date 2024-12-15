@@ -10,7 +10,7 @@ namespace Svc.App.Shared.Extensions;
 /// </summary>
 public static class ClaimsPrincipalExtension
 {
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 인증된 사용자 정보를 UserResponseDTO에 담아서 반환한다.
     /// </summary>

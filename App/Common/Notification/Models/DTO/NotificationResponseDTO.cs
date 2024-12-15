@@ -5,7 +5,7 @@ namespace Svc.App.Common.Notification.Models.DTO;
 /// </summary>
 public record NotificationResponseDTO
 {
-    #region Fields
+    #region [필드]
     /// <summary>
     /// 알림 개수
     /// </summary>

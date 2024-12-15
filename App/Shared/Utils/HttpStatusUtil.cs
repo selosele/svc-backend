@@ -5,7 +5,7 @@ namespace Svc.App.Shared.Utils;
 /// </summary>
 public class HttpStatusUtil
 {
-    #region Fields
+    #region [필드]
     /// <summary>
     /// 실패
     /// </summary>

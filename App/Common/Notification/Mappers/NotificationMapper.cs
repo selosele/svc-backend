@@ -8,18 +8,18 @@ namespace Svc.App.Common.Notification.Mappers;
 /// </summary>
 public class NotificationMapper
 {
-    #region Fields
+    #region [필드]
     public ISqlMapper SqlMapper { get; }
     #endregion
 
-    #region Constructor
+    #region [생성자]
     public NotificationMapper(ISqlMapper sqlMapper)
     {
         SqlMapper = sqlMapper;
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 알림 개수를 조회한다.
     /// </summary>

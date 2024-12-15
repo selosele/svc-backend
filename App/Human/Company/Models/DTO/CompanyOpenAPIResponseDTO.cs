@@ -7,7 +7,7 @@ namespace Svc.App.Human.Company.Models.DTO;
 /// </summary>
 public record CompanyOpenAPIResponseDTO
 {
-    #region Fields
+    #region [필드]
     /// <summary>
     /// 법인등록번호
     /// </summary>

@@ -13,12 +13,12 @@ namespace Svc.App.Common.Notification.Controllers;
 [Route("api/co/notifications")]
 public class NotificationController : ControllerBase
 {
-    #region Fields
+    #region [필드]
     private readonly AuthService _authService;
     private readonly NotificationService _notificationService;
     #endregion
     
-    #region Constructor
+    #region [생성자]
     public NotificationController(
         AuthService authService,
         NotificationService notificationService
@@ -28,7 +28,7 @@ public class NotificationController : ControllerBase
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 알림 개수 및 목록을 조회한다.
     /// </summary>

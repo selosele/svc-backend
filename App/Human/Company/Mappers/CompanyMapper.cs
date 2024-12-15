@@ -8,18 +8,18 @@ namespace Svc.App.Human.Company.Mappers;
 /// </summary>
 public class CompanyMapper
 {
-    #region Fields
+    #region [필드]
     public ISqlMapper SqlMapper { get; }
     #endregion
 
-    #region Constructor
+    #region [생성자]
     public CompanyMapper(ISqlMapper sqlMapper)
     {
         SqlMapper = sqlMapper;
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 회사 목록을 조회한다.
     /// </summary>

@@ -5,7 +5,7 @@ namespace Svc.App.Common.Auth.Models.DTO;
 /// </summary>
 public record FindUserInfoResultDTO
 {
-    #region Fields
+    #region [필드]
     /// <summary>
     /// 사용자 ID
     /// </summary>

@@ -5,7 +5,7 @@ namespace Svc.App.Shared.Utils;
 /// </summary>
 public class RoleUtil
 {
-    #region Fields
+    #region [필드]
     /// <summary>
     /// 시스템관리자 권한
     /// </summary>

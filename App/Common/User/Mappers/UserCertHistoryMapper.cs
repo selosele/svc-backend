@@ -8,18 +8,18 @@ namespace Svc.App.Common.User.Mappers;
 /// </summary>
 public class UserCertHistoryMapper
 {
-    #region Fields
+    #region [필드]
     public ISqlMapper SqlMapper { get; }
     #endregion
 
-    #region Constructor
+    #region [생성자]
     public UserCertHistoryMapper(ISqlMapper sqlMapper)
     {
         SqlMapper = sqlMapper;
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 사용자 본인인증 내역을 조회한다.
     /// </summary>

@@ -14,12 +14,12 @@ namespace Svc.App.Human.Company.Controllers;
 [Route("api/hm/company-applies")]
 public class CompanyApplyController : ControllerBase
 {
-    #region Fields
+    #region [필드]
     private readonly AuthService _authService;
     private readonly CompanyService _companyService;
     #endregion
     
-    #region Constructor
+    #region [생성자]
     public CompanyApplyController(
         AuthService authService,
         CompanyService companyService
@@ -29,7 +29,7 @@ public class CompanyApplyController : ControllerBase
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 회사등록신청 목록을 조회한다.
     /// </summary>
@@ -38,9 +38,8 @@ public class CompanyApplyController : ControllerBase
     public async Task<ActionResult<List<CompanyApplyResponseDTO>>> ListCompanyApply([FromQuery] GetCompanyApplyRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
-        if (!user.Roles!.Any(x => x.RoleId == RoleUtil.SYSTEM_ADMIN)) {
+        if (!user.Roles!.Any(x => x.RoleId == RoleUtil.SYSTEM_ADMIN))
             dto.ApplicantId = user.UserId;
-        }
 
         return Ok(await _companyService.ListCompanyApply(dto));
     }

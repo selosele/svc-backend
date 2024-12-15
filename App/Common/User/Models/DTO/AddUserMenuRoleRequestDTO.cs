@@ -7,7 +7,7 @@ namespace Svc.App.Common.User.Models.DTO;
 /// </summary>
 public record AddUserMenuRoleRequestDTO : HttpRequestDTOBase
 {
-    #region Fields
+    #region [필드]
     /// <summary>
     /// 사용자 ID
     /// </summary>

@@ -5,7 +5,7 @@ namespace Svc.App.Human.Employee.Models.DTO;
 /// </summary>
 public record WorkHistoryResponseDTO
 {
-    #region Fields
+    #region [필드]
     /// <summary>
     /// 근무이력 ID
     /// </summary>

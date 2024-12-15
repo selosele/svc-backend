@@ -5,7 +5,7 @@ namespace Svc.App.Shared.Models.Settings;
 /// </summary>
 public record SmtpSettings
 {
-    #region Fields
+    #region [필드]
     /// <summary>
     /// 서버명
     /// </summary>

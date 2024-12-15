@@ -11,7 +11,7 @@ namespace Svc.App.Human.Company.Services;
 /// </summary>
 public class CompanyService
 {
-    #region Fields
+    #region [필드]
     private readonly ILogger _logger;
     private readonly IConfiguration _configuration;
     private readonly HttpClient _httpClient;
@@ -19,7 +19,7 @@ public class CompanyService
     private readonly CompanyApplyMapper _companyApplyMapper;
     #endregion
     
-    #region Constructor
+    #region [생성자]
     public CompanyService(
         ILogger<CompanyService> logger,
         IConfiguration configuration,
@@ -36,7 +36,7 @@ public class CompanyService
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 회사 목록을 조회한다.
     /// </summary>
@@ -107,9 +107,9 @@ public class CompanyService
     {
         // 회사 정보가 존재하는지 확인해서
         var count = await _companyMapper.CountCompany(new GetCompanyRequestDTO { RegistrationNo = dto.RegistrationNo });
-        if (count > 0) {
+        if (count > 0)
             throw new BizException("이미 존재하는 회사 정보에요. 사업자등록번호를 다시 확인해주세요.");
-        }
+        
         // 없으면 등록신청을 추가한다.
         return await _companyApplyMapper.AddCompanyApply(dto);
     }

@@ -12,11 +12,11 @@ namespace Svc.App.Human.Company.Controllers;
 [Route("api/public/hm/companies")]
 public class OpenAPICompanyController : ControllerBase
 {
-    #region Fields
+    #region [필드]
     private readonly CompanyService _companyService;
     #endregion
     
-    #region Constructor
+    #region [생성자]
     public OpenAPICompanyController(
         CompanyService companyService
     ) {
@@ -24,7 +24,7 @@ public class OpenAPICompanyController : ControllerBase
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 금융위원회_기업기본정보 - 기업개요조회 API로 회사 목록을 조회한다.
     /// </summary>

@@ -5,7 +5,7 @@ namespace Svc.App.Shared.Utils;
 /// </summary>
 public class EncryptUtil
 {
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 입력 문자열을 암호화해서 반환한다.
     /// </summary>

@@ -9,11 +9,11 @@ namespace Svc.App.Common.Code.Services;
 /// </summary>
 public class CodeService
 {
-    #region Fields
+    #region [필드]
     private readonly CodeMapper _codeMapper;
     #endregion
     
-    #region Constructor
+    #region [생성자]
     public CodeService(
         CodeMapper codeMapper
     ) {
@@ -21,7 +21,7 @@ public class CodeService
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 코드 목록을 조회한다.
     /// </summary>

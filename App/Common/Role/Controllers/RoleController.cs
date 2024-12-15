@@ -12,11 +12,11 @@ namespace Svc.App.Common.Role.Controllers;
 [Route("api/co/roles")]
 public class RoleController : ControllerBase
 {
-    #region Fields
+    #region [필드]
     private readonly RoleService _roleService;
     #endregion
     
-    #region Constructor
+    #region [생성자]
     public RoleController(
         RoleService roleService
     ) {
@@ -24,7 +24,7 @@ public class RoleController : ControllerBase
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 권한 목록을 조회한다.
     /// </summary>

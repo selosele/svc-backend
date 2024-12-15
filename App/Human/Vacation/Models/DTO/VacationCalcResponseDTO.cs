@@ -5,7 +5,7 @@ namespace Svc.App.Human.Vacation.Models.DTO;
 /// </summary>
 public record VacationCalcResponseDTO
 {
-    #region Fields
+    #region [필드]
     /// <summary>
     /// 휴가 계산 설정 ID
     /// </summary>

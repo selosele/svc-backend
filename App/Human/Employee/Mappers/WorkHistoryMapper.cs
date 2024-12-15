@@ -8,18 +8,18 @@ namespace Svc.App.Human.Employee.Mappers;
 /// </summary>
 public class WorkHistoryMapper
 {
-    #region Fields
+    #region [필드]
     public ISqlMapper SqlMapper { get; }
     #endregion
 
-    #region Constructor
+    #region [생성자]
     public WorkHistoryMapper(ISqlMapper sqlMapper)
     {
         SqlMapper = sqlMapper;
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 근무이력 목록을 조회한다.
     /// </summary>

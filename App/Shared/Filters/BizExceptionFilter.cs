@@ -8,7 +8,7 @@ namespace Svc.App.Shared.Filters;
 /// </summary>
 public class BizExceptionFilter : IExceptionFilter
 {
-    #region Methods
+    #region [메서드]
     public void OnException(ExceptionContext context)
     {
         context.Result = new ObjectResult(new

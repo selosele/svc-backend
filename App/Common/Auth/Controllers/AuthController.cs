@@ -14,11 +14,11 @@ namespace Svc.App.Common.Auth.Controllers;
 [Route("api/co/[controller]")]
 public class AuthController : ControllerBase
 {
-    #region Fields
+    #region [필드]
     private readonly AuthService _authService;
     #endregion
     
-    #region Constructor
+    #region [생성자]
     public AuthController(
         AuthService authService
     ) {
@@ -26,7 +26,7 @@ public class AuthController : ControllerBase
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 로그인을 한다.
     /// </summary>

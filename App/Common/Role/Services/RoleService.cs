@@ -9,11 +9,11 @@ namespace Svc.App.Common.Role.Services;
 /// </summary>
 public class RoleService
 {
-    #region Fields
+    #region [필드]
     private readonly RoleMapper _roleMapper;
     #endregion
     
-    #region Constructor
+    #region [생성자]
     public RoleService(
         RoleMapper roleMapper
     )
@@ -22,7 +22,7 @@ public class RoleService
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 권한 목록을 조회한다.
     /// </summary>

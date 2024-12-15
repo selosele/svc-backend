@@ -7,7 +7,7 @@ namespace Svc.App.Human.Vacation.Models.DTO;
 /// </summary>
 public record GetVacationRequestDTO : HttpRequestDTOBase
 {
-    #region Fields
+    #region [필드]
     /// <summary>
     /// 휴가 ID
     /// </summary>

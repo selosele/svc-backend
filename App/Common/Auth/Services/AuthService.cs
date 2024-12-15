@@ -23,7 +23,7 @@ namespace Svc.App.Common.Auth.Services;
 /// </summary>
 public class AuthService
 {
-    #region Fields
+    #region [필드]
     private readonly IConfiguration _configuration;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly UserMapper _userMapper;
@@ -35,7 +35,7 @@ public class AuthService
     private readonly MyMailService _mailService;
     #endregion
     
-    #region Constructor
+    #region [생성자]
     public AuthService(
         IConfiguration configuration,
         IHttpContextAccessor httpContextAccessor,
@@ -60,7 +60,7 @@ public class AuthService
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 로그인을 한다.
     /// </summary>

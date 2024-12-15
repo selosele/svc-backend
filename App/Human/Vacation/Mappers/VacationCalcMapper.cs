@@ -8,18 +8,18 @@ namespace Svc.App.Human.Vacation.Mappers;
 /// </summary>
 public class VacationCalcMapper
 {
-    #region Fields
+    #region [필드]
     public ISqlMapper SqlMapper { get; }
     #endregion
 
-    #region Constructor
+    #region [생성자]
     public VacationCalcMapper(ISqlMapper sqlMapper)
     {
         SqlMapper = sqlMapper;
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 휴가 계산 설정 목록을 조회한다.
     /// </summary>

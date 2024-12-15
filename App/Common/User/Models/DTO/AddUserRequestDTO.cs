@@ -9,7 +9,7 @@ namespace Svc.App.Common.User.Models.DTO;
 /// </summary>
 public record AddUserRequestDTO : HttpRequestDTOBase
 {
-    #region Fields
+    #region [필드]
     /// <summary>
     /// 사용자 계정
     /// </summary>

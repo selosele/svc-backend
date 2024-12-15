@@ -5,7 +5,7 @@ namespace Svc.App.Shared.Models.DTO;
 /// </summary>
 public record HttpRequestDTOBase
 {
-    #region Fields
+    #region [필드]
     /// <summary>
     /// 사용 여부
     /// </summary>

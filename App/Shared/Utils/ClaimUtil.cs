@@ -5,7 +5,7 @@ namespace Svc.App.Shared.Utils;
 /// </summary>
 public class ClaimUtil
 {
-    #region Fields
+    #region [필드]
     /// <summary>
     /// 사용자 ID 식별자
     /// </summary>

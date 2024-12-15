@@ -13,12 +13,12 @@ namespace Svc.App.Human.Employee.Controllers;
 [Route("api/hm/employees")]
 public class EmployeeController : ControllerBase
 {
-    #region Fields
+    #region [필드]
     private readonly AuthService _authService;
     private readonly EmployeeService _employeeService;
     #endregion
     
-    #region Constructor
+    #region [생성자]
     public EmployeeController(
         AuthService authService,
         EmployeeService employeeService
@@ -28,7 +28,7 @@ public class EmployeeController : ControllerBase
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 직원을 조회한다.
     /// </summary>

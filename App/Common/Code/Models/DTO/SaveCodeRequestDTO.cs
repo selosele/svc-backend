@@ -7,7 +7,7 @@ namespace Svc.App.Common.Code.Models.DTO;
 /// </summary>
 public record SaveCodeRequestDTO : HttpRequestDTOBase
 {
-    #region Fields
+    #region [필드]
     /// <summary>
     /// 기존 코드 ID
     /// </summary>

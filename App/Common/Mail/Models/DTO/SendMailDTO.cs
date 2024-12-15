@@ -5,7 +5,7 @@ namespace Svc.App.Common.Mail.Models.DTO;
 /// </summary>
 public record SendMailDTO
 {
-    #region Fields
+    #region [필드]
     /// <summary>
     /// 수신자 메일 주소
     /// </summary>

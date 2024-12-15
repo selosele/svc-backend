@@ -5,7 +5,7 @@ namespace Svc.App.Common.Role.Models.DTO;
 /// </summary>
 public record RoleResponseDTO
 {
-    #region Fields
+    #region [필드]
     /// <summary>
     /// 권한 ID
     /// </summary>

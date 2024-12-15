@@ -19,7 +19,7 @@ namespace Svc.App.Common.User.Services;
 /// </summary>
 public class UserService
 {
-    #region Fields
+    #region [필드]
     private readonly UserMapper _userMapper;
     private readonly UserRoleMapper _userRoleMapper;
     private readonly UserMenuRoleMapper _userMenuRoleMapper;
@@ -31,7 +31,7 @@ public class UserService
     private readonly AuthService _authService;
     #endregion
     
-    #region Constructor
+    #region [생성자]
     public UserService(
         UserMapper userMapper,
         UserRoleMapper userRoleMapper,
@@ -56,7 +56,7 @@ public class UserService
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 사용자 목록을 조회한다.
     /// </summary>

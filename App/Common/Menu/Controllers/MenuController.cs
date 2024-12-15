@@ -13,12 +13,12 @@ namespace Svc.App.Common.Menu.Controllers;
 [Route("api/co/menus")]
 public class MenuController : ControllerBase
 {
-    #region Fields
+    #region [필드]
     private readonly AuthService _authService;
     private readonly MenuService _menuService;
     #endregion
     
-    #region Constructor
+    #region [생성자]
     public MenuController(
         AuthService authService,
         MenuService menuService
@@ -28,7 +28,7 @@ public class MenuController : ControllerBase
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 메뉴 목록을 조회한다.
     /// </summary>

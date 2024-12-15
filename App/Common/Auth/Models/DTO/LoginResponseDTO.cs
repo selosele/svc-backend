@@ -5,7 +5,7 @@ namespace Svc.App.Common.Auth.Models.DTO;
 /// </summary>
 public record LoginResponseDTO
 {
-    #region Fields
+    #region [필드]
     /// <summary>
     /// 액세스 토큰
     /// </summary>

@@ -7,7 +7,7 @@ namespace Svc.App.Common.Notification.Models.DTO;
 /// </summary>
 public record SaveNotificationRequestDTO : HttpRequestDTOBase
 {
-    #region Fields
+    #region [필드]
     /// <summary>
     /// 알림 ID
     /// </summary>

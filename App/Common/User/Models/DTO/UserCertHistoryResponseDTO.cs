@@ -5,7 +5,7 @@ namespace Svc.App.Common.User.Models.DTO;
 /// </summary>
 public record UserCertHistoryResponseDTO
 {
-    #region Fields
+    #region [필드]
     /// <summary>
     /// 본인인증 내역 ID
     /// </summary>

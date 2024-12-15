@@ -8,18 +8,18 @@ namespace Svc.App.Common.Role.Mappers;
 /// </summary>
 public class RoleMapper
 {
-    #region Fields
+    #region [필드]
     public ISqlMapper SqlMapper { get; }
     #endregion
 
-    #region Constructor
+    #region [생성자]
     public RoleMapper(ISqlMapper sqlMapper)
     {
         SqlMapper = sqlMapper;
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 권한 목록을 조회한다.
     /// </summary>

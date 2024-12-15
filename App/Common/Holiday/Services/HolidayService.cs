@@ -9,11 +9,11 @@ namespace Svc.App.Common.Holiday.Services;
 /// </summary>
 public class HolidayService
 {
-    #region Fields
+    #region [필드]
     private readonly HolidayMapper _holidayMapper;
     #endregion
     
-    #region Constructor
+    #region [생성자]
     public HolidayService(
         HolidayMapper holidayMapper
     ) {
@@ -21,7 +21,7 @@ public class HolidayService
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 휴일 목록을 조회한다.
     /// </summary>

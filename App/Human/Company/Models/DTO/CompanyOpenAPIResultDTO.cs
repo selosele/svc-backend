@@ -7,7 +7,7 @@ namespace Svc.App.Human.Company.Models.DTO;
 /// </summary>
 public record CompanyOpenAPIResultDTO
 {
-    #region Fields
+    #region [필드]
     [JsonProperty("response")]
     public APIResponse? Response { get; set; }
     #endregion
@@ -15,7 +15,7 @@ public record CompanyOpenAPIResultDTO
 
 public record APIResponse
 {
-    #region Fields
+    #region [필드]
     [JsonProperty("body")]
     public ResponseBody? Body { get; set; }
 
@@ -26,7 +26,7 @@ public record APIResponse
 
 public record ResponseBody
 {
-    #region Fields
+    #region [필드]
     [JsonProperty("items")]
     public Items? Items { get; set; }
 
@@ -43,7 +43,7 @@ public record ResponseBody
 
 public record Items
 {
-    #region Fields
+    #region [필드]
     [JsonProperty("item")]
     public List<CompanyOpenAPIResponseDTO>? Item { get; set; }
     #endregion
@@ -51,7 +51,7 @@ public record Items
 
 public record Header
 {
-    #region Fields
+    #region [필드]
     [JsonProperty("resultCode")]
     public string? ResultCode { get; set; }
 

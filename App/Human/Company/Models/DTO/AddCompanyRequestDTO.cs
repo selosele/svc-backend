@@ -8,7 +8,7 @@ namespace Svc.App.Human.Company.Models.DTO;
 /// </summary>
 public record AddCompanyRequestDTO : HttpRequestDTOBase
 {
-    #region Fields
+    #region [필드]
     /// <summary>
     /// 사업자등록번호
     /// </summary>

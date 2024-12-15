@@ -9,11 +9,11 @@ namespace Svc.App.Common.Menu.Services;
 /// </summary>
 public class MenuService
 {
-    #region Fields
+    #region [필드]
     private readonly MenuMapper _menuMapper;
     #endregion
     
-    #region Constructor
+    #region [생성자]
     public MenuService(
         MenuMapper menuMapper
     )
@@ -22,7 +22,7 @@ public class MenuService
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 메뉴 목록을 조회한다.
     /// </summary>

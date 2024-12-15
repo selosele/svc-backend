@@ -5,7 +5,7 @@ namespace Svc.App.Common.User.Models.DTO;
 /// </summary>
 public record UserRoleResponseDTO
 {
-    #region Fields
+    #region [필드]
     /// <summary>
     /// 사용자 ID
     /// </summary>

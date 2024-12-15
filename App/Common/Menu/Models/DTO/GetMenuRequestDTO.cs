@@ -7,7 +7,7 @@ namespace Svc.App.Common.Menu.Models.DTO;
 /// </summary>
 public record GetMenuRequestDTO : HttpRequestDTOBase
 {
-    #region Fields
+    #region [필드]
     /// <summary>
     /// 메뉴 ID
     /// </summary>

@@ -11,13 +11,13 @@ namespace Svc.App.Human.Employee.Services;
 /// </summary>
 public class EmployeeService
 {
-    #region Fields
+    #region [필드]
     private readonly EmployeeMapper _employeeMapper;
     private readonly CompanyMapper _companyMapper;
     private readonly WorkHistoryMapper _workHistoryMapper;
     #endregion
     
-    #region Constructor
+    #region [생성자]
     public EmployeeService(
         EmployeeMapper employeeMapper,
         CompanyMapper companyMapper,
@@ -30,7 +30,7 @@ public class EmployeeService
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 직원을 조회한다.
     /// </summary>
@@ -120,7 +120,8 @@ public class EmployeeService
         });
 
         // 없으면 회사 정보를 추가한다.
-        if (companyCount == 0) {
+        if (companyCount == 0)
+        {
             await _companyMapper.AddCompany(new AddCompanyRequestDTO
             {
                 RegistrationNo = dto.RegistrationNo,
@@ -161,7 +162,8 @@ public class EmployeeService
         });
 
         // 없으면 회사 정보를 추가한다.
-        if (companyCount == 0) {
+        if (companyCount == 0)
+        {
             await _companyMapper.AddCompany(new AddCompanyRequestDTO
             {
                 RegistrationNo = dto.RegistrationNo,

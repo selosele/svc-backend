@@ -13,12 +13,12 @@ namespace Svc.App.Human.Vacation.Controllers;
 [Route("api/hm/vacations")]
 public class VacationController : ControllerBase
 {
-    #region Fields
+    #region [필드]
     private readonly AuthService _authService;
     private readonly VacationService _vacationService;
     #endregion
     
-    #region Constructor
+    #region [생성자]
     public VacationController(
         AuthService authService,
         VacationService vacationService
@@ -28,7 +28,7 @@ public class VacationController : ControllerBase
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 휴가 목록을 조회한다.
     /// </summary>

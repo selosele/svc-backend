@@ -8,7 +8,7 @@ namespace Svc.App.Human.Employee.Models.DTO;
 /// </summary>
 public record AddEmployeeRequestDTO : HttpRequestDTOBase
 {
-    #region Fields
+    #region [필드]
     /// <summary>
     /// 사용자 ID
     /// </summary>

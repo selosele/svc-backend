@@ -11,13 +11,13 @@ namespace Svc.App.Common.Mail.Services;
 /// </summary>
 public class MyMailService
 {
-    #region Fields
+    #region [필드]
     private readonly ILogger _logger;
     private readonly SmtpSettings _smtpSettings;
     private readonly SmtpClient _client;
     #endregion
     
-    #region Constructor
+    #region [생성자]
     public MyMailService(
         ILogger<MyMailService> logger,
         IOptions<SmtpSettings> smtpSettings
@@ -25,11 +25,11 @@ public class MyMailService
     {
         _logger = logger;
         _smtpSettings = smtpSettings.Value;
-        _client = new SmtpClient(); // SMTP 클라이언트 인스턴스 생성
+        _client = new SmtpClient();
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 메일을 발송한다.
     /// </summary>

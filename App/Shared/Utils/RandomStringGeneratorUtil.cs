@@ -8,14 +8,14 @@ namespace Svc.App.Shared.Utils;
 /// </summary>
 public class RandomStringGeneratorUtil
 {
-    #region Fields
+    #region [필드]
     /// <summary>
     /// 랜덤 문자열 생성에 사용할 문자열 (영문 대문자 및 숫자)
     /// </summary>
     private const string _chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 지정된 길이만큼 랜덤 문자열을 생성해서 반환한다.
     /// </summary>

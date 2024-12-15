@@ -5,7 +5,7 @@ namespace Svc.App.Human.Company.Models.DTO;
 /// </summary>
 public record CompanyApplyResponseDTO
 {
-    #region Fields
+    #region [필드]
     /// <summary>
     /// 회사등록신청 ID
     /// </summary>

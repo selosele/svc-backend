@@ -13,12 +13,12 @@ namespace Svc.App.Common.Holiday.Controllers;
 [Route("api/co/holidays")]
 public class HolidayController : ControllerBase
 {
-    #region Fields
+    #region [필드]
     private readonly AuthService _authService;
     private readonly HolidayService _holidayService;
     #endregion
     
-    #region Constructor
+    #region [생성자]
     public HolidayController(
         AuthService authService,
         HolidayService holidayService
@@ -28,7 +28,7 @@ public class HolidayController : ControllerBase
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 휴일 목록을 조회한다.
     /// </summary>

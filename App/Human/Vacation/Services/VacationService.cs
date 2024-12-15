@@ -9,12 +9,12 @@ namespace Svc.App.Human.Vacation.Services;
 /// </summary>
 public class VacationService
 {
-    #region Fields
+    #region [필드]
     private readonly VacationMapper _vacationMapper;
     private readonly VacationCalcMapper _vacationCalcMapper;
     #endregion
     
-    #region Constructor
+    #region [생성자]
     public VacationService(
         VacationMapper vacationMapper,
         VacationCalcMapper vacationCalcMapper
@@ -25,7 +25,7 @@ public class VacationService
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 휴가 목록을 조회한다.
     /// </summary>

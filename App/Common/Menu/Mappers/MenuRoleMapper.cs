@@ -8,18 +8,18 @@ namespace Svc.App.Common.Menu.Mappers;
 /// </summary>
 public class MenuRoleMapper
 {
-    #region Fields
+    #region [필드]
     public ISqlMapper SqlMapper { get; }
     #endregion
 
-    #region Constructor
+    #region [생성자]
     public MenuRoleMapper(ISqlMapper sqlMapper)
     {
         SqlMapper = sqlMapper;
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 메뉴 권한 목록을 조회한다.
     /// </summary>

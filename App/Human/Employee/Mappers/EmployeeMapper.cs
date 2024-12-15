@@ -8,18 +8,18 @@ namespace Svc.App.Human.Employee.Mappers;
 /// </summary>
 public class EmployeeMapper
 {
-    #region Fields
+    #region [필드]
     public ISqlMapper SqlMapper { get; }
     #endregion
 
-    #region Constructor
+    #region [생성자]
     public EmployeeMapper(ISqlMapper sqlMapper)
     {
         SqlMapper = sqlMapper;
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 직원을 조회한다.
     /// </summary>

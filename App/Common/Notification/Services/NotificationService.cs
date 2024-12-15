@@ -9,11 +9,11 @@ namespace Svc.App.Common.Notification.Services;
 /// </summary>
 public class NotificationService
 {
-    #region Fields
+    #region [필드]
     private readonly NotificationMapper _notificationMapper;
     #endregion
     
-    #region Constructor
+    #region [생성자]
     public NotificationService(
         NotificationMapper notificationMapper
     )
@@ -22,7 +22,7 @@ public class NotificationService
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 알림 개수 및 목록을 조회한다.
     /// </summary>

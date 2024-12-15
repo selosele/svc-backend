@@ -5,7 +5,7 @@ namespace Svc.App.Common.Holiday.Models.DTO;
 /// </summary>
 public record HolidayResponseDTO
 {
-    #region Fields
+    #region [필드]
     /// <summary>
     /// 일자
     /// </summary>

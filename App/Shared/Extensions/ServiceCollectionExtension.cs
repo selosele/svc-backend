@@ -8,7 +8,7 @@ namespace Svc.App.Shared.Extensions;
 /// </summary>
 public static class ServiceCollectionExtension
 {
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 지정된 네임스페이스에 속한 모든 클래스를 서비스로 등록한다.
     /// </summary>

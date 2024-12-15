@@ -14,12 +14,12 @@ namespace Svc.App.Common.User.Controllers;
 [Route("api/co/users")]
 public class UserController : ControllerBase
 {
-    #region Fields
+    #region [필드]
     private readonly AuthService _authService;
     private readonly UserService _userService;
     #endregion
     
-    #region Constructor
+    #region [생성자]
     public UserController(
         AuthService authService,
         UserService userService
@@ -29,7 +29,7 @@ public class UserController : ControllerBase
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 사용자 목록을 조회한다.
     /// </summary>

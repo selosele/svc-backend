@@ -12,11 +12,11 @@ namespace Svc.App.Human.Company.Controllers;
 [Route("api/hm/companies")]
 public class CompanyController : ControllerBase
 {
-    #region Fields
+    #region [필드]
     private readonly CompanyService _companyService;
     #endregion
     
-    #region Constructor
+    #region [생성자]
     public CompanyController(
         CompanyService companyService
     ) {
@@ -24,7 +24,7 @@ public class CompanyController : ControllerBase
     }
     #endregion
 
-    #region Methods
+    #region [메서드]
     /// <summary>
     /// 회사 목록을 조회한다.
     /// </summary>
