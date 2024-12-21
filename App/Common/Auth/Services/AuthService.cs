@@ -76,7 +76,7 @@ public class AuthService
         {
             // 비활성화된 사용자는 로그인하지 못하도록 한다.
             if (user.UserActiveYn == "N")
-                throw new BizException("해당 사용자는 비활성화되었어요.");
+                throw new BizException("로그인 잠금 처리된 계정이에요. 시스템관리자에게 문의해주세요.");
 
             // 비밀번호를 비교한다.
             var isPasswordMatch = EncryptUtil.Verify(dto.UserPassword!, user.UserPassword!);
