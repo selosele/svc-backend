@@ -47,6 +47,8 @@ public class AuthController : ControllerBase
     [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
     public async Task<ActionResult<LoginResponseDTO>> SuperLogin([FromBody] LoginRequestDTO dto)
     {
+        dto.IsSuperLogin = "Y";
+
         var accessToken = await _authService.Login(dto);
         return Created(string.Empty, new LoginResponseDTO { AccessToken = accessToken });
     }

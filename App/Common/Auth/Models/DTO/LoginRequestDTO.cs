@@ -23,6 +23,6 @@ public record LoginRequestDTO : HttpRequestDTOBase
     /// <summary>
     /// 슈퍼로그인 여부
     /// </summary>
-    public string? IsSuperLogin { get; set; }
+    public string? IsSuperLogin { get; set; } = "N";
     #endregion
 }
