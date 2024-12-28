@@ -21,9 +21,6 @@
         US.SITE_TITLE_NAME
       FROM CO_USER_SETUP US
       WHERE 1=1
-        <IsNotEmpty Property="UserId">
-        AND US.USER_ID = @UserId
-        </IsNotEmpty>
         <IsNotEmpty Property="UserSetupId">
         AND US.USER_SETUP_ID = @UserSetupId
         </IsNotEmpty>
