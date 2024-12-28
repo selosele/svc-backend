@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<SmartSqlMap Scope="UserSetupMapper" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+  <ResultMaps>
+    <ResultMap Id="UserSetupResultMap">
+      <Result Column="USER_SETUP_ID" Property="UserSetupId" />
+      <Result Column="USER_ID" Property="UserId" />
+      <Result Column="SITE_TITLE_NAME" Property="SiteTitleName" />
+    </ResultMap>
+  </ResultMaps>
+
+  <Statements>
+
+    <!-- 사용자 설정을 조회한다. -->
+    <Statement Id="GetUserSetup" ResultMap="UserSetupResultMap">
+      /* UserSetupMapper.GetUserSetup */
+
+      SELECT
+        US.USER_SETUP_ID,
+        US.USER_ID,
+        US.SITE_TITLE_NAME
+      FROM CO_USER_SETUP US
+      WHERE 1=1
+        <IsNotEmpty Property="UserId">
+        AND US.USER_ID = @UserId
+        </IsNotEmpty>
+        <IsNotEmpty Property="UserSetupId">
+        AND US.USER_SETUP_ID = @UserSetupId
+        </IsNotEmpty>
+
+        <IsEmpty Property="UserSetupId">
+        AND US.USER_SETUP_ID = (
+          SELECT MAX(US2.USER_SETUP_ID)
+          FROM CO_USER_SETUP US2
+          WHERE US2.USER_ID = @UserId
+        )
+        </IsEmpty>
+    </Statement>
+
+    <!-- 사용자 설정을 추가한다. -->
+    <Statement Id="AddUserSetup">
+      /* UserSetupMapper.AddUserSetup */
+
+      INSERT INTO CO_USER_SETUP (
+        USER_ID,
+        SITE_TITLE_NAME,
+        CREATER_ID
+      )
+      VALUES (
+        @UserId,
+        @SiteTitleName,
+        @CreaterId
+      )
+      ;SELECT LAST_INSERT_ID()
+    </Statement>
+    
+  </Statements>
+</SmartSqlMap>

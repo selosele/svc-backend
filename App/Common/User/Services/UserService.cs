@@ -21,6 +21,7 @@ public class UserService
 {
     #region [필드]
     private readonly UserMapper _userMapper;
+    private readonly UserSetupMapper _userSetupMapper;
     private readonly UserRoleMapper _userRoleMapper;
     private readonly UserMenuRoleMapper _userMenuRoleMapper;
     private readonly MenuRoleMapper _menuRoleMapper;
@@ -34,6 +35,7 @@ public class UserService
     #region [생성자]
     public UserService(
         UserMapper userMapper,
+        UserSetupMapper userSetupMapper,
         UserRoleMapper userRoleMapper,
         UserMenuRoleMapper userMenuRoleMapper,
         MenuRoleMapper menuRoleMapper,
@@ -45,6 +47,7 @@ public class UserService
     )
     {
         _userMapper = userMapper;
+        _userSetupMapper = userSetupMapper;
         _userRoleMapper = userRoleMapper;
         _userMenuRoleMapper = userMenuRoleMapper;
         _menuRoleMapper = menuRoleMapper;
@@ -82,6 +85,23 @@ public class UserService
             }
         }
         return user;
+    }
+
+    /// <summary>
+    /// 사용자 설정을 조회한다.
+    /// </summary>
+    [Transaction]
+    public async Task<UserSetupResponseDTO> GetUserSetup(GetUserSetupRequestDTO dto)
+        => await _userSetupMapper.GetUserSetup(dto);
+
+    /// <summary>
+    /// 사용자 설정을 추가한다.
+    /// </summary>
+    [Transaction]
+    public async Task<UserSetupResponseDTO> AddUserSetup(AddUserSetupRequestDTO dto)
+    {
+        var userSetupId = await _userSetupMapper.AddUserSetup(dto);
+        return await _userSetupMapper.GetUserSetup(new GetUserSetupRequestDTO { UserSetupId = userSetupId });
     }
 
     /// <summary>
@@ -145,6 +165,13 @@ public class UserService
             dto.Employee.UserId = userId;
             dto.Employee.CreaterId = dto.CreaterId;
             var employeeId = await _employeeMapper.AddEmployee(dto.Employee);
+
+            // 사용자 설정 추가
+            await _userSetupMapper.AddUserSetup(new AddUserSetupRequestDTO
+            {
+                UserId = userId,
+                SiteTitleName = $"{dto.Employee.EmployeeName}의 workspace"
+            });
 
             // 근무이력 추가
             if (dto.Employee.WorkHistory != null)

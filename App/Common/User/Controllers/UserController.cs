@@ -47,6 +47,33 @@ public class UserController : ControllerBase
         => Ok(await _userService.GetUser(new GetUserRequestDTO { UserId = userId }));
 
     /// <summary>
+    /// 사용자 설정을 조회한다.
+    /// </summary>
+    [HttpGet("{userId}/setups")]
+    [Authorize]
+    public async Task<ActionResult<UserSetupResponseDTO>> GetUserSetup(int userId)
+        => Ok(await _userService.GetUserSetup(new GetUserSetupRequestDTO { UserId = userId }));
+
+    /// <summary>
+    /// 사용자 설정을 추가한다.
+    /// </summary>
+    [HttpPost("{userId}/setups")]
+    [Authorize]
+    public async Task<ActionResult<UserSetupResponseDTO>> AddUserSetup(int userId, [FromBody] AddUserSetupRequestDTO dto)
+    {
+        var user = _authService.GetAuthenticatedUser();
+        var myUserId = user.UserId;
+
+        if (userId != myUserId)
+            return NotFound();
+
+        dto.UserId = myUserId;
+        dto.CreaterId = myUserId;
+
+        return Created(string.Empty, await _userService.AddUserSetup(dto));
+    }
+
+    /// <summary>
     /// 사용자를 추가한다.
     /// </summary>
     [HttpPost]
