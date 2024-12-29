@@ -52,7 +52,15 @@ public class UserController : ControllerBase
     [HttpGet("{userId}/setups")]
     [Authorize]
     public async Task<ActionResult<UserSetupResponseDTO>> GetUserSetup(int userId)
-        => Ok(await _userService.GetUserSetup(new GetUserSetupRequestDTO { UserId = userId }));
+    {
+        var user = _authService.GetAuthenticatedUser();
+        var myUserId = user.UserId;
+
+        if (userId != myUserId)
+            return NotFound();
+
+        return Ok(await _userService.GetUserSetup(new GetUserSetupRequestDTO { UserId = userId }));
+    }
 
     /// <summary>
     /// 사용자 설정을 추가한다.
