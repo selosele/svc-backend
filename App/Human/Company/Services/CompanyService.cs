@@ -134,6 +134,13 @@ public class CompanyService
         // 없으면 등록신청을 추가한다.
         return await _companyApplyMapper.AddCompanyApply(dto);
     }
+
+    /// <summary>
+    /// 회사등록신청을 수정한다.
+    /// </summary>
+    [Transaction]
+    public async Task<int> UpdateCompanyApply(SaveCompanyApplyRequestDTO dto)
+        => await _companyApplyMapper.UpdateCompanyApply(dto);
     #endregion
     
 }

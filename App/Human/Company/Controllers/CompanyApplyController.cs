@@ -65,6 +65,19 @@ public class CompanyApplyController : ControllerBase
 
         return Created(string.Empty, await _companyService.AddCompanyApply(dto));
     }
+
+    /// <summary>
+    /// 회사등록신청을 수정한다.
+    /// </summary>
+    [HttpPut("{companyApplyId}")]
+    [Authorize]
+    public async Task<ActionResult<int>> UpdateCompanyApply(int companyApplyId, [FromBody] SaveCompanyApplyRequestDTO dto)
+    {
+        var user = _authService.GetAuthenticatedUser();
+        dto.UpdaterId = user.UserId;
+
+        return Ok(await _companyService.UpdateCompanyApply(dto));
+    }
     #endregion
 
 }

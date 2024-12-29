@@ -33,12 +33,13 @@
         CA.APPLY_STATE_CODE,
         CD.CODE_NAME AS APPLY_STATE_CODE_NAME,
         CA.APPLICANT_ID,
-        E.EMPLOYEE_NAME AS APPLICANT_NAME,
+        CONCAT(E.EMPLOYEE_NAME, '(', U.USER_ACCOUNT, ')') AS APPLICANT_NAME,
         DATE_FORMAT(CA.APPLY_DT, '%Y-%m-%d %H:%i:%s') AS APPLY_DT,
         CA.REJECT_CONTENT,
         DATE_FORMAT(CA.REJECT_DT, '%Y-%m-%d %H:%i:%s') AS REJECT_DT
       FROM HM_COMPANY_APPLY CA
       LEFT JOIN CO_CODE CD ON CD.CODE_VALUE = CA.APPLY_STATE_CODE AND CD.UP_CODE_ID = 'APPLY_STATE_00'
+      LEFT JOIN CO_USER U ON U.USER_ID = CA.APPLICANT_ID
       INNER JOIN HM_EMPLOYEE E ON E.USER_ID = CA.APPLICANT_ID
       WHERE 1=1
         <IsNotEmpty Property="ApplicantId">
@@ -60,12 +61,13 @@
         CA.APPLY_STATE_CODE,
         CD.CODE_NAME AS APPLY_STATE_CODE_NAME,
         CA.APPLICANT_ID,
-        E.EMPLOYEE_NAME AS APPLICANT_NAME,
+        CONCAT(E.EMPLOYEE_NAME, '(', U.USER_ACCOUNT, ')') AS APPLICANT_NAME,
         DATE_FORMAT(CA.APPLY_DT, '%Y-%m-%d %H:%i:%s') AS APPLY_DT,
         CA.REJECT_CONTENT,
         DATE_FORMAT(CA.REJECT_DT, '%Y-%m-%d %H:%i:%s') AS REJECT_DT
       FROM HM_COMPANY_APPLY CA
       LEFT JOIN CO_CODE CD ON CD.CODE_VALUE = CA.APPLY_STATE_CODE AND CD.UP_CODE_ID = 'APPLY_STATE_00'
+      LEFT JOIN CO_USER U ON U.USER_ID = CA.APPLICANT_ID
       INNER JOIN HM_EMPLOYEE E ON E.USER_ID = CA.APPLICANT_ID
       WHERE CA.COMPANY_APPLY_ID = @companyApplyId
     </Statement>
@@ -101,10 +103,15 @@
 
       UPDATE HM_COMPANY_APPLY
         SET
+          REGISTRATION_NO = @RegistrationNo,
+          CORPORATE_NAME = @CorporateName,
+          COMPANY_NAME = @CompanyName,
+          APPLY_CONTENT = @ApplyContent,
           APPLY_STATE_CODE = @ApplyStateCode,
+          APPLY_DT = SYSDATE(),
           <IsEqual Property="ApplyStateCode" CompareValue="REJECT">
           REJECT_CONTENT = @RejectContent,
-          REJECT_DT = SYSDATE,
+          REJECT_DT = SYSDATE(),
           </IsEqual>
           UPDATER_ID = @UpdaterId,
           UPDATE_DT = SYSDATE()

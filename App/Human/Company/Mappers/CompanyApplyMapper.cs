@@ -58,6 +58,19 @@ public class CompanyApplyMapper
             Request = dto
         });
     }
+
+    /// <summary>
+    /// 회사등록신청을 수정한다.
+    /// </summary>
+    public Task<int> UpdateCompanyApply(SaveCompanyApplyRequestDTO dto)
+    {
+        return SqlMapper.ExecuteAsync(new RequestContext
+        {
+            Scope = nameof(CompanyApplyMapper),
+            SqlId = "UpdateCompanyApply",
+            Request = dto
+        });
+    }
     #endregion
 
 }
