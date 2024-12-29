@@ -122,7 +122,7 @@ public class EmployeeService
         // 없으면 회사 정보를 추가한다.
         if (companyCount == 0)
         {
-            await _companyMapper.AddCompany(new AddCompanyRequestDTO
+            await _companyMapper.AddCompany(new SaveCompanyRequestDTO
             {
                 RegistrationNo = dto.RegistrationNo,
                 CorporateName = dto.CorporateName,
@@ -164,7 +164,7 @@ public class EmployeeService
         // 없으면 회사 정보를 추가한다.
         if (companyCount == 0)
         {
-            await _companyMapper.AddCompany(new AddCompanyRequestDTO
+            await _companyMapper.AddCompany(new SaveCompanyRequestDTO
             {
                 RegistrationNo = dto.RegistrationNo,
                 CorporateName = dto.CorporateName,

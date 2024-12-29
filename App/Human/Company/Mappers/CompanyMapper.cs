@@ -34,6 +34,19 @@ public class CompanyMapper
     }
 
     /// <summary>
+    /// 회사를 조회한다.
+    /// </summary>
+    public Task<CompanyResponseDTO> GetCompany(int companyId)
+    {
+        return SqlMapper.QuerySingleAsync<CompanyResponseDTO>(new RequestContext
+        {
+            Scope = nameof(CompanyMapper),
+            SqlId = "GetCompany",
+            Request = new { companyId }
+        });
+    }
+
+    /// <summary>
     /// 회사 정보가 존재하는지 확인한다.
     /// </summary>
     public Task<int> CountCompany(GetCompanyRequestDTO dto)
@@ -49,13 +62,39 @@ public class CompanyMapper
     /// <summary>
     /// 회사를 추가한다.
     /// </summary>
-    public Task<int> AddCompany(AddCompanyRequestDTO dto)
+    public Task<int> AddCompany(SaveCompanyRequestDTO dto)
     {
         return SqlMapper.ExecuteScalarAsync<int>(new RequestContext
         {
             Scope = nameof(CompanyMapper),
             SqlId = "AddCompany",
             Request = dto
+        });
+    }
+
+    /// <summary>
+    /// 회사를 수정한다.
+    /// </summary>
+    public Task<int> UpdateCompany(SaveCompanyRequestDTO dto)
+    {
+        return SqlMapper.ExecuteAsync(new RequestContext
+        {
+            Scope = nameof(CompanyMapper),
+            SqlId = "UpdateCompany",
+            Request = dto
+        });
+    }
+
+    /// <summary>
+    /// 회사를 삭제한다.
+    /// </summary>
+    public Task<int> RemoveCompany(int companyId, int? updaterId)
+    {
+        return SqlMapper.ExecuteAsync(new RequestContext
+        {
+            Scope = nameof(CompanyMapper),
+            SqlId = "RemoveCompany",
+            Request = new { companyId, updaterId }
         });
     }
     #endregion

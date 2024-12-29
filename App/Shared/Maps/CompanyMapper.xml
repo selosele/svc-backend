@@ -41,6 +41,22 @@
       ORDER BY C.CORPORATE_NAME, C.COMPANY_NAME
     </Statement>
 
+    <!-- 회사를 조회한다. -->
+    <Statement Id="GetCompany" ResultMap="CompanyResultMap">
+      /* CompanyMapper.GetCompany */
+
+      SELECT
+        C.COMPANY_ID,
+        C.REGISTRATION_NO,
+        C.CORPORATE_NAME,
+        C.COMPANY_NAME,
+        C.COMPANY_ADDR,
+        C.CEO_NAME,
+        C.DELETE_YN
+      FROM HM_COMPANY C
+      WHERE C.COMPANY_ID = @CompanyId
+    </Statement>
+
     <!-- 회사 정보가 존재하는지 확인한다. -->
     <Statement Id="CountCompany">
       /* CompanyMapper.CountCompany */
@@ -78,6 +94,34 @@
         @CreaterId
       )
       ;SELECT LAST_INSERT_ID()
+    </Statement>
+
+    <!-- 회사를 수정한다. -->
+    <Statement Id="UpdateCompany">
+      /* CompanyMapper.UpdateCompany */
+
+      UPDATE HM_COMPANY
+        SET
+          REGISTRATION_NO = REPLACE(@RegistrationNo, '-', ''),
+          CORPORATE_NAME = @CorporateName,
+          COMPANY_NAME = @CompanyName,
+          COMPANY_ADDR = @CompanyAddr,
+          CEO_NAME = @CeoName,
+          UPDATER_ID = @UpdaterId,
+          UPDATE_DT = SYSDATE()
+      WHERE COMPANY_ID = @CompanyId
+    </Statement>
+
+    <!-- 회사를 삭제한다. -->
+    <Statement Id="RemoveCompany">
+      /* CompanyMapper.RemoveCompany */
+
+      UPDATE HM_COMPANY
+        SET
+          DELETE_YN = 'Y',
+          UPDATER_ID = @UpdaterId,
+          UPDATE_DT = SYSDATE()
+      WHERE COMPANY_ID = @CompanyId
     </Statement>
     
   </Statements>

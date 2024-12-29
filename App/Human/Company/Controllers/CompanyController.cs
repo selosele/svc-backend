@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Svc.App.Common.Auth.Services;
 using Svc.App.Human.Company.Models.DTO;
 using Svc.App.Human.Company.Services;
+using Svc.App.Shared.Utils;
 
 namespace Svc.App.Human.Company.Controllers;
 
@@ -13,13 +15,16 @@ namespace Svc.App.Human.Company.Controllers;
 public class CompanyController : ControllerBase
 {
     #region [필드]
+    private readonly AuthService _authService;
     private readonly CompanyService _companyService;
     #endregion
     
     #region [생성자]
     public CompanyController(
+        AuthService authService,
         CompanyService companyService
     ) {
+        _authService = authService;
         _companyService = companyService;
     }
     #endregion
@@ -32,6 +37,58 @@ public class CompanyController : ControllerBase
     [Authorize]
     public async Task<ActionResult<List<CompanyResponseDTO>>> ListCompany([FromQuery] GetCompanyRequestDTO? dto)
         => Ok(await _companyService.ListCompany(dto));
+
+    /// <summary>
+    /// 회사를 조회한다.
+    /// </summary>
+    [HttpGet("{companyId}")]
+    [Authorize]
+    public async Task<ActionResult<CompanyResponseDTO>> GetCompany(int companyId)
+        => Ok(await _companyService.GetCompany(companyId));
+
+    /// <summary>
+    /// 회사를 추가한다.
+    /// </summary>
+    [HttpPost]
+    [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
+    public async Task<ActionResult> AddCompany([FromBody] SaveCompanyRequestDTO saveCompanyRequestDTO)
+    {
+        var user = _authService.GetAuthenticatedUser();
+        var myUserId = user.UserId;
+
+        saveCompanyRequestDTO.CreaterId = myUserId;
+
+        return Created(string.Empty, await _companyService.AddCompany(saveCompanyRequestDTO));
+    }
+
+    /// <summary>
+    /// 회사를 수정한다.
+    /// </summary>
+    [HttpPut("{companyId}")]
+    [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
+    public async Task<ActionResult<int>> UpdateCompany(int companyId, [FromBody] SaveCompanyRequestDTO saveCompanyRequestDTO)
+    {
+        var user = _authService.GetAuthenticatedUser();
+        var myUserId = user.UserId;
+
+        saveCompanyRequestDTO.UpdaterId = myUserId;
+
+        return Ok(await _companyService.UpdateCompany(saveCompanyRequestDTO));
+    }
+
+    /// <summary>
+    /// 회사를 삭제한다.
+    /// </summary>
+    [HttpDelete("{companyId}")]
+    [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
+    public async Task<ActionResult> RemoveCompany(int companyId)
+    {
+        var user = _authService.GetAuthenticatedUser();
+        var myUserId = user.UserId;
+
+        await _companyService.RemoveCompany(companyId, myUserId);
+        return NoContent();
+    }
     #endregion
 
 }

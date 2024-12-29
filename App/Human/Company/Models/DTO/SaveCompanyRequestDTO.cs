@@ -1,18 +1,21 @@
-using System.ComponentModel.DataAnnotations;
 using Svc.App.Shared.Models.DTO;
 
 namespace Svc.App.Human.Company.Models.DTO;
 
 /// <summary>
-/// 회사 추가 요청 DTO
+/// 회사 추가/수정 요청 DTO
 /// </summary>
-public record AddCompanyRequestDTO : HttpRequestDTOBase
+public record SaveCompanyRequestDTO : HttpRequestDTOBase
 {
     #region [필드]
     /// <summary>
+    /// 회사 ID
+    /// </summary>
+    public int? CompanyId { get; set; }
+
+    /// <summary>
     /// 사업자등록번호
     /// </summary>
-    [Required]
     public string? RegistrationNo { get; set; }
 
     /// <summary>
@@ -23,7 +26,6 @@ public record AddCompanyRequestDTO : HttpRequestDTOBase
     /// <summary>
     /// 회사명
     /// </summary>
-    [Required]
     public string? CompanyName { get; set; }
 
     /// <summary>

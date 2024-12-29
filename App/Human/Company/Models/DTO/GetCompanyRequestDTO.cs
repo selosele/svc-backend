@@ -12,6 +12,11 @@ public record GetCompanyRequestDTO : HttpRequestDTOBase
     /// 회사 ID
     /// </summary>
     public int? CompanyId { get; set; }
+
+    /// <summary>
+    /// 사업자등록번호
+    /// </summary>
+    public string? RegistrationNo { get; set; }
     
     /// <summary>
     /// 법인명
@@ -22,11 +27,6 @@ public record GetCompanyRequestDTO : HttpRequestDTOBase
     /// 회사명
     /// </summary>
     public string? CompanyName { get; set; }
-    
-    /// <summary>
-    /// 사업자등록번호
-    /// </summary>
-    public string? RegistrationNo { get; set; }
 
     /// <summary>
     /// 페이지 번호

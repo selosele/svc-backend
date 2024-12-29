@@ -45,6 +45,13 @@ public class CompanyService
         => await _companyMapper.ListCompany(dto);
 
     /// <summary>
+    /// 회사를 조회한다.
+    /// </summary>
+    [Transaction]
+    public async Task<CompanyResponseDTO> GetCompany(int companyId)
+        => await _companyMapper.GetCompany(companyId);
+
+    /// <summary>
     /// 회사 정보가 존재하는지 확인한다.
     /// </summary>
     [Transaction]
@@ -55,8 +62,22 @@ public class CompanyService
     /// 회사를 추가한다.
     /// </summary>
     [Transaction]
-    public async Task<int> AddCompany(AddCompanyRequestDTO dto)
+    public async Task<int> AddCompany(SaveCompanyRequestDTO dto)
         => await _companyMapper.AddCompany(dto);
+
+    /// <summary>
+    /// 회사를 수정한다.
+    /// </summary>
+    [Transaction]
+    public async Task<int> UpdateCompany(SaveCompanyRequestDTO dto)
+        => await _companyMapper.UpdateCompany(dto);
+
+    /// <summary>
+    /// 회사를 삭제한다.
+    /// </summary>
+    [Transaction]
+    public async Task<int> RemoveCompany(int companyId, int? updaterId)
+        => await _companyMapper.RemoveCompany(companyId, updaterId);
 
     /// <summary>
     /// 금융위원회_기업기본정보 - 기업개요조회 API로 회사 목록을 조회한다.
