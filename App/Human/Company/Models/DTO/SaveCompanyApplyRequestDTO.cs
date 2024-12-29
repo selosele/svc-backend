@@ -39,6 +39,11 @@ public record SaveCompanyApplyRequestDTO : HttpRequestDTOBase
     public string? ApplyStateCode { get; set; }
 
     /// <summary>
+    /// 신청자 ID
+    /// </summary>
+    public int? ApplicantId { get; set; }
+
+    /// <summary>
     /// 반려 사유
     /// </summary>
     public string? RejectContent { get; set; }
