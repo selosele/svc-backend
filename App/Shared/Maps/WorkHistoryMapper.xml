@@ -66,6 +66,7 @@
         FN_GET_DATE_DIFF('MONTH', H.JOIN_YMD, H.QUIT_YMD) AS WORK_DIFF_M,
         FN_GET_VACATION_REMAIN_COUNT(
           H.JOIN_YMD,
+          H.QUIT_YMD,
           @AnnualTypeCode,
           IFNULL(VC.VACATION_USE_COUNT, 0),
           @UserId
