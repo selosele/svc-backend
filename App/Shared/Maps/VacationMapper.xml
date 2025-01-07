@@ -86,7 +86,10 @@
         @VacationContent,
         @VacationStartYmd,
         @VacationEndYmd,
-        @VacationUseCount,
+        IFNULL(
+          @VacationUseCount,
+          FN_GET_VACATION_USE_COUNT(@VacationStartYmd, @VacationEndYmd, @VacationTypeCode, @CreaterId)
+        ),
         @CreaterId
       )
       ;SELECT LAST_INSERT_ID()
@@ -102,7 +105,10 @@
           VACATION_CONTENT = @VacationContent,
           VACATION_START_YMD = @VacationStartYmd,
           VACATION_END_YMD = @VacationEndYmd,
-          VACATION_USE_COUNT = @VacationUseCount,
+          VACATION_USE_COUNT = IFNULL(
+            @VacationUseCount,
+            FN_GET_VACATION_USE_COUNT(@VacationStartYmd, @VacationEndYmd, @VacationTypeCode, @UpdaterId)
+          ),
           UPDATER_ID = @UpdaterId,
           UPDATE_DT = SYSDATE()
       WHERE VACATION_ID = @VacationId
