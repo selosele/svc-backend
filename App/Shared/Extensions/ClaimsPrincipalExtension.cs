@@ -34,6 +34,7 @@ public static class ClaimsPrincipalExtension
                         JobTitleCode = principal?.FindFirstValue(ClaimUtil.JOB_TITLE_CODE_IDENTIFIER),
                         JobTitleCodeName = principal?.FindFirstValue(ClaimUtil.JOB_TITLE_CODE_NAME_IDENTIFIER),
                         JoinYmd = principal?.FindFirstValue(ClaimUtil.JOIN_YMD_IDENTIFIER),
+                        QuitYmd = principal?.FindFirstValue(ClaimUtil.QUIT_YMD_IDENTIFIER),
                     }
                 ]
             }
