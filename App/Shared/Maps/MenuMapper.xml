@@ -86,6 +86,24 @@
             ELSE 0
           END
     </Statement>
+
+    <!-- 메뉴를 조회한다. -->
+    <Statement Id="GetMenu" ResultMap="MenuResultMap">
+      /* MenuMapper.GetMenu */
+
+      SELECT
+        M.MENU_ID,
+        M.UP_MENU_ID,
+        M.MENU_NAME,
+        M.MENU_URL,
+        M.MENU_ORDER,
+        M.MENU_DEPTH,
+        M.MENU_SHOW_YN,
+        M.USE_YN,
+        M.DELETE_YN
+      FROM CO_MENU M
+      WHERE M.MENU_ID = @MenuId
+    </Statement>
     
   </Statements>
 </SmartSqlMap>

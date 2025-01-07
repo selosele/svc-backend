@@ -32,6 +32,19 @@ public class MenuMapper
             Request = dto
         });
     }
+
+    /// <summary>
+    /// 메뉴를 조회한다.
+    /// </summary>
+    public Task<MenuResponseDTO> GetMenu(int menuId)
+    {
+        return SqlMapper.QuerySingleAsync<MenuResponseDTO>(new RequestContext
+        {
+            Scope = nameof(MenuMapper),
+            SqlId = "GetMenu",
+            Request = new { menuId }
+        });
+    }
     #endregion
 
 }

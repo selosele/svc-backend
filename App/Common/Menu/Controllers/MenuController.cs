@@ -41,6 +41,14 @@ public class MenuController : ControllerBase
 
         return Ok(await _menuService.ListMenu(dto));
     }
+
+    /// <summary>
+    /// 메뉴를 조회한다.
+    /// </summary>
+    [HttpGet("{menuId}")]
+    [Authorize]
+    public async Task<ActionResult<MenuResponseDTO>> GetMenu(int menuId)
+        => Ok(await _menuService.GetMenu(menuId));
     #endregion
 
 }

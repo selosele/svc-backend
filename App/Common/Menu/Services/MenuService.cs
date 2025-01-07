@@ -29,6 +29,13 @@ public class MenuService
     [Transaction]
     public async Task<IList<MenuResponseDTO>> ListMenu(GetMenuRequestDTO dto)
         => await _menuMapper.ListMenu(dto);
+
+    /// <summary>
+    /// 메뉴를 조회한다.
+    /// </summary>
+    [Transaction]
+    public async Task<MenuResponseDTO> GetMenu(int menuId)
+        => await _menuMapper.GetMenu(menuId);
     #endregion
     
 }
