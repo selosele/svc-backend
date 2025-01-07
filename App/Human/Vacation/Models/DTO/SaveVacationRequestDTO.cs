@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Svc.App.Shared.Models.DTO;
 
 namespace Svc.App.Human.Vacation.Models.DTO;
@@ -46,6 +47,7 @@ public record SaveVacationRequestDTO : HttpRequestDTOBase
     /// <summary>
     /// 휴가 사용일수
     /// </summary>
+    [JsonConverter(typeof(NullableDoubleConverter))]
     public double? VacationUseCount { get; set; }
     #endregion
 
