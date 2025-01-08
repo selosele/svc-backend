@@ -206,7 +206,7 @@ public class AuthService
         // 본인인증 코드 생성
         var certCode = RandomStringGeneratorUtil.Generate(6);
 
-        // 사용자 본인인증 내역 추가
+        // 사용자 본인인증 이력 추가
         int certHistoryId = await _userCertHistoryMapper.AddUserCertHistory(new AddUserCertHistoryRequestDTO
         {
             UserAccount = foundUser.UserAccount,
@@ -218,7 +218,7 @@ public class AuthService
             ValidTime = 180 // 3분
         });
 
-        // 사용자 본인인증 내역 조회
+        // 사용자 본인인증 이력 조회
         var userCertHistory = await _userCertHistoryMapper.GetUserCertHistory(new GetUserCertHistoryRequestDTO
         {
             CertHistoryId = certHistoryId
@@ -263,7 +263,7 @@ public class AuthService
         var foundUser = await _userMapper.GetUserFindInfo(dto)
             ?? throw new BizException("가입된 정보가 없어요. 입력하신 정보를 다시 확인하세요.");
 
-        // 사용자 본인인증 내역 조회
+        // 사용자 본인인증 이력 조회
         var userCertHistoryCount = await _userCertHistoryMapper.CountUserCertHistory(new GetUserCertHistoryRequestDTO
         {
             UserAccount = dto.UserAccount,

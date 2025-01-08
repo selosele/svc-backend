@@ -4,7 +4,7 @@ using Svc.App.Shared.Models.DTO;
 namespace Svc.App.Common.User.Models.DTO;
 
 /// <summary>
-/// 사용자 본인인증 내역 추가 요청 DTO
+/// 사용자 본인인증 이력 추가 요청 DTO
 /// </summary>
 public record AddUserCertHistoryRequestDTO : HttpRequestDTOBase
 {

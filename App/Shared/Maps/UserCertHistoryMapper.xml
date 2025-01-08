@@ -17,7 +17,7 @@
 
   <Statements>
 
-    <!-- 사용자 본인인증 내역을 조회한다. -->
+    <!-- 사용자 본인인증 이력을 조회한다. -->
     <Statement Id="GetUserCertHistory" ResultMap="UserCertHistoryResultMap">
       /* UserCertHistoryMapper.GetUserCertHistory */
 
@@ -38,7 +38,7 @@
         </IsNotEmpty>
     </Statement>
 
-    <!-- 사용자 본인인증 내역이 존재하는지 확인한다. -->
+    <!-- 사용자 본인인증 이력이 존재하는지 확인한다. -->
     <Statement Id="CountUserCertHistory">
       /* UserCertHistoryMapper.CountUserCertHistory */
 
@@ -65,7 +65,7 @@
       ) T
     </Statement>
 
-    <!-- 사용자 본인인증 내역을 추가한다. -->
+    <!-- 사용자 본인인증 이력을 추가한다. -->
     <Statement Id="AddUserCertHistory">
       /* UserCertHistoryMapper.AddUserCertHistory */
 

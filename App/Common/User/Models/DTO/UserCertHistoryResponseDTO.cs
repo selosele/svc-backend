@@ -1,13 +1,13 @@
 namespace Svc.App.Common.User.Models.DTO;
 
 /// <summary>
-/// 사용자 본인인증 내역 응답 DTO
+/// 사용자 본인인증 이력 응답 DTO
 /// </summary>
 public record UserCertHistoryResponseDTO
 {
     #region [필드]
     /// <summary>
-    /// 본인인증 내역 ID
+    /// 본인인증 이력 ID
     /// </summary>
     public int? CertHistoryId { get; set; }
 
