@@ -365,16 +365,16 @@ public class AuthService
         {
             new(ClaimUtil.USER_ID_IDENTIFIER, user.UserId.ToString()!),
             new(ClaimUtil.USER_ACCOUNT_IDENTIFIER, user.UserAccount!),
-            new(ClaimUtil.WORK_HISTORY_ID_IDENTIFIER, user.Employee!.WorkHistories![0].WorkHistoryId.ToString()!),
-            new(ClaimUtil.COMPANY_NAME_IDENTIFIER, user.Employee!.WorkHistories![0].CompanyName?.ToString()!),
-            new(ClaimUtil.RANK_CODE_IDENTIFIER, user.Employee!.WorkHistories![0].RankCode?.ToString()!),
-            new(ClaimUtil.RANK_CODE_NAME_IDENTIFIER, user.Employee!.WorkHistories![0].RankCodeName?.ToString()!),
-            new(ClaimUtil.JOB_TITLE_CODE_IDENTIFIER, user.Employee!.WorkHistories![0].JobTitleCode?.ToString()!),
-            new(ClaimUtil.JOB_TITLE_CODE_NAME_IDENTIFIER, user.Employee!.WorkHistories![0].JobTitleCodeName?.ToString()!),
-            new(ClaimUtil.JOIN_YMD_IDENTIFIER, user.Employee!.WorkHistories![0].JoinYmd?.ToString()!),
-            new(ClaimUtil.QUIT_YMD_IDENTIFIER, user.Employee!.WorkHistories![0].QuitYmd?.ToString()! ?? ""), // 빈 문자열로 null 처리 안해주면 퇴사일자 값 없을시 로그인 오류 발생
-            new(ClaimUtil.EMPLOYEE_ID_IDENTIFIER, user.Employee!.EmployeeId.ToString()!),
-            new(ClaimUtil.EMPLOYEE_NAME_IDENTIFIER, user.Employee!.EmployeeName!)
+            new(ClaimUtil.WORK_HISTORY_ID_IDENTIFIER, user.Employee!.WorkHistories![0].WorkHistoryId.ToString()! ?? ""),
+            new(ClaimUtil.COMPANY_NAME_IDENTIFIER, user.Employee!.WorkHistories![0].CompanyName?.ToString()! ?? ""),
+            new(ClaimUtil.RANK_CODE_IDENTIFIER, user.Employee!.WorkHistories![0].RankCode?.ToString()! ?? ""),
+            new(ClaimUtil.RANK_CODE_NAME_IDENTIFIER, user.Employee!.WorkHistories![0].RankCodeName?.ToString()! ?? ""),
+            new(ClaimUtil.JOB_TITLE_CODE_IDENTIFIER, user.Employee!.WorkHistories![0].JobTitleCode?.ToString()! ?? ""),
+            new(ClaimUtil.JOB_TITLE_CODE_NAME_IDENTIFIER, user.Employee!.WorkHistories![0].JobTitleCodeName?.ToString()! ?? ""),
+            new(ClaimUtil.JOIN_YMD_IDENTIFIER, user.Employee!.WorkHistories![0].JoinYmd?.ToString()! ?? ""),
+            new(ClaimUtil.QUIT_YMD_IDENTIFIER, user.Employee!.WorkHistories![0].QuitYmd?.ToString()! ?? ""),
+            new(ClaimUtil.EMPLOYEE_ID_IDENTIFIER, user.Employee!.EmployeeId.ToString()! ?? ""),
+            new(ClaimUtil.EMPLOYEE_NAME_IDENTIFIER, user.Employee!.EmployeeName! ?? "")
         };
 
         foreach (var i in user.Roles!)
