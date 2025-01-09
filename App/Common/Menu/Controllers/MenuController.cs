@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Svc.App.Common.Menu.Models.DTO;
 using Svc.App.Common.Menu.Services;
 using Svc.App.Common.Auth.Services;
+using Svc.App.Shared.Utils;
 
 namespace Svc.App.Common.Menu.Controllers;
 
@@ -49,6 +50,19 @@ public class MenuController : ControllerBase
     [Authorize]
     public async Task<ActionResult<MenuResponseDTO>> GetMenu(int menuId)
         => Ok(await _menuService.GetMenu(menuId));
+
+    /// <summary>
+    /// 메뉴를 삭제한다.
+    /// </summary>
+    [HttpDelete("{menuId}")]
+    [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
+    public async Task<ActionResult> RemoveMenu(int menuId)
+    {
+        var user = _authService.GetAuthenticatedUser();
+
+        await _menuService.RemoveMenu(menuId, user.UserId);
+        return NoContent();
+    }
     #endregion
 
 }

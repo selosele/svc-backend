@@ -45,6 +45,19 @@ public class MenuMapper
             Request = new { menuId }
         });
     }
+
+    /// <summary>
+    /// 메뉴를 삭제한다.
+    /// </summary>
+    public Task<int> RemoveMenu(int menuId, int? updaterId)
+    {
+        return SqlMapper.ExecuteAsync(new RequestContext
+        {
+            Scope = nameof(MenuMapper),
+            SqlId = "RemoveMenu",
+            Request = new { menuId, updaterId }
+        });
+    }
     #endregion
 
 }

@@ -104,6 +104,18 @@
       FROM CO_MENU M
       WHERE M.MENU_ID = @MenuId
     </Statement>
+
+    <!-- 메뉴를 삭제한다. -->
+    <Statement Id="RemoveMenu">
+      /* MenuMapper.RemoveMenu */
+
+      UPDATE CO_MENU
+        SET
+          DELETE_YN = 'Y',
+          UPDATER_ID = @UpdaterId,
+          UPDATE_DT = SYSDATE()
+      WHERE MENU_ID = @MenuId
+    </Statement>
     
   </Statements>
 </SmartSqlMap>

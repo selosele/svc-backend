@@ -36,6 +36,13 @@ public class MenuService
     [Transaction]
     public async Task<MenuResponseDTO> GetMenu(int menuId)
         => await _menuMapper.GetMenu(menuId);
+
+    /// <summary>
+    /// 메뉴를 삭제한다.
+    /// </summary>
+    [Transaction]
+    public async Task<int> RemoveMenu(int menuId, int? updaterId)
+        => await _menuMapper.RemoveMenu(menuId, updaterId);
     #endregion
     
 }
