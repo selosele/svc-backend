@@ -5,6 +5,7 @@
     <ResultMap Id="MenuRoleResultMap">
       <Result Column="MENU_ID" Property="MenuId" />
       <Result Column="ROLE_ID" Property="RoleId" />
+      <Result Column="ROLE_NAME" Property="RoleName" />
     </ResultMap>
   </ResultMaps>
 
@@ -16,10 +17,22 @@
 
       SELECT
         MR.MENU_ID,
-        MR.ROLE_ID
+        MR.ROLE_ID,
+        R.ROLE_NAME
       FROM CO_MENU_ROLE MR
+      <IsNotEmpty Property="UserId">
       INNER JOIN CO_USER_ROLE UR ON UR.ROLE_ID = MR.ROLE_ID
-      WHERE UR.USER_ID = @UserId
+      </IsNotEmpty>
+      <IsNotEmpty Property="MenuId">
+      INNER JOIN CO_ROLE R ON R.ROLE_ID = MR.ROLE_ID
+      </IsNotEmpty>
+      WHERE 1=1
+        <IsNotEmpty Property="UserId">
+        AND UR.USER_ID = @UserId
+        </IsNotEmpty>
+        <IsNotEmpty Property="MenuId">
+        AND MR.MENU_ID = @MenuId
+        </IsNotEmpty>
     </Statement>
     
   </Statements>

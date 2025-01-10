@@ -11,14 +11,17 @@ public class MenuService
 {
     #region [필드]
     private readonly MenuMapper _menuMapper;
+    private readonly MenuRoleMapper _menuRoleMapper;
     #endregion
     
     #region [생성자]
     public MenuService(
-        MenuMapper menuMapper
+        MenuMapper menuMapper,
+        MenuRoleMapper menuRoleMapper
     )
     {
         _menuMapper = menuMapper;
+        _menuRoleMapper = menuRoleMapper;
     }
     #endregion
 
@@ -35,7 +38,11 @@ public class MenuService
     /// </summary>
     [Transaction]
     public async Task<MenuResponseDTO> GetMenu(int menuId)
-        => await _menuMapper.GetMenu(menuId);
+    {
+        var menu = await _menuMapper.GetMenu(menuId);
+        menu.MenuRoles = await _menuRoleMapper.ListMenuRole(new GetMenuRoleRequestDTO { MenuId = menuId });
+        return menu;
+    }
 
     /// <summary>
     /// 메뉴를 삭제한다.

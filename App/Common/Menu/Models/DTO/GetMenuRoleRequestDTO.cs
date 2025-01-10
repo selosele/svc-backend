@@ -9,6 +9,11 @@ public record GetMenuRoleRequestDTO : HttpRequestDTOBase
 {
     #region [필드]
     /// <summary>
+    /// 메뉴 ID
+    /// </summary>
+    public int? MenuId { get; set; }
+
+    /// <summary>
     /// 사용자 ID
     /// </summary>
     public int? UserId { get; set; }

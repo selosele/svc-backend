@@ -15,6 +15,11 @@ public record MenuRoleResponseDTO
     /// 권한 ID
     /// </summary>
     public string? RoleId { get; set; }
+
+    /// <summary>
+    /// 권한명
+    /// </summary>
+    public string? RoleName { get; set; }
     #endregion
 
 }

@@ -50,6 +50,11 @@ public record MenuResponseDTO
     /// 삭제 여부
     /// </summary>
     public string? DeleteYn { get; set; }
+
+    /// <summary>
+    /// 메뉴 권한 목록
+    /// </summary>
+    public IList<MenuRoleResponseDTO>? MenuRoles { get; set; }
     #endregion
 
 }
