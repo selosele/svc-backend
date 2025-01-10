@@ -44,10 +44,24 @@ public class MenuController : ControllerBase
     }
 
     /// <summary>
+    /// 시스템관리 > 메뉴관리 > 메뉴 목록을 조회한다.
+    /// </summary>
+    [HttpGet("sys")]
+    [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
+    public async Task<ActionResult<List<MenuResponseDTO>>> ListSysMenu([FromQuery] GetMenuRequestDTO dto)
+    {
+        var user = _authService.GetAuthenticatedUser();
+        dto.UserId = user.UserId;
+        dto.UseYn = null; // 미사용 메뉴도 전부 조회
+
+        return Ok(await _menuService.ListMenu(dto));
+    }
+
+    /// <summary>
     /// 메뉴를 조회한다.
     /// </summary>
     [HttpGet("{menuId}")]
-    [Authorize]
+    [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
     public async Task<ActionResult<MenuResponseDTO>> GetMenu(int menuId)
         => Ok(await _menuService.GetMenu(menuId));
 
