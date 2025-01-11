@@ -32,6 +32,32 @@ public class MenuRoleMapper
             Request = dto
         });
     }
+
+    /// <summary>
+    /// 메뉴 권한을 추가한다.
+    /// </summary>
+    public Task<int> AddMenuRole(List<AddMenuRoleRequestDTO> dtoList)
+    {
+        return SqlMapper.ExecuteAsync(new RequestContext
+        {
+            Scope = nameof(MenuRoleMapper),
+            SqlId = "AddMenuRole",
+            Request = new { DTOList = dtoList }
+        });
+    }
+
+    /// <summary>
+    /// 메뉴 권한을 삭제한다.
+    /// </summary>
+    public Task<int> RemoveMenuRole(int menuId)
+    {
+        return SqlMapper.ExecuteAsync(new RequestContext
+        {
+            Scope = nameof(MenuRoleMapper),
+            SqlId = "RemoveMenuRole",
+            Request = new { menuId }
+        });
+    }
     #endregion
 
 }

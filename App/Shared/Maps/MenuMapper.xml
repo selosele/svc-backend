@@ -107,6 +107,82 @@
       WHERE M.MENU_ID = @MenuId
     </Statement>
 
+    <!-- 가장 최신의 메뉴 ID를 조회한다. -->
+    <Statement Id="GetMaxMenuId">
+      /* MenuMapper.GetMaxMenuId */
+
+      SELECT MAX(M.MENU_ID)
+      FROM CO_MENU M
+      WHERE M.MENU_ID IS NOT NULL
+    </Statement>
+
+    <!-- 메뉴를 추가한다. -->
+    <Statement Id="AddMenu">
+      /* MenuMapper.AddMenu */
+
+      INSERT INTO CO_MENU (
+        MENU_ID,
+        UP_MENU_ID,
+        MENU_NAME,
+        MENU_URL,
+        MENU_ORDER,
+        MENU_DEPTH,
+        MENU_SHOW_YN,
+        USE_YN,
+        CREATER_ID
+      )
+      VALUES (
+        IFNULL(@MenuId, (SELECT IFNULL(MAX(M.MENU_ID), 0) + 1 FROM CO_MENU M)),
+        @UpMenuId,
+        @MenuName,
+        @MenuUrl,
+        IFNULL(@MenuOrder, (
+          SELECT IFNULL(MAX(M.MENU_ORDER), 0) + 1
+          FROM CO_MENU M
+          WHERE 1=1
+            <IsEmpty Property="UpMenuId">
+            AND M.UP_MENU_ID IS NULL
+            </IsEmpty>
+            <IsNotEmpty Property="UpMenuId">
+            AND M.UP_MENU_ID = @UpMenuId
+            </IsNotEmpty>
+        )),
+        @MenuDepth,
+        @MenuShowYn,
+        @UseYn,
+        @CreaterId
+      )
+    </Statement>
+
+    <!-- 메뉴를 수정한다. -->
+    <Statement Id="UpdateMenu">
+      /* MenuMapper.UpdateMenu */
+
+      UPDATE CO_MENU
+        SET
+          MENU_ID = @MenuId,
+          UP_MENU_ID = @UpMenuId,
+          MENU_NAME = @MenuName,
+          MENU_URL = @MenuUrl,
+          MENU_ORDER = IFNULL(@MenuOrder, (
+            SELECT IFNULL(MAX(M.MENU_ORDER), 0) + 1
+            FROM CO_MENU M
+            WHERE 1=1
+              <IsEmpty Property="UpMenuId">
+              AND M.UP_MENU_ID IS NULL
+              </IsEmpty>
+              <IsNotEmpty Property="UpMenuId">
+              AND M.UP_MENU_ID = @UpMenuId
+              </IsNotEmpty>
+          )),
+          MENU_DEPTH = @MenuDepth,
+          MENU_SHOW_YN = @MenuShowYn,
+          USE_YN = @UseYn,
+          UPDATER_ID = @UpdaterId,
+          UPDATE_DT = SYSDATE()
+      WHERE MENU_ID = @OriginalMenuId
+    </Statement>
+
     <!-- 메뉴를 삭제한다. -->
     <Statement Id="RemoveMenu">
       /* MenuMapper.RemoveMenu */

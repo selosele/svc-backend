@@ -47,6 +47,44 @@ public class MenuMapper
     }
 
     /// <summary>
+    /// 가장 최신의 메뉴 ID를 조회한다.
+    /// </summary>
+    public Task<int> GetMaxMenuId()
+    {
+        return SqlMapper.QuerySingleAsync<int>(new RequestContext
+        {
+            Scope = nameof(MenuMapper),
+            SqlId = "GetMaxMenuId"
+        });
+    }
+
+    /// <summary>
+    /// 메뉴를 추가한다.
+    /// </summary>
+    public Task<int> AddMenu(SaveMenuRequestDTO dto)
+    {
+        return SqlMapper.ExecuteAsync(new RequestContext
+        {
+            Scope = nameof(MenuMapper),
+            SqlId = "AddMenu",
+            Request = dto
+        });
+    }
+
+    /// <summary>
+    /// 메뉴를 수정한다.
+    /// </summary>
+    public Task<int> UpdateMenu(SaveMenuRequestDTO dto)
+    {
+        return SqlMapper.ExecuteAsync(new RequestContext
+        {
+            Scope = nameof(MenuMapper),
+            SqlId = "UpdateMenu",
+            Request = dto
+        });
+    }
+
+    /// <summary>
     /// 메뉴를 삭제한다.
     /// </summary>
     public Task<int> RemoveMenu(int menuId, int? updaterId)

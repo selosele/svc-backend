@@ -66,6 +66,19 @@ public class MenuController : ControllerBase
         => Ok(await _menuService.GetMenu(menuId));
 
     /// <summary>
+    /// 메뉴를 추가한다.
+    /// </summary>
+    [HttpPost]
+    [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
+    public async Task<ActionResult<MenuResponseDTO>> AddMenu([FromBody] SaveMenuRequestDTO dto)
+    {
+        var user = _authService.GetAuthenticatedUser();
+        dto.CreaterId = user.UserId;
+
+        return Created(string.Empty, await _menuService.AddMenu(dto));
+    }
+
+    /// <summary>
     /// 메뉴를 삭제한다.
     /// </summary>
     [HttpDelete("{menuId}")]
