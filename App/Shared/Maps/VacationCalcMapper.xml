@@ -40,7 +40,13 @@
       )
       VALUES
       <For Property="DTO.VacationTypeCodes" Key="vacationTypeCode" Open="" Close="" Separator=",">
-        (@DTO.WorkHistoryId, @DTO.EmployeeId, @DTO.AnnualTypeCode, @vacationTypeCode, @DTO.CreaterId)
+        (
+          @DTO.WorkHistoryId,
+          @DTO.EmployeeId,
+          @DTO.AnnualTypeCode,
+          @vacationTypeCode,
+          @DTO.CreaterId
+        )
       </For>
     </Statement>
 

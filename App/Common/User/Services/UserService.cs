@@ -220,7 +220,7 @@ public class UserService
             {
                 UserId = dto.UserId,
                 RoleId = roleId,
-                UpdaterId = dto.UpdaterId
+                CreaterId = dto.UpdaterId
             });
         }
         await _userRoleMapper.AddUserRole(addUserRoleRequestDTOList);
@@ -240,7 +240,7 @@ public class UserService
                 UserId = dto.UserId,
                 MenuId = i.MenuId,
                 RoleId = i.RoleId,
-                UpdaterId = dto.UpdaterId
+                CreaterId = dto.UpdaterId
             });
         }
         await _userMenuRoleMapper.AddUserMenuRole(addUserMenuRoleRequestDTOList);

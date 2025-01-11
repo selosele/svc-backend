@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 /// </summary>
 public class NullableDoubleConverter : JsonConverter<double?>
 {
+    #region [메서드]
     /// <summary>
     /// JSON 데이터를 읽어 double? 타입으로 변환한다.
     /// 빈 문자열은 null로 변환된다.
@@ -34,4 +35,5 @@ public class NullableDoubleConverter : JsonConverter<double?>
             writer.WriteNullValue();
         }
     }
+    #endregion
 }
