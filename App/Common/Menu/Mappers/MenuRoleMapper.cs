@@ -49,7 +49,7 @@ public class MenuRoleMapper
     /// <summary>
     /// 메뉴 권한을 삭제한다.
     /// </summary>
-    public Task<int> RemoveMenuRole(int menuId)
+    public Task<int> RemoveMenuRole(int? menuId)
     {
         return SqlMapper.ExecuteAsync(new RequestContext
         {

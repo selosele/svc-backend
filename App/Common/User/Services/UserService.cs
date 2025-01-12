@@ -110,26 +110,24 @@ public class UserService
     [Transaction]
     public async Task<UserResponseDTO?> AddUser(AddUserRequestDTO dto)
     {
-        // 사용자 중복 체크
+        // 1. 사용자 중복 체크를 한다.
         var foundUser = await GetUser(new GetUserRequestDTO { UserAccount = dto.UserAccount });
         if (foundUser != null)
             throw new BizException("해당 사용자는 이미 존재해요. 입력하신 정보를 다시 확인하세요.");
 
-        // 직원 이메일주소 중복 체크
+        // 2. 직원 이메일주소 중복 체크를 한다.
         var foundEmailCount = await _employeeMapper.CountEmployeeEmailAddr(dto.Employee!.EmailAddr!, null);
         if (foundEmailCount > 0)
             throw new BizException("이메일주소가 이미 있어요. 입력하신 정보를 다시 확인하세요.");
 
-        // 비밀번호 암호화
+        // 3. 비밀번호를 암호화한다.
         dto.UserPassword = EncryptUtil.Encrypt(dto.UserPassword!);
+        dto.CreaterId = _authService.GetAuthenticatedUser().UserId; // 등록자 ID
 
-        // 등록자 ID
-        dto.CreaterId = _authService.GetAuthenticatedUser().UserId;
-
-        // 사용자 추가
+        // 4. 사용자를 추가한다.
         var userId = await _userMapper.AddUser(dto);
 
-        // 사용자 권한 추가
+        // 5. 사용자 권한을 추가한다.
         List<AddUserRoleRequestDTO> addUserRoleRequestDTOList = [];
         foreach (var roleId in dto.Roles!)
         {
@@ -142,10 +140,10 @@ public class UserService
         }
         await _userRoleMapper.AddUserRole(addUserRoleRequestDTOList);
 
-        // 메뉴 권한 목록 조회
+        // 6. 메뉴 권한 목록을 조회한다.
         var menuRoleList = await _menuRoleMapper.ListMenuRole(new GetMenuRoleRequestDTO { UserId = userId });
 
-        // 사용자 메뉴 권한 추가
+        // 7. 사용자 메뉴 권한을 추가한다.
         List<AddUserMenuRoleRequestDTO> addUserMenuRoleRequestDTOList = [];
         foreach (var i in menuRoleList)
         {
@@ -159,21 +157,21 @@ public class UserService
         }
         await _userMenuRoleMapper.AddUserMenuRole(addUserMenuRoleRequestDTOList);
 
-        // 직원 추가
+        // 8. 직원을 추가한다.
         if (dto.Employee != null)
         {
             dto.Employee.UserId = userId;
             dto.Employee.CreaterId = dto.CreaterId;
             var employeeId = await _employeeMapper.AddEmployee(dto.Employee);
 
-            // 사용자 설정 추가
+            // 9. 사용자 설정을 추가한다.
             await _userSetupMapper.AddUserSetup(new AddUserSetupRequestDTO
             {
                 UserId = userId,
                 SiteTitleName = $"{dto.Employee.EmployeeName}의 workspace"
             });
 
-            // 근무이력 추가
+            // 10. 근무이력을 추가한다.
             if (dto.Employee.WorkHistory != null)
             {
                 dto.Employee.WorkHistory.EmployeeId = employeeId;
@@ -183,7 +181,7 @@ public class UserService
             }
         }
 
-        // 추가한 사용자를 조회해서 반환
+        // 11. 추가한 사용자를 조회해서 반환한다.
         var addedUser = await GetUser(new GetUserRequestDTO { UserId = userId });
         if (addedUser != null)
         {
@@ -198,7 +196,7 @@ public class UserService
     [Transaction]
     public async Task<UserResponseDTO?> UpdateUser(UpdateUserRequestDTO dto)
     {
-        // 직원 이메일주소 중복 체크
+        // 1. 직원 이메일주소 중복 체크를 한다.
         var foundEmailCount = await _employeeMapper.CountEmployeeEmailAddr(dto.Employee!.EmailAddr!, dto.Employee.EmployeeId);
         if (foundEmailCount > 0)
             throw new BizException("이메일주소가 이미 있어요. 입력하신 정보를 다시 확인하세요.");
@@ -206,13 +204,13 @@ public class UserService
         var user = _authService.GetAuthenticatedUser();
         dto.UpdaterId = user.UserId;
         
-        // 사용자 수정
+        // 2. 사용자를 수정한다.
         await _userMapper.UpdateUser(dto);
 
-        // 사용자 권한 삭제
+        // 3. 사용자 권한을 삭제한다.
         await _userRoleMapper.RemoveUserRole(dto.UserId);
 
-        // 사용자 권한 추가
+        // 4. 사용자 권한을 추가한다.
         List<AddUserRoleRequestDTO> addUserRoleRequestDTOList = [];
         foreach (var roleId in dto.Roles!)
         {
@@ -225,13 +223,13 @@ public class UserService
         }
         await _userRoleMapper.AddUserRole(addUserRoleRequestDTOList);
 
-        // 사용자 메뉴 권한 삭제
-        await _userMenuRoleMapper.RemoveUserMenuRole(dto.UserId);
+        // 5. 사용자 메뉴 권한을 삭제한다.
+        await _userMenuRoleMapper.RemoveUserMenuRole(new RemoveUserMenuRoleRequestDTO { UserId = dto.UserId });
 
-        // 메뉴 권한 목록 조회
+        // 6. 메뉴 권한 목록을 조회한다.
         var menuRoleList = await _menuRoleMapper.ListMenuRole(new GetMenuRoleRequestDTO { UserId = dto.UserId });
 
-        // 사용자 메뉴 권한 추가
+        // 7. 사용자 메뉴 권한을 추가한다.
         List<AddUserMenuRoleRequestDTO> addUserMenuRoleRequestDTOList = [];
         foreach (var i in menuRoleList)
         {
@@ -245,14 +243,14 @@ public class UserService
         }
         await _userMenuRoleMapper.AddUserMenuRole(addUserMenuRoleRequestDTOList);
 
-        // 직원 수정
+        // 8. 직원을 수정한다.
         if (dto.Employee != null)
         {
             dto.Employee.UpdaterId = dto.UpdaterId;
             
             await _employeeMapper.UpdateEmployee(dto.Employee);
 
-            // 근무이력 수정
+            // 9. 근무이력을 수정한다.
             if (dto.Employee.WorkHistory != null)
             {
                 dto.Employee.WorkHistory.EmployeeId = dto.Employee.EmployeeId;
@@ -262,7 +260,7 @@ public class UserService
             }
         }
 
-        // 수정한 사용자를 조회해서 반환
+        // 10. 수정한 사용자를 조회해서 반환한다.
         return await GetUser(new GetUserRequestDTO { UserId = dto.UserId });
     }
 
@@ -272,24 +270,24 @@ public class UserService
     [Transaction]
     public async Task<int> UpdateUserPassword(UpdateUserPasswordRequestDTO dto)
     {
-        // DB의 현재 비밀번호를 조회해서
+        // 1. DB의 현재 비밀번호를 조회해서
         var currentHashedPassword = await _userMapper.GetUserPassword(dto.UserId);
 
-        // 입력받은 현재 비밀번호와 동일한지 확인하고
+        // 2. 입력받은 현재 비밀번호와 동일한지 확인하고
         if (!EncryptUtil.Verify(dto.CurrentPassword!, currentHashedPassword!))
             throw new BizException("현재 비밀번호를 확인하세요.");
 
-        // 새 비밀번호와 확인용 새 비밀번호가 동일한지 확인하고
+        // 3. 새 비밀번호와 확인용 새 비밀번호가 동일한지 확인하고
         if (dto.NewPassword != dto.NewPasswordConfirm)
             throw new BizException("새 비밀번호를 확인하세요.");
 
-        // 새 비밀번호를 암호화한다.
+        // 4. 새 비밀번호를 암호화한다.
         dto.NewPassword = EncryptUtil.Encrypt(dto.NewPassword!);
 
         var updateCount = await _userMapper.UpdateUserPassword(dto);
         if (updateCount > 0)
         {
-            // 임시 비밀번호 변경 알림을 삭제한다.
+            // 5. 임시 비밀번호 변경 알림을 삭제한다.
             await _notificationMapper.RemoveNotification(new SaveNotificationRequestDTO
             {
                 UpdaterId = dto.UserId,
