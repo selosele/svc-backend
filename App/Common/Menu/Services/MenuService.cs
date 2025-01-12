@@ -77,25 +77,24 @@ public class MenuService
         }
         await _menuRoleMapper.AddMenuRole(addMenuRoleRequestDTOList);
 
-        // 4. 사용자 메뉴 권한을 추가한다.
-        // var userIdList = (await _userMapper.ListUser(new GetUserRequestDTO { RoleIdList = dto.MenuRoles }))
-        //     .Select(x => x.UserId).ToList();
-        
-        // var addUserMenuRoleRequestDTO = new AddUserMenuRoleRequestDTO { MenuId = addedMenuId, CreaterId = dto.CreaterId };
+        // 4. 추가한 메뉴별 사용자 목록을 조회한다.
+        List<AddUserMenuRoleRequestDTO> addUserMenuRoleRequestDTOList = [];
 
-        // List<AddUserMenuRoleRequestDTO> addUserMenuRoleRequestDTOList = [];
-        // foreach (var roleId in dto.MenuRoles)
-        // {
-        //     foreach (var userId in userIdList)
-        //     {
-        //         addUserMenuRoleRequestDTO.UserId = userId;
-        //     }
-        //     addUserMenuRoleRequestDTO.RoleId = roleId;
-        //     addUserMenuRoleRequestDTOList.Add(addUserMenuRoleRequestDTO);
-        // }
-        // await _userMenuRoleMapper.AddUserMenuRole(addUserMenuRoleRequestDTOList);
+        var userList = await _userMapper.ListUserByMenu(addedMenuId);
+        foreach (var user in userList)
+        {
+            addUserMenuRoleRequestDTOList.Add(new AddUserMenuRoleRequestDTO
+            {
+                MenuId = addedMenuId,
+                UserId = user.UserId,
+                RoleId = user.RoleId,
+                CreaterId = dto.CreaterId
+            });
+        }
+        // 5. 사용자 메뉴 권한을 추가한다.
+        await _userMenuRoleMapper.AddUserMenuRole(addUserMenuRoleRequestDTOList);
         
-        // 5. 추가한 메뉴를 조회해서 반환한다.
+        // 6. 추가한 메뉴를 조회해서 반환한다.
         return await _menuMapper.GetMenu(addedMenuId);
     }
 

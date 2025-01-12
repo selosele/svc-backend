@@ -64,6 +64,16 @@ public record UserResponseDTO
     public string? RolesString { get; set; }
 
     /// <summary>
+    /// 권한 ID
+    /// </summary>
+    public string? RoleId { get; set; }
+
+    /// <summary>
+    /// 메뉴 ID
+    /// </summary>
+    public int? MenuId { get; set; }
+
+    /// <summary>
     /// 사용자 권한 목록
     /// </summary>
     public IList<UserRoleResponseDTO>? Roles { get; set; } = [];

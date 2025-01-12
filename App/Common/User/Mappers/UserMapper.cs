@@ -35,6 +35,19 @@ public class UserMapper
     }
 
     /// <summary>
+    /// 메뉴별 사용자 목록을 조회한다.
+    /// </summary>
+    public Task<IList<UserResponseDTO>> ListUserByMenu(int menuId)
+    {
+        return SqlMapper.QueryAsync<UserResponseDTO>(new RequestContext
+        {
+            Scope = nameof(UserMapper),
+            SqlId = "ListUserByMenu",
+            Request = new { menuId }
+        });
+    }
+
+    /// <summary>
     /// 사용자를 조회한다.
     /// </summary>
     public Task<UserResponseDTO?> GetUser(GetUserRequestDTO dto)

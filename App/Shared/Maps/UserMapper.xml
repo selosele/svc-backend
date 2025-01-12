@@ -14,6 +14,8 @@
       <Result Column="USER_ACTIVE_YN" Property="UserActiveYn" />
       <Result Column="LAST_LOGIN_DT" Property="LastLoginDt" />
       <Result Column="ROLES_STRING" Property="RolesString" />
+      <Result Column="ROLE_ID" Property="RoleId" />
+      <Result Column="MENU_ID" Property="MenuId" />
     </ResultMap>
 
     <ResultMap Id="LoginResultMap">
@@ -77,6 +79,21 @@
         </IsNotEmpty>
       GROUP BY H.EMPLOYEE_ID, H.COMPANY_ID
       ORDER BY U.USER_ID DESC
+    </Statement>
+
+    <!-- 메뉴별 사용자 목록을 조회한다. -->
+    <Statement Id="ListUserByMenu" ResultMap="UserResultMap">
+      /* UserMapper.ListUserByMenu */
+
+      SELECT
+        U.USER_ID,
+        UR.ROLE_ID,
+        M.MENU_ID
+      FROM CO_USER U
+      INNER JOIN CO_USER_ROLE UR ON UR.USER_ID = U.USER_ID
+      INNER JOIN CO_MENU_ROLE MR ON MR.ROLE_ID = UR.ROLE_ID
+      INNER JOIN CO_MENU M ON M.MENU_ID = MR.MENU_ID
+      WHERE MR.MENU_ID = @MenuId
     </Statement>
 
     <!-- 사용자를 조회한다. -->
