@@ -167,8 +167,7 @@
           MENU_ORDER = IFNULL(@MenuOrder, (
             SELECT IFNULL(MAX(M.MENU_ORDER), 0) + 1
             FROM CO_MENU M
-            WHERE 1=1
-              AND M.MENU_ID != @MenuId
+            WHERE M.MENU_ID != @MenuId
               <IsEmpty Property="UpMenuId">
               AND M.UP_MENU_ID IS NULL
               </IsEmpty>
