@@ -29,7 +29,13 @@
       /* UserMenuRoleMapper.RemoveUserMenuRole */
 
       DELETE FROM CO_USER_MENU_ROLE
-      WHERE USER_ID = @UserId
+      WHERE 1=1
+        <IsNotEmpty Property="UserId">
+        AND USER_ID = @UserId
+        </IsNotEmpty>
+        <IsNotEmpty Property="MenuId">
+        AND MENU_ID = @MenuId
+        </IsNotEmpty>
     </Statement>
     
   </Statements>

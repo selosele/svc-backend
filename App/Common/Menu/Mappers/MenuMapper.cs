@@ -36,7 +36,7 @@ public class MenuMapper
     /// <summary>
     /// 메뉴를 조회한다.
     /// </summary>
-    public Task<MenuResponseDTO> GetMenu(int menuId)
+    public Task<MenuResponseDTO> GetMenu(int? menuId)
     {
         return SqlMapper.QuerySingleAsync<MenuResponseDTO>(new RequestContext
         {

@@ -79,6 +79,20 @@ public class MenuController : ControllerBase
     }
 
     /// <summary>
+    /// 메뉴를 수정한다.
+    /// </summary>
+    [HttpPut("{menuId}")]
+    [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
+    public async Task<ActionResult<MenuResponseDTO>> UpdateMenu(int menuId, [FromBody] SaveMenuRequestDTO dto)
+    {
+        var user = _authService.GetAuthenticatedUser();
+        dto.CreaterId = user.UserId;
+        dto.UpdaterId = user.UserId;
+
+        return Ok(await _menuService.UpdateMenu(dto));
+    }
+
+    /// <summary>
     /// 메뉴를 삭제한다.
     /// </summary>
     [HttpDelete("{menuId}")]

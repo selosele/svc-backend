@@ -99,6 +99,56 @@ public class MenuService
     }
 
     /// <summary>
+    /// 메뉴를 수정한다.
+    /// </summary>
+    [Transaction]
+    public async Task<MenuResponseDTO> UpdateMenu(SaveMenuRequestDTO dto)
+    {
+        // 1. 메뉴를 수정한다.
+        await _menuMapper.UpdateMenu(dto);
+
+        // 2. 메뉴 권한을 삭제한다.
+        await _menuRoleMapper.RemoveMenuRole(dto.MenuId);
+
+        // 3. 메뉴 권한을 추가한다.
+        List<AddMenuRoleRequestDTO> addMenuRoleRequestDTOList = [];
+        foreach (var roleId in dto.MenuRoles!)
+        {
+            addMenuRoleRequestDTOList.Add(new AddMenuRoleRequestDTO
+            {
+                MenuId = dto.MenuId,
+                RoleId = roleId,
+                CreaterId = dto.CreaterId
+            });
+        }
+        await _menuRoleMapper.AddMenuRole(addMenuRoleRequestDTOList);
+
+        // 4. 수정한 메뉴별 사용자 목록을 조회한다.
+        List<AddUserMenuRoleRequestDTO> addUserMenuRoleRequestDTOList = [];
+
+        var userList = await _userMapper.ListUserByMenu(dto.MenuId);
+        foreach (var user in userList)
+        {
+            addUserMenuRoleRequestDTOList.Add(new AddUserMenuRoleRequestDTO
+            {
+                MenuId = dto.MenuId,
+                UserId = user.UserId,
+                RoleId = user.RoleId,
+                CreaterId = dto.CreaterId
+            });
+        }
+
+        // 5. 사용자 메뉴 권한을 삭제한다.
+        await _userMenuRoleMapper.RemoveUserMenuRole(new RemoveUserMenuRoleRequestDTO { MenuId = dto.MenuId });
+
+        // 6. 사용자 메뉴 권한을 추가한다.
+        await _userMenuRoleMapper.AddUserMenuRole(addUserMenuRoleRequestDTOList);
+        
+        // 7. 수정한 메뉴를 조회해서 반환한다.
+        return await _menuMapper.GetMenu(dto.MenuId);
+    }
+
+    /// <summary>
     /// 메뉴를 삭제한다.
     /// </summary>
     [Transaction]

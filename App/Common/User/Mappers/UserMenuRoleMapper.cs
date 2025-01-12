@@ -36,13 +36,13 @@ public class UserMenuRoleMapper
     /// <summary>
     /// 사용자 메뉴 권한을 삭제한다.
     /// </summary>
-    public Task<int> RemoveUserMenuRole(int? userId)
+    public Task<int> RemoveUserMenuRole(RemoveUserMenuRoleRequestDTO dto)
     {
         return SqlMapper.ExecuteAsync(new RequestContext
         {
             Scope = nameof(UserMenuRoleMapper),
             SqlId = "RemoveUserMenuRole",
-            Request = new { userId }
+            Request = dto
         });
     }
     #endregion

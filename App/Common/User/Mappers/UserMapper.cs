@@ -37,7 +37,7 @@ public class UserMapper
     /// <summary>
     /// 메뉴별 사용자 목록을 조회한다.
     /// </summary>
-    public Task<IList<UserResponseDTO>> ListUserByMenu(int menuId)
+    public Task<IList<UserResponseDTO>> ListUserByMenu(int? menuId)
     {
         return SqlMapper.QueryAsync<UserResponseDTO>(new RequestContext
         {
