@@ -103,7 +103,17 @@
         @CodeValue,
         @CodeName,
         @CodeContent,
-        @CodeOrder,
+        IFNULL(@CodeOrder, (
+          SELECT IFNULL(MAX(C.CODE_ORDER), 0) + 1
+          FROM CO_CODE C
+          WHERE 1=1
+            <IsEmpty Property="UpCodeId">
+            AND C.UP_CODE_ID IS NULL
+            </IsEmpty>
+            <IsNotEmpty Property="UpCodeId">
+            AND C.UP_CODE_ID = @UpCodeId
+            </IsNotEmpty>
+        )),
         @CodeDepth,
         @UseYn,
         @CreaterId
@@ -122,7 +132,17 @@
           CODE_VALUE = @CodeValue,
           CODE_NAME = @CodeName,
           CODE_CONTENT = @CodeContent,
-          CODE_ORDER = @CodeOrder,
+          CODE_ORDER = IFNULL(@CodeOrder, (
+            SELECT IFNULL(MAX(C.CODE_ORDER), 0) + 1
+            FROM CO_CODE C
+            WHERE C.CODE_ID != @CodeId
+              <IsEmpty Property="UpCodeId">
+              AND C.UP_CODE_ID IS NULL
+              </IsEmpty>
+              <IsNotEmpty Property="UpCodeId">
+              AND C.UP_CODE_ID = @UpCodeId
+              </IsNotEmpty>
+          )),
           CODE_DEPTH = @CodeDepth,
           USE_YN = @UseYn,
           UPDATER_ID = @UpdaterId,
