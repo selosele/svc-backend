@@ -77,7 +77,8 @@ public class BoardController : ControllerBase
     [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
     public async Task<ActionResult> RemoveBoard(int boardId)
     {
-        await _boardService.RemoveBoard(boardId);
+        var user = _authService.GetAuthenticatedUser();
+        await _boardService.RemoveBoard(boardId, user.UserId);
         return NoContent();
     }
     #endregion

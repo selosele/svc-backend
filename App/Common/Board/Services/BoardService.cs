@@ -60,8 +60,8 @@ public class BoardService
     /// 게시판을 삭제한다.
     /// </summary>
     [Transaction]
-    public async Task<int> RemoveBoard(int boardId)
-        => await _boardMapper.RemoveBoard(boardId);
+    public async Task<int> RemoveBoard(int boardId, int? updaterId)
+        => await _boardMapper.RemoveBoard(boardId, updaterId);
     #endregion
     
 }

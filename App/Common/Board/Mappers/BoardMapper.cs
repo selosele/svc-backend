@@ -74,13 +74,13 @@ public class BoardMapper
     /// <summary>
     /// 게시판을 삭제한다.
     /// </summary>
-    public Task<int> RemoveBoard(int boardId)
+    public Task<int> RemoveBoard(int boardId, int? updaterId)
     {
         return SqlMapper.ExecuteAsync(new RequestContext
         {
             Scope = nameof(BoardMapper),
             SqlId = "RemoveBoard",
-            Request = new { boardId }
+            Request = new { boardId, updaterId }
         });
     }
     #endregion
