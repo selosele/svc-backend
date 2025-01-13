@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<SmartSqlMap Scope="BoardMapper" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+  <ResultMaps>
+    <ResultMap Id="BoardResultMap">
+      <Result Column="BOARD_ID" Property="BoardId" />
+      <Result Column="BOARD_NAME" Property="BoardName" />
+      <Result Column="BOARD_CONTENT" Property="BoardContent" />
+      <Result Column="BOARD_TYPE_CODE" Property="BoardTypeCode" />
+      <Result Column="USE_YN" Property="UseYn" />
+    </ResultMap>
+  </ResultMaps>
+
+  <Statements>
+
+    <!-- 게시판 목록을 조회한다. -->
+    <Statement Id="ListBoard" ResultMap="BoardResultMap">
+      /* BoardMapper.ListBoard */
+
+      SELECT
+        B.BOARD_ID,
+        B.BOARD_NAME,
+        B.BOARD_CONTENT,
+        B.BOARD_TYPE_CODE,
+        B.USE_YN
+      FROM CO_BOARD B
+      WHERE B.DELETE_YN = 'N'
+      ORDER BY B.BOARD_NAME
+    </Statement>
+
+    <!-- 게시판을 조회한다. -->
+    <Statement Id="GetBoard" ResultMap="BoardResultMap">
+      /* BoardMapper.GetBoard */
+
+      SELECT
+        B.BOARD_ID,
+        B.BOARD_NAME,
+        B.BOARD_CONTENT,
+        B.BOARD_TYPE_CODE,
+        B.USE_YN
+      FROM CO_BOARD B
+      WHERE B.BOARD_ID = @BoardId
+    </Statement>
+
+    <!-- 게시판을 추가한다. -->
+    <Statement Id="AddBoard">
+      /* BoardMapper.AddBoard */
+
+      INSERT INTO CO_BOARD (
+        BOARD_NAME,
+        BOARD_CONTENT,
+        BOARD_TYPE_CODE,
+        USE_YN,
+        CREATER_ID
+      )
+      VALUES (
+        @BoardName,
+        @BoardContent,
+        @BoardTypeCode,
+        @UseYn,
+        @CreaterId
+      )
+      ;SELECT LAST_INSERT_ID()
+    </Statement>
+
+    <!-- 게시판을 수정한다. -->
+    <Statement Id="UpdateBoard">
+      /* BoardMapper.UpdateBoard */
+
+      UPDATE CO_BOARD
+        SET
+          BOARD_NAME = @BoardName,
+          BOARD_CONTENT = @BoardContent,
+          BOARD_TYPE_CODE = @BoardTypeCode,
+          USE_YN = @UseYn,
+          UPDATER_ID = @UpdaterId,
+          UPDATE_DT = SYSDATE()
+      WHERE BOARD_ID = @BoardId
+    </Statement>
+
+    <!-- 게시판을 삭제한다. -->
+    <Statement Id="RemoveBoard">
+      /* BoardMapper.RemoveBoard */
+
+      UPDATE CO_BOARD
+        SET
+          DELETE_YN = 'Y',
+          UPDATER_ID = @UpdaterId,
+          UPDATE_DT = SYSDATE()
+      WHERE BOARD_ID = @BoardId
+    </Statement>
+    
+  </Statements>
+</SmartSqlMap>
