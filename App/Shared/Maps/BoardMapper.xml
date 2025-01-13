@@ -7,6 +7,7 @@
       <Result Column="BOARD_NAME" Property="BoardName" />
       <Result Column="BOARD_CONTENT" Property="BoardContent" />
       <Result Column="BOARD_TYPE_CODE" Property="BoardTypeCode" />
+      <Result Column="BOARD_TYPE_CODE_NAME" Property="BoardTypeCodeName" />
       <Result Column="USE_YN" Property="UseYn" />
     </ResultMap>
   </ResultMaps>
@@ -22,8 +23,10 @@
         B.BOARD_NAME,
         B.BOARD_CONTENT,
         B.BOARD_TYPE_CODE,
+        CD.CODE_NAME AS BOARD_TYPE_CODE_NAME,
         B.USE_YN
       FROM CO_BOARD B
+      LEFT JOIN CO_CODE CD ON CD.CODE_VALUE = B.BOARD_TYPE_CODE AND CD.UP_CODE_ID = 'BOARD_TYPE_00'
       WHERE B.DELETE_YN = 'N'
       ORDER BY B.BOARD_NAME
     </Statement>

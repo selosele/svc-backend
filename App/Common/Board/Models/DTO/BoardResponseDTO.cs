@@ -27,6 +27,11 @@ public record BoardResponseDTO
     public string? BoardTypeCode { get; set; }
     
     /// <summary>
+    /// 게시판 구분 코드명
+    /// </summary>
+    public string? BoardTypeCodeName { get; set; }
+    
+    /// <summary>
     /// 사용 여부
     /// </summary>
     public string? UseYn { get; set; }
