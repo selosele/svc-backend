@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<SmartSqlMap Scope="ArticleMapper" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+  <ResultMaps>
+    <ResultMap Id="ArticleResultMap">
+      <Result Column="ARTICLE_ID" Property="ArticleId" />
+      <Result Column="BOARD_ID" Property="BoardId" />
+      <Result Column="ARTICLE_TITLE" Property="ArticleTitle" />
+      <Result Column="ARTICLE_CONTENT" Property="ArticleContent" />
+      <Result Column="ARTICLE_WRITER_ID" Property="ArticleWriterId" />
+      <Result Column="ARTICLE_WRITER_NAME" Property="ArticleWriterName" />
+      <Result Column="BOARD_CONTENT" Property="BoardContent" />
+      <Result Column="BOARD_TYPE_CODE" Property="BoardTypeCode" />
+      <Result Column="CREATE_DT" Property="CreateDt" />
+    </ResultMap>
+  </ResultMaps>
+
+  <Statements>
+
+    <!-- 게시글 목록을 조회한다. -->
+    <Statement Id="ListArticle" ResultMap="ArticleResultMap">
+      /* ArticleMapper.ListArticle */
+
+      SELECT
+        A.ARTICLE_ID,
+        A.BOARD_ID,
+        A.ARTICLE_TITLE,
+        A.ARTICLE_CONTENT,
+        A.ARTICLE_WRITER_ID,
+        E.EMPLOYEE_NAME AS ARTICLE_WRITER_NAME,
+        B.BOARD_CONTENT,
+        B.BOARD_TYPE_CODE,
+        DATE_FORMAT(A.CREATE_DT, '%Y-%m-%d %H:%i:%s') AS CREATE_DT
+      FROM CO_ARTICLE A
+      LEFT JOIN CO_BOARD B ON B.BOARD_ID = A.BOARD_ID
+      LEFT JOIN HM_EMPLOYEE E ON E.USER_ID = A.ARTICLE_WRITER_ID
+      WHERE 1=1
+        AND A.DELETE_YN = 'N'
+        AND B.DELETE_YN = 'N'
+        <IsNotEmpty Property="BoardId">
+        AND A.BOARD_ID = @BoardId
+        </IsNotEmpty>
+      ORDER BY A.CREATE_DT DESC
+    </Statement>
+    
+  </Statements>
+</SmartSqlMap>
