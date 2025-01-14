@@ -42,8 +42,7 @@ public class ArticleController : ControllerBase
         if (board.UseYn == "N") // 미사용 게시판은 접속 불가하도록 처리
             return NotFound();
 
-        var user = _authService.GetAuthenticatedUser();
-        if (user == null && board.BoardTypeCode == "NORMAL") // 비로그인 유저는 공지사항 게시판 제외 접속 불가하도록 처리
+        if (!_authService.IsLogined() && board.BoardTypeCode == "NORMAL") // 비로그인 유저는 공지사항 게시판 제외 접속 불가하도록 처리
             return NotFound();
 
         var articleList = await _articleService.ListArticle(dto);

@@ -315,6 +315,12 @@ public class AuthService
     }
 
     /// <summary>
+    /// 로그인 여부를 반환한다.
+    /// </summary>
+    public bool IsLogined()
+        => GetAuthenticatedUser() != null;
+
+    /// <summary>
     /// 인증된 사용자 정보를 반환한다.
     /// </summary>
     public UserResponseDTO GetAuthenticatedUser()
