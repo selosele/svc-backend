@@ -1,3 +1,5 @@
+using Svc.App.Common.Board.Models.DTO;
+
 namespace Svc.App.Common.Article.Models.DTO;
 
 /// <summary>
@@ -7,49 +9,14 @@ public record ArticleResponseDTO
 {
     #region [필드]
     /// <summary>
-    /// 게시글 ID
+    /// 게시판
     /// </summary>
-    public int? ArticleId { get; set; }
+    public BoardResponseDTO? Board { get; set; }
 
     /// <summary>
-    /// 게시판 ID
+    /// 게시글 목록
     /// </summary>
-    public int? BoardId { get; set; }
-    
-    /// <summary>
-    /// 게시글 제목
-    /// </summary>
-    public string? ArticleTitle { get; set; }
-    
-    /// <summary>
-    /// 게시글 내용
-    /// </summary>
-    public string? ArticleContent { get; set; }
-    
-    /// <summary>
-    /// 게시글 작성자 ID
-    /// </summary>
-    public int? ArticleWriterId { get; set; }
-    
-    /// <summary>
-    /// 게시글 작성자명
-    /// </summary>
-    public string? ArticleWriterName { get; set; }
-    
-    /// <summary>
-    /// 게시판 내용
-    /// </summary>
-    public string? BoardContent { get; set; }
-    
-    /// <summary>
-    /// 게시판 구분 코드
-    /// </summary>
-    public string? BoardTypeCode { get; set; }
-    
-    /// <summary>
-    /// 등록일시
-    /// </summary>
-    public string? CreateDt { get; set; }
+    public IList<ArticleResultDTO>? ArticleList { get; set; }
     #endregion
     
 }

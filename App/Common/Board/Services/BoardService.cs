@@ -33,7 +33,7 @@ public class BoardService
     /// 게시판을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<BoardResponseDTO> GetBoard(int boardId)
+    public async Task<BoardResponseDTO> GetBoard(int? boardId)
         => await _boardMapper.GetBoard(boardId);
 
     /// <summary>

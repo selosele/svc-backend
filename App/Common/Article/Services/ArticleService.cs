@@ -26,7 +26,7 @@ public class ArticleService
     /// 게시글 목록을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<IList<ArticleResponseDTO>> ListArticle(GetArticleRequestDTO dto)
+    public async Task<IList<ArticleResultDTO>> ListArticle(GetArticleRequestDTO dto)
         => await _articleMapper.ListArticle(dto);
     #endregion
     
