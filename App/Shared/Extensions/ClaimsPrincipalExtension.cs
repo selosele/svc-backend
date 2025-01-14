@@ -40,7 +40,7 @@ public static class ClaimsPrincipalExtension
             }
         };
 
-        // Claims에서 권한 목록을 추출해서
+        // Claims로부터 권한 목록을 추출해서
         var roleList = principal?.Claims
             .Where(x => x.Type == ClaimTypes.Role) // ClaimUtil.ROLES_IDENTIFIER 값이 아닌 ClaimTypes.Role 값이 들어가 있음
             .Select(x => x.Value)
