@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Svc.App.Common.Article.Models.DTO;
 using Svc.App.Common.Article.Services;
@@ -37,11 +36,14 @@ public class ArticleController : ControllerBase
     /// 게시글 목록을 조회한다.
     /// </summary>
     [HttpGet]
-    [Authorize]
     public async Task<ActionResult<List<ArticleResponseDTO>>> ListArticle([FromQuery] GetArticleRequestDTO dto)
     {
         var board = await _boardService.GetBoard(dto.BoardId);
-        if (board.UseYn == "N")
+        if (board.UseYn == "N") // 미사용 게시판은 접속 불가하도록 처리
+            return NotFound();
+
+        var user = _authService.GetAuthenticatedUser();
+        if (user == null && board.BoardTypeCode == "NORMAL") // 비로그인 유저는 공지사항 게시판 제외 접속 불가하도록 처리
             return NotFound();
 
         var articleList = await _articleService.ListArticle(dto);
