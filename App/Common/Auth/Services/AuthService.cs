@@ -319,9 +319,12 @@ public class AuthService
     /// </summary>
     public UserResponseDTO GetAuthenticatedUser()
     {
-        var principal = _httpContextAccessor.HttpContext?.User
-            ?? throw new InvalidOperationException("인증된 사용자를 찾을 수 없어요.");
-        return principal.GetUser();
+        var principal = _httpContextAccessor.HttpContext?.User;
+        var isAuthenticated = principal!.Identity!.IsAuthenticated;
+        if (!isAuthenticated)
+            return null!;
+
+        return principal!.GetUser();
     }
 
     /// <summary>
