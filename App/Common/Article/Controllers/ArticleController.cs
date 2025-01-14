@@ -3,6 +3,7 @@ using Svc.App.Common.Article.Models.DTO;
 using Svc.App.Common.Article.Services;
 using Svc.App.Common.Auth.Services;
 using Svc.App.Common.Board.Services;
+using Svc.App.Shared.Exceptions;
 
 namespace Svc.App.Common.Article.Controllers;
 
@@ -40,7 +41,7 @@ public class ArticleController : ControllerBase
     {
         var board = await _boardService.GetBoard(dto.BoardId);
         if (board.UseYn == "N") // 미사용 게시판은 접속 불가하도록 처리
-            return NotFound();
+            throw new BizException("사용 중지된 게시판이에요. 시스템관리자에게 문의해주세요.");
 
         if (!_authService.IsLogined() && board.BoardTypeCode == "NORMAL") // 비로그인 유저는 공지사항 게시판 제외 접속 불가하도록 처리
             return NotFound();
