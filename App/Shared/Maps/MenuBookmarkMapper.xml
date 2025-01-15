@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<SmartSqlMap Scope="MenuBookmarkMapper" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+  <ResultMaps>
+    <ResultMap Id="MenuBookmarkResultMap">
+      <Result Column="MENU_BOOKMARK_ID" Property="MenuBookmarkId" />
+      <Result Column="MENU_ID" Property="MenuId" />
+      <Result Column="MENU_NAME" Property="MenuName" />
+      <Result Column="MENU_URL" Property="MenuUrl" />
+    </ResultMap>
+  </ResultMaps>
+
+  <Statements>
+
+    <!-- 메뉴 즐겨찾기 목록을 조회한다. -->
+    <Statement Id="ListMenuBookmark" ResultMap="MenuBookmarkResultMap">
+      /* MenuBookmarkMapper.ListMenuBookmark */
+
+      SELECT
+        MB.MENU_BOOKMARK_ID,
+        MB.MENU_ID,
+        M.MENU_NAME,
+        M.MENU_URL
+      FROM CO_MENU_BOOKMARK MB
+      LEFT JOIN CO_MENU M ON M.MENU_ID = MB.MENU_ID
+      WHERE M.DELETE_YN = 'N'
+        AND M.USE_YN = 'Y'
+      ORDER BY MB.CREATE_DT DESC
+    </Statement>
+
+    <!-- 메뉴 즐겨찾기를 조회한다. -->
+    <Statement Id="GetMenuBookmark" ResultMap="MenuBookmarkResultMap">
+      /* MenuBookmarkMapper.GetMenuBookmark */
+
+      SELECT
+        MB.MENU_BOOKMARK_ID,
+        MB.MENU_ID,
+        M.MENU_NAME,
+        M.MENU_URL
+      FROM CO_MENU_BOOKMARK MB
+      LEFT JOIN CO_MENU M ON M.MENU_ID = MB.MENU_ID
+      WHERE MB.MENU_BOOKMARK_ID = @MenuBookmarkId
+    </Statement>
+
+    <!-- 메뉴 즐겨찾기를 추가한다. -->
+    <Statement Id="AddMenuBookmark">
+      /* MenuBookmarkMapper.AddMenuBookmark */
+
+      INSERT INTO CO_MENU_BOOKMARK (
+        MENU_ID,
+        CREATER_ID
+      )
+      VALUES (
+        @MenuId,
+        @CreaterId
+      )
+      ;SELECT LAST_INSERT_ID()
+    </Statement>
+
+    <!-- 메뉴 즐겨찾기를 삭제한다. -->
+    <Statement Id="RemoveMenuBookmark">
+      /* MenuBookmarkMapper.RemoveMenuBookmark */
+
+      DELETE FROM CO_MENU_BOOKMARK
+      WHERE MENU_BOOKMARK_ID = @MenuBookmarkId
+    </Statement>
+    
+  </Statements>
+</SmartSqlMap>

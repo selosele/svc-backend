@@ -50,6 +50,11 @@ public record MenuResponseDTO
     /// 삭제 여부
     /// </summary>
     public string? DeleteYn { get; set; }
+    
+    /// <summary>
+    /// 메뉴 즐겨찾기 ID
+    /// </summary>
+    public int? MenuBookmarkId { get; set; }
 
     /// <summary>
     /// 메뉴 권한 목록

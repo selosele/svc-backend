@@ -12,6 +12,7 @@
       <Result Column="MENU_SHOW_YN" Property="MenuShowYn" />
       <Result Column="USE_YN" Property="UseYn" />
       <Result Column="DELETE_YN" Property="DeleteYn" />
+      <Result Column="MENU_BOOKMARK_ID" Property="MenuBookmarkId" />
     </ResultMap>
   </ResultMaps>
 
@@ -59,8 +60,10 @@
         R.MENU_DEPTH,
         R.MENU_SHOW_YN,
         R.USE_YN,
-        R.DELETE_YN
+        R.DELETE_YN,
+        MB.MENU_BOOKMARK_ID
       FROM R
+      LEFT JOIN CO_MENU_BOOKMARK MB ON MB.MENU_ID = R.MENU_ID
       WHERE R.MENU_ID IN (
         SELECT
           MR.MENU_ID
