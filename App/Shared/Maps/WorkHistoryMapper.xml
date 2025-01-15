@@ -17,7 +17,8 @@
       <Result Column="QUIT_YMD" Property="QuitYmd" />
       <Result Column="WORK_DIFF_Y" Property="WorkDiffY" />
       <Result Column="WORK_DIFF_M" Property="WorkDiffM" />
-      <Result Column="VACATION_REMAIN_COUNT" Property="VacationRemainCount" />
+      <Result Column="VACATION_REMAIN_COUNT_BY_JOIN_YMD" Property="VacationRemainCountByJoinYmd" />
+      <Result Column="VACATION_REMAIN_COUNT_BY_FISCAL_YEAR" Property="VacationRemainCountByFiscalYear" />
     </ResultMap>
   </ResultMaps>
 
@@ -59,18 +60,13 @@
         CD.CODE_NAME AS RANK_CODE_NAME,
         H.JOB_TITLE_CODE,
         CD2.CODE_NAME AS JOB_TITLE_CODE_NAME,
-        @AnnualTypeCode AS ANNUAL_TYPE_CODE,
+        FN_GET_ANNUAL_TYPE_CODE(H.JOIN_YMD, H.QUIT_YMD) AS ANNUAL_TYPE_CODE,
         H.JOIN_YMD,
         H.QUIT_YMD,
         FN_GET_DATE_DIFF('YEAR', H.JOIN_YMD, H.QUIT_YMD) AS WORK_DIFF_Y,
         FN_GET_DATE_DIFF('MONTH', H.JOIN_YMD, H.QUIT_YMD) AS WORK_DIFF_M,
-        FN_GET_VACATION_REMAIN_COUNT(
-          H.JOIN_YMD,
-          H.QUIT_YMD,
-          @AnnualTypeCode,
-          IFNULL(VC.VACATION_USE_COUNT, 0),
-          @UserId
-        ) AS VACATION_REMAIN_COUNT
+        FN_GET_VACATION_REMAIN_COUNT(H.JOIN_YMD, H.QUIT_YMD, 'JOIN_YMD', IFNULL(VC.VACATION_USE_COUNT, 0)) AS VACATION_REMAIN_COUNT_BY_JOIN_YMD,
+        FN_GET_VACATION_REMAIN_COUNT(H.JOIN_YMD, H.QUIT_YMD, 'FISCAL_YEAR', IFNULL(VC.VACATION_USE_COUNT, 0)) AS VACATION_REMAIN_COUNT_BY_FISCAL_YEAR
       FROM HM_WORK_HISTORY H
       LEFT JOIN VACATION_CALC VC ON VC.WORK_HISTORY_ID = H.WORK_HISTORY_ID
       INNER JOIN HM_COMPANY C ON C.COMPANY_ID = H.COMPANY_ID

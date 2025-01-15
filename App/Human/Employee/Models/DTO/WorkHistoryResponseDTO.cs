@@ -77,9 +77,14 @@ public record WorkHistoryResponseDTO
     public int? WorkDiffM { get; set; }
 
     /// <summary>
-    /// 잔여 휴가 개수
+    /// 잔여 월차 개수
     /// </summary>
-    public double? VacationRemainCount { get; set; }
+    public double? VacationRemainCountByJoinYmd { get; set; }
+
+    /// <summary>
+    /// 잔여 연차 개수
+    /// </summary>
+    public double? VacationRemainCountByFiscalYear { get; set; }
     #endregion
 
 }
