@@ -63,6 +63,14 @@
       ;SELECT LAST_INSERT_ID()
     </Statement>
 
+    <!-- 모든 메뉴 즐겨찾기를 삭제한다. -->
+    <Statement Id="RemoveMenuBookmarkAll">
+      /* MenuBookmarkMapper.RemoveMenuBookmarkAll */
+
+      DELETE FROM CO_MENU_BOOKMARK
+      WHERE USER_ID = @UserId
+    </Statement>
+
     <!-- 메뉴 즐겨찾기를 삭제한다. -->
     <Statement Id="RemoveMenuBookmark">
       /* MenuBookmarkMapper.RemoveMenuBookmark */

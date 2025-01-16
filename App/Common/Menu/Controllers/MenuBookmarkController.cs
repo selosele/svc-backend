@@ -54,6 +54,18 @@ public class MenuBookmarkController : ControllerBase
     }
 
     /// <summary>
+    /// 모든 메뉴 즐겨찾기를 삭제한다.
+    /// </summary>
+    [HttpDelete()]
+    [Authorize]
+    public async Task<ActionResult> RemoveMenuBookmarkAll()
+    {
+        var user = _authService.GetAuthenticatedUser();
+        await _menuBookmarkService.RemoveMenuBookmarkAll(user.UserId);
+        return NoContent();
+    }
+
+    /// <summary>
     /// 메뉴 즐겨찾기를 삭제한다.
     /// </summary>
     [HttpDelete("{menuBookmarkId}")]

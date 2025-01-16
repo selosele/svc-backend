@@ -60,6 +60,19 @@ public class MenuBookmarkMapper
     }
 
     /// <summary>
+    /// 모든 메뉴 즐겨찾기를 삭제한다.
+    /// </summary>
+    public Task<int> RemoveMenuBookmarkAll(int? userId)
+    {
+        return SqlMapper.ExecuteAsync(new RequestContext
+        {
+            Scope = nameof(MenuBookmarkMapper),
+            SqlId = "RemoveMenuBookmarkAll",
+            Request = new { userId }
+        });
+    }
+
+    /// <summary>
     /// 메뉴 즐겨찾기를 삭제한다.
     /// </summary>
     public Task<int> RemoveMenuBookmark(int menuBookmarkId)

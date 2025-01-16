@@ -41,6 +41,13 @@ public class MenuBookmarkService
     }
 
     /// <summary>
+    /// 모든 메뉴 즐겨찾기를 삭제한다.
+    /// </summary>
+    [Transaction]
+    public async Task<int> RemoveMenuBookmarkAll(int? userId)
+        => await _menuBookmarkMapper.RemoveMenuBookmarkAll(userId);
+
+    /// <summary>
     /// 메뉴 즐겨찾기를 삭제한다.
     /// </summary>
     [Transaction]
