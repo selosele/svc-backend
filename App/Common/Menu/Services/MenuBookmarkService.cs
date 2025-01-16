@@ -27,8 +27,8 @@ public class MenuBookmarkService
     /// 메뉴 즐겨찾기 목록을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<IList<MenuBookmarkResponseDTO>> ListMenuBookmark()
-        => await _menuBookmarkMapper.ListMenuBookmark();
+    public async Task<IList<MenuBookmarkResponseDTO>> ListMenuBookmark(int? userId)
+        => await _menuBookmarkMapper.ListMenuBookmark(userId);
 
     /// <summary>
     /// 메뉴 즐겨찾기를 추가한다.

@@ -17,6 +17,11 @@ public record MenuBookmarkResponseDTO
     public int? MenuId { get; set; }
 
     /// <summary>
+    /// 사용자 ID
+    /// </summary>
+    public int? UserId { get; set; }
+
+    /// <summary>
     /// 메뉴명
     /// </summary>
     public string? MenuName { get; set; }

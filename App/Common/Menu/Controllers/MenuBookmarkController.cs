@@ -35,7 +35,10 @@ public class MenuBookmarkController : ControllerBase
     [HttpGet]
     [Authorize]
     public async Task<ActionResult<List<MenuBookmarkResponseDTO>>> ListMenuBookmark()
-        => Ok(await _menuBookmarkService.ListMenuBookmark());
+    {
+        var user = _authService.GetAuthenticatedUser();
+        return Ok(await _menuBookmarkService.ListMenuBookmark(user.UserId));
+    }
 
     /// <summary>
     /// 메뉴 즐겨찾기를 추가한다.

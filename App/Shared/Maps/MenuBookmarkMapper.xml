@@ -5,6 +5,7 @@
     <ResultMap Id="MenuBookmarkResultMap">
       <Result Column="MENU_BOOKMARK_ID" Property="MenuBookmarkId" />
       <Result Column="MENU_ID" Property="MenuId" />
+      <Result Column="USER_ID" Property="UserId" />
       <Result Column="MENU_NAME" Property="MenuName" />
       <Result Column="MENU_URL" Property="MenuUrl" />
     </ResultMap>
@@ -19,12 +20,14 @@
       SELECT
         MB.MENU_BOOKMARK_ID,
         MB.MENU_ID,
+        MB.USER_ID,
         M.MENU_NAME,
         M.MENU_URL
       FROM CO_MENU_BOOKMARK MB
       LEFT JOIN CO_MENU M ON M.MENU_ID = MB.MENU_ID
       WHERE M.DELETE_YN = 'N'
         AND M.USE_YN = 'Y'
+        AND MB.USER_ID = @UserId
       ORDER BY MB.CREATE_DT DESC
     </Statement>
 
@@ -35,6 +38,7 @@
       SELECT
         MB.MENU_BOOKMARK_ID,
         MB.MENU_ID,
+        MB.USER_ID,
         M.MENU_NAME,
         M.MENU_URL
       FROM CO_MENU_BOOKMARK MB
@@ -48,10 +52,12 @@
 
       INSERT INTO CO_MENU_BOOKMARK (
         MENU_ID,
+        USER_ID,
         CREATER_ID
       )
       VALUES (
         @MenuId,
+        @UserId,
         @CreaterId
       )
       ;SELECT LAST_INSERT_ID()

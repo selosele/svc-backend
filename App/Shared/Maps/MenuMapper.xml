@@ -64,6 +64,9 @@
         MB.MENU_BOOKMARK_ID
       FROM R
       LEFT JOIN CO_MENU_BOOKMARK MB ON MB.MENU_ID = R.MENU_ID
+        <IsNotEmpty Property="UserId">
+        AND MB.USER_ID = @UserId
+        </IsNotEmpty>
       WHERE R.MENU_ID IN (
         SELECT
           MR.MENU_ID
