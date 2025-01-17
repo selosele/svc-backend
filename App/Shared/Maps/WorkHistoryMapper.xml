@@ -30,8 +30,8 @@
 
       WITH VACATION_CALC AS (
         SELECT
-          A.WORK_HISTORY_ID,
-          IFNULL(SUM(A.VACATION_USE_COUNT), 0) AS VACATION_USE_COUNT
+          T.WORK_HISTORY_ID,
+          IFNULL(SUM(T.VACATION_USE_COUNT), 0) AS VACATION_USE_COUNT
         FROM (
           SELECT
             V.WORK_HISTORY_ID,
@@ -49,7 +49,7 @@
                 @vacationTypeCode
               </For>
             </IsNotEmpty>
-        ) A
+        ) T
       )
       SELECT
         H.WORK_HISTORY_ID,
