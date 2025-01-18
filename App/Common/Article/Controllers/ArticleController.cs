@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Svc.App.Common.Article.Models.DTO;
 using Svc.App.Common.Article.Services;
@@ -49,6 +50,23 @@ public class ArticleController : ControllerBase
         var articleList = await _articleService.ListArticle(dto);
 
         return Ok(new ArticleResponseDTO { Board = board, ArticleList = articleList });
+    }
+
+    /// <summary>
+    /// 게시글을 추가한다.
+    /// </summary>
+    [HttpPost]
+    [Authorize]
+    public async Task<ActionResult<ArticleResponseDTO>> AddArticle([FromBody] SaveArticleRequestDTO dto)
+    {
+        var user = _authService.GetAuthenticatedUser();
+        dto.CreaterId = user.UserId;
+        dto.ArticleWriterId = user.UserId;
+
+        var board = await _boardService.GetBoard(dto.BoardId);
+        var article = await _articleService.AddArticle(dto);
+
+        return Created(string.Empty, new ArticleResponseDTO { Board = board, Article = article });
     }
     #endregion
 

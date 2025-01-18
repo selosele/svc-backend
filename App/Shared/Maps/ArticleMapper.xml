@@ -7,7 +7,8 @@
       <Result Column="ARTICLE_TITLE" Property="ArticleTitle" />
       <Result Column="ARTICLE_CONTENT" Property="ArticleContent" />
       <Result Column="ARTICLE_WRITER_ID" Property="ArticleWriterId" />
-      <Result Column="ARTICLE_WRITER_NAME" Property="ArticleWriterName" />
+      <Result Column="ARTICLE_WRITER_NICKNAME" Property="ArticleWriterNickname" />
+      <Result Column="EMPLOYEE_NAME" Property="EmployeeName" />
       <Result Column="IS_SYSTEM_ADMIN" Property="IsSystemAdmin" />
       <Result Column="CREATE_DT" Property="CreateDt" />
     </ResultMap>
@@ -23,9 +24,8 @@
         A.ARTICLE_ID,
         A.ARTICLE_TITLE,
         A.ARTICLE_WRITER_ID,
-        CASE WHEN A.ARTICLE_WRITER_NICKNAME IS NOT NULL THEN A.ARTICLE_WRITER_NICKNAME
-             ELSE E.EMPLOYEE_NAME
-        END AS ARTICLE_WRITER_NAME,
+        A.ARTICLE_WRITER_NICKNAME,
+        E.EMPLOYEE_NAME,
         (SELECT COUNT(1)
          FROM CO_USER_ROLE UR
          WHERE UR.USER_ID = E.USER_ID
@@ -45,6 +45,54 @@
         AND A.BOARD_ID = @BoardId
         </IsNotEmpty>
       ORDER BY A.CREATE_DT DESC
+    </Statement>
+
+    <!-- 게시글을 조회한다. -->
+    <Statement Id="GetArticle" ResultMap="ArticleResultMap">
+      /* ArticleMapper.GetArticle */
+
+      SELECT
+        A.ARTICLE_ID,
+        A.BOARD_ID,
+        A.ARTICLE_TITLE,
+        A.ARTICLE_CONTENT,
+        A.ARTICLE_WRITER_ID,
+        A.ARTICLE_WRITER_NICKNAME,
+        E.EMPLOYEE_NAME,
+        (SELECT COUNT(1)
+         FROM CO_USER_ROLE UR
+         WHERE UR.USER_ID = E.USER_ID
+           AND UR.ROLE_ID = 'ROLE_SYSTEM_ADMIN'
+        ) AS IS_SYSTEM_ADMIN,
+        CASE WHEN DATE(A.CREATE_DT) = DATE(SYSDATE()) THEN DATE_FORMAT(A.CREATE_DT, '%H:%i:%s')
+             ELSE DATE_FORMAT(A.CREATE_DT, '%Y-%m-%d %H:%i:%s')
+        END AS CREATE_DT
+      FROM CO_ARTICLE A
+      LEFT JOIN HM_EMPLOYEE E ON E.USER_ID = A.ARTICLE_WRITER_ID
+      WHERE A.ARTICLE_ID = @ArticleId
+    </Statement>
+
+    <!-- 게시글을 추가한다. -->
+    <Statement Id="AddArticle">
+      /* ArticleMapper.AddArticle */
+
+      INSERT INTO CO_ARTICLE (
+        BOARD_ID,
+        ARTICLE_TITLE,
+        ARTICLE_CONTENT,
+        ARTICLE_WRITER_ID,
+        ARTICLE_WRITER_NICKNAME,
+        CREATER_ID
+      )
+      VALUES (
+        @BoardId,
+        @ArticleTitle,
+        @ArticleContent,
+        @ArticleWriterId,
+        @ArticleWriterNickname,
+        @CreaterId
+      )
+      ;SELECT LAST_INSERT_ID()
     </Statement>
     
   </Statements>

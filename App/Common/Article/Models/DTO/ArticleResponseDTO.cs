@@ -14,6 +14,11 @@ public record ArticleResponseDTO
     public BoardResponseDTO? Board { get; set; }
 
     /// <summary>
+    /// 게시글
+    /// </summary>
+    public ArticleResultDTO? Article { get; set; }
+
+    /// <summary>
     /// 게시글 목록
     /// </summary>
     public IList<ArticleResultDTO>? ArticleList { get; set; }

@@ -32,6 +32,32 @@ public class ArticleMapper
             Request = dto
         });
     }
+
+    /// <summary>
+    /// 게시글을 조회한다.
+    /// </summary>
+    public Task<ArticleResultDTO> GetArticle(int? articleId)
+    {
+        return SqlMapper.QuerySingleAsync<ArticleResultDTO>(new RequestContext
+        {
+            Scope = nameof(ArticleMapper),
+            SqlId = "GetArticle",
+            Request = new { articleId }
+        });
+    }
+
+    /// <summary>
+    /// 게시글을 추가한다.
+    /// </summary>
+    public Task<int> AddArticle(SaveArticleRequestDTO dto)
+    {
+        return SqlMapper.ExecuteScalarAsync<int>(new RequestContext
+        {
+            Scope = nameof(ArticleMapper),
+            SqlId = "AddArticle",
+            Request = dto
+        });
+    }
     #endregion
 
 }
