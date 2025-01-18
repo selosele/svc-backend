@@ -39,6 +39,7 @@ public class MenuController : ControllerBase
     {
         var user = _authService.GetAuthenticatedUser();
         dto.UserId = user.UserId;
+        dto.UseYn = "Y";
 
         return Ok(await _menuService.ListMenu(dto));
     }
@@ -52,7 +53,6 @@ public class MenuController : ControllerBase
     {
         var user = _authService.GetAuthenticatedUser();
         dto.UserId = user.UserId;
-        dto.UseYn = null; // 미사용 메뉴도 전부 조회
 
         return Ok(await _menuService.ListMenu(dto));
     }

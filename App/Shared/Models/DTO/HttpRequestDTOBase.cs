@@ -9,7 +9,7 @@ public record HttpRequestDTOBase
     /// <summary>
     /// 사용 여부
     /// </summary>
-    public string? UseYn { get; set; } = "Y";
+    public string? UseYn { get; set; }
 
     /// <summary>
     /// 삭제 여부
