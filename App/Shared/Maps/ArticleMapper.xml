@@ -95,6 +95,18 @@
       )
       ;SELECT LAST_INSERT_ID()
     </Statement>
+
+    <!-- 게시글을 삭제한다. -->
+    <Statement Id="RemoveArticle">
+      /* ArticleMapper.RemoveArticle */
+
+      UPDATE CO_ARTICLE
+        SET
+          DELETE_YN = 'Y',
+          UPDATER_ID = @UpdaterId,
+          UPDATE_DT = SYSDATE()
+      WHERE ARTICLE_ID = @ArticleId
+    </Statement>
     
   </Statements>
 </SmartSqlMap>

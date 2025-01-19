@@ -90,6 +90,24 @@ public class ArticleController : ControllerBase
 
         return Created(string.Empty, new ArticleResponseDTO { Board = board, Article = article });
     }
+
+    /// <summary>
+    /// 게시글을 삭제한다.
+    /// </summary>
+    [HttpDelete("{articleId}")]
+    [Authorize]
+    public async Task<ActionResult> RemoveArticle(int articleId)
+    {
+        var user = _authService.GetAuthenticatedUser();
+        var article = await _articleService.GetArticle(new GetArticleRequestDTO { ArticleId = articleId });
+        
+        // 작성자 본인의 글만 삭제 가능 and 시스템관리자는 모든 글을 삭제 가능
+        if (article.ArticleWriterId != user.UserId && !_authService.HasRole(RoleUtil.SYSTEM_ADMIN))
+            return NotFound();
+
+        await _articleService.RemoveArticle(articleId, user.UserId);
+        return NoContent();
+    }
     #endregion
 
 }

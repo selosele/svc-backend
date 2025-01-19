@@ -58,6 +58,19 @@ public class ArticleMapper
             Request = dto
         });
     }
+
+    /// <summary>
+    /// 게시글을 삭제한다.
+    /// </summary>
+    public Task<int> RemoveArticle(int articleId, int? updaterId)
+    {
+        return SqlMapper.ExecuteAsync(new RequestContext
+        {
+            Scope = nameof(ArticleMapper),
+            SqlId = "RemoveArticle",
+            Request = new { articleId, updaterId }
+        });
+    }
     #endregion
 
 }

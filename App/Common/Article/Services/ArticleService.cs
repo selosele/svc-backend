@@ -45,6 +45,13 @@ public class ArticleService
         var articleId = await _articleMapper.AddArticle(dto);
         return await _articleMapper.GetArticle(new GetArticleRequestDTO { ArticleId = articleId });
     }
+
+    /// <summary>
+    /// 게시글을 삭제한다.
+    /// </summary>
+    [Transaction]
+    public async Task<int> RemoveArticle(int articleId, int? updaterId)
+        => await _articleMapper.RemoveArticle(articleId, updaterId);
     #endregion
     
 }
