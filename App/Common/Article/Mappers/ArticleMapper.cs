@@ -36,13 +36,13 @@ public class ArticleMapper
     /// <summary>
     /// 게시글을 조회한다.
     /// </summary>
-    public Task<ArticleResultDTO> GetArticle(GetArticleRequestDTO dto)
+    public Task<ArticleResultDTO> GetArticle(int articleId)
     {
         return SqlMapper.QuerySingleAsync<ArticleResultDTO>(new RequestContext
         {
             Scope = nameof(ArticleMapper),
             SqlId = "GetArticle",
-            Request = dto
+            Request = new { articleId }
         });
     }
 

@@ -59,7 +59,7 @@ public class ArticleController : ControllerBase
     [HttpGet("{articleId}")]
     public async Task<ActionResult<ArticleResponseDTO>> GetArticle(int articleId)
     {
-        var article = await _articleService.GetArticle(new GetArticleRequestDTO { ArticleId = articleId });
+        var article = await _articleService.GetArticle(articleId);
 
         var board = await _boardService.GetBoard(article.BoardId);
         if (board.UseYn == "N") // 미사용 게시판은 접속 불가하도록 처리
@@ -99,7 +99,7 @@ public class ArticleController : ControllerBase
     public async Task<ActionResult> RemoveArticle(int articleId)
     {
         var user = _authService.GetAuthenticatedUser();
-        var article = await _articleService.GetArticle(new GetArticleRequestDTO { ArticleId = articleId });
+        var article = await _articleService.GetArticle(articleId);
 
         // 작성자는 본인이 작성한 글만 삭제 가능 and 시스템관리자는 모든 글을 삭제 가능
         if (article.ArticleWriterId != user.UserId && !_authService.HasRole(RoleUtil.SYSTEM_ADMIN))
