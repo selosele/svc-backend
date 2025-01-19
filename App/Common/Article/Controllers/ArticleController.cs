@@ -68,7 +68,13 @@ public class ArticleController : ControllerBase
         if (!_authService.IsLogined() && board.BoardTypeCode == "NORMAL") // 비로그인 유저는 공지사항 게시판 제외 접속 불가하도록 처리
             return NotFound();
 
-        return Ok(new ArticleResponseDTO { Article = article, Board = board });
+        var prevNextArticleList = await _articleService.ListPrevNextArticle(new GetArticleRequestDTO
+        {
+            ArticleId = articleId,
+            BoardId = board.BoardId
+        });
+
+        return Ok(new ArticleResponseDTO { Article = article, ArticleList = prevNextArticleList, Board = board });
     }
 
     /// <summary>

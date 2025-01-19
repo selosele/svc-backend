@@ -42,14 +42,19 @@ public record ArticleResultDTO
     public string? EmployeeName { get; set; }
     
     /// <summary>
+    /// 등록일시
+    /// </summary>
+    public string? CreateDt { get; set; }
+
+    /// <summary>
     /// 게시글 작성자의 시스템관리자 권한 보유 여부
     /// </summary>
     public int? IsSystemAdmin { get; set; }
     
     /// <summary>
-    /// 등록일시
+    /// 이전/다음글 flag
     /// </summary>
-    public string? CreateDt { get; set; }
+    public string? PrevNextFlag { get; set; }
     #endregion
     
 }

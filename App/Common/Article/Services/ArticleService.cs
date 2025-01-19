@@ -30,6 +30,13 @@ public class ArticleService
         => await _articleMapper.ListArticle(dto);
 
     /// <summary>
+    /// 이전/다음 게시글 목록을 조회한다.
+    /// </summary>
+    [Transaction]
+    public async Task<IList<ArticleResultDTO>> ListPrevNextArticle(GetArticleRequestDTO dto)
+        => await _articleMapper.ListPrevNextArticle(dto);
+
+    /// <summary>
     /// 게시글을 조회한다.
     /// </summary>
     [Transaction]

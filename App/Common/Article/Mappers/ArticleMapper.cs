@@ -34,6 +34,19 @@ public class ArticleMapper
     }
 
     /// <summary>
+    /// 이전/다음 게시글 목록을 조회한다.
+    /// </summary>
+    public Task<IList<ArticleResultDTO>> ListPrevNextArticle(GetArticleRequestDTO dto)
+    {
+        return SqlMapper.QueryAsync<ArticleResultDTO>(new RequestContext
+        {
+            Scope = nameof(ArticleMapper),
+            SqlId = "ListPrevNextArticle",
+            Request = dto
+        });
+    }
+
+    /// <summary>
     /// 게시글을 조회한다.
     /// </summary>
     public Task<ArticleResultDTO> GetArticle(int articleId)
