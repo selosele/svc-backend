@@ -321,6 +321,18 @@ public class AuthService
         => GetAuthenticatedUser() != null;
 
     /// <summary>
+    /// 1개의 권한을 가지고 있는지 여부를 반환한다.
+    /// </summary>
+    public bool HasRole(string roleId)
+    {
+        var user = GetAuthenticatedUser();
+        if (user == null)
+            return false;
+        
+        return user.Roles!.Any(x => x.RoleId == roleId);
+    }
+
+    /// <summary>
     /// 인증된 사용자 정보를 반환한다.
     /// </summary>
     public UserResponseDTO GetAuthenticatedUser()

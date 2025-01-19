@@ -38,7 +38,7 @@ public class CompanyApplyController : ControllerBase
     public async Task<ActionResult<List<CompanyApplyResponseDTO>>> ListCompanyApply([FromQuery] GetCompanyApplyRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
-        if (!user.Roles!.Any(x => x.RoleId == RoleUtil.SYSTEM_ADMIN))
+        if (!_authService.HasRole(RoleUtil.SYSTEM_ADMIN))
             dto.ApplicantId = user.UserId;
 
         return Ok(await _companyService.ListCompanyApply(dto));
