@@ -28,6 +28,13 @@ public class ArticleService
     [Transaction]
     public async Task<IList<ArticleResultDTO>> ListArticle(GetArticleRequestDTO dto)
         => await _articleMapper.ListArticle(dto);
+
+    /// <summary>
+    /// 게시글을 조회한다.
+    /// </summary>
+    [Transaction]
+    public async Task<ArticleResultDTO> GetArticle(GetArticleRequestDTO dto)
+        => await _articleMapper.GetArticle(dto);
         
     /// <summary>
     /// 게시글을 추가한다.
@@ -36,7 +43,7 @@ public class ArticleService
     public async Task<ArticleResultDTO> AddArticle(SaveArticleRequestDTO dto)
     {
         var articleId = await _articleMapper.AddArticle(dto);
-        return await _articleMapper.GetArticle(articleId);
+        return await _articleMapper.GetArticle(new GetArticleRequestDTO { ArticleId = articleId });
     }
     #endregion
     

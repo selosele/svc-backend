@@ -4,6 +4,7 @@
   <ResultMaps>
     <ResultMap Id="ArticleResultMap">
       <Result Column="ARTICLE_ID" Property="ArticleId" />
+      <Result Column="BOARD_ID" Property="BoardId" />
       <Result Column="ARTICLE_TITLE" Property="ArticleTitle" />
       <Result Column="ARTICLE_CONTENT" Property="ArticleContent" />
       <Result Column="ARTICLE_WRITER_ID" Property="ArticleWriterId" />

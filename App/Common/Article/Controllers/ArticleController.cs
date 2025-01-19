@@ -5,6 +5,7 @@ using Svc.App.Common.Article.Services;
 using Svc.App.Common.Auth.Services;
 using Svc.App.Common.Board.Services;
 using Svc.App.Shared.Exceptions;
+using Svc.App.Shared.Utils;
 
 namespace Svc.App.Common.Article.Controllers;
 
@@ -53,6 +54,24 @@ public class ArticleController : ControllerBase
     }
 
     /// <summary>
+    /// 게시글을 조회한다.
+    /// </summary>
+    [HttpGet("{articleId}")]
+    public async Task<ActionResult<ArticleResponseDTO>> GetArticle(int articleId)
+    {
+        var article = await _articleService.GetArticle(new GetArticleRequestDTO { ArticleId = articleId });
+
+        var board = await _boardService.GetBoard(article.BoardId);
+        if (board.UseYn == "N") // 미사용 게시판은 접속 불가하도록 처리
+            throw new BizException("사용 중지된 게시판이에요. 시스템관리자에게 문의해주세요.");
+
+        if (!_authService.IsLogined() && board.BoardTypeCode == "NORMAL") // 비로그인 유저는 공지사항 게시판 제외 접속 불가하도록 처리
+            return NotFound();
+
+        return Ok(new ArticleResponseDTO { Article = article, Board = board });
+    }
+
+    /// <summary>
     /// 게시글을 추가한다.
     /// </summary>
     [HttpPost]
@@ -64,6 +83,9 @@ public class ArticleController : ControllerBase
         dto.ArticleWriterId = user.UserId;
 
         var board = await _boardService.GetBoard(dto.BoardId);
+        if (!_authService.HasRole(RoleUtil.SYSTEM_ADMIN) && board.BoardTypeCode == "NOTICE") // 일반 유저는 공지사항 게시판 입력 불가
+            return NotFound();
+
         var article = await _articleService.AddArticle(dto);
 
         return Created(string.Empty, new ArticleResponseDTO { Board = board, Article = article });
