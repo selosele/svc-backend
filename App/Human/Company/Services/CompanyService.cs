@@ -147,7 +147,8 @@ public class CompanyService
     public async Task<int> UpdateCompanyApply(SaveCompanyApplyRequestDTO dto)
     {
         // [승인]
-        if (dto.ApplyStateCode == "APPROVAL") {
+        if (dto.ApplyStateCode == "APPROVAL")
+        {
 
             // 회사 정보가 존재하는지 확인해서
             var count = await _companyMapper.CountCompany(new GetCompanyRequestDTO { RegistrationNo = dto.RegistrationNo });
@@ -163,7 +164,8 @@ public class CompanyService
             });
         }
         // [반려]
-        else if (dto.ApplyStateCode == "REJECT") {
+        else if (dto.ApplyStateCode == "REJECT")
+        {
 
             // 신청자에게 반려 알림을 발송한다.
             await _notificationMapper.AddNotification(new AddNotificationRequestDTO
