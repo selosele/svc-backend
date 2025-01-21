@@ -128,6 +128,19 @@
       ;SELECT LAST_INSERT_ID()
     </Statement>
 
+    <!-- 게시글을 수정한다. -->
+    <Statement Id="UpdateArticle">
+      /* ArticleMapper.UpdateArticle */
+
+      UPDATE CO_ARTICLE
+        SET
+          ARTICLE_TITLE = @ArticleTitle,
+          ARTICLE_CONTENT = @ArticleContent,
+          UPDATER_ID = @UpdaterId,
+          UPDATE_DT = SYSDATE()
+      WHERE ARTICLE_ID = @ArticleId
+    </Statement>
+
     <!-- 게시글을 삭제한다. -->
     <Statement Id="RemoveArticle">
       /* ArticleMapper.RemoveArticle */

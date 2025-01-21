@@ -42,10 +42,13 @@ public class ArticleController : ControllerBase
     public async Task<ActionResult<List<ArticleResponseDTO>>> ListArticle([FromQuery] GetArticleRequestDTO dto)
     {
         var board = await _boardService.GetBoard(dto.BoardId);
-        if (board.UseYn == "N") // 미사용 게시판은 접속 불가하도록 처리
+
+        // 미사용 게시판은 접속 불가하도록 처리
+        if (board.UseYn == "N")
             throw new BizException("사용 중지된 게시판이에요. 시스템관리자에게 문의해주세요.");
 
-        if (!_authService.IsLogined() && board.BoardTypeCode == "NORMAL") // 비로그인 유저는 공지사항 게시판 제외 접속 불가하도록 처리
+        // 비로그인 유저는 공지사항 게시판 제외 접속 불가하도록 처리
+        if (!_authService.IsLogined() && board.BoardTypeCode == "NORMAL")
             return NotFound();
 
         var articleList = await _articleService.ListArticle(dto);
@@ -65,7 +68,8 @@ public class ArticleController : ControllerBase
         if (board.UseYn == "N") // 미사용 게시판은 접속 불가하도록 처리
             throw new BizException("사용 중지된 게시판이에요. 시스템관리자에게 문의해주세요.");
 
-        if (!_authService.IsLogined() && board.BoardTypeCode == "NORMAL") // 비로그인 유저는 공지사항 게시판 제외 접속 불가하도록 처리
+        // 비로그인 유저는 공지사항 게시판 제외 접속 불가하도록 처리
+        if (!_authService.IsLogined() && board.BoardTypeCode == "NORMAL")
             return NotFound();
 
         var prevNextArticleList = await _articleService.ListPrevNextArticle(new GetArticleRequestDTO
@@ -89,12 +93,37 @@ public class ArticleController : ControllerBase
         dto.ArticleWriterId = user.UserId;
 
         var board = await _boardService.GetBoard(dto.BoardId);
-        if (!_authService.HasRole(RoleUtil.SYSTEM_ADMIN) && board.BoardTypeCode == "NOTICE") // 일반 유저는 공지사항 게시판 입력 불가
+
+        // 일반 유저는 공지사항 게시판 입력 불가
+        if (!_authService.HasRole(RoleUtil.SYSTEM_ADMIN) && board.BoardTypeCode == "NOTICE")
             return NotFound();
 
         var article = await _articleService.AddArticle(dto);
 
         return Created(string.Empty, new ArticleResponseDTO { Board = board, Article = article });
+    }
+
+    /// <summary>
+    /// 게시글을 수정한다.
+    /// </summary>
+    [HttpPut("{articleId}")]
+    [Authorize]
+    public async Task<ActionResult<int>> UpdateArticle(int articleId, [FromBody] SaveArticleRequestDTO dto)
+    {
+        var user = _authService.GetAuthenticatedUser();
+        dto.UpdaterId = user.UserId;
+
+        // 작성자는 본인이 작성한 글만 수정 가능
+        if (dto.ArticleWriterId != user.UserId)
+            return NotFound();
+
+        var board = await _boardService.GetBoard(dto.BoardId);
+
+        // 일반 유저는 공지사항 게시판 입력 불가
+        if (!_authService.HasRole(RoleUtil.SYSTEM_ADMIN) && board.BoardTypeCode == "NOTICE")
+            return NotFound();
+
+        return Ok(await _articleService.UpdateArticle(dto));
     }
 
     /// <summary>

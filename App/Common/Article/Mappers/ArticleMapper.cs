@@ -73,6 +73,19 @@ public class ArticleMapper
     }
 
     /// <summary>
+    /// 게시글을 수정한다.
+    /// </summary>
+    public Task<int> UpdateArticle(SaveArticleRequestDTO dto)
+    {
+        return SqlMapper.ExecuteAsync(new RequestContext
+        {
+            Scope = nameof(ArticleMapper),
+            SqlId = "UpdateArticle",
+            Request = dto
+        });
+    }
+
+    /// <summary>
     /// 게시글을 삭제한다.
     /// </summary>
     public Task<int> RemoveArticle(int articleId, int? updaterId)

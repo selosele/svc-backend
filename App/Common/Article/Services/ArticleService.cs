@@ -52,6 +52,13 @@ public class ArticleService
         var articleId = await _articleMapper.AddArticle(dto);
         return await _articleMapper.GetArticle(articleId);
     }
+        
+    /// <summary>
+    /// 게시글을 수정한다.
+    /// </summary>
+    [Transaction]
+    public async Task<int> UpdateArticle(SaveArticleRequestDTO dto)
+        => await _articleMapper.UpdateArticle(dto);
 
     /// <summary>
     /// 게시글을 삭제한다.
