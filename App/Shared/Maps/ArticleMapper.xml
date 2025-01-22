@@ -10,6 +10,7 @@
       <Result Column="ARTICLE_WRITER_ID" Property="ArticleWriterId" />
       <Result Column="ARTICLE_WRITER_NICKNAME" Property="ArticleWriterNickname" />
       <Result Column="EMPLOYEE_NAME" Property="EmployeeName" />
+      <Result Column="BOARD_TYPE_CODE" Property="BoardTypeCode" />
       <Result Column="CREATE_DT" Property="CreateDt" />
       <Result Column="IS_SYSTEM_ADMIN" Property="IsSystemAdmin" />
       <Result Column="PREV_NEXT_FLAG" Property="PrevNextFlag" />
@@ -92,6 +93,7 @@
         A.ARTICLE_WRITER_ID,
         A.ARTICLE_WRITER_NICKNAME,
         E.EMPLOYEE_NAME,
+        B.BOARD_TYPE_CODE,
         (SELECT COUNT(1)
          FROM CO_USER_ROLE UR
          WHERE UR.USER_ID = E.USER_ID
@@ -101,6 +103,7 @@
              ELSE DATE_FORMAT(A.CREATE_DT, '%Y-%m-%d %H:%i:%s')
         END AS CREATE_DT
       FROM CO_ARTICLE A
+      LEFT JOIN CO_BOARD B ON B.BOARD_ID = A.BOARD_ID
       LEFT JOIN HM_EMPLOYEE E ON E.USER_ID = A.ARTICLE_WRITER_ID
       WHERE A.ARTICLE_ID = @ArticleId
     </Statement>

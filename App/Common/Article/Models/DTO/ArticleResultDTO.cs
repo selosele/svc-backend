@@ -42,6 +42,11 @@ public record ArticleResultDTO
     public string? EmployeeName { get; set; }
     
     /// <summary>
+    /// 게시판 구분 코드
+    /// </summary>
+    public string? BoardTypeCode { get; set; }
+    
+    /// <summary>
     /// 등록일시
     /// </summary>
     public string? CreateDt { get; set; }

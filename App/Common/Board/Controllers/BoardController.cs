@@ -42,7 +42,6 @@ public class BoardController : ControllerBase
     /// 게시판을 조회한다.
     /// </summary>
     [HttpGet("{boardId}")]
-    [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
     public async Task<ActionResult<BoardResponseDTO>> GetBoard(int boardId)
         => Ok(await _boardService.GetBoard(boardId));
 

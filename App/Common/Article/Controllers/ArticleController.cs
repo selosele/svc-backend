@@ -136,6 +136,10 @@ public class ArticleController : ControllerBase
         var user = _authService.GetAuthenticatedUser();
         var article = await _articleService.GetArticle(articleId);
 
+        // 일반 유저는 공지사항 게시판 입력 불가
+        if (!_authService.HasRole(RoleUtil.SYSTEM_ADMIN) && article.BoardTypeCode == "NOTICE")
+            return NotFound();
+
         // 작성자는 본인이 작성한 글만 삭제 가능 and 시스템관리자는 모든 글을 삭제 가능
         if (article.ArticleWriterId != user.UserId && !_authService.HasRole(RoleUtil.SYSTEM_ADMIN))
             return NotFound();
