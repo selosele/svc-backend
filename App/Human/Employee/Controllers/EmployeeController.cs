@@ -79,7 +79,7 @@ public class EmployeeController : ControllerBase
     /// </summary>
     [HttpPost("{employeeId}/companies")]
     [Authorize]
-    public async Task<ActionResult<int>> AddWorkHistory(int employeeId, [FromBody] SaveWorkHistoryRequestDTO dto)
+    public async Task<ActionResult<WorkHistoryResponseDTO>> AddWorkHistory(int employeeId, [FromBody] SaveWorkHistoryRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
         var myEmployeeId = user.Employee?.EmployeeId;

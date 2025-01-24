@@ -51,7 +51,7 @@ public class CompanyController : ControllerBase
     /// </summary>
     [HttpPost]
     [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
-    public async Task<ActionResult> AddCompany([FromBody] SaveCompanyRequestDTO saveCompanyRequestDTO)
+    public async Task<ActionResult<CompanyResponseDTO>> AddCompany([FromBody] SaveCompanyRequestDTO saveCompanyRequestDTO)
     {
         var user = _authService.GetAuthenticatedUser();
         var myUserId = user.UserId;

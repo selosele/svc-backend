@@ -110,7 +110,7 @@ public class EmployeeService
     /// 근무이력을 추가한다.
     /// </summary>
     [Transaction]
-    public async Task<int> AddWorkHistory(SaveWorkHistoryRequestDTO dto)
+    public async Task<WorkHistoryResponseDTO> AddWorkHistory(SaveWorkHistoryRequestDTO dto)
     {
         // 회사 ID가 없으면(Open API로 회사 정보를 조회해서 선택한경우) 회사 정보가 존재하는지 확인해서
         var companyCount = await _companyMapper.CountCompany(new GetCompanyRequestDTO
@@ -145,7 +145,12 @@ public class EmployeeService
             };
             await _employeeMapper.UpdateEmployee(updateEmployeeRequestDTO);
         }
-        return await _workHistoryMapper.AddWorkHistory(dto);
+        
+        // 근무이력을 추가하고
+        var workHistoryId = await _workHistoryMapper.AddWorkHistory(dto);
+
+        // 추가한 근무이력을 조회해서 반환한다.
+        return await _workHistoryMapper.GetWorkHistory(new GetWorkHistoryRequestDTO { WorkHistoryId = workHistoryId });
     }
 
     /// <summary>

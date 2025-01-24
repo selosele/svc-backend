@@ -67,8 +67,11 @@ public class CompanyService
     /// 회사를 추가한다.
     /// </summary>
     [Transaction]
-    public async Task<int> AddCompany(SaveCompanyRequestDTO dto)
-        => await _companyMapper.AddCompany(dto);
+    public async Task<CompanyResponseDTO> AddCompany(SaveCompanyRequestDTO dto)
+    {
+        var companyId = await _companyMapper.AddCompany(dto);
+        return await _companyMapper.GetCompany(companyId);
+    }
 
     /// <summary>
     /// 회사를 수정한다.
