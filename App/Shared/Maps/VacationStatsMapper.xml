@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<SmartSqlMap Scope="VacationStatsMapper" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+  <ResultMaps>
+    <ResultMap Id="VacationStatsResultMap">
+      <Result Column="VACATION_STATS_ID" Property="VacationStatsId" />
+      <Result Column="EMPLOYEE_ID" Property="EmployeeId" />
+      <Result Column="YYYY" Property="YYYY" />
+      <Result Column="VACATION_TYPE_CODE" Property="VacationTypeCode" />
+      <Result Column="VACATION_TYPE_CODE_NAME" Property="VacationTypeCodeName" />
+      <Result Column="VACATION_USE_COUNT" Property="VacationUseCount" />
+    </ResultMap>
+  </ResultMaps>
+
+  <Statements>
+
+    <!-- 휴가 통계 목록을 조회한다. -->
+    <Statement Id="ListVacationStats" ResultMap="VacationStatsResultMap">
+      /* VacationStatsMapper.ListVacationStats */
+
+      SELECT
+        VS.VACATION_STATS_ID,
+        VS.EMPLOYEE_ID,
+        VS.YYYY,
+        VS.VACATION_TYPE_CODE,
+        CD.CODE_NAME,
+        VS.VACATION_USE_COUNT
+      FROM HM_VACATION_STATS VS
+      LEFT JOIN CO_CODE CD ON CD.CODE_VALUE  = V.VACATION_TYPE_CODE AND CD.UP_CODE_ID = 'VACATION_TYPE_00'
+      WHERE VS.EMPLOYEE_ID = @EmployeeId
+      ORDER BY VS.YYYY DESC, VS.EMPLOYEE_ID
+    </Statement>
+
+    <!-- 휴가 통계를 추가한다. -->
+    <Statement Id="AddVacationStats">
+      /* VacationStatsMapper.AddVacationStats */
+
+      INSERT INTO HM_VACATION_STATS (
+        USER_ID,
+        EMPLOYEE_ID,
+        YYYY,
+        VACATION_TYPE_CODE,
+        VACATION_USE_COUNT,
+        CREATER_ID
+      )
+      SELECT
+        @UserId AS USER_ID,
+        V.EMPLOYEE_ID,
+        DATE_FORMAT(V.VACATION_END_YMD, '%Y') AS YYYY,
+        V.VACATION_TYPE_CODE,
+        SUM(FN_GET_VACATION_USE_COUNT(V.VACATION_START_YMD, V.VACATION_END_YMD, V.VACATION_TYPE_CODE, @UserId)) AS VACATION_USE_COUNT,
+        @UserId AS CREATER_ID
+      FROM HM_VACATION V
+      WHERE V.DELETE_YN = 'N'
+        AND V.EMPLOYEE_ID = FN_GET_EMPLOYEE_ID(@UserId)
+      GROUP BY DATE_FORMAT(V.VACATION_END_YMD, '%Y'), V.VACATION_TYPE_CODE
+      ;SELECT LAST_INSERT_ID()
+    </Statement>
+
+    <!-- 휴가 통계를 삭제한다. -->
+    <Statement Id="RemoveVacationStats">
+      /* VacationStatsMapper.RemoveVacationStats */
+
+      DELETE FROM HM_VACATION_STATS
+      WHERE USER_ID = @UserId
+    </Statement>
+    
+  </Statements>
+</SmartSqlMap>
