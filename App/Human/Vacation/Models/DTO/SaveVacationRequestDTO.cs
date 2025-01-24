@@ -15,7 +15,7 @@ public record SaveVacationRequestDTO : HttpRequestDTOBase
     public int? VacationId { get; set; }
 
     /// <summary>
-    /// 휴가 ID
+    /// 직원 ID
     /// </summary>
     public int? EmployeeId { get; set; }
 
