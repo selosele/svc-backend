@@ -115,6 +115,14 @@ public class VacationController : ControllerBase
 
         return Created(string.Empty, await _vacationService.AddVacationCalc(dto));
     }
+
+    /// <summary>
+    /// 휴가 통계 목록을 조회한다.
+    /// </summary>
+    [HttpGet("stats")]
+    [Authorize]
+    public async Task<ActionResult<List<VacationStatsResponseDTO>>> ListVacationStats([FromQuery] GetVacationStatsRequestDTO dto)
+        => Ok(await _vacationService.ListVacationStats(dto));
     #endregion
 
 }

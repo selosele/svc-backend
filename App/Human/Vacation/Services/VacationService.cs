@@ -117,6 +117,13 @@ public class VacationService
         // 다시 추가한다.
         return await _vacationCalcMapper.AddVacationCalc(dto);
     }
+
+    /// <summary>
+    /// 휴가 통계 목록을 조회한다.
+    /// </summary>
+    [Transaction]
+    public async Task<IList<VacationStatsResponseDTO>> ListVacationStats(GetVacationStatsRequestDTO dto)
+        => await _vacationStatsMapper.ListVacationStats(dto);
     #endregion
     
 }
