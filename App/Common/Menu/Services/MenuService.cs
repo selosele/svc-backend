@@ -14,6 +14,7 @@ public class MenuService
     #region [필드]
     private readonly MenuMapper _menuMapper;
     private readonly MenuRoleMapper _menuRoleMapper;
+    private readonly MenuBookmarkMapper _menuBookmarkMapper;
     private readonly UserMapper _userMapper;
     private readonly UserMenuRoleMapper _userMenuRoleMapper;
     #endregion
@@ -22,12 +23,14 @@ public class MenuService
     public MenuService(
         MenuMapper menuMapper,
         MenuRoleMapper menuRoleMapper,
+        MenuBookmarkMapper menuBookmarkMapper,
         UserMapper userMapper,
         UserMenuRoleMapper userMenuRoleMapper
     )
     {
         _menuMapper = menuMapper;
         _menuRoleMapper = menuRoleMapper;
+        _menuBookmarkMapper = menuBookmarkMapper;
         _userMapper = userMapper;
         _userMenuRoleMapper = userMenuRoleMapper;
     }
@@ -154,6 +157,37 @@ public class MenuService
     [Transaction]
     public async Task<int> RemoveMenu(int menuId, int? updaterId)
         => await _menuMapper.RemoveMenu(menuId, updaterId);
+
+    /// <summary>
+    /// 메뉴 즐겨찾기 목록을 조회한다.
+    /// </summary>
+    [Transaction]
+    public async Task<IList<MenuBookmarkResponseDTO>> ListMenuBookmark(int? userId)
+        => await _menuBookmarkMapper.ListMenuBookmark(userId);
+
+    /// <summary>
+    /// 메뉴 즐겨찾기를 추가한다.
+    /// </summary>
+    [Transaction]
+    public async Task<MenuBookmarkResponseDTO> AddMenuBookmark(SaveMenuBookmarkRequestDTO dto)
+    {
+        var menuBookmarkId = await _menuBookmarkMapper.AddMenuBookmark(dto);
+        return await _menuBookmarkMapper.GetMenuBookmark(menuBookmarkId);
+    }
+
+    /// <summary>
+    /// 모든 메뉴 즐겨찾기를 삭제한다.
+    /// </summary>
+    [Transaction]
+    public async Task<int> RemoveMenuBookmarkAll(int? userId)
+        => await _menuBookmarkMapper.RemoveMenuBookmarkAll(userId);
+
+    /// <summary>
+    /// 메뉴 즐겨찾기를 삭제한다.
+    /// </summary>
+    [Transaction]
+    public async Task<int> RemoveMenuBookmark(int menuBookmarkId)
+        => await _menuBookmarkMapper.RemoveMenuBookmark(menuBookmarkId);
     #endregion
     
 }

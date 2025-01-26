@@ -15,16 +15,16 @@ public class MenuBookmarkController : ControllerBase
 {
     #region [필드]
     private readonly AuthService _authService;
-    private readonly MenuBookmarkService _menuBookmarkService;
+    private readonly MenuService _menuService;
     #endregion
     
     #region [생성자]
     public MenuBookmarkController(
         AuthService authService,
-        MenuBookmarkService menuBookmarkService
+        MenuService menuService
     ) {
         _authService = authService;
-        _menuBookmarkService = menuBookmarkService;
+        _menuService = menuService;
     }
     #endregion
 
@@ -37,7 +37,7 @@ public class MenuBookmarkController : ControllerBase
     public async Task<ActionResult<List<MenuBookmarkResponseDTO>>> ListMenuBookmark()
     {
         var user = _authService.GetAuthenticatedUser();
-        return Ok(await _menuBookmarkService.ListMenuBookmark(user.UserId));
+        return Ok(await _menuService.ListMenuBookmark(user.UserId));
     }
 
     /// <summary>
@@ -50,7 +50,7 @@ public class MenuBookmarkController : ControllerBase
         var user = _authService.GetAuthenticatedUser();
         dto.CreaterId = user.UserId;
 
-        return Created(string.Empty, await _menuBookmarkService.AddMenuBookmark(dto));
+        return Created(string.Empty, await _menuService.AddMenuBookmark(dto));
     }
 
     /// <summary>
@@ -61,7 +61,7 @@ public class MenuBookmarkController : ControllerBase
     public async Task<ActionResult> RemoveMenuBookmarkAll()
     {
         var user = _authService.GetAuthenticatedUser();
-        await _menuBookmarkService.RemoveMenuBookmarkAll(user.UserId);
+        await _menuService.RemoveMenuBookmarkAll(user.UserId);
         return NoContent();
     }
 
@@ -72,7 +72,7 @@ public class MenuBookmarkController : ControllerBase
     [Authorize]
     public async Task<ActionResult> RemoveMenuBookmark(int menuBookmarkId)
     {
-        await _menuBookmarkService.RemoveMenuBookmark(menuBookmarkId);
+        await _menuService.RemoveMenuBookmark(menuBookmarkId);
         return NoContent();
     }
     #endregion
