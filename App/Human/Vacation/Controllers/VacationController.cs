@@ -127,6 +127,9 @@ public class VacationController : ControllerBase
         var myUserId = user.UserId;
         var myWorkHistoryId = user.Employee!.WorkHistories![0].WorkHistoryId;
 
+        if (dto.UserId != myUserId)
+            return NotFound();
+
         var statsList = _vacationService.ListVacationStats(dto);
         var countInfo = _vacationService.GetVacationCountInfo(new GetVacationCountInfoRequestDTO { UserId = myUserId, WorkHistoryId = myWorkHistoryId });
         var vacationList = _vacationService.ListVacation(new GetVacationRequestDTO { WorkHistoryId = myWorkHistoryId });
