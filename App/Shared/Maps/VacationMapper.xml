@@ -183,14 +183,25 @@
     <Statement Id="ListVacationByMonth" ResultMap="VacationByMonthResultMap">
       /* VacationMapper.ListVacationByMonth */
 
+      WITH RECURSIVE MONTH_RANGE AS (
+        SELECT DATE(CONCAT(@YYYY, '-01-01')) AS YMD
+        UNION ALL
+        SELECT DATE_ADD(YMD, INTERVAL 1 MONTH) 
+        FROM MONTH_RANGE 
+        WHERE DATE_ADD(YMD, INTERVAL 1 MONTH) &lt;= DATE(CONCAT(@YYYY, '-12-31'))
+      )
       SELECT
-        SUM(V.VACATION_USE_COUNT) AS VACATION_USE_COUNT,
-        DATE_FORMAT(V.VACATION_END_YMD, '%m') AS VACATION_MONTH
-      FROM HM_VACATION V
-      WHERE V.WORK_HISTORY_ID = @WorkHistoryId
-        AND V.VACATION_TYPE_CODE = @VacationTypeCode
-        AND DATE_FORMAT(V.VACATION_END_YMD, '%Y') = @YYYY
-      GROUP BY DATE_FORMAT(V.VACATION_END_YMD, '%m')
+        IFNULL(SUM(V.VACATION_USE_COUNT), 0) AS VACATION_USE_COUNT,
+ 		    DATE_FORMAT(MR.YMD, '%m') AS VACATION_MONTH
+      FROM MONTH_RANGE MR
+      LEFT JOIN HM_VACATION V
+           ON MONTH(V.VACATION_END_YMD) = MONTH(MR.YMD)
+           AND YEAR(V.VACATION_END_YMD) = YEAR(MR.YMD)
+           AND V.WORK_HISTORY_ID = @WorkHistoryId
+           AND V.VACATION_TYPE_CODE = @VacationTypeCode
+           AND DATE_FORMAT(V.VACATION_END_YMD, '%Y') = @YYYY
+      GROUP BY MR.YMD
+      ORDER BY MR.YMD
     </Statement>
     
   </Statements>
