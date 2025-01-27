@@ -14,7 +14,7 @@ public record VacationStatsResponseDTO
     /// <summary>
     /// 휴가 통계 목록
     /// </summary>
-    public IList<VacationStatsResultDTO>? StatList { get; set; }
+    public IList<VacationStatsResultDTO>? StatsList { get; set; }
 
     /// <summary>
     /// 휴가 목록
