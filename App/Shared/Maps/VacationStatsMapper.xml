@@ -5,6 +5,7 @@
     <ResultMap Id="VacationStatsResultMap">
       <Result Column="VACATION_STATS_ID" Property="VacationStatsId" />
       <Result Column="EMPLOYEE_ID" Property="EmployeeId" />
+      <Result Column="WORK_HISTORY_ID" Property="WorkHistoryId" />
       <Result Column="YYYY" Property="YYYY" />
       <Result Column="VACATION_TYPE_CODE" Property="VacationTypeCode" />
       <Result Column="VACATION_TYPE_CODE_NAME" Property="VacationTypeCodeName" />
@@ -21,6 +22,7 @@
       SELECT
         VS.VACATION_STATS_ID,
         VS.EMPLOYEE_ID,
+        VS.WORK_HISTORY_ID,
         VS.YYYY,
         VS.VACATION_TYPE_CODE,
         CD.CODE_NAME AS VACATION_TYPE_CODE_NAME,
@@ -34,7 +36,7 @@
         <IsNotEmpty Property="EmployeeId">
         AND VS.EMPLOYEE_ID = @EmployeeId
         </IsNotEmpty>
-      ORDER BY VS.YYYY DESC, VS.EMPLOYEE_ID
+      ORDER BY VS.WORK_HISTORY_ID DESC, VS.YYYY DESC, VS.EMPLOYEE_ID
     </Statement>
 
     <!-- 휴가 통계를 추가한다. -->
@@ -44,6 +46,7 @@
       INSERT INTO HM_VACATION_STATS (
         USER_ID,
         EMPLOYEE_ID,
+        WORK_HISTORY_ID,
         YYYY,
         VACATION_TYPE_CODE,
         VACATION_USE_COUNT,
@@ -52,6 +55,7 @@
       SELECT
         @UserId AS USER_ID,
         V.EMPLOYEE_ID,
+        V.WORK_HISTORY_ID,
         DATE_FORMAT(V.VACATION_END_YMD, '%Y') AS YYYY,
         V.VACATION_TYPE_CODE,
         SUM(FN_GET_VACATION_USE_COUNT(V.VACATION_START_YMD, V.VACATION_END_YMD, V.VACATION_TYPE_CODE, @UserId)) AS VACATION_USE_COUNT,

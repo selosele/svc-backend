@@ -17,6 +17,11 @@ public record VacationStatsResponseDTO
     public int? EmployeeId { get; set; }
 
     /// <summary>
+    /// 근무이력 ID
+    /// </summary>
+    public int? WorkHistoryId { get; set; }
+
+    /// <summary>
     /// 연도
     /// </summary>
     public string? YYYY { get; set; }
