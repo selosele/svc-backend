@@ -122,8 +122,22 @@ public class VacationService
     /// 휴가 통계 목록을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<IList<VacationStatsResponseDTO>> ListVacationStats(GetVacationStatsRequestDTO dto)
+    public async Task<IList<VacationStatsResultDTO>> ListVacationStats(GetVacationStatsRequestDTO dto)
         => await _vacationStatsMapper.ListVacationStats(dto);
+
+    /// <summary>
+    /// 휴가일수정보를 조회한다.
+    /// </summary>
+    [Transaction]
+    public async Task<VacationCountInfoResultDTO> GetVacationCountInfo(GetVacationCountInfoRequestDTO dto)
+        => await _vacationMapper.GetVacationCountInfo(dto);
+
+    /// <summary>
+    /// 월별 휴가사용일수 목록을 조회한다.
+    /// </summary>
+    [Transaction]
+    public async Task<IList<VacationByMonthResponseDTO>> ListVacationByMonth(GetVacationByMonthRequestDTO dto)
+        => await _vacationMapper.ListVacationByMonth(dto);
     #endregion
     
 }

@@ -84,6 +84,32 @@ public class VacationMapper
             Request = new { vacationId, updaterId }
         });
     }
+
+    /// <summary>
+    /// 휴가일수정보를 조회한다.
+    /// </summary>
+    public Task<VacationCountInfoResultDTO> GetVacationCountInfo(GetVacationCountInfoRequestDTO dto)
+    {
+        return SqlMapper.QuerySingleAsync<VacationCountInfoResultDTO>(new RequestContext
+        {
+            Scope = nameof(VacationMapper),
+            SqlId = "GetVacationCountInfo",
+            Request = dto
+        });
+    }
+
+    /// <summary>
+    /// 월별 휴가사용일수 목록을 조회한다.
+    /// </summary>
+    public Task<IList<VacationByMonthResponseDTO>> ListVacationByMonth(GetVacationByMonthRequestDTO dto)
+    {
+        return SqlMapper.QueryAsync<VacationByMonthResponseDTO>(new RequestContext
+        {
+            Scope = nameof(VacationMapper),
+            SqlId = "ListVacationByMonth",
+            Request = dto
+        });
+    }
     #endregion
 
 }

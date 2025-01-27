@@ -122,7 +122,33 @@ public class VacationController : ControllerBase
     [HttpGet("stats")]
     [Authorize]
     public async Task<ActionResult<List<VacationStatsResponseDTO>>> ListVacationStats([FromQuery] GetVacationStatsRequestDTO dto)
-        => Ok(await _vacationService.ListVacationStats(dto));
+    {
+        var user = _authService.GetAuthenticatedUser();
+        var myUserId = user.UserId;
+        var myWorkHistoryId = user.Employee!.WorkHistories![0].WorkHistoryId;
+
+        var statList = _vacationService.ListVacationStats(dto);
+        var countInfo = _vacationService.GetVacationCountInfo(new GetVacationCountInfoRequestDTO { UserId = myUserId, WorkHistoryId = myWorkHistoryId });
+        var vacationList = _vacationService.ListVacation(new GetVacationRequestDTO { WorkHistoryId = myWorkHistoryId });
+
+        // 여러 개의 비동기 작업을 병렬로 실행
+        await Task.WhenAll(statList, countInfo, vacationList);
+
+        return Ok(new VacationStatsResponseDTO
+        {
+            StatList = await statList,
+            CountInfo = await countInfo,
+            VacationList = await vacationList
+        });
+    }
+
+    /// <summary>
+    /// 월별 휴가사용일수 목록을 조회한다.
+    /// </summary>
+    [HttpGet("stats/month")]
+    [Authorize]
+    public async Task<ActionResult<List<VacationByMonthResponseDTO>>> ListVacationByMonth([FromQuery] GetVacationByMonthRequestDTO dto)
+        => Ok(await _vacationService.ListVacationByMonth(dto));
     #endregion
 
 }

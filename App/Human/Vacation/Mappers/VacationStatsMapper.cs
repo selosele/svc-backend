@@ -23,9 +23,9 @@ public class VacationStatsMapper
     /// <summary>
     /// 휴가 통계 목록을 조회한다.
     /// </summary>
-    public Task<IList<VacationStatsResponseDTO>> ListVacationStats(GetVacationStatsRequestDTO dto)
+    public Task<IList<VacationStatsResultDTO>> ListVacationStats(GetVacationStatsRequestDTO dto)
     {
-        return SqlMapper.QueryAsync<VacationStatsResponseDTO>(new RequestContext
+        return SqlMapper.QueryAsync<VacationStatsResultDTO>(new RequestContext
         {
             Scope = nameof(VacationStatsMapper),
             SqlId = "ListVacationStats",

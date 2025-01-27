@@ -7,39 +7,19 @@ public record VacationStatsResponseDTO
 {
     #region [필드]
     /// <summary>
-    /// 휴가 통계 ID
+    /// 휴가일수정보
     /// </summary>
-    public int? VacationStatsId { get; set; }
+    public VacationCountInfoResultDTO? CountInfo { get; set; }
 
     /// <summary>
-    /// 직원 ID
+    /// 휴가 통계 목록
     /// </summary>
-    public int? EmployeeId { get; set; }
+    public IList<VacationStatsResultDTO>? StatList { get; set; }
 
     /// <summary>
-    /// 근무이력 ID
+    /// 휴가 목록
     /// </summary>
-    public int? WorkHistoryId { get; set; }
-
-    /// <summary>
-    /// 연도
-    /// </summary>
-    public string? YYYY { get; set; }
-
-    /// <summary>
-    /// 휴가 구분 코드
-    /// </summary>
-    public string? VacationTypeCode { get; set; }
-
-    /// <summary>
-    /// 휴가 구분 코드명
-    /// </summary>
-    public string? VacationTypeCodeName { get; set; }
-
-    /// <summary>
-    /// 휴가 사용 일수
-    /// </summary>
-    public int? VacationUseCount { get; set; }
+    public IList<VacationResponseDTO>? VacationList { get; set; }
     #endregion
 
 }

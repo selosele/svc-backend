@@ -14,6 +14,17 @@
       <Result Column="VACATION_USE_COUNT" Property="VacationUseCount" />
       <Result Column="DELETE_YN" Property="DeleteYn" />
     </ResultMap>
+
+    <ResultMap Id="VacationCountInfoResultMap">
+      <Result Column="VACATION_TOTAL_COUNT" Property="VacationTotalCount" />
+      <Result Column="VACATION_USE_COUNT" Property="VacationUseCount" />
+      <Result Column="VACATION_REMAIN_COUNT" Property="VacationRemainCount" />
+    </ResultMap>
+
+    <ResultMap Id="VacationByMonthResultMap">
+      <Result Column="VACATION_USE_COUNT" Property="VacationUseCount" />
+      <Result Column="VACATION_MONTH" Property="VacationMonth" />
+    </ResultMap>
   </ResultMaps>
 
   <Statements>
@@ -124,6 +135,62 @@
           UPDATER_ID = @UpdaterId,
           UPDATE_DT = SYSDATE()
       WHERE VACATION_ID = @VacationId
+    </Statement>
+
+    <!-- 휴가일수정보를 조회한다. -->
+    <Statement Id="GetVacationCountInfo" ResultMap="VacationCountInfoResultMap">
+      /* VacationMapper.GetVacationCountInfo */
+
+      WITH VACATION_CALC AS (
+        SELECT
+          VC.WORK_HISTORY_ID,
+          VC.VACATION_TYPE_CODE
+        FROM HM_VACATION_CALC VC
+        LEFT JOIN HM_WORK_HISTORY H ON H.WORK_HISTORY_ID = VC.WORK_HISTORY_ID
+        WHERE VC.WORK_HISTORY_ID = @WorkHistoryId
+          AND VC.ANNUAL_TYPE_CODE = FN_GET_ANNUAL_TYPE_CODE(H.JOIN_YMD, H.QUIT_YMD)
+      )
+      SELECT
+        IFNULL(T.VACATION_USE_COUNT, 0) AS VACATION_USE_COUNT,
+        IFNULL(FN_GET_VACATION_TOTAL_COUNT(T.JOIN_YMD, T.QUIT_YMD, T.ANNUAL_TYPE_CODE), 0) AS VACATION_TOTAL_COUNT,
+        IFNULL(FN_GET_VACATION_REMAIN_COUNT(T.JOIN_YMD, T.QUIT_YMD, T.ANNUAL_TYPE_CODE, IFNULL(T.VACATION_USE_COUNT, 0)), 0) AS VACATION_REMAIN_COUNT
+      FROM (
+        SELECT
+          H.JOIN_YMD,
+          H.QUIT_YMD,
+          V.VACATION_START_YMD,
+          V.VACATION_END_YMD,
+          V.VACATION_TYPE_CODE,
+          FN_GET_ANNUAL_TYPE_CODE(H.JOIN_YMD, H.QUIT_YMD) AS ANNUAL_TYPE_CODE,
+          SUM(FN_GET_VACATION_USE_COUNT(V.VACATION_START_YMD, V.VACATION_END_YMD, V.VACATION_TYPE_CODE, @UserId)) AS VACATION_USE_COUNT
+        FROM HM_VACATION V
+        LEFT JOIN (
+          SELECT
+            WORK_HISTORY_ID,
+            IFNULL(JOIN_YMD, (SELECT JOIN_YMD FROM HM_WORK_HISTORY WHERE WORK_HISTORY_ID = @WorkHistoryId)) AS JOIN_YMD,
+            IFNULL(QUIT_YMD, (SELECT QUIT_YMD FROM HM_WORK_HISTORY WHERE WORK_HISTORY_ID = @WorkHistoryId)) AS QUIT_YMD
+          FROM HM_WORK_HISTORY
+          WHERE DELETE_YN = 'N'
+        ) H ON H.WORK_HISTORY_ID = V.WORK_HISTORY_ID
+        LEFT JOIN VACATION_CALC VC ON VC.WORK_HISTORY_ID = H.WORK_HISTORY_ID
+        WHERE V.DELETE_YN = 'N'
+          AND H.WORK_HISTORY_ID = @WorkHistoryId
+          AND (V.VACATION_TYPE_CODE = VC.VACATION_TYPE_CODE OR VC.VACATION_TYPE_CODE IS NULL)
+      ) T
+    </Statement>
+
+    <!-- 월별 휴가사용일수 목록을 조회한다. -->
+    <Statement Id="ListVacationByMonth" ResultMap="VacationByMonthResultMap">
+      /* VacationMapper.ListVacationByMonth */
+
+      SELECT
+        SUM(V.VACATION_USE_COUNT) AS VACATION_USE_COUNT,
+        DATE_FORMAT(V.VACATION_END_YMD, '%m') AS VACATION_MONTH
+      FROM HM_VACATION V
+      WHERE V.WORK_HISTORY_ID = @WorkHistoryId
+        AND DATE_FORMAT(V.VACATION_END_YMD, '%Y') = @YYYY
+        AND V.VACATION_TYPE_CODE = @VacationTypeCode
+      GROUP BY DATE_FORMAT(V.VACATION_END_YMD, '%m')
     </Statement>
     
   </Statements>
