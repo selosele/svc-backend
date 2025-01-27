@@ -1,7 +1,7 @@
 namespace Svc.App.Human.Vacation.Models.DTO;
 
 /// <summary>
-/// 휴가 조회 결과 DTO
+/// 휴가 통계 조회 결과 DTO
 /// </summary>
 public record VacationStatsResultDTO
 {
