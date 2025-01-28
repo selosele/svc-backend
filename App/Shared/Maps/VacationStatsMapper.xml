@@ -36,7 +36,7 @@
         <IsNotEmpty Property="EmployeeId">
         AND VS.EMPLOYEE_ID = @EmployeeId
         </IsNotEmpty>
-      ORDER BY VS.WORK_HISTORY_ID DESC, VS.YYYY DESC, VS.EMPLOYEE_ID
+      ORDER BY VS.WORK_HISTORY_ID DESC, VS.YYYY DESC, VS.VACATION_USE_COUNT DESC, VS.EMPLOYEE_ID
     </Statement>
 
     <!-- 휴가 통계를 추가한다. -->
