@@ -35,6 +35,9 @@
         <IsNotEmpty Property="MainShowYn">
         AND B.MAIN_SHOW_YN = @MainShowYn
         </IsNotEmpty>
+        <IsNotEmpty Property="UseYn">
+        AND B.USE_YN = @UseYn
+        </IsNotEmpty>
       ORDER BY B.BOARD_ORDER, B.BOARD_NAME
     </Statement>
 
