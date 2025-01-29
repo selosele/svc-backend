@@ -23,12 +23,13 @@ public class BoardMapper
     /// <summary>
     /// 게시판 목록을 조회한다.
     /// </summary>
-    public Task<IList<BoardResponseDTO>> ListBoard()
+    public Task<IList<BoardResponseDTO>> ListBoard(GetBoardRequestDTO? dto)
     {
         return SqlMapper.QueryAsync<BoardResponseDTO>(new RequestContext
         {
             Scope = nameof(BoardMapper),
-            SqlId = "ListBoard"
+            SqlId = "ListBoard",
+            Request = dto
         });
     }
 

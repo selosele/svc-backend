@@ -35,8 +35,8 @@ public class BoardController : ControllerBase
     /// </summary>
     [HttpGet]
     [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
-    public async Task<ActionResult<List<BoardResponseDTO>>> ListBoard()
-        => Ok(await _boardService.ListBoard());
+    public async Task<ActionResult<List<BoardResponseDTO>>> ListBoard([FromQuery] GetBoardRequestDTO? dto)
+        => Ok(await _boardService.ListBoard(dto));
 
     /// <summary>
     /// 게시판을 조회한다.

@@ -32,6 +32,9 @@
       FROM CO_BOARD B
       LEFT JOIN CO_CODE CD ON CD.CODE_VALUE = B.BOARD_TYPE_CODE AND CD.UP_CODE_ID = 'BOARD_TYPE_00'
       WHERE B.DELETE_YN = 'N'
+        <IsNotEmpty Property="MainShowYn">
+        AND B.MAIN_SHOW_YN = @MainShowYn
+        </IsNotEmpty>
       ORDER BY B.BOARD_ORDER, B.BOARD_NAME
     </Statement>
 

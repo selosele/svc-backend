@@ -26,8 +26,8 @@ public class BoardService
     /// 게시판 목록을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<IList<BoardResponseDTO>> ListBoard()
-        => await _boardMapper.ListBoard();
+    public async Task<IList<BoardResponseDTO>> ListBoard(GetBoardRequestDTO? dto)
+        => await _boardMapper.ListBoard(dto);
 
     /// <summary>
     /// 게시판을 조회한다.
