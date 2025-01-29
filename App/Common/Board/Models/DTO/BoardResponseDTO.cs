@@ -32,6 +32,16 @@ public record BoardResponseDTO
     public string? BoardTypeCodeName { get; set; }
     
     /// <summary>
+    /// 게시판 순서
+    /// </summary>
+    public int? BoardOrder { get; set; }
+
+    /// <summary>
+    /// 메인 화면 표출 여부
+    /// </summary>
+    public string? MainShowYn { get; set; }
+    
+    /// <summary>
     /// 사용 여부
     /// </summary>
     public string? UseYn { get; set; }

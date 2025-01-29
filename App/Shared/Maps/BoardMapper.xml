@@ -8,6 +8,8 @@
       <Result Column="BOARD_CONTENT" Property="BoardContent" />
       <Result Column="BOARD_TYPE_CODE" Property="BoardTypeCode" />
       <Result Column="BOARD_TYPE_CODE_NAME" Property="BoardTypeCodeName" />
+      <Result Column="BOARD_ORDER" Property="BoardOrder" />
+      <Result Column="MAIN_SHOW_YN" Property="MainShowYn" />
       <Result Column="USE_YN" Property="UseYn" />
     </ResultMap>
   </ResultMaps>
@@ -24,11 +26,13 @@
         B.BOARD_CONTENT,
         B.BOARD_TYPE_CODE,
         CD.CODE_NAME AS BOARD_TYPE_CODE_NAME,
+        B.BOARD_ORDER,
+        B.MAIN_SHOW_YN,
         B.USE_YN
       FROM CO_BOARD B
       LEFT JOIN CO_CODE CD ON CD.CODE_VALUE = B.BOARD_TYPE_CODE AND CD.UP_CODE_ID = 'BOARD_TYPE_00'
       WHERE B.DELETE_YN = 'N'
-      ORDER BY B.BOARD_NAME
+      ORDER BY B.BOARD_ORDER, B.BOARD_NAME
     </Statement>
 
     <!-- 게시판을 조회한다. -->
@@ -40,6 +44,8 @@
         B.BOARD_NAME,
         B.BOARD_CONTENT,
         B.BOARD_TYPE_CODE,
+        B.BOARD_ORDER,
+        B.MAIN_SHOW_YN,
         B.USE_YN
       FROM CO_BOARD B
       WHERE B.BOARD_ID = @BoardId
@@ -53,6 +59,8 @@
         BOARD_NAME,
         BOARD_CONTENT,
         BOARD_TYPE_CODE,
+        BOARD_ORDER,
+        MAIN_SHOW_YN,
         USE_YN,
         CREATER_ID
       )
@@ -60,6 +68,11 @@
         @BoardName,
         @BoardContent,
         @BoardTypeCode,
+        IFNULL(@BoardOrder, (
+          SELECT IFNULL(MAX(B.BOARD_ORDER), 0) + 1
+          FROM CO_BOARD B
+        )),
+        @MainShowYn,
         @UseYn,
         @CreaterId
       )
@@ -75,6 +88,12 @@
           BOARD_NAME = @BoardName,
           BOARD_CONTENT = @BoardContent,
           BOARD_TYPE_CODE = @BoardTypeCode,
+          BOARD_ORDER = IFNULL(@BoardOrder, (
+            SELECT IFNULL(MAX(B.BOARD_ORDER), 0) + 1
+            FROM CO_BOARD B
+            WHERE B.BOARD_ID != @BoardId
+          )),
+          MAIN_SHOW_YN = @MainShowYn,
           USE_YN = @UseYn,
           UPDATER_ID = @UpdaterId,
           UPDATE_DT = SYSDATE()
