@@ -17,5 +17,10 @@ public record GetArticleRequestDTO : HttpRequestDTOBase
     /// 게시판 ID
     /// </summary>
     public int? BoardId { get; set; }
+
+    /// <summary>
+    /// 조회 개수
+    /// </summary>
+    public int? Limit { get; set; }
     #endregion
 }

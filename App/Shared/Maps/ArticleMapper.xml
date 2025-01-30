@@ -48,6 +48,9 @@
         AND A.BOARD_ID = @BoardId
         </IsNotEmpty>
       ORDER BY A.CREATE_DT DESC
+      <IsNotEmpty Property="Limit">
+      LIMIT @Limit
+      </IsNotEmpty>
     </Statement>
 
     <!-- 이전/다음 게시글 목록을 조회한다. -->
