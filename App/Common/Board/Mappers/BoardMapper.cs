@@ -34,6 +34,19 @@ public class BoardMapper
     }
 
     /// <summary>
+    /// 메인화면 게시판 목록을 조회한다.
+    /// </summary>
+    public Task<IList<BoardResponseDTO>> ListMainBoard(GetBoardRequestDTO? dto)
+    {
+        return SqlMapper.QueryAsync<BoardResponseDTO>(new RequestContext
+        {
+            Scope = nameof(BoardMapper),
+            SqlId = "ListMainBoard",
+            Request = dto
+        });
+    }
+
+    /// <summary>
     /// 게시판을 조회한다.
     /// </summary>
     public Task<BoardResponseDTO> GetBoard(int? boardId)

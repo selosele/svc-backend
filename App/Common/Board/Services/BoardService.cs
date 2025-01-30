@@ -30,6 +30,13 @@ public class BoardService
         => await _boardMapper.ListBoard(dto);
 
     /// <summary>
+    /// 메인화면 게시판 목록을 조회한다.
+    /// </summary>
+    [Transaction]
+    public async Task<IList<BoardResponseDTO>> ListMainBoard(GetBoardRequestDTO? dto)
+        => await _boardMapper.ListMainBoard(dto);
+
+    /// <summary>
     /// 게시판을 조회한다.
     /// </summary>
     [Transaction]

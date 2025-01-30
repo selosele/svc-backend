@@ -39,6 +39,14 @@ public class BoardController : ControllerBase
         => Ok(await _boardService.ListBoard(dto));
 
     /// <summary>
+    /// 메인화면 게시판 목록을 조회한다.
+    /// </summary>
+    [HttpGet("main")]
+    [Authorize]
+    public async Task<ActionResult<List<BoardResponseDTO>>> ListMainBoard([FromQuery] GetBoardRequestDTO? dto)
+        => Ok(await _boardService.ListMainBoard(dto));
+
+    /// <summary>
     /// 게시판을 조회한다.
     /// </summary>
     [HttpGet("{boardId}")]
