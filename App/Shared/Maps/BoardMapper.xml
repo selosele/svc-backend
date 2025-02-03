@@ -11,6 +11,7 @@
       <Result Column="BOARD_ORDER" Property="BoardOrder" />
       <Result Column="MAIN_SHOW_YN" Property="MainShowYn" />
       <Result Column="USE_YN" Property="UseYn" />
+      <Result Column="ARTICLE_COUNT" Property="ArticleCount" />
     </ResultMap>
   </ResultMaps>
 
@@ -28,10 +29,17 @@
         CD.CODE_NAME AS BOARD_TYPE_CODE_NAME,
         B.BOARD_ORDER,
         B.MAIN_SHOW_YN,
-        B.USE_YN
+        B.USE_YN,
+        COUNT(1) AS ARTICLE_COUNT
       FROM CO_BOARD B
+      LEFT JOIN (
+        SELECT A.BOARD_ID
+        FROM CO_ARTICLE A
+        WHERE A.DELETE_YN = 'N'
+      ) B1 ON B1.BOARD_ID = B.BOARD_ID
       LEFT JOIN CO_CODE CD ON CD.CODE_VALUE = B.BOARD_TYPE_CODE AND CD.UP_CODE_ID = 'BOARD_TYPE_00'
       WHERE B.DELETE_YN = 'N'
+      GROUP BY B1.BOARD_ID
       ORDER BY B.BOARD_NAME
     </Statement>
 

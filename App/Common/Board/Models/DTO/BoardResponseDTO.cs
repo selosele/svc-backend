@@ -45,6 +45,11 @@ public record BoardResponseDTO
     /// 사용 여부
     /// </summary>
     public string? UseYn { get; set; }
+    
+    /// <summary>
+    /// 게시글 개수
+    /// </summary>
+    public int? ArticleCount { get; set; }
     #endregion
     
 }
