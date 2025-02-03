@@ -40,7 +40,11 @@ public class EmployeeService
         var employee = await _employeeMapper.GetEmployee(dto);
         if (employee != null)
         {
-            employee.WorkHistories = await _workHistoryMapper.ListWorkHistory(new GetWorkHistoryRequestDTO { EmployeeId = employee.EmployeeId });
+            employee.WorkHistories = await _workHistoryMapper.ListWorkHistory(new GetWorkHistoryRequestDTO
+            {
+                UserId = employee.UserId,
+                EmployeeId = employee.EmployeeId
+            });
         }
         return employee;
     }

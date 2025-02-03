@@ -81,7 +81,11 @@ public class UserService
 
             if (user.Employee != null)
             {
-                user.Employee.WorkHistories = await _workHistoryMapper.ListWorkHistory(new GetWorkHistoryRequestDTO { EmployeeId = user.Employee.EmployeeId });
+                user.Employee.WorkHistories = await _workHistoryMapper.ListWorkHistory(new GetWorkHistoryRequestDTO
+                {
+                    UserId = user.UserId,
+                    EmployeeId = user.Employee.EmployeeId
+                });
             }
         }
         return user;
