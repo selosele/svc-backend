@@ -45,6 +45,11 @@ public record CodeResponseDTO
     /// 사용 여부
     /// </summary>
     public string? UseYn { get; set; }
+
+    /// <summary>
+    /// 사용자 ID
+    /// </summary>
+    public int? UserId { get; set; }
     #endregion
     
 }

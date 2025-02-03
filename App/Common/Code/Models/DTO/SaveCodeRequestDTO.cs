@@ -47,5 +47,10 @@ public record SaveCodeRequestDTO : HttpRequestDTOBase
     /// 코드 뎁스
     /// </summary>
     public int? CodeDepth { get; set; }
+
+    /// <summary>
+    /// 사용자 ID
+    /// </summary>
+    public int? UserId { get; set; }
     #endregion
 }
