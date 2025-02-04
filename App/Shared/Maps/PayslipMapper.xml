@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<SmartSqlMap Scope="PayslipMapper" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+  <ResultMaps>
+    <ResultMap Id="PayslipResultMap">
+      <Result Column="PAYSLIP_ID" Property="PayslipId" />
+      <Result Column="EMPLOYEE_ID" Property="EmployeeId" />
+      <Result Column="WORK_HISTORY_ID" Property="WorkHistoryId" />
+      <Result Column="PAYSLIP_PAYMENT_YMD" Property="PayslipPaymentYmd" />
+      <Result Column="PAYSLIP_NOTE" Property="PayslipNote" />
+      <Result Column="TOTAL_AMOUNT_A00" Property="TotalAmountA00" />
+      <Result Column="TOTAL_AMOUNT_B00" Property="TotalAmountB00" />
+      <Result Column="TOTAL_AMOUNT" Property="TotalAmount" />
+    </ResultMap>
+  </ResultMaps>
+
+  <Statements>
+
+    <!-- 급여명세서 목록을 조회한다. -->
+    <Statement Id="ListPayslip" ResultMap="PayslipResultMap">
+      /* PayslipMapper.ListPayslip */
+
+      WITH A00_BASE AS (
+        SELECT
+          P.PAYSLIP_ID,
+          SUM(PD.SALARY_AMOUNT) AS TOTAL_AMOUNT
+        FROM SA_PAYSLIP P
+        LEFT JOIN SA_PAYSLIP_SALARY_DETAIL PD ON PD.PAYSLIP_ID = P.PAYSLIP_ID
+        WHERE PD.SALARY_TYPE_CODE = 'A00'
+        GROUP BY P.PAYSLIP_ID
+      ),
+      B00_BASE AS (
+        SELECT
+          P.PAYSLIP_ID,
+          SUM(PD.SALARY_AMOUNT) AS TOTAL_AMOUNT
+        FROM SA_PAYSLIP P
+        LEFT JOIN SA_PAYSLIP_SALARY_DETAIL PD ON PD.PAYSLIP_ID = P.PAYSLIP_ID
+        WHERE PD.SALARY_TYPE_CODE = 'B00'
+        GROUP BY P.PAYSLIP_ID
+      )
+      SELECT
+        P.PAYSLIP_ID,
+        P.EMPLOYEE_ID,
+        P.WORK_HISTORY_ID,
+        P.PAYSLIP_PAYMENT_YMD,
+        CASE WHEN CHAR_LENGTH(P.PAYSLIP_NOTE) &gt; 100 THEN CONCAT(SUBSTRING(P.PAYSLIP_NOTE, 1, 100), '...')
+             ELSE IFNULL(P.PAYSLIP_NOTE, '-')
+        END AS PAYSLIP_NOTE,
+        FORMAT(IFNULL(SUM(A00.TOTAL_AMOUNT), 0), 0) AS TOTAL_AMOUNT_A00,
+        FORMAT(IFNULL(SUM(B00.TOTAL_AMOUNT), 0), 0) AS TOTAL_AMOUNT_B00,
+        FORMAT(IFNULL(SUM(A00.TOTAL_AMOUNT), 0) - IFNULL(SUM(B00.TOTAL_AMOUNT), 0), 0) AS TOTAL_AMOUNT
+      FROM SA_PAYSLIP P
+      LEFT JOIN A00_BASE A00 ON A00.PAYSLIP_ID = P.PAYSLIP_ID
+      LEFT JOIN B00_BASE B00 ON B00.PAYSLIP_ID = P.PAYSLIP_ID
+      WHERE P.WORK_HISTORY_ID = @WorkHistoryId
+        <IsNotEmpty Property="EmployeeId">
+        AND P.EMPLOYEE_ID = @EmployeeId
+        </IsNotEmpty>
+      GROUP BY P.PAYSLIP_ID
+      ORDER BY P.EMPLOYEE_ID DESC, P.PAYSLIP_PAYMENT_YMD DESC
+    </Statement>
+    
+  </Statements>
+</SmartSqlMap>
