@@ -48,6 +48,12 @@
         <IsNotEmpty Property="EmployeeId">
         AND P.EMPLOYEE_ID = @EmployeeId
         </IsNotEmpty>
+        <IsNotEmpty Property="PayslipPaymentYYYY">
+        AND DATE_FORMAT(P.PAYSLIP_PAYMENT_YMD, '%Y') = @PayslipPaymentYYYY
+        </IsNotEmpty>
+        <IsNotEmpty Property="PayslipPaymentMM">
+        AND DATE_FORMAT(P.PAYSLIP_PAYMENT_YMD, '%m') = @PayslipPaymentMM
+        </IsNotEmpty>
       GROUP BY P.PAYSLIP_ID
       ORDER BY P.EMPLOYEE_ID DESC, P.PAYSLIP_PAYMENT_YMD DESC
     </Statement>

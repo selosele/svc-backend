@@ -27,6 +27,16 @@ public record GetPayslipRequestDTO : HttpRequestDTOBase
     /// 근무이력 ID
     /// </summary>
     public int? WorkHistoryId { get; set; }
+
+    /// <summary>
+    /// 급여명세서 지급 연도
+    /// </summary>
+    public string? PayslipPaymentYYYY { get; set; }
+
+    /// <summary>
+    /// 급여명세서 지급 월
+    /// </summary>
+    public string? PayslipPaymentMM { get; set; }
     #endregion
 
 }
