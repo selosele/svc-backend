@@ -65,7 +65,7 @@
       FROM R
       LEFT JOIN CO_MENU_BOOKMARK MB ON MB.MENU_ID = R.MENU_ID
         <IsNotEmpty Property="UserId">
-        AND MB.USER_ID = @UserId
+        AND MB.USER_ID = ?UserId
         </IsNotEmpty>
       WHERE R.MENU_ID IN (
         SELECT
@@ -74,19 +74,19 @@
         INNER JOIN CO_USER_MENU_ROLE UMR ON MR.MENU_ID = UMR.MENU_ID AND MR.ROLE_ID = UMR.ROLE_ID
         WHERE 1=1
           <IsNotEmpty Property="UserId">
-          AND UMR.USER_ID = @UserId
+          AND UMR.USER_ID = ?UserId
           </IsNotEmpty>
           <IsNotEmpty Property="RoleIdList">
           AND MR.ROLE_ID IN 
             <For Property="RoleIdList" Key="roleId" Open="(" Separator="," Close=")">
-              @roleId
+              ?roleId
             </For>
           </IsNotEmpty>
       )
         <IsNotEmpty Property="UseYn">
-        AND R.USE_YN = @UseYn
+        AND R.USE_YN = ?UseYn
         </IsNotEmpty>
-        AND R.DELETE_YN = @DeleteYn
+        AND R.DELETE_YN = ?DeleteYn
         ORDER BY
           CAST(SUBSTRING_INDEX(R.SORT_ORDER, '-', 1) AS UNSIGNED),
           CASE
@@ -110,7 +110,7 @@
         M.USE_YN,
         M.DELETE_YN
       FROM CO_MENU M
-      WHERE M.MENU_ID = @MenuId
+      WHERE M.MENU_ID = ?MenuId
     </Statement>
 
     <!-- 가장 최신의 메뉴 ID를 조회한다. -->
@@ -138,11 +138,11 @@
         CREATER_ID
       )
       VALUES (
-        IFNULL(@MenuId, (SELECT IFNULL(MAX(M.MENU_ID), 0) + 1 FROM CO_MENU M)),
-        @UpMenuId,
-        @MenuName,
-        @MenuUrl,
-        IFNULL(@MenuOrder, (
+        IFNULL(?MenuId, (SELECT IFNULL(MAX(M.MENU_ID), 0) + 1 FROM CO_MENU M)),
+        ?UpMenuId,
+        ?MenuName,
+        ?MenuUrl,
+        IFNULL(?MenuOrder, (
           SELECT IFNULL(MAX(M.MENU_ORDER), 0) + 1
           FROM CO_MENU M
           WHERE 1=1
@@ -150,13 +150,13 @@
             AND M.UP_MENU_ID IS NULL
             </IsEmpty>
             <IsNotEmpty Property="UpMenuId">
-            AND M.UP_MENU_ID = @UpMenuId
+            AND M.UP_MENU_ID = ?UpMenuId
             </IsNotEmpty>
         )),
-        @MenuDepth,
-        @MenuShowYn,
-        @UseYn,
-        @CreaterId
+        ?MenuDepth,
+        ?MenuShowYn,
+        ?UseYn,
+        ?CreaterId
       )
     </Statement>
 
@@ -166,27 +166,27 @@
 
       UPDATE CO_MENU
         SET
-          MENU_ID = @MenuId,
-          UP_MENU_ID = @UpMenuId,
-          MENU_NAME = @MenuName,
-          MENU_URL = @MenuUrl,
-          MENU_ORDER = IFNULL(@MenuOrder, (
+          MENU_ID = ?MenuId,
+          UP_MENU_ID = ?UpMenuId,
+          MENU_NAME = ?MenuName,
+          MENU_URL = ?MenuUrl,
+          MENU_ORDER = IFNULL(?MenuOrder, (
             SELECT IFNULL(MAX(M.MENU_ORDER), 0) + 1
             FROM CO_MENU M
-            WHERE M.MENU_ID != @MenuId
+            WHERE M.MENU_ID != ?MenuId
               <IsEmpty Property="UpMenuId">
               AND M.UP_MENU_ID IS NULL
               </IsEmpty>
               <IsNotEmpty Property="UpMenuId">
-              AND M.UP_MENU_ID = @UpMenuId
+              AND M.UP_MENU_ID = ?UpMenuId
               </IsNotEmpty>
           )),
-          MENU_DEPTH = @MenuDepth,
-          MENU_SHOW_YN = @MenuShowYn,
-          USE_YN = @UseYn,
-          UPDATER_ID = @UpdaterId,
+          MENU_DEPTH = ?MenuDepth,
+          MENU_SHOW_YN = ?MenuShowYn,
+          USE_YN = ?UseYn,
+          UPDATER_ID = ?UpdaterId,
           UPDATE_DT = SYSDATE()
-      WHERE MENU_ID = @OriginalMenuId
+      WHERE MENU_ID = ?OriginalMenuId
     </Statement>
 
     <!-- 메뉴를 삭제한다. -->
@@ -196,9 +196,9 @@
       UPDATE CO_MENU
         SET
           DELETE_YN = 'Y',
-          UPDATER_ID = @UpdaterId,
+          UPDATER_ID = ?UpdaterId,
           UPDATE_DT = SYSDATE()
-      WHERE MENU_ID = @MenuId
+      WHERE MENU_ID = ?MenuId
     </Statement>
     
   </Statements>

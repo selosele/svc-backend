@@ -40,15 +40,15 @@
             V.VACATION_START_YMD,
             V.VACATION_END_YMD,
             V.VACATION_TYPE_CODE,
-            FN_GET_VACATION_USE_COUNT(V.VACATION_START_YMD, V.VACATION_END_YMD, V.VACATION_TYPE_CODE, @UserId) AS VACATION_USE_COUNT
+            FN_GET_VACATION_USE_COUNT(V.VACATION_START_YMD, V.VACATION_END_YMD, V.VACATION_TYPE_CODE, ?UserId) AS VACATION_USE_COUNT
           FROM HM_VACATION V
           INNER JOIN HM_EMPLOYEE E ON E.EMPLOYEE_ID = V.EMPLOYEE_ID
           WHERE V.DELETE_YN = 'N'
-            AND E.USER_ID = @UserId
+            AND E.USER_ID = ?UserId
             <IsNotEmpty Property="VacationTypeCodes">
             AND V.VACATION_TYPE_CODE IN
               <For Property="VacationTypeCodes" Key="vacationTypeCode" Open="(" Separator="," Close=")">
-                @vacationTypeCode
+                ?vacationTypeCode
               </For>
             </IsNotEmpty>
         ) T
@@ -76,7 +76,7 @@
       INNER JOIN HM_COMPANY C ON C.COMPANY_ID = H.COMPANY_ID
       LEFT JOIN CO_CODE CD ON CD.CODE_VALUE = H.RANK_CODE AND CD.UP_CODE_ID = 'RANK_00'
       LEFT JOIN CO_CODE CD2 ON CD2.CODE_VALUE = H.JOB_TITLE_CODE AND CD2.UP_CODE_ID = 'JOB_TITLE_00'
-      WHERE H.EMPLOYEE_ID = @EmployeeId
+      WHERE H.EMPLOYEE_ID = ?EmployeeId
         AND H.DELETE_YN = 'N'
       ORDER BY H.JOIN_YMD DESC
     </Statement>
@@ -99,13 +99,13 @@
       INNER JOIN HM_COMPANY C ON C.COMPANY_ID = H.COMPANY_ID
       WHERE 1=1
         <IsNotEmpty Property="WorkHistoryId">
-        AND H.WORK_HISTORY_ID = @WorkHistoryId
+        AND H.WORK_HISTORY_ID = ?WorkHistoryId
         </IsNotEmpty>
         <IsNotEmpty Property="EmployeeId">
-        AND H.EMPLOYEE_ID = @EmployeeId
+        AND H.EMPLOYEE_ID = ?EmployeeId
         </IsNotEmpty>
         <IsNotEmpty Property="CompanyId">
-        AND C.COMPANY_ID = @CompanyId
+        AND C.COMPANY_ID = ?CompanyId
         </IsNotEmpty>
     </Statement>
 
@@ -123,15 +123,15 @@
         CREATER_ID
       )
       VALUES (
-        @EmployeeId,
-        IFNULL(@CompanyId, (
-          SELECT C.COMPANY_ID FROM HM_COMPANY C WHERE C.REGISTRATION_NO = @RegistrationNo
+        ?EmployeeId,
+        IFNULL(?CompanyId, (
+          SELECT C.COMPANY_ID FROM HM_COMPANY C WHERE C.REGISTRATION_NO = ?RegistrationNo
         )),
-        @RankCode,
-        @JobTitleCode,
-        @JoinYmd,
-        @QuitYmd,
-        @CreaterId
+        ?RankCode,
+        ?JobTitleCode,
+        ?JoinYmd,
+        ?QuitYmd,
+        ?CreaterId
       )
       ;SELECT LAST_INSERT_ID()
     </Statement>
@@ -143,18 +143,18 @@
       UPDATE HM_WORK_HISTORY
         SET
           <IsNotEmpty Property="RankCode">
-          RANK_CODE = @RankCode,
+          RANK_CODE = ?RankCode,
           </IsNotEmpty>
           <IsNotEmpty Property="JobTitleCode">
-          JOB_TITLE_CODE = @JobTitleCode,
+          JOB_TITLE_CODE = ?JobTitleCode,
           </IsNotEmpty>
           <IsNotEmpty Property="JoinYmd">
-          JOIN_YMD = @JoinYmd,
+          JOIN_YMD = ?JoinYmd,
           </IsNotEmpty>
-          QUIT_YMD = @QuitYmd,
-          UPDATER_ID = @UpdaterId,
+          QUIT_YMD = ?QuitYmd,
+          UPDATER_ID = ?UpdaterId,
           UPDATE_DT = SYSDATE()
-      WHERE WORK_HISTORY_ID = @WorkHistoryId
+      WHERE WORK_HISTORY_ID = ?WorkHistoryId
     </Statement>
 
     <!-- 근무이력을 삭제한다. -->
@@ -164,9 +164,9 @@
       UPDATE HM_WORK_HISTORY
         SET
           DELETE_YN = 'Y',
-          UPDATER_ID = @UpdaterId,
+          UPDATER_ID = ?UpdaterId,
           UPDATE_DT = SYSDATE()
-      WHERE WORK_HISTORY_ID = @WorkHistoryId
+      WHERE WORK_HISTORY_ID = ?WorkHistoryId
     </Statement>
     
   </Statements>

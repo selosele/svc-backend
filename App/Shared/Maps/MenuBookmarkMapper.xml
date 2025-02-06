@@ -27,7 +27,7 @@
       LEFT JOIN CO_MENU M ON M.MENU_ID = MB.MENU_ID
       WHERE M.DELETE_YN = 'N'
         AND M.USE_YN = 'Y'
-        AND MB.USER_ID = @UserId
+        AND MB.USER_ID = ?UserId
       ORDER BY MB.CREATE_DT DESC
     </Statement>
 
@@ -43,7 +43,7 @@
         M.MENU_URL
       FROM CO_MENU_BOOKMARK MB
       LEFT JOIN CO_MENU M ON M.MENU_ID = MB.MENU_ID
-      WHERE MB.MENU_BOOKMARK_ID = @MenuBookmarkId
+      WHERE MB.MENU_BOOKMARK_ID = ?MenuBookmarkId
     </Statement>
 
     <!-- 메뉴 즐겨찾기를 추가한다. -->
@@ -56,9 +56,9 @@
         CREATER_ID
       )
       VALUES (
-        @MenuId,
-        @UserId,
-        @CreaterId
+        ?MenuId,
+        ?UserId,
+        ?CreaterId
       )
       ;SELECT LAST_INSERT_ID()
     </Statement>
@@ -68,7 +68,7 @@
       /* MenuBookmarkMapper.RemoveMenuBookmarkAll */
 
       DELETE FROM CO_MENU_BOOKMARK
-      WHERE USER_ID = @UserId
+      WHERE USER_ID = ?UserId
     </Statement>
 
     <!-- 메뉴 즐겨찾기를 삭제한다. -->
@@ -76,7 +76,7 @@
       /* MenuBookmarkMapper.RemoveMenuBookmark */
 
       DELETE FROM CO_MENU_BOOKMARK
-      WHERE MENU_BOOKMARK_ID = @MenuBookmarkId
+      WHERE MENU_BOOKMARK_ID = ?MenuBookmarkId
     </Statement>
     
   </Statements>

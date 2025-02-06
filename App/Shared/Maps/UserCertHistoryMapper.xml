@@ -34,7 +34,7 @@
       FROM CO_USER_CERT_HISTORY CH
       WHERE 1=1
         <IsNotEmpty Property="CertHistoryId">
-        AND CH.CERT_HISTORY_ID = @CertHistoryId
+        AND CH.CERT_HISTORY_ID = ?CertHistoryId
         </IsNotEmpty>
     </Statement>
 
@@ -48,19 +48,19 @@
         FROM CO_USER_CERT_HISTORY CH
         WHERE 1=1
           <IsNotEmpty Property="UserAccount">
-          AND CH.USER_ACCOUNT = @UserAccount
+          AND CH.USER_ACCOUNT = ?UserAccount
           </IsNotEmpty>
-          AND CH.EMAIL_ADDR = @EmailAddr
+          AND CH.EMAIL_ADDR = ?EmailAddr
           AND TIMESTAMPDIFF(SECOND, CH.CREATE_DT, SYSDATE()) &lt;= CH.VALID_TIME
         HAVING MAX(CH.CERT_HISTORY_ID) = (
           SELECT CH2.CERT_HISTORY_ID
           FROM CO_USER_CERT_HISTORY CH2
           WHERE 1=1
             <IsNotEmpty Property="UserAccount">
-            AND CH2.USER_ACCOUNT = @UserAccount
+            AND CH2.USER_ACCOUNT = ?UserAccount
             </IsNotEmpty>
-            AND CH2.EMAIL_ADDR = @EmailAddr
-            AND CH2.CERT_CODE = @CertCode
+            AND CH2.EMAIL_ADDR = ?EmailAddr
+            AND CH2.CERT_CODE = ?CertCode
         )
       ) T
     </Statement>
@@ -80,14 +80,14 @@
         CREATER_ID
       )
       VALUES (
-        @UserAccount,
-        @PhoneNo,
-        @EmailAddr,
-        @CertCode,
-        @CertMethodCode,
-        @CertTypeCode,
-        @ValidTime,
-        @CreaterId
+        ?UserAccount,
+        ?PhoneNo,
+        ?EmailAddr,
+        ?CertCode,
+        ?CertMethodCode,
+        ?CertTypeCode,
+        ?ValidTime,
+        ?CreaterId
       )
       ;SELECT LAST_INSERT_ID()
     </Statement>

@@ -22,14 +22,14 @@
       FROM CO_USER_SETUP US
       WHERE 1=1
         <IsNotEmpty Property="UserSetupId">
-        AND US.USER_SETUP_ID = @UserSetupId
+        AND US.USER_SETUP_ID = ?UserSetupId
         </IsNotEmpty>
 
         <IsEmpty Property="UserSetupId">
         AND US.USER_SETUP_ID = (
           SELECT MAX(US2.USER_SETUP_ID)
           FROM CO_USER_SETUP US2
-          WHERE US2.USER_ID = @UserId
+          WHERE US2.USER_ID = ?UserId
         )
         </IsEmpty>
     </Statement>
@@ -44,9 +44,9 @@
         CREATER_ID
       )
       VALUES (
-        @UserId,
-        @SiteTitleName,
-        @CreaterId
+        ?UserId,
+        ?SiteTitleName,
+        ?CreaterId
       )
       ;SELECT LAST_INSERT_ID()
     </Statement>

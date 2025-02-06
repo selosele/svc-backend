@@ -22,7 +22,7 @@
       FROM CO_USER_ROLE UR
       INNER JOIN CO_USER U ON U.USER_ID = UR.USER_ID AND U.DELETE_YN = 'N'
       INNER JOIN CO_ROLE R ON R.ROLE_ID = UR.ROLE_ID
-      WHERE U.USER_ID = @UserId
+      WHERE U.USER_ID = ?UserId
       ORDER BY R.ROLE_ORDER
     </Statement>
 
@@ -38,9 +38,9 @@
       VALUES
       <For Property="DTOList" Key="dto" Open="" Close="" Separator=",">
         (
-          @dto.UserId,
-          @dto.RoleId,
-          @dto.CreaterId
+          ?dto.UserId,
+          ?dto.RoleId,
+          ?dto.CreaterId
         )
       </For>
     </Statement>
@@ -50,7 +50,7 @@
       /* UserRoleMapper.RemoveUserRole */
 
       DELETE FROM CO_USER_ROLE
-      WHERE USER_ID = @UserId
+      WHERE USER_ID = ?UserId
     </Statement>
     
   </Statements>

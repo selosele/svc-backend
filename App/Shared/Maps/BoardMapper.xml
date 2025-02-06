@@ -77,7 +77,7 @@
         B.MAIN_SHOW_YN,
         B.USE_YN
       FROM CO_BOARD B
-      WHERE B.BOARD_ID = @BoardId
+      WHERE B.BOARD_ID = ?BoardId
     </Statement>
 
     <!-- 게시판을 추가한다. -->
@@ -94,16 +94,16 @@
         CREATER_ID
       )
       VALUES (
-        @BoardName,
-        @BoardContent,
-        @BoardTypeCode,
-        IFNULL(@BoardOrder, (
+        ?BoardName,
+        ?BoardContent,
+        ?BoardTypeCode,
+        IFNULL(?BoardOrder, (
           SELECT IFNULL(MAX(B.BOARD_ORDER), 0) + 1
           FROM CO_BOARD B
         )),
-        @MainShowYn,
-        @UseYn,
-        @CreaterId
+        ?MainShowYn,
+        ?UseYn,
+        ?CreaterId
       )
       ;SELECT LAST_INSERT_ID()
     </Statement>
@@ -114,19 +114,19 @@
 
       UPDATE CO_BOARD
         SET
-          BOARD_NAME = @BoardName,
-          BOARD_CONTENT = @BoardContent,
-          BOARD_TYPE_CODE = @BoardTypeCode,
-          BOARD_ORDER = IFNULL(@BoardOrder, (
+          BOARD_NAME = ?BoardName,
+          BOARD_CONTENT = ?BoardContent,
+          BOARD_TYPE_CODE = ?BoardTypeCode,
+          BOARD_ORDER = IFNULL(?BoardOrder, (
             SELECT IFNULL(MAX(B.BOARD_ORDER), 0) + 1
             FROM CO_BOARD B
-            WHERE B.BOARD_ID != @BoardId
+            WHERE B.BOARD_ID != ?BoardId
           )),
-          MAIN_SHOW_YN = @MainShowYn,
-          USE_YN = @UseYn,
-          UPDATER_ID = @UpdaterId,
+          MAIN_SHOW_YN = ?MainShowYn,
+          USE_YN = ?UseYn,
+          UPDATER_ID = ?UpdaterId,
           UPDATE_DT = SYSDATE()
-      WHERE BOARD_ID = @BoardId
+      WHERE BOARD_ID = ?BoardId
     </Statement>
 
     <!-- 게시판을 삭제한다. -->
@@ -136,9 +136,9 @@
       UPDATE CO_BOARD
         SET
           DELETE_YN = 'Y',
-          UPDATER_ID = @UpdaterId,
+          UPDATER_ID = ?UpdaterId,
           UPDATE_DT = SYSDATE()
-      WHERE BOARD_ID = @BoardId
+      WHERE BOARD_ID = ?BoardId
     </Statement>
     
   </Statements>

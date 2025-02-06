@@ -31,15 +31,15 @@
         H.USE_YN
       FROM CO_HOLIDAY H
       WHERE 1=1
-        AND H.USER_ID = @UserId
+        AND H.USER_ID = ?UserId
         <IsNotEmpty Property="YYYY">
-        AND H.YYYY = @YYYY
+        AND H.YYYY = ?YYYY
         </IsNotEmpty>
         <IsNotEmpty Property="MM">
-        AND H.MM = @MM
+        AND H.MM = ?MM
         </IsNotEmpty>
         <IsNotEmpty Property="DD">
-        AND H.DD = @DD
+        AND H.DD = ?DD
         </IsNotEmpty>
       ORDER BY H.YMD DESC
     </Statement>
@@ -58,8 +58,8 @@
         H.HOLIDAY_CONTENT,
         H.USE_YN
       FROM CO_HOLIDAY H
-      WHERE H.YMD = @YMD
-        AND H.USER_ID = @UserId
+      WHERE H.YMD = ?YMD
+        AND H.USER_ID = ?UserId
     </Statement>
 
     <!-- 휴일을 추가한다. -->
@@ -78,17 +78,17 @@
         CREATER_ID
       )
       VALUES (
-        @YMD,
-        @UserId,
-        SUBSTRING(@YMD, 1, 4),
-        SUBSTRING(@YMD, 5, 2),
-        SUBSTRING(@YMD, 7, 2),
-        @HolidayName,
-        @HolidayContent,
-        @UseYn,
-        @CreaterId
+        ?YMD,
+        ?UserId,
+        SUBSTRING(?YMD, 1, 4),
+        SUBSTRING(?YMD, 5, 2),
+        SUBSTRING(?YMD, 7, 2),
+        ?HolidayName,
+        ?HolidayContent,
+        ?UseYn,
+        ?CreaterId
       )
-      ;SELECT CONCAT(@YMD, '-', @UserId)
+      ;SELECT CONCAT(?YMD, '-', ?UserId)
     </Statement>
 
     <!-- 휴일을 수정한다. -->
@@ -97,17 +97,17 @@
 
       UPDATE CO_HOLIDAY
         SET
-          YMD = @YMD,
-          YYYY = SUBSTRING(@YMD, 1, 4),
-          MM = SUBSTRING(@YMD, 5, 2),
-          DD = SUBSTRING(@YMD, 7, 2),
-          HOLIDAY_NAME = @HolidayName,
-          HOLIDAY_CONTENT = @HolidayContent,
-          USE_YN = @UseYn,
-          UPDATER_ID = @UpdaterId,
+          YMD = ?YMD,
+          YYYY = SUBSTRING(?YMD, 1, 4),
+          MM = SUBSTRING(?YMD, 5, 2),
+          DD = SUBSTRING(?YMD, 7, 2),
+          HOLIDAY_NAME = ?HolidayName,
+          HOLIDAY_CONTENT = ?HolidayContent,
+          USE_YN = ?UseYn,
+          UPDATER_ID = ?UpdaterId,
           UPDATE_DT = SYSDATE()
-      WHERE YMD = @OriginalYmd
-        AND USER_ID = @UserId
+      WHERE YMD = ?OriginalYmd
+        AND USER_ID = ?UserId
     </Statement>
 
     <!-- 휴일을 삭제한다. -->
@@ -115,8 +115,8 @@
       /* HolidayMapper.RemoveHoliday */
 
       DELETE FROM CO_HOLIDAY
-      WHERE YMD = @YMD
-        AND USER_ID = @UserId
+      WHERE YMD = ?YMD
+        AND USER_ID = ?UserId
     </Statement>
     
   </Statements>

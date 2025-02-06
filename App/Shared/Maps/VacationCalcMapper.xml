@@ -24,7 +24,7 @@
         VC.ANNUAL_TYPE_CODE,
         VC.VACATION_TYPE_CODE
       FROM HM_VACATION_CALC VC
-      WHERE VC.WORK_HISTORY_ID = @WorkHistoryId
+      WHERE VC.WORK_HISTORY_ID = ?WorkHistoryId
     </Statement>
 
     <!-- 휴가 계산 설정을 추가한다. -->
@@ -41,11 +41,11 @@
       VALUES
       <For Property="DTO.VacationTypeCodes" Key="vacationTypeCode" Open="" Close="" Separator=",">
         (
-          @DTO.WorkHistoryId,
-          @DTO.EmployeeId,
-          @DTO.AnnualTypeCode,
-          @vacationTypeCode,
-          @DTO.CreaterId
+          ?DTO.WorkHistoryId,
+          ?DTO.EmployeeId,
+          ?DTO.AnnualTypeCode,
+          ?vacationTypeCode,
+          ?DTO.CreaterId
         )
       </For>
     </Statement>
@@ -55,7 +55,7 @@
       /* VacationCalcMapper.RemoveVacationCalc */
 
       DELETE FROM HM_VACATION_CALC
-      WHERE WORK_HISTORY_ID = @WorkHistoryId
+      WHERE WORK_HISTORY_ID = ?WorkHistoryId
     </Statement>
     
   </Statements>

@@ -45,15 +45,15 @@
       LEFT JOIN SALARY_AMOUNT_BASE A00 ON A00.PAYSLIP_ID = P.PAYSLIP_ID AND A00.SALARY_TYPE_CODE = 'A00'
       LEFT JOIN SALARY_AMOUNT_BASE B00 ON B00.PAYSLIP_ID = P.PAYSLIP_ID AND B00.SALARY_TYPE_CODE = 'B00'
       WHERE P.DELETE_YN = 'N'
-        AND P.WORK_HISTORY_ID = @WorkHistoryId
+        AND P.WORK_HISTORY_ID = ?WorkHistoryId
         <IsNotEmpty Property="EmployeeId">
-        AND P.EMPLOYEE_ID = @EmployeeId
+        AND P.EMPLOYEE_ID = ?EmployeeId
         </IsNotEmpty>
         <IsNotEmpty Property="PayslipPaymentYYYY">
-        AND DATE_FORMAT(P.PAYSLIP_PAYMENT_YMD, '%Y') = @PayslipPaymentYYYY
+        AND DATE_FORMAT(P.PAYSLIP_PAYMENT_YMD, '%Y') = ?PayslipPaymentYYYY
         </IsNotEmpty>
         <IsNotEmpty Property="PayslipPaymentMM">
-        AND DATE_FORMAT(P.PAYSLIP_PAYMENT_YMD, '%m') = @PayslipPaymentMM
+        AND DATE_FORMAT(P.PAYSLIP_PAYMENT_YMD, '%m') = ?PayslipPaymentMM
         </IsNotEmpty>
       GROUP BY P.PAYSLIP_ID
       ORDER BY P.EMPLOYEE_ID DESC, P.PAYSLIP_PAYMENT_YMD DESC

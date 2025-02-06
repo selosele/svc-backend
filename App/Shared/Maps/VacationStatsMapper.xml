@@ -31,10 +31,10 @@
       LEFT JOIN CO_CODE CD ON CD.CODE_VALUE = VS.VACATION_TYPE_CODE AND CD.UP_CODE_ID = 'VACATION_TYPE_00'
       WHERE 1=1
         <IsNotEmpty Property="UserId">
-        AND VS.USER_ID = @UserId
+        AND VS.USER_ID = ?UserId
         </IsNotEmpty>
         <IsNotEmpty Property="EmployeeId">
-        AND VS.EMPLOYEE_ID = @EmployeeId
+        AND VS.EMPLOYEE_ID = ?EmployeeId
         </IsNotEmpty>
       ORDER BY VS.WORK_HISTORY_ID DESC, VS.YYYY DESC, VS.VACATION_USE_COUNT DESC, VS.EMPLOYEE_ID
     </Statement>
@@ -53,16 +53,16 @@
         CREATER_ID
       )
       SELECT
-        @UserId AS USER_ID,
+        ?UserId AS USER_ID,
         V.EMPLOYEE_ID,
         V.WORK_HISTORY_ID,
         DATE_FORMAT(V.VACATION_END_YMD, '%Y') AS YYYY,
         V.VACATION_TYPE_CODE,
-        SUM(FN_GET_VACATION_USE_COUNT(V.VACATION_START_YMD, V.VACATION_END_YMD, V.VACATION_TYPE_CODE, @UserId)) AS VACATION_USE_COUNT,
-        @UserId AS CREATER_ID
+        SUM(FN_GET_VACATION_USE_COUNT(V.VACATION_START_YMD, V.VACATION_END_YMD, V.VACATION_TYPE_CODE, ?UserId)) AS VACATION_USE_COUNT,
+        ?UserId AS CREATER_ID
       FROM HM_VACATION V
       WHERE V.DELETE_YN = 'N'
-        AND V.EMPLOYEE_ID = FN_GET_EMPLOYEE_ID(@UserId)
+        AND V.EMPLOYEE_ID = FN_GET_EMPLOYEE_ID(?UserId)
       GROUP BY DATE_FORMAT(V.VACATION_END_YMD, '%Y'), V.VACATION_TYPE_CODE
       ;SELECT LAST_INSERT_ID()
     </Statement>
@@ -72,7 +72,7 @@
       /* VacationStatsMapper.RemoveVacationStats */
 
       DELETE FROM HM_VACATION_STATS
-      WHERE USER_ID = @UserId
+      WHERE USER_ID = ?UserId
     </Statement>
     
   </Statements>

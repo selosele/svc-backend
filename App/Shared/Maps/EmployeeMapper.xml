@@ -33,10 +33,10 @@
       INNER JOIN CO_USER U ON U.USER_ID = E.USER_ID AND U.DELETE_YN = 'N'
       WHERE 1=1
         <IsNotEmpty Property="UserId">
-        AND U.USER_ID = @UserId
+        AND U.USER_ID = ?UserId
         </IsNotEmpty>
         <IsNotEmpty Property="EmployeeId">
-        AND E.EMPLOYEE_ID = @EmployeeId
+        AND E.EMPLOYEE_ID = ?EmployeeId
         </IsNotEmpty>
     </Statement>
 
@@ -54,13 +54,13 @@
         CREATER_ID
       )
       VALUES (
-        @UserId,
-        @EmployeeName,
-        @GenderCode,
-        @BirthYmd,
-        REPLACE(@PhoneNo, '-', ''),
-        @EmailAddr,
-        @CreaterId
+        ?UserId,
+        ?EmployeeName,
+        ?GenderCode,
+        ?BirthYmd,
+        REPLACE(?PhoneNo, '-', ''),
+        ?EmailAddr,
+        ?CreaterId
       )
       ;SELECT LAST_INSERT_ID()
     </Statement>
@@ -72,26 +72,26 @@
       UPDATE HM_EMPLOYEE
         SET
           <IsNotEmpty Property="WorkHistory.CompanyId">
-          COMPANY_ID = @WorkHistory.CompanyId,
+          COMPANY_ID = ?WorkHistory.CompanyId,
           </IsNotEmpty>
           <IsNotEmpty Property="EmployeeName">
-          EMPLOYEE_NAME = @EmployeeName,
+          EMPLOYEE_NAME = ?EmployeeName,
           </IsNotEmpty>
           <IsNotEmpty Property="GenderCode">
-          GENDER_CODE = @GenderCode,
+          GENDER_CODE = ?GenderCode,
           </IsNotEmpty>
           <IsNotEmpty Property="BirthYmd">
-          BIRTH_YMD = @BirthYmd,
+          BIRTH_YMD = ?BirthYmd,
           </IsNotEmpty>
           <IsNotEmpty Property="PhoneNo">
-          PHONE_NO = REPLACE(@PhoneNo, '-', ''),
+          PHONE_NO = REPLACE(?PhoneNo, '-', ''),
           </IsNotEmpty>
           <IsNotEmpty Property="EmailAddr">
-          EMAIL_ADDR = @EmailAddr,
+          EMAIL_ADDR = ?EmailAddr,
           </IsNotEmpty>
-          UPDATER_ID = @UpdaterId,
+          UPDATER_ID = ?UpdaterId,
           UPDATE_DT = SYSDATE()
-      WHERE EMPLOYEE_ID = @EmployeeId
+      WHERE EMPLOYEE_ID = ?EmployeeId
     </Statement>
 
     <!-- 직원 이메일주소 중복 체크를 한다. -->
@@ -101,9 +101,9 @@
       SELECT
         COUNT(1)
       FROM HM_EMPLOYEE E
-      WHERE E.EMAIL_ADDR = @EmailAddr
+      WHERE E.EMAIL_ADDR = ?EmailAddr
         <IsNotEmpty Property="EmployeeId">
-        AND E.EMPLOYEE_ID != @EmployeeId
+        AND E.EMPLOYEE_ID != ?EmployeeId
         </IsNotEmpty>
     </Statement>
     

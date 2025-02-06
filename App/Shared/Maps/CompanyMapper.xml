@@ -28,15 +28,15 @@
         C.CEO_NAME,
         C.DELETE_YN
       FROM HM_COMPANY C
-      WHERE C.DELETE_YN = @DeleteYn
+      WHERE C.DELETE_YN = ?DeleteYn
         <IsNotEmpty Property="CompanyName">
         AND (
-          C.CORPORATE_NAME LIKE CONCAT('%', @CompanyName, '%')
-          OR C.COMPANY_NAME LIKE CONCAT('%', @CompanyName, '%')
+          C.CORPORATE_NAME LIKE CONCAT('%', ?CompanyName, '%')
+          OR C.COMPANY_NAME LIKE CONCAT('%', ?CompanyName, '%')
         )
         </IsNotEmpty>
         <IsNotEmpty Property="RegistrationNo">
-        AND C.REGISTRATION_NO LIKE CONCAT('%', @RegistrationNo, '%')
+        AND C.REGISTRATION_NO LIKE CONCAT('%', ?RegistrationNo, '%')
         </IsNotEmpty>
       ORDER BY C.CORPORATE_NAME, C.COMPANY_NAME
     </Statement>
@@ -54,7 +54,7 @@
         C.CEO_NAME,
         C.DELETE_YN
       FROM HM_COMPANY C
-      WHERE C.COMPANY_ID = @CompanyId
+      WHERE C.COMPANY_ID = ?CompanyId
     </Statement>
 
     <!-- 회사 정보가 존재하는지 확인한다. -->
@@ -66,10 +66,10 @@
       FROM HM_COMPANY C
       WHERE 1=1
         <IsNotEmpty Property="CompanyId">
-        AND C.COMPANY_ID = @CompanyId
+        AND C.COMPANY_ID = ?CompanyId
         </IsNotEmpty>
         <IsNotEmpty Property="RegistrationNo">
-        AND C.REGISTRATION_NO = @RegistrationNo
+        AND C.REGISTRATION_NO = ?RegistrationNo
         </IsNotEmpty>
     </Statement>
 
@@ -86,12 +86,12 @@
         CREATER_ID
       )
       VALUES (
-        REPLACE(@RegistrationNo, '-', ''),
-        @CorporateName,
-        @CompanyName,
-        @CompanyAddr,
-        @CeoName,
-        @CreaterId
+        REPLACE(?RegistrationNo, '-', ''),
+        ?CorporateName,
+        ?CompanyName,
+        ?CompanyAddr,
+        ?CeoName,
+        ?CreaterId
       )
       ;SELECT LAST_INSERT_ID()
     </Statement>
@@ -102,14 +102,14 @@
 
       UPDATE HM_COMPANY
         SET
-          REGISTRATION_NO = REPLACE(@RegistrationNo, '-', ''),
-          CORPORATE_NAME = @CorporateName,
-          COMPANY_NAME = @CompanyName,
-          COMPANY_ADDR = @CompanyAddr,
-          CEO_NAME = @CeoName,
-          UPDATER_ID = @UpdaterId,
+          REGISTRATION_NO = REPLACE(?RegistrationNo, '-', ''),
+          CORPORATE_NAME = ?CorporateName,
+          COMPANY_NAME = ?CompanyName,
+          COMPANY_ADDR = ?CompanyAddr,
+          CEO_NAME = ?CeoName,
+          UPDATER_ID = ?UpdaterId,
           UPDATE_DT = SYSDATE()
-      WHERE COMPANY_ID = @CompanyId
+      WHERE COMPANY_ID = ?CompanyId
     </Statement>
 
     <!-- 회사를 삭제한다. -->
@@ -119,9 +119,9 @@
       UPDATE HM_COMPANY
         SET
           DELETE_YN = 'Y',
-          UPDATER_ID = @UpdaterId,
+          UPDATER_ID = ?UpdaterId,
           UPDATE_DT = SYSDATE()
-      WHERE COMPANY_ID = @CompanyId
+      WHERE COMPANY_ID = ?CompanyId
     </Statement>
     
   </Statements>

@@ -45,11 +45,11 @@
         AND B.DELETE_YN = 'N'
         AND B.USE_YN = 'Y'
         <IsNotEmpty Property="BoardId">
-        AND A.BOARD_ID = @BoardId
+        AND A.BOARD_ID = ?BoardId
         </IsNotEmpty>
       ORDER BY A.CREATE_DT DESC
       <IsNotEmpty Property="Limit">
-      LIMIT @Limit
+      LIMIT ?Limit
       </IsNotEmpty>
     </Statement>
 
@@ -67,8 +67,8 @@
         (SELECT
           ARTICLE_ID, BOARD_ID, ARTICLE_TITLE, 'PREV' AS PREV_NEXT_FLAG
         FROM CO_ARTICLE
-        WHERE ARTICLE_ID &lt; @ArticleId
-          AND BOARD_ID = @BoardId
+        WHERE ARTICLE_ID &lt; ?ArticleId
+          AND BOARD_ID = ?BoardId
           AND DELETE_YN = 'N'
         ORDER BY CREATE_DT DESC LIMIT 1)
 
@@ -77,8 +77,8 @@
         (SELECT
           ARTICLE_ID, BOARD_ID, ARTICLE_TITLE, 'NEXT' AS PREV_NEXT_FLAG
         FROM CO_ARTICLE
-        WHERE ARTICLE_ID &gt; @ArticleId
-          AND BOARD_ID = @BoardId
+        WHERE ARTICLE_ID &gt; ?ArticleId
+          AND BOARD_ID = ?BoardId
           AND DELETE_YN = 'N'
           ORDER BY CREATE_DT LIMIT 1)
       ) B ON B.ARTICLE_ID = A.ARTICLE_ID
@@ -108,7 +108,7 @@
       FROM CO_ARTICLE A
       LEFT JOIN CO_BOARD B ON B.BOARD_ID = A.BOARD_ID
       LEFT JOIN HM_EMPLOYEE E ON E.USER_ID = A.ARTICLE_WRITER_ID
-      WHERE A.ARTICLE_ID = @ArticleId
+      WHERE A.ARTICLE_ID = ?ArticleId
     </Statement>
 
     <!-- 게시글을 추가한다. -->
@@ -124,12 +124,12 @@
         CREATER_ID
       )
       VALUES (
-        @BoardId,
-        @ArticleTitle,
-        @ArticleContent,
-        @ArticleWriterId,
-        @ArticleWriterNickname,
-        @CreaterId
+        ?BoardId,
+        ?ArticleTitle,
+        ?ArticleContent,
+        ?ArticleWriterId,
+        ?ArticleWriterNickname,
+        ?CreaterId
       )
       ;SELECT LAST_INSERT_ID()
     </Statement>
@@ -140,11 +140,11 @@
 
       UPDATE CO_ARTICLE
         SET
-          ARTICLE_TITLE = @ArticleTitle,
-          ARTICLE_CONTENT = @ArticleContent,
-          UPDATER_ID = @UpdaterId,
+          ARTICLE_TITLE = ?ArticleTitle,
+          ARTICLE_CONTENT = ?ArticleContent,
+          UPDATER_ID = ?UpdaterId,
           UPDATE_DT = SYSDATE()
-      WHERE ARTICLE_ID = @ArticleId
+      WHERE ARTICLE_ID = ?ArticleId
     </Statement>
 
     <!-- 게시글을 삭제한다. -->
@@ -154,9 +154,9 @@
       UPDATE CO_ARTICLE
         SET
           DELETE_YN = 'Y',
-          UPDATER_ID = @UpdaterId,
+          UPDATER_ID = ?UpdaterId,
           UPDATE_DT = SYSDATE()
-      WHERE ARTICLE_ID = @ArticleId
+      WHERE ARTICLE_ID = ?ArticleId
     </Statement>
     
   </Statements>

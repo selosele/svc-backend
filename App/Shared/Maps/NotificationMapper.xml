@@ -19,7 +19,7 @@
     <!-- 알림 목록 및 개수 조회조건 -->
     <Statement Id="QueryParams">
       WHERE N.DELETE_YN = 'N'
-        AND N.USER_ID = @UserId
+        AND N.USER_ID = ?UserId
     </Statement>
 
     <!-- 알림 개수를 조회한다. -->
@@ -64,12 +64,12 @@
         CREATER_ID
       )
       VALUES (
-        @UserId,
-        @NotificationTitle,
-        @NotiticationContent,
-        @NotificationTypeCode,
-        @NotificationKindCode,
-        @CreaterId
+        ?UserId,
+        ?NotificationTitle,
+        ?NotiticationContent,
+        ?NotificationTypeCode,
+        ?NotificationKindCode,
+        ?CreaterId
       )
       ;SELECT LAST_INSERT_ID()
     </Statement>
@@ -81,9 +81,9 @@
       UPDATE CO_NOTIFICATION
         SET
           NOTIFICATION_READ_DT = SYSDATE(),
-          UPDATER_ID = @UpdaterId,
+          UPDATER_ID = ?UpdaterId,
           UPDATE_DT = SYSDATE()
-      WHERE NOTIFICATION_ID = @NotificationId
+      WHERE NOTIFICATION_ID = ?NotificationId
     </Statement>
 
     <!-- 알림을 삭제한다. -->
@@ -93,17 +93,17 @@
       UPDATE CO_NOTIFICATION
         SET
           DELETE_YN = 'Y',
-          UPDATER_ID = @UpdaterId,
+          UPDATER_ID = ?UpdaterId,
           UPDATE_DT = SYSDATE()
       WHERE 1=1
         <IsNotEmpty Property="NotificationId">
-        AND NOTIFICATION_ID = @NotificationId
+        AND NOTIFICATION_ID = ?NotificationId
         </IsNotEmpty>
         <IsNotEmpty Property="UserId">
-        AND USER_ID = @UserId
+        AND USER_ID = ?UserId
         </IsNotEmpty>
         <IsNotEmpty Property="NotificationKindCode">
-        AND NOTIFICATION_KIND_CODE = @NotificationKindCode
+        AND NOTIFICATION_KIND_CODE = ?NotificationKindCode
         </IsNotEmpty>
     </Statement>
     

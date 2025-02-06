@@ -43,7 +43,7 @@
       INNER JOIN HM_EMPLOYEE E ON E.USER_ID = CA.APPLICANT_ID
       WHERE 1=1
         <IsNotEmpty Property="ApplicantId">
-        AND CA.APPLICANT_ID = @ApplicantId
+        AND CA.APPLICANT_ID = ?ApplicantId
         </IsNotEmpty>
       ORDER BY CA.APPLY_DT DESC
     </Statement>
@@ -69,7 +69,7 @@
       LEFT JOIN CO_CODE CD ON CD.CODE_VALUE = CA.APPLY_STATE_CODE AND CD.UP_CODE_ID = 'APPLY_STATE_00'
       LEFT JOIN CO_USER U ON U.USER_ID = CA.APPLICANT_ID
       INNER JOIN HM_EMPLOYEE E ON E.USER_ID = CA.APPLICANT_ID
-      WHERE CA.COMPANY_APPLY_ID = @companyApplyId
+      WHERE CA.COMPANY_APPLY_ID = ?companyApplyId
     </Statement>
 
     <!-- 회사등록신청을 추가한다. -->
@@ -86,13 +86,13 @@
         CREATER_ID
       )
       VALUES (
-        REPLACE(@RegistrationNo, '-', ''),
-        @CorporateName,
-        @CompanyName,
-        @ApplyContent,
-        @ApplyStateCode,
-        @CreaterId,
-        @CreaterId
+        REPLACE(?RegistrationNo, '-', ''),
+        ?CorporateName,
+        ?CompanyName,
+        ?ApplyContent,
+        ?ApplyStateCode,
+        ?CreaterId,
+        ?CreaterId
       )
       ;SELECT LAST_INSERT_ID()
     </Statement>
@@ -103,19 +103,19 @@
 
       UPDATE HM_COMPANY_APPLY
         SET
-          REGISTRATION_NO = @RegistrationNo,
-          CORPORATE_NAME = @CorporateName,
-          COMPANY_NAME = @CompanyName,
-          APPLY_CONTENT = @ApplyContent,
-          APPLY_STATE_CODE = @ApplyStateCode,
+          REGISTRATION_NO = ?RegistrationNo,
+          CORPORATE_NAME = ?CorporateName,
+          COMPANY_NAME = ?CompanyName,
+          APPLY_CONTENT = ?ApplyContent,
+          APPLY_STATE_CODE = ?ApplyStateCode,
           APPLY_DT = SYSDATE(),
           <IsEqual Property="ApplyStateCode" CompareValue="REJECT">
-          REJECT_CONTENT = @RejectContent,
+          REJECT_CONTENT = ?RejectContent,
           REJECT_DT = SYSDATE(),
           </IsEqual>
-          UPDATER_ID = @UpdaterId,
+          UPDATER_ID = ?UpdaterId,
           UPDATE_DT = SYSDATE()
-      WHERE COMPANY_APPLY_ID = @CompanyApplyId
+      WHERE COMPANY_APPLY_ID = ?CompanyApplyId
     </Statement>
     
   </Statements>

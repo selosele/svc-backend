@@ -84,7 +84,7 @@
         CD.USE_YN,
         CD.USER_ID
       FROM CO_CODE CD
-      WHERE CD.CODE_ID = @CodeId
+      WHERE CD.CODE_ID = ?CodeId
     </Statement>
 
     <!-- 코드를 추가한다. -->
@@ -104,12 +104,12 @@
         CREATER_ID
       )
       VALUES (
-        @CodeId,
-        @UpCodeId,
-        @CodeValue,
-        @CodeName,
-        @CodeContent,
-        IFNULL(@CodeOrder, (
+        ?CodeId,
+        ?UpCodeId,
+        ?CodeValue,
+        ?CodeName,
+        ?CodeContent,
+        IFNULL(?CodeOrder, (
           SELECT IFNULL(MAX(C.CODE_ORDER), 0) + 1
           FROM CO_CODE C
           WHERE 1=1
@@ -117,15 +117,15 @@
             AND C.UP_CODE_ID IS NULL
             </IsEmpty>
             <IsNotEmpty Property="UpCodeId">
-            AND C.UP_CODE_ID = @UpCodeId
+            AND C.UP_CODE_ID = ?UpCodeId
             </IsNotEmpty>
         )),
-        @CodeDepth,
-        @UseYn,
-        @UserId,
-        @CreaterId
+        ?CodeDepth,
+        ?UseYn,
+        ?UserId,
+        ?CreaterId
       )
-      ;SELECT @CodeId
+      ;SELECT ?CodeId
     </Statement>
 
     <!-- 코드를 수정한다. -->
@@ -134,27 +134,27 @@
 
       UPDATE CO_CODE
         SET
-          CODE_ID = @CodeId,
-          UP_CODE_ID = @UpCodeId,
-          CODE_VALUE = @CodeValue,
-          CODE_NAME = @CodeName,
-          CODE_CONTENT = @CodeContent,
-          CODE_ORDER = IFNULL(@CodeOrder, (
+          CODE_ID = ?CodeId,
+          UP_CODE_ID = ?UpCodeId,
+          CODE_VALUE = ?CodeValue,
+          CODE_NAME = ?CodeName,
+          CODE_CONTENT = ?CodeContent,
+          CODE_ORDER = IFNULL(?CodeOrder, (
             SELECT IFNULL(MAX(C.CODE_ORDER), 0) + 1
             FROM CO_CODE C
-            WHERE C.CODE_ID != @CodeId
+            WHERE C.CODE_ID != ?CodeId
               <IsEmpty Property="UpCodeId">
               AND C.UP_CODE_ID IS NULL
               </IsEmpty>
               <IsNotEmpty Property="UpCodeId">
-              AND C.UP_CODE_ID = @UpCodeId
+              AND C.UP_CODE_ID = ?UpCodeId
               </IsNotEmpty>
           )),
-          CODE_DEPTH = @CodeDepth,
-          USE_YN = @UseYn,
-          UPDATER_ID = @UpdaterId,
+          CODE_DEPTH = ?CodeDepth,
+          USE_YN = ?UseYn,
+          UPDATER_ID = ?UpdaterId,
           UPDATE_DT = SYSDATE()
-      WHERE CODE_ID = @OriginalCodeId
+      WHERE CODE_ID = ?OriginalCodeId
     </Statement>
 
     <!-- 코드를 삭제한다. -->
@@ -162,7 +162,7 @@
       /* CodeMapper.RemoveCode */
 
       DELETE FROM CO_CODE
-      WHERE CODE_ID = @CodeId
+      WHERE CODE_ID = ?CodeId
     </Statement>
     
   </Statements>

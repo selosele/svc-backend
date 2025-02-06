@@ -28,10 +28,10 @@
       </IsNotEmpty>
       WHERE 1=1
         <IsNotEmpty Property="UserId">
-        AND UR.USER_ID = @UserId
+        AND UR.USER_ID = ?UserId
         </IsNotEmpty>
         <IsNotEmpty Property="MenuId">
-        AND MR.MENU_ID = @MenuId
+        AND MR.MENU_ID = ?MenuId
         </IsNotEmpty>
     </Statement>
 
@@ -47,9 +47,9 @@
       VALUES
       <For Property="DTOList" Key="dto" Open="" Close="" Separator=",">
         (
-          @dto.MenuId,
-          @dto.RoleId,
-          @dto.CreaterId
+          ?dto.MenuId,
+          ?dto.RoleId,
+          ?dto.CreaterId
         )
       </For>
     </Statement>
@@ -59,7 +59,7 @@
       /* MenuRoleMapper.RemoveMenuRole */
 
       DELETE FROM CO_MENU_ROLE
-      WHERE MENU_ID = @MenuId
+      WHERE MENU_ID = ?MenuId
     </Statement>
     
   </Statements>

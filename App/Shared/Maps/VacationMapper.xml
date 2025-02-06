@@ -47,12 +47,12 @@
       FROM HM_VACATION V
       LEFT JOIN CO_CODE CD ON CD.CODE_VALUE =  V.VACATION_TYPE_CODE AND CD.UP_CODE_ID = 'VACATION_TYPE_00'
       WHERE V.DELETE_YN = 'N'
-        AND V.WORK_HISTORY_ID = @WorkHistoryId
+        AND V.WORK_HISTORY_ID = ?WorkHistoryId
         <IsNotEmpty Property="VacationStartYmd">
-        AND V.VACATION_START_YMD &gt;= @VacationStartYmd
+        AND V.VACATION_START_YMD &gt;= ?VacationStartYmd
         </IsNotEmpty>
         <IsNotEmpty Property="VacationEndYmd">
-        AND V.VACATION_END_YMD &lt;= @VacationEndYmd
+        AND V.VACATION_END_YMD &lt;= ?VacationEndYmd
         </IsNotEmpty>
       ORDER BY V.VACATION_START_YMD DESC, V.VACATION_END_YMD DESC
     </Statement>
@@ -73,7 +73,7 @@
         V.DELETE_YN
       FROM HM_VACATION V
       WHERE V.DELETE_YN = 'N'
-        AND V.VACATION_ID = @VacationId
+        AND V.VACATION_ID = ?VacationId
     </Statement>
 
     <!-- 휴가를 추가한다. -->
@@ -91,17 +91,17 @@
         CREATER_ID
       )
       VALUES (
-        @EmployeeId,
-        @WorkHistoryId,
-        @VacationTypeCode,
-        @VacationContent,
-        @VacationStartYmd,
-        @VacationEndYmd,
+        ?EmployeeId,
+        ?WorkHistoryId,
+        ?VacationTypeCode,
+        ?VacationContent,
+        ?VacationStartYmd,
+        ?VacationEndYmd,
         IFNULL(
-          @VacationUseCount,
-          FN_GET_VACATION_USE_COUNT(@VacationStartYmd, @VacationEndYmd, @VacationTypeCode, @CreaterId)
+          ?VacationUseCount,
+          FN_GET_VACATION_USE_COUNT(?VacationStartYmd, ?VacationEndYmd, ?VacationTypeCode, ?CreaterId)
         ),
-        @CreaterId
+        ?CreaterId
       )
       ;SELECT LAST_INSERT_ID()
     </Statement>
@@ -112,17 +112,17 @@
 
       UPDATE HM_VACATION
         SET
-          VACATION_TYPE_CODE = @VacationTypeCode,
-          VACATION_CONTENT = @VacationContent,
-          VACATION_START_YMD = @VacationStartYmd,
-          VACATION_END_YMD = @VacationEndYmd,
+          VACATION_TYPE_CODE = ?VacationTypeCode,
+          VACATION_CONTENT = ?VacationContent,
+          VACATION_START_YMD = ?VacationStartYmd,
+          VACATION_END_YMD = ?VacationEndYmd,
           VACATION_USE_COUNT = IFNULL(
-            @VacationUseCount,
-            FN_GET_VACATION_USE_COUNT(@VacationStartYmd, @VacationEndYmd, @VacationTypeCode, @UpdaterId)
+            ?VacationUseCount,
+            FN_GET_VACATION_USE_COUNT(?VacationStartYmd, ?VacationEndYmd, ?VacationTypeCode, ?UpdaterId)
           ),
-          UPDATER_ID = @UpdaterId,
+          UPDATER_ID = ?UpdaterId,
           UPDATE_DT = SYSDATE()
-      WHERE VACATION_ID = @VacationId
+      WHERE VACATION_ID = ?VacationId
     </Statement>
 
     <!-- 휴가를 삭제한다. -->
@@ -132,9 +132,9 @@
       UPDATE HM_VACATION
         SET
           DELETE_YN = 'Y',
-          UPDATER_ID = @UpdaterId,
+          UPDATER_ID = ?UpdaterId,
           UPDATE_DT = SYSDATE()
-      WHERE VACATION_ID = @VacationId
+      WHERE VACATION_ID = ?VacationId
     </Statement>
 
     <!-- 휴가일수정보를 조회한다. -->
@@ -147,7 +147,7 @@
           VC.VACATION_TYPE_CODE
         FROM HM_VACATION_CALC VC
         LEFT JOIN HM_WORK_HISTORY H ON H.WORK_HISTORY_ID = VC.WORK_HISTORY_ID
-        WHERE VC.WORK_HISTORY_ID = @WorkHistoryId
+        WHERE VC.WORK_HISTORY_ID = ?WorkHistoryId
           AND VC.ANNUAL_TYPE_CODE = FN_GET_ANNUAL_TYPE_CODE(H.JOIN_YMD, H.QUIT_YMD)
       )
       SELECT
@@ -162,19 +162,19 @@
           V.VACATION_END_YMD,
           V.VACATION_TYPE_CODE,
           FN_GET_ANNUAL_TYPE_CODE(H.JOIN_YMD, H.QUIT_YMD) AS ANNUAL_TYPE_CODE,
-          SUM(FN_GET_VACATION_USE_COUNT(V.VACATION_START_YMD, V.VACATION_END_YMD, V.VACATION_TYPE_CODE, @UserId)) AS VACATION_USE_COUNT
+          SUM(FN_GET_VACATION_USE_COUNT(V.VACATION_START_YMD, V.VACATION_END_YMD, V.VACATION_TYPE_CODE, ?UserId)) AS VACATION_USE_COUNT
         FROM HM_VACATION V
         LEFT JOIN (
           SELECT
             H1.WORK_HISTORY_ID,
-            IFNULL(H1.JOIN_YMD, (SELECT JOIN_YMD FROM HM_WORK_HISTORY WHERE WORK_HISTORY_ID = @WorkHistoryId)) AS JOIN_YMD,
-            IFNULL(H1.QUIT_YMD, (SELECT QUIT_YMD FROM HM_WORK_HISTORY WHERE WORK_HISTORY_ID = @WorkHistoryId)) AS QUIT_YMD
+            IFNULL(H1.JOIN_YMD, (SELECT JOIN_YMD FROM HM_WORK_HISTORY WHERE WORK_HISTORY_ID = ?WorkHistoryId)) AS JOIN_YMD,
+            IFNULL(H1.QUIT_YMD, (SELECT QUIT_YMD FROM HM_WORK_HISTORY WHERE WORK_HISTORY_ID = ?WorkHistoryId)) AS QUIT_YMD
           FROM HM_WORK_HISTORY H1
           WHERE H1.DELETE_YN = 'N'
         ) H ON H.WORK_HISTORY_ID = V.WORK_HISTORY_ID
         LEFT JOIN VACATION_CALC VC ON VC.WORK_HISTORY_ID = H.WORK_HISTORY_ID
         WHERE V.DELETE_YN = 'N'
-          AND H.WORK_HISTORY_ID = @WorkHistoryId
+          AND H.WORK_HISTORY_ID = ?WorkHistoryId
           AND (V.VACATION_TYPE_CODE = VC.VACATION_TYPE_CODE OR VC.VACATION_TYPE_CODE IS NULL)
       ) T
     </Statement>
@@ -184,11 +184,11 @@
       /* VacationMapper.ListVacationByMonth */
 
       WITH RECURSIVE MONTH_RANGE AS (
-        SELECT DATE(CONCAT(@YYYY, '-01-01')) AS YMD
+        SELECT DATE(CONCAT(?YYYY, '-01-01')) AS YMD
         UNION ALL
         SELECT DATE_ADD(YMD, INTERVAL 1 MONTH) 
         FROM MONTH_RANGE 
-        WHERE DATE_ADD(YMD, INTERVAL 1 MONTH) &lt;= DATE(CONCAT(@YYYY, '-12-31'))
+        WHERE DATE_ADD(YMD, INTERVAL 1 MONTH) &lt;= DATE(CONCAT(?YYYY, '-12-31'))
       )
       SELECT
         IFNULL(SUM(V.VACATION_USE_COUNT), 0) AS VACATION_USE_COUNT,
@@ -199,9 +199,9 @@
       		V1.VACATION_END_YMD,
       		V1.VACATION_USE_COUNT
       	FROM HM_VACATION V1
-      	WHERE V1.WORK_HISTORY_ID = @WorkHistoryId
-         AND V1.VACATION_TYPE_CODE = @VacationTypeCode
-         AND DATE_FORMAT(V1.VACATION_END_YMD, '%Y') = @YYYY
+      	WHERE V1.WORK_HISTORY_ID = ?WorkHistoryId
+         AND V1.VACATION_TYPE_CODE = ?VacationTypeCode
+         AND DATE_FORMAT(V1.VACATION_END_YMD, '%Y') = ?YYYY
       ) V ON MONTH(V.VACATION_END_YMD) = MONTH(MR.YMD) AND YEAR(V.VACATION_END_YMD) = YEAR(MR.YMD)
       GROUP BY MR.YMD
       ORDER BY MR.YMD

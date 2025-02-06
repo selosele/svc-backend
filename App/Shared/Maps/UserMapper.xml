@@ -74,7 +74,7 @@
         <IsNotEmpty Property="RoleIdList">
         AND UR.ROLE_ID IN
           <For Property="RoleIdList" Key="roleId" Open="(" Separator="," Close=")">
-            @roleId
+            ?roleId
           </For>
         </IsNotEmpty>
       GROUP BY H.EMPLOYEE_ID, H.COMPANY_ID
@@ -93,7 +93,7 @@
       INNER JOIN CO_USER_ROLE UR ON UR.USER_ID = U.USER_ID
       INNER JOIN CO_MENU_ROLE MR ON MR.ROLE_ID = UR.ROLE_ID
       INNER JOIN CO_MENU M ON M.MENU_ID = MR.MENU_ID
-      WHERE MR.MENU_ID = @MenuId
+      WHERE MR.MENU_ID = ?MenuId
     </Statement>
 
     <!-- 사용자를 조회한다. -->
@@ -109,10 +109,10 @@
       WHERE 1=1
         AND U.DELETE_YN = 'N'
         <IsNotEmpty Property="UserId">
-        AND U.USER_ID = @UserId
+        AND U.USER_ID = ?UserId
         </IsNotEmpty>
         <IsNotEmpty Property="UserAccount">
-        AND U.USER_ACCOUNT = @UserAccount
+        AND U.USER_ACCOUNT = ?UserAccount
         </IsNotEmpty>
     </Statement>
 
@@ -130,7 +130,7 @@
         U.LAST_LOGIN_DT
       FROM CO_USER U
       WHERE U.DELETE_YN = 'N'
-        AND U.USER_ACCOUNT = @UserAccount
+        AND U.USER_ACCOUNT = ?UserAccount
     </Statement>
 
     <!-- 사용자를 조회한다(아이디/비밀번호 찾기용). -->
@@ -148,12 +148,12 @@
       FROM CO_USER U
       INNER JOIN HM_EMPLOYEE E ON E.USER_ID = U.USER_ID
       WHERE U.DELETE_YN = 'N'
-        AND E.EMAIL_ADDR = @EmailAddr
+        AND E.EMAIL_ADDR = ?EmailAddr
         <IsNotEmpty Property="EmployeeName">
-        AND E.EMPLOYEE_NAME = @EmployeeName
+        AND E.EMPLOYEE_NAME = ?EmployeeName
         </IsNotEmpty>
         <IsNotEmpty Property="UserAccount">
-        AND U.USER_ACCOUNT = @UserAccount
+        AND U.USER_ACCOUNT = ?UserAccount
         </IsNotEmpty>
     </Statement>
 
@@ -165,7 +165,7 @@
         U.USER_PASSWORD
       FROM CO_USER U
       WHERE U.DELETE_YN = 'N'
-        AND U.USER_ID = @UserId
+        AND U.USER_ID = ?UserId
     </Statement>
 
     <!-- 사용자 임시 비밀번호의 유효시간을 검증한다. -->
@@ -175,7 +175,7 @@
       SELECT
         COUNT(1)
       FROM CO_USER U
-      WHERE U.USER_ID = @UserId
+      WHERE U.USER_ID = ?UserId
         AND TIMESTAMPDIFF(HOUR, U.TEMP_PASSWORD_DT, SYSDATE()) &lt;= 2
     </Statement>
 
@@ -190,10 +190,10 @@
         CREATER_ID
       )
       VALUES (
-        @UserAccount,
-        @UserPassword,
-        @UserActiveYn,
-        @CreaterId
+        ?UserAccount,
+        ?UserPassword,
+        ?UserActiveYn,
+        ?CreaterId
       )
       ;SELECT LAST_INSERT_ID()
     </Statement>
@@ -205,11 +205,11 @@
       UPDATE CO_USER
         SET
           <IsNotEmpty Property="UserActiveYn">
-          USER_ACTIVE_YN = @UserActiveYn,
+          USER_ACTIVE_YN = ?UserActiveYn,
           </IsNotEmpty>
-          UPDATER_ID = @UpdaterId,
+          UPDATER_ID = ?UpdaterId,
           UPDATE_DT = SYSDATE()
-      WHERE USER_ID = @UserId
+      WHERE USER_ID = ?UserId
     </Statement>
 
     <!-- 사용자 마지막 로그인 일시를 변경한다. -->
@@ -219,9 +219,9 @@
       UPDATE CO_USER
         SET
           LAST_LOGIN_DT = SYSDATE(),
-          UPDATER_ID = @UpdaterId,
+          UPDATER_ID = ?UpdaterId,
           UPDATE_DT = SYSDATE()
-      WHERE USER_ID = @UserId
+      WHERE USER_ID = ?UserId
     </Statement>
 
     <!-- 사용자 비밀번호를 변경한다. -->
@@ -230,22 +230,22 @@
 
       UPDATE CO_USER
         SET
-          USER_PASSWORD = @NewPassword,
-          TEMP_PASSWORD_YN = @TempPasswordYn,
+          USER_PASSWORD = ?NewPassword,
+          TEMP_PASSWORD_YN = ?TempPasswordYn,
           <IsEqual Property="TempPasswordYn" CompareValue="Y">
           TEMP_PASSWORD_DT = SYSDATE(),
           </IsEqual>
           <IsEqual Property="TempPasswordYn" CompareValue="N">
           TEMP_PASSWORD_DT = NULL,
           </IsEqual>
-          UPDATER_ID = @UpdaterId,
+          UPDATER_ID = ?UpdaterId,
           UPDATE_DT = SYSDATE()
       WHERE 1=1
         <IsNotEmpty Property="UserId">
-        AND USER_ID = @UserId
+        AND USER_ID = ?UserId
         </IsNotEmpty>
         <IsNotEmpty Property="UserAccount">
-        AND USER_ACCOUNT = @UserAccount
+        AND USER_ACCOUNT = ?UserAccount
         </IsNotEmpty>
     </Statement>
 
@@ -256,9 +256,9 @@
       UPDATE CO_USER
         SET
           DELETE_YN = 'Y',
-          UPDATER_ID = @UpdaterId,
+          UPDATER_ID = ?UpdaterId,
           UPDATE_DT = SYSDATE()
-      WHERE USER_ID = @UserId
+      WHERE USER_ID = ?UserId
     </Statement>
     
   </Statements>
