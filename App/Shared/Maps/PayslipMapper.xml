@@ -8,6 +8,8 @@
       <Result Column="WORK_HISTORY_ID" Property="WorkHistoryId" />
       <Result Column="PAYSLIP_PAYMENT_YMD" Property="PayslipPaymentYmd" />
       <Result Column="PAYSLIP_NOTE" Property="PayslipNote" />
+      <Result Column="RANK_CODE" Property="RankCode" />
+      <Result Column="RANK_CODE_NAME" Property="RankCodeName" />
       <Result Column="TOTAL_AMOUNT_A00" Property="TotalAmountA00" />
       <Result Column="TOTAL_AMOUNT_B00" Property="TotalAmountB00" />
       <Result Column="TOTAL_AMOUNT" Property="TotalAmount" />

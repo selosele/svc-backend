@@ -32,6 +32,16 @@ public record PayslipResponseDTO
     public string? PayslipNote { get; set; }
 
     /// <summary>
+    /// 직위 코드
+    /// </summary>
+    public string? RankCode { get; set; }
+
+    /// <summary>
+    /// 직위 코드명
+    /// </summary>
+    public string? RankCodeName { get; set; }
+
+    /// <summary>
     /// 급여명세서 지급내역 총 금액
     /// </summary>
     public string? TotalAmountA00 { get; set; }
