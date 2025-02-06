@@ -399,7 +399,8 @@ public class AuthService
             new(ClaimUtil.JOIN_YMD_IDENTIFIER, user.Employee!.WorkHistories![0].JoinYmd?.ToString()! ?? ""),
             new(ClaimUtil.QUIT_YMD_IDENTIFIER, user.Employee!.WorkHistories![0].QuitYmd?.ToString()! ?? ""),
             new(ClaimUtil.EMPLOYEE_ID_IDENTIFIER, user.Employee!.EmployeeId.ToString()! ?? ""),
-            new(ClaimUtil.EMPLOYEE_NAME_IDENTIFIER, user.Employee!.EmployeeName! ?? "")
+            new(ClaimUtil.EMPLOYEE_NAME_IDENTIFIER, user.Employee!.EmployeeName! ?? ""),
+            new(ClaimUtil.BIRTH_YMD_IDENTIFIER, user.Employee!.BirthYmd! ?? "")
         };
 
         foreach (var i in user.Roles!)

@@ -24,6 +24,7 @@ public static class ClaimsPrincipalExtension
             {
                 EmployeeId = int.Parse(principal?.FindFirstValue(ClaimUtil.EMPLOYEE_ID_IDENTIFIER)!),
                 EmployeeName = principal?.FindFirstValue(ClaimUtil.EMPLOYEE_NAME_IDENTIFIER),
+                BirthYmd = principal?.FindFirstValue(ClaimUtil.BIRTH_YMD_IDENTIFIER),
                 WorkHistories = [
                     new WorkHistoryResponseDTO
                     {

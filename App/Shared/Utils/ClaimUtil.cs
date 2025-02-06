@@ -67,6 +67,11 @@ public class ClaimUtil
     public const string EMPLOYEE_NAME_IDENTIFIER = "employeeName";
 
     /// <summary>
+    /// 생년월일 식별자
+    /// </summary>
+    public const string BIRTH_YMD_IDENTIFIER = "birthYmd";
+
+    /// <summary>
     /// 사용자 권한 식별자
     /// </summary>
     public const string ROLES_IDENTIFIER = "roles";
