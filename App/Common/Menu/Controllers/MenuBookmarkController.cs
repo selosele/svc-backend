@@ -37,7 +37,9 @@ public class MenuBookmarkController : ControllerBase
     public async Task<ActionResult<List<MenuBookmarkResponseDTO>>> ListMenuBookmark()
     {
         var user = _authService.GetAuthenticatedUser();
-        return Ok(await _menuService.ListMenuBookmark(user.UserId));
+        var menuBookmarkList = await _menuService.ListMenuBookmark(user.UserId);
+
+        return Ok(new MenuBookmarkResponseDTO { MenuBookmarkList = menuBookmarkList });
     }
 
     /// <summary>
@@ -50,7 +52,9 @@ public class MenuBookmarkController : ControllerBase
         var user = _authService.GetAuthenticatedUser();
         dto.CreaterId = user.UserId;
 
-        return Created(string.Empty, await _menuService.AddMenuBookmark(dto));
+        var menuBookmark = await _menuService.AddMenuBookmark(dto);
+
+        return Created(string.Empty, new MenuBookmarkResponseDTO { MenuBookmark = menuBookmark });
     }
 
     /// <summary>

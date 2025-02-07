@@ -23,9 +23,9 @@ public class MenuBookmarkMapper
     /// <summary>
     /// 메뉴 즐겨찾기 목록을 조회한다.
     /// </summary>
-    public Task<IList<MenuBookmarkResponseDTO>> ListMenuBookmark(int? userId)
+    public Task<IList<MenuBookmarkResultDTO>> ListMenuBookmark(int? userId)
     {
-        return SqlMapper.QueryAsync<MenuBookmarkResponseDTO>(new RequestContext
+        return SqlMapper.QueryAsync<MenuBookmarkResultDTO>(new RequestContext
         {
             Scope = nameof(MenuBookmarkMapper),
             SqlId = "ListMenuBookmark",
@@ -36,9 +36,9 @@ public class MenuBookmarkMapper
     /// <summary>
     /// 메뉴 즐겨찾기를 조회한다.
     /// </summary>
-    public Task<MenuBookmarkResponseDTO> GetMenuBookmark(int MenuBookmarkId)
+    public Task<MenuBookmarkResultDTO> GetMenuBookmark(int MenuBookmarkId)
     {
-        return SqlMapper.QuerySingleAsync<MenuBookmarkResponseDTO>(new RequestContext
+        return SqlMapper.QuerySingleAsync<MenuBookmarkResultDTO>(new RequestContext
         {
             Scope = nameof(MenuBookmarkMapper),
             SqlId = "GetMenuBookmark",

@@ -162,14 +162,14 @@ public class MenuService
     /// 메뉴 즐겨찾기 목록을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<IList<MenuBookmarkResponseDTO>> ListMenuBookmark(int? userId)
+    public async Task<IList<MenuBookmarkResultDTO>> ListMenuBookmark(int? userId)
         => await _menuBookmarkMapper.ListMenuBookmark(userId);
 
     /// <summary>
     /// 메뉴 즐겨찾기를 추가한다.
     /// </summary>
     [Transaction]
-    public async Task<MenuBookmarkResponseDTO> AddMenuBookmark(SaveMenuBookmarkRequestDTO dto)
+    public async Task<MenuBookmarkResultDTO> AddMenuBookmark(SaveMenuBookmarkRequestDTO dto)
     {
         var menuBookmarkId = await _menuBookmarkMapper.AddMenuBookmark(dto);
         return await _menuBookmarkMapper.GetMenuBookmark(menuBookmarkId);

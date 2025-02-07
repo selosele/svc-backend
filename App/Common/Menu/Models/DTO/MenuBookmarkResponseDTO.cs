@@ -7,29 +7,14 @@ public record MenuBookmarkResponseDTO
 {
     #region [필드]
     /// <summary>
-    /// 메뉴 즐겨찾기 ID
+    /// 메뉴 즐겨찾기
     /// </summary>
-    public int? MenuBookmarkId { get; set; }
+    public MenuBookmarkResultDTO? MenuBookmark { get; set; }
 
     /// <summary>
-    /// 메뉴 ID
+    /// 메뉴 즐겨찾기 목록
     /// </summary>
-    public int? MenuId { get; set; }
-
-    /// <summary>
-    /// 사용자 ID
-    /// </summary>
-    public int? UserId { get; set; }
-
-    /// <summary>
-    /// 메뉴명
-    /// </summary>
-    public string? MenuName { get; set; }
-
-    /// <summary>
-    /// 메뉴 URL
-    /// </summary>
-    public string? MenuUrl { get; set; }
+    public IList<MenuBookmarkResultDTO>? MenuBookmarkList { get; set; }
     #endregion
 
 }
