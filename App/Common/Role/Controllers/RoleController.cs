@@ -31,7 +31,10 @@ public class RoleController : ControllerBase
     [HttpGet]
     [Authorize]
     public async Task<ActionResult<List<RoleResponseDTO>>> ListRole()
-        => Ok(await _roleService.ListRole());
+    {
+        var roleList = await _roleService.ListRole();
+        return Ok(new RoleResponseDTO { RoleList = roleList });
+    }
     #endregion
 
 }

@@ -27,7 +27,7 @@ public class RoleService
     /// 권한 목록을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<IList<RoleResponseDTO>> ListRole()
+    public async Task<IList<RoleResultDTO>> ListRole()
         => await _roleMapper.ListRole();
     #endregion
     
