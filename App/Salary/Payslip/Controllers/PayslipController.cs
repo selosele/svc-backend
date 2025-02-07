@@ -42,7 +42,28 @@ public class PayslipController : ControllerBase
         if (myUserId != dto.UserId)
             return NotFound();
 
-        return Ok(await _payslipService.ListPayslip(dto));
+        var payslipList = await _payslipService.ListPayslip(dto);
+
+        return Ok(new PayslipResponseDTO { PayslipList = payslipList });
+    }
+
+    /// <summary>
+    /// 급여명세서를 조회한다.
+    /// </summary>
+    [HttpGet("{payslipId}")]
+    [Authorize]
+    public async Task<ActionResult<List<PayslipResponseDTO>>> GetPayslip(int payslipId, [FromQuery] GetPayslipRequestDTO dto)
+    {
+        var user = _authService.GetAuthenticatedUser();
+        var myUserId = user.UserId;
+        
+        if (myUserId != dto.UserId)
+            return NotFound();
+
+        var payslip = await _payslipService.GetPayslip(payslipId);
+        var payslipList = await _payslipService.ListPrevNextPayslip(dto);
+
+        return Ok(new PayslipResponseDTO { Payslip = payslip, PayslipList = payslipList });
     }
     #endregion
 

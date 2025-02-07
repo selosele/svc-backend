@@ -27,8 +27,22 @@ public class PayslipService
     /// 급여명세서 목록을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<IList<PayslipResponseDTO>> ListPayslip(GetPayslipRequestDTO dto)
+    public async Task<IList<PayslipResultDTO>> ListPayslip(GetPayslipRequestDTO dto)
         => await _payslipMapper.ListPayslip(dto);
+
+    /// <summary>
+    /// 이전/다음 급여명세서 목록을 조회한다.
+    /// </summary>
+    [Transaction]
+    public async Task<IList<PayslipResultDTO>> ListPrevNextPayslip(GetPayslipRequestDTO dto)
+        => await _payslipMapper.ListPrevNextPayslip(dto);
+
+    /// <summary>
+    /// 급여명세서를 조회한다.
+    /// </summary>
+    [Transaction]
+    public async Task<PayslipResultDTO> GetPayslip(int payslipId)
+        => await _payslipMapper.GetPayslip(payslipId);
     #endregion
     
 }

@@ -23,13 +23,39 @@ public class PayslipMapper
     /// <summary>
     /// 급여명세서 목록을 조회한다.
     /// </summary>
-    public Task<IList<PayslipResponseDTO>> ListPayslip(GetPayslipRequestDTO dto)
+    public Task<IList<PayslipResultDTO>> ListPayslip(GetPayslipRequestDTO dto)
     {
-        return SqlMapper.QueryAsync<PayslipResponseDTO>(new RequestContext
+        return SqlMapper.QueryAsync<PayslipResultDTO>(new RequestContext
         {
             Scope = nameof(PayslipMapper),
             SqlId = "ListPayslip",
             Request = dto
+        });
+    }
+
+    /// <summary>
+    /// 이전/다음 급여명세서 목록을 조회한다.
+    /// </summary>
+    public Task<IList<PayslipResultDTO>> ListPrevNextPayslip(GetPayslipRequestDTO dto)
+    {
+        return SqlMapper.QueryAsync<PayslipResultDTO>(new RequestContext
+        {
+            Scope = nameof(PayslipMapper),
+            SqlId = "ListPrevNextPayslip",
+            Request = dto
+        });
+    }
+
+    /// <summary>
+    /// 급여명세서를 조회한다.
+    /// </summary>
+    public Task<PayslipResultDTO> GetPayslip(int payslipId)
+    {
+        return SqlMapper.QuerySingleAsync<PayslipResultDTO>(new RequestContext
+        {
+            Scope = nameof(PayslipMapper),
+            SqlId = "GetPayslip",
+            Request = new { payslipId }
         });
     }
     #endregion

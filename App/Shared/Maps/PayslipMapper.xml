@@ -10,9 +10,11 @@
       <Result Column="PAYSLIP_NOTE" Property="PayslipNote" />
       <Result Column="RANK_CODE" Property="RankCode" />
       <Result Column="RANK_CODE_NAME" Property="RankCodeName" />
+      <Result Column="JOIN_YMD" Property="JoinYmd" />
       <Result Column="TOTAL_AMOUNT_A00" Property="TotalAmountA00" />
       <Result Column="TOTAL_AMOUNT_B00" Property="TotalAmountB00" />
       <Result Column="TOTAL_AMOUNT" Property="TotalAmount" />
+      <Result Column="PREV_NEXT_FLAG" Property="PrevNextFlag" />
     </ResultMap>
   </ResultMaps>
 
@@ -59,6 +61,54 @@
         </IsNotEmpty>
       GROUP BY P.PAYSLIP_ID
       ORDER BY P.EMPLOYEE_ID DESC, P.PAYSLIP_PAYMENT_YMD DESC
+    </Statement>
+
+    <!-- 이전/다음 급여명세서 목록을 조회한다. -->
+    <Statement Id="ListPrevNextPayslip" ResultMap="PayslipResultMap">
+      /* PayslipMapper.ListPrevNextPayslip */
+
+      SELECT
+        P1.PAYSLIP_ID,
+        P1.PREV_NEXT_FLAG
+      FROM SA_PAYSLIP P
+      INNER JOIN (
+        (SELECT
+          PAYSLIP_ID, 'PREV' AS PREV_NEXT_FLAG
+        FROM SA_PAYSLIP
+        WHERE PAYSLIP_ID &lt; ?PayslipId
+          AND WORK_HISTORY_ID = ?WorkHistoryId
+          AND DELETE_YN = 'N'
+        ORDER BY EMPLOYEE_ID DESC, PAYSLIP_PAYMENT_YMD DESC LIMIT 1)
+
+        UNION ALL
+        
+        (SELECT
+          PAYSLIP_ID, 'NEXT' AS PREV_NEXT_FLAG
+        FROM SA_PAYSLIP
+        WHERE PAYSLIP_ID &gt; ?PayslipId
+          AND WORK_HISTORY_ID = ?WorkHistoryId
+          AND DELETE_YN = 'N'
+          ORDER BY EMPLOYEE_ID, PAYSLIP_PAYMENT_YMD LIMIT 1)
+      ) P1 ON P1.PAYSLIP_ID = P.PAYSLIP_ID
+    </Statement>
+
+    <!-- 급여명세서를 조회한다. -->
+    <Statement Id="GetPayslip" ResultMap="PayslipResultMap">
+      /* PayslipMapper.GetPayslip */
+
+      SELECT
+        P.PAYSLIP_ID,
+        P.EMPLOYEE_ID,
+        P.WORK_HISTORY_ID,
+        P.PAYSLIP_PAYMENT_YMD,
+        IFNULL(P.PAYSLIP_NOTE, '-') AS PAYSLIP_NOTE,
+        P.RANK_CODE,
+        CD.CODE_NAME AS RANK_CODE_NAME,
+        H.JOIN_YMD
+      FROM SA_PAYSLIP P
+      LEFT JOIN HM_WORK_HISTORY H ON H.WORK_HISTORY_ID = P.WORK_HISTORY_ID
+      LEFT JOIN CO_CODE CD ON CD.CODE_VALUE = P.RANK_CODE AND CD.UP_CODE_ID = 'RANK_00'
+      WHERE P.PAYSLIP_ID = ?PayslipId
     </Statement>
     
   </Statements>
