@@ -59,7 +59,7 @@ public record MenuResponseDTO
     /// <summary>
     /// 메뉴 권한 목록
     /// </summary>
-    public IList<MenuRoleResponseDTO>? MenuRoles { get; set; }
+    public IList<MenuRoleResultDTO>? MenuRoleList { get; set; }
     #endregion
 
 }

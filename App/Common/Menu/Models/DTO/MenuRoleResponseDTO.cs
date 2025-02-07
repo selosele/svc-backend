@@ -7,19 +7,14 @@ public record MenuRoleResponseDTO
 {
     #region [필드]
     /// <summary>
-    /// 메뉴 ID
+    /// 메뉴 권한
     /// </summary>
-    public int? MenuId { get; set; }
+    public MenuRoleResultDTO? MenuRole { get; set; }
 
     /// <summary>
-    /// 권한 ID
+    /// 메뉴 권한 목록
     /// </summary>
-    public string? RoleId { get; set; }
-
-    /// <summary>
-    /// 권한명
-    /// </summary>
-    public string? RoleName { get; set; }
+    public IList<MenuRoleResultDTO>? MenuRoleList { get; set; }
     #endregion
 
 }

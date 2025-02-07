@@ -51,7 +51,7 @@ public class MenuService
     public async Task<MenuResponseDTO> GetMenu(int menuId)
     {
         var menu = await _menuMapper.GetMenu(menuId);
-        menu.MenuRoles = await _menuRoleMapper.ListMenuRole(new GetMenuRoleRequestDTO { MenuId = menuId });
+        menu.MenuRoleList = await _menuRoleMapper.ListMenuRole(new GetMenuRoleRequestDTO { MenuId = menuId });
         return menu;
     }
 
@@ -69,7 +69,7 @@ public class MenuService
 
         // 3. 메뉴 권한을 추가한다.
         List<AddMenuRoleRequestDTO> addMenuRoleRequestDTOList = [];
-        foreach (var roleId in dto.MenuRoles!)
+        foreach (var roleId in dto.MenuRoleList!)
         {
             addMenuRoleRequestDTOList.Add(new AddMenuRoleRequestDTO
             {
@@ -115,7 +115,7 @@ public class MenuService
 
         // 3. 메뉴 권한을 추가한다.
         List<AddMenuRoleRequestDTO> addMenuRoleRequestDTOList = [];
-        foreach (var roleId in dto.MenuRoles!)
+        foreach (var roleId in dto.MenuRoleList!)
         {
             addMenuRoleRequestDTOList.Add(new AddMenuRoleRequestDTO
             {

@@ -51,7 +51,7 @@ public record SaveMenuRequestDTO : HttpRequestDTOBase
     /// <summary>
     /// 메뉴 권한 목록
     /// </summary>
-    public IList<string>? MenuRoles { get; set; }
+    public IList<string>? MenuRoleList { get; set; }
     #endregion
 
 }

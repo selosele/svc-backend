@@ -23,9 +23,9 @@ public class MenuRoleMapper
     /// <summary>
     /// 메뉴 권한 목록을 조회한다.
     /// </summary>
-    public Task<IList<MenuRoleResponseDTO>> ListMenuRole(GetMenuRoleRequestDTO dto)
+    public Task<IList<MenuRoleResultDTO>> ListMenuRole(GetMenuRoleRequestDTO dto)
     {
-        return SqlMapper.QueryAsync<MenuRoleResponseDTO>(new RequestContext
+        return SqlMapper.QueryAsync<MenuRoleResultDTO>(new RequestContext
         {
             Scope = nameof(MenuRoleMapper),
             SqlId = "ListMenuRole",
