@@ -35,7 +35,15 @@ public class EmployeeController : ControllerBase
     [HttpGet("{employeeId}")]
     [Authorize]
     public async Task<ActionResult<EmployeeResponseDTO?>> GetEmployee(int employeeId)
-        => Ok(await _employeeService.GetEmployee(new GetEmployeeRequestDTO { EmployeeId = employeeId }));
+    {
+        var user = _authService.GetAuthenticatedUser();
+        var myEmployeeId = user.Employee?.EmployeeId;
+
+        if (employeeId != myEmployeeId)
+            return NotFound();
+        
+        return Ok(await _employeeService.GetEmployee(new GetEmployeeRequestDTO { EmployeeId = employeeId }));
+    }
 
     /// <summary>
     /// 직원을 수정한다.
@@ -62,6 +70,11 @@ public class EmployeeController : ControllerBase
     public async Task<ActionResult<List<WorkHistoryResponseDTO>>> ListWorkHistory(int employeeId, [FromQuery] GetWorkHistoryRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
+        var myEmployeeId = user.Employee?.EmployeeId;
+        
+        if (employeeId != myEmployeeId)
+            return NotFound();
+
         dto.UserId = user.UserId;
         return Ok(await _employeeService.ListWorkHistory(dto));
     }
@@ -72,7 +85,15 @@ public class EmployeeController : ControllerBase
     [HttpGet("{employeeId}/companies/{workHistoryId}")]
     [Authorize]
     public async Task<ActionResult<WorkHistoryResponseDTO>> GetWorkHistory(int employeeId, int workHistoryId)
-        => Ok(await _employeeService.GetWorkHistory(new GetWorkHistoryRequestDTO { WorkHistoryId = workHistoryId }));
+    {
+        var user = _authService.GetAuthenticatedUser();
+        var myEmployeeId = user.Employee?.EmployeeId;
+
+        if (employeeId != myEmployeeId)
+            return NotFound();
+        
+        return Ok(await _employeeService.GetWorkHistory(new GetWorkHistoryRequestDTO { WorkHistoryId = workHistoryId }));
+    }
 
     /// <summary>
     /// 근무이력을 추가한다.
