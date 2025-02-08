@@ -7,19 +7,14 @@ public record UserRoleResponseDTO
 {
     #region [필드]
     /// <summary>
-    /// 사용자 ID
+    /// 사용자 권한
     /// </summary>
-    public int? UserId { get; set; }
+    public UserRoleResultDTO? UserRole { get; set; }
 
     /// <summary>
-    /// 권한 ID
+    /// 사용자 권한 목록
     /// </summary>
-    public string? RoleId { get; set; }
-
-    /// <summary>
-    /// 권한명
-    /// </summary>
-    public string? RoleName { get; set; }
+    public IList<UserRoleResultDTO>? UserRoleList { get; set; }
     #endregion
 
 }

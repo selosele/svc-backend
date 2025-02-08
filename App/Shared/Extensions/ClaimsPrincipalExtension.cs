@@ -50,7 +50,7 @@ public static class ClaimsPrincipalExtension
         // UserResponseDTO의 권한 목록에 담아준다.
         foreach (var roleId in roleList!)
         {
-            user.Roles?.Add(new UserRoleResponseDTO { RoleId = roleId, UserId = user.UserId });
+            user.Roles?.Add(new UserRoleResultDTO { RoleId = roleId, UserId = user.UserId });
         }
         
         return user;

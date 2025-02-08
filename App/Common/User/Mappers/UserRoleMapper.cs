@@ -23,9 +23,9 @@ public class UserRoleMapper
     /// <summary>
     /// 사용자 권한 목록을 조회한다.
     /// </summary>
-    public Task<IList<UserRoleResponseDTO>> ListUserRole(GetUserRoleRequestDTO dto)
+    public Task<IList<UserRoleResultDTO>> ListUserRole(GetUserRoleRequestDTO dto)
     {
-        return SqlMapper.QueryAsync<UserRoleResponseDTO>(new RequestContext
+        return SqlMapper.QueryAsync<UserRoleResultDTO>(new RequestContext
         {
             Scope = nameof(UserRoleMapper),
             SqlId = "ListUserRole",

@@ -47,7 +47,7 @@ public record LoginResultDTO
     /// <summary>
     /// 사용자 권한 목록
     /// </summary>
-    public IList<UserRoleResponseDTO>? Roles { get; set; } = [];
+    public IList<UserRoleResultDTO>? Roles { get; set; } = [];
 
     /// <summary>
     /// 직원 정보
