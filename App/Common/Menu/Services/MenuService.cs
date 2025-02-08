@@ -41,14 +41,14 @@ public class MenuService
     /// 메뉴 목록을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<IList<MenuResponseDTO>> ListMenu(GetMenuRequestDTO dto)
+    public async Task<IList<MenuResultDTO>> ListMenu(GetMenuRequestDTO dto)
         => await _menuMapper.ListMenu(dto);
 
     /// <summary>
     /// 메뉴를 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<MenuResponseDTO> GetMenu(int menuId)
+    public async Task<MenuResultDTO> GetMenu(int menuId)
     {
         var menu = await _menuMapper.GetMenu(menuId);
         menu.MenuRoleList = await _menuRoleMapper.ListMenuRole(new GetMenuRoleRequestDTO { MenuId = menuId });
@@ -59,7 +59,7 @@ public class MenuService
     /// 메뉴를 추가한다.
     /// </summary>
     [Transaction]
-    public async Task<MenuResponseDTO> AddMenu(SaveMenuRequestDTO dto)
+    public async Task<MenuResultDTO> AddMenu(SaveMenuRequestDTO dto)
     {
         // 1. 메뉴를 추가한다.
         await _menuMapper.AddMenu(dto);
@@ -105,7 +105,7 @@ public class MenuService
     /// 메뉴를 수정한다.
     /// </summary>
     [Transaction]
-    public async Task<MenuResponseDTO> UpdateMenu(SaveMenuRequestDTO dto)
+    public async Task<MenuResultDTO> UpdateMenu(SaveMenuRequestDTO dto)
     {
         // 1. 메뉴를 수정한다.
         await _menuMapper.UpdateMenu(dto);

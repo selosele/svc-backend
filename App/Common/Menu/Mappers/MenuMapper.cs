@@ -23,9 +23,9 @@ public class MenuMapper
     /// <summary>
     /// 메뉴 목록을 조회한다.
     /// </summary>
-    public Task<IList<MenuResponseDTO>> ListMenu(GetMenuRequestDTO dto)
+    public Task<IList<MenuResultDTO>> ListMenu(GetMenuRequestDTO dto)
     {
-        return SqlMapper.QueryAsync<MenuResponseDTO>(new RequestContext
+        return SqlMapper.QueryAsync<MenuResultDTO>(new RequestContext
         {
             Scope = nameof(MenuMapper),
             SqlId = "ListMenu",
@@ -36,9 +36,9 @@ public class MenuMapper
     /// <summary>
     /// 메뉴를 조회한다.
     /// </summary>
-    public Task<MenuResponseDTO> GetMenu(int? menuId)
+    public Task<MenuResultDTO> GetMenu(int? menuId)
     {
-        return SqlMapper.QuerySingleAsync<MenuResponseDTO>(new RequestContext
+        return SqlMapper.QuerySingleAsync<MenuResultDTO>(new RequestContext
         {
             Scope = nameof(MenuMapper),
             SqlId = "GetMenu",

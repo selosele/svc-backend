@@ -41,7 +41,8 @@ public class MenuController : ControllerBase
         dto.UserId = user.UserId;
         dto.UseYn = "Y";
 
-        return Ok(await _menuService.ListMenu(dto));
+        var menuList = await _menuService.ListMenu(dto);
+        return Ok(new MenuResponseDTO { MenuList = menuList });
     }
 
     /// <summary>
@@ -54,7 +55,8 @@ public class MenuController : ControllerBase
         var user = _authService.GetAuthenticatedUser();
         dto.UserId = user.UserId;
 
-        return Ok(await _menuService.ListMenu(dto));
+        var menuList = await _menuService.ListMenu(dto);
+        return Ok(new MenuResponseDTO { MenuList = menuList });
     }
 
     /// <summary>
@@ -63,7 +65,10 @@ public class MenuController : ControllerBase
     [HttpGet("{menuId}")]
     [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
     public async Task<ActionResult<MenuResponseDTO>> GetMenu(int menuId)
-        => Ok(await _menuService.GetMenu(menuId));
+    {
+        var menu = await _menuService.GetMenu(menuId);
+        return Ok(new MenuResponseDTO { Menu = menu });
+    }
 
     /// <summary>
     /// 메뉴를 추가한다.
@@ -75,7 +80,8 @@ public class MenuController : ControllerBase
         var user = _authService.GetAuthenticatedUser();
         dto.CreaterId = user.UserId;
 
-        return Created(string.Empty, await _menuService.AddMenu(dto));
+        var menu = await _menuService.AddMenu(dto);
+        return Created(string.Empty, new MenuResponseDTO { Menu = menu });
     }
 
     /// <summary>
@@ -89,7 +95,8 @@ public class MenuController : ControllerBase
         dto.CreaterId = user.UserId;
         dto.UpdaterId = user.UserId;
 
-        return Ok(await _menuService.UpdateMenu(dto));
+        var menu = await _menuService.UpdateMenu(dto);
+        return Ok(new MenuResponseDTO { Menu = menu });
     }
 
     /// <summary>
