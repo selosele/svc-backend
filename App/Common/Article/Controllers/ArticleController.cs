@@ -78,7 +78,7 @@ public class ArticleController : ControllerBase
             BoardId = board.BoardId
         });
 
-        return Ok(new ArticleResponseDTO { Article = article, ArticleList = prevNextArticleList, Board = board });
+        return Ok(new ArticleResponseDTO { Board = board, Article = article, ArticleList = prevNextArticleList });
     }
 
     /// <summary>
