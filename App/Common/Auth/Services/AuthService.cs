@@ -202,7 +202,7 @@ public class AuthService
     /// 사용자의 비밀번호를 찾는다(인증코드 발송).
     /// </summary>
     [Transaction]
-    public async Task<UserCertHistoryResponseDTO> FindUserPassword1(FindUserInfoRequestDTO dto)
+    public async Task<UserCertHistoryResultDTO> FindUserPassword1(FindUserInfoRequestDTO dto)
     {
         var foundUser = await _userMapper.GetUserFindInfo(dto)
             ?? throw new BizException("가입된 정보가 없어요. 입력하신 정보를 다시 확인하세요.");

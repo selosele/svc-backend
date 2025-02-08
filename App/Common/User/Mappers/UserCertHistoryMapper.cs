@@ -23,9 +23,9 @@ public class UserCertHistoryMapper
     /// <summary>
     /// 사용자 본인인증 이력을 조회한다.
     /// </summary>
-    public Task<UserCertHistoryResponseDTO> GetUserCertHistory(GetUserCertHistoryRequestDTO dto)
+    public Task<UserCertHistoryResultDTO> GetUserCertHistory(GetUserCertHistoryRequestDTO dto)
     {
-        return SqlMapper.QuerySingleAsync<UserCertHistoryResponseDTO>(new RequestContext
+        return SqlMapper.QuerySingleAsync<UserCertHistoryResultDTO>(new RequestContext
         {
             Scope = nameof(UserCertHistoryMapper),
             SqlId = "GetUserCertHistory",

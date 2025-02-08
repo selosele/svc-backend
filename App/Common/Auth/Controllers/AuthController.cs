@@ -72,7 +72,10 @@ public class AuthController : ControllerBase
     /// </summary>
     [HttpPost("find-user-password1")]
     public async Task<ActionResult<UserCertHistoryResponseDTO>> FindUserPassword1([FromBody] FindUserInfoRequestDTO dto)
-        => Created(string.Empty, await _authService.FindUserPassword1(dto));
+    {
+        var userCertHistory = await _authService.FindUserPassword1(dto);
+        return Created(string.Empty, new UserCertHistoryResponseDTO { UserCertHistory = userCertHistory });
+    }
 
     /// <summary>
     /// 사용자의 비밀번호를 찾는다(임시 비밀번호 발급).

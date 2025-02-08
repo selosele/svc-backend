@@ -7,49 +7,14 @@ public record UserCertHistoryResponseDTO
 {
     #region [필드]
     /// <summary>
-    /// 본인인증 이력 ID
+    /// 본인인증 이력
     /// </summary>
-    public int? CertHistoryId { get; set; }
+    public UserCertHistoryResultDTO? UserCertHistory { get; set; }
 
     /// <summary>
-    /// 사용자 계정
+    /// 본인인증 이력 목록
     /// </summary>
-    public string? UserAccount { get; set; }
-
-    /// <summary>
-    /// 휴대폰번호
-    /// </summary>
-    public string? PhoneNo { get; set; }
-
-    /// <summary>
-    /// 이메일주소
-    /// </summary>
-    public string? EmailAddr { get; set; }
-
-    /// <summary>
-    /// 본인인증 코드
-    /// </summary>
-    public string? CertCode { get; set; }
-
-    /// <summary>
-    /// 본인인증 방법 코드
-    /// </summary>
-    public string? CertMethodCode { get; set; }
-
-    /// <summary>
-    /// 본인인증 구분 코드
-    /// </summary>
-    public string? CertTypeCode { get; set; }
-
-    /// <summary>
-    /// 유효시간(초)
-    /// </summary>
-    public int? ValidTime { get; set; }
-
-    /// <summary>
-    /// 등록일시
-    /// </summary>
-    public string? CreateDt { get; set; }
+    public IList<UserCertHistoryResultDTO>? UserCertHistoryList { get; set; }
     #endregion
     
 }
