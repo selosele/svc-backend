@@ -24,9 +24,9 @@ public class UserMapper
     /// <summary>
     /// 사용자 목록을 조회한다.
     /// </summary>
-    public Task<IList<UserResponseDTO>> ListUser(GetUserRequestDTO? dto)
+    public Task<IList<UserResultDTO>> ListUser(GetUserRequestDTO? dto)
     {
-        return SqlMapper.QueryAsync<UserResponseDTO>(new RequestContext
+        return SqlMapper.QueryAsync<UserResultDTO>(new RequestContext
         {
             Scope = nameof(UserMapper),
             SqlId = "ListUser",
@@ -37,9 +37,9 @@ public class UserMapper
     /// <summary>
     /// 메뉴별 사용자 목록을 조회한다.
     /// </summary>
-    public Task<IList<UserResponseDTO>> ListUserByMenu(int? menuId)
+    public Task<IList<UserResultDTO>> ListUserByMenu(int? menuId)
     {
-        return SqlMapper.QueryAsync<UserResponseDTO>(new RequestContext
+        return SqlMapper.QueryAsync<UserResultDTO>(new RequestContext
         {
             Scope = nameof(UserMapper),
             SqlId = "ListUserByMenu",
@@ -50,9 +50,9 @@ public class UserMapper
     /// <summary>
     /// 사용자를 조회한다.
     /// </summary>
-    public Task<UserResponseDTO?> GetUser(GetUserRequestDTO dto)
+    public Task<UserResultDTO?> GetUser(GetUserRequestDTO dto)
     {
-        return SqlMapper.QuerySingleAsync<UserResponseDTO?>(new RequestContext
+        return SqlMapper.QuerySingleAsync<UserResultDTO?>(new RequestContext
         {
             Scope = nameof(UserMapper),
             SqlId = "GetUser",

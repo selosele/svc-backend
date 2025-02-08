@@ -12,11 +12,11 @@ public static class ClaimsPrincipalExtension
 {
     #region [메서드]
     /// <summary>
-    /// 인증된 사용자 정보를 UserResponseDTO에 담아서 반환한다.
+    /// 인증된 사용자 정보를 UserResultDTO에 담아서 반환한다.
     /// </summary>
-    public static UserResponseDTO GetUser(this ClaimsPrincipal principal)
+    public static UserResultDTO GetUser(this ClaimsPrincipal principal)
     {
-        var user = new UserResponseDTO
+        var user = new UserResultDTO
         {
             UserId = int.Parse(principal?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!),
             UserAccount = principal?.FindFirstValue(ClaimUtil.USER_ACCOUNT_IDENTIFIER),
@@ -47,7 +47,7 @@ public static class ClaimsPrincipalExtension
             .Select(x => x.Value)
             .ToList();
 
-        // UserResponseDTO의 권한 목록에 담아준다.
+        // UserResultDTO의 권한 목록에 담아준다.
         foreach (var roleId in roleList!)
         {
             user.Roles?.Add(new UserRoleResultDTO { RoleId = roleId, UserId = user.UserId });

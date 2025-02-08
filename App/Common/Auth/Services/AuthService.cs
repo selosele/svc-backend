@@ -339,7 +339,7 @@ public class AuthService
     /// <summary>
     /// 인증된 사용자 정보를 반환한다.
     /// </summary>
-    public UserResponseDTO GetAuthenticatedUser()
+    public UserResultDTO GetAuthenticatedUser()
     {
         var principal = _httpContextAccessor.HttpContext?.User;
         var isAuthenticated = principal!.Identity!.IsAuthenticated;

@@ -36,7 +36,10 @@ public class UserController : ControllerBase
     [HttpGet]
     [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
     public async Task<ActionResult<List<UserResponseDTO>>> ListUser([FromQuery] GetUserRequestDTO dto)
-        => Ok(await _userService.ListUser(dto));
+    {
+        var userList = await _userService.ListUser(dto);
+        return Ok(new UserResponseDTO { UserList = userList });
+    }
 
     /// <summary>
     /// 사용자를 조회한다.
@@ -44,7 +47,10 @@ public class UserController : ControllerBase
     [HttpGet("{userId}")]
     [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
     public async Task<ActionResult<UserResponseDTO>> GetUser(int userId)
-        => Ok(await _userService.GetUser(new GetUserRequestDTO { UserId = userId }));
+    {
+        var user = await _userService.GetUser(new GetUserRequestDTO { UserId = userId });
+        return Ok(new UserResponseDTO { User = user });
+    }
 
     /// <summary>
     /// 사용자 설정을 조회한다.
@@ -89,7 +95,10 @@ public class UserController : ControllerBase
     [HttpPost]
     [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
     public async Task<ActionResult<UserResponseDTO>> AddUser([FromBody] AddUserRequestDTO dto)
-        => Created(string.Empty, await _userService.AddUser(dto));
+    {
+        var user = await _userService.AddUser(dto);
+        return Created(string.Empty, new UserResponseDTO { User = user});
+    }
 
     /// <summary>
     /// 사용자를 수정한다.
@@ -99,7 +108,9 @@ public class UserController : ControllerBase
     public async Task<ActionResult<UserResponseDTO>> UpdateUser(int userId, [FromBody] UpdateUserRequestDTO dto)
     {
         dto.UserId = userId;
-        return Ok(await _userService.UpdateUser(dto));
+        
+        var user = await _userService.UpdateUser(dto);
+        return Ok(new UserResponseDTO { User = user});
     }
 
     /// <summary>

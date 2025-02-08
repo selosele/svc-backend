@@ -64,14 +64,14 @@ public class UserService
     /// 사용자 목록을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<IList<UserResponseDTO>> ListUser(GetUserRequestDTO? dto)
+    public async Task<IList<UserResultDTO>> ListUser(GetUserRequestDTO? dto)
         => await _userMapper.ListUser(dto);
 
     /// <summary>
     /// 사용자를 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<UserResponseDTO?> GetUser(GetUserRequestDTO dto)
+    public async Task<UserResultDTO?> GetUser(GetUserRequestDTO dto)
     {
         var user = await _userMapper.GetUser(dto);
         if (user != null)
@@ -112,7 +112,7 @@ public class UserService
     /// 사용자를 추가한다.
     /// </summary>
     [Transaction]
-    public async Task<UserResponseDTO?> AddUser(AddUserRequestDTO dto)
+    public async Task<UserResultDTO?> AddUser(AddUserRequestDTO dto)
     {
         // 1. 사용자 중복 체크를 한다.
         var foundUser = await GetUser(new GetUserRequestDTO { UserAccount = dto.UserAccount });
@@ -198,7 +198,7 @@ public class UserService
     /// 사용자를 수정한다.
     /// </summary>
     [Transaction]
-    public async Task<UserResponseDTO?> UpdateUser(UpdateUserRequestDTO dto)
+    public async Task<UserResultDTO?> UpdateUser(UpdateUserRequestDTO dto)
     {
         // 1. 직원 이메일주소 중복 체크를 한다.
         var foundEmailCount = await _employeeMapper.CountEmployeeEmailAddr(dto.Employee!.EmailAddr!, dto.Employee.EmployeeId);
