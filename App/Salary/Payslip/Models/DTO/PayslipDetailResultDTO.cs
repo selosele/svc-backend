@@ -1,9 +1,9 @@
 namespace Svc.App.Salary.Payslip.Models.DTO;
 
 /// <summary>
-/// 급여명세서 급여내역 상세 응답 DTO
+/// 급여명세서 급여내역 상세 조회 결과 DTO
 /// </summary>
-public record PayslipDetailResponseDTO
+public record PayslipDetailResultDTO
 {
     #region [필드]
     /// <summary>
