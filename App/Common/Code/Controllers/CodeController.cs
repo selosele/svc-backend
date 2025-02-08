@@ -36,7 +36,10 @@ public class CodeController : ControllerBase
     [HttpGet]
     [Authorize]
     public async Task<ActionResult<List<CodeResponseDTO>>> ListCode()
-        => Ok(await _codeService.ListCode());
+    {
+        var codeList = await _codeService.ListCode();
+        return Ok(new CodeResponseDTO { CodeList = codeList });
+    }
 
     /// <summary>
     /// 코드를 조회한다.
@@ -44,7 +47,10 @@ public class CodeController : ControllerBase
     [HttpGet("{codeId}")]
     [Authorize]
     public async Task<ActionResult<CodeResponseDTO>> GetCode(string codeId)
-        => Ok(await _codeService.GetCode(codeId));
+    {
+        var code = await _codeService.GetCode(codeId);
+        return Ok(new CodeResponseDTO { Code = code });
+    }
 
     /// <summary>
     /// 코드를 추가한다.
@@ -55,7 +61,9 @@ public class CodeController : ControllerBase
     {
         var user = _authService.GetAuthenticatedUser();
         dto.CreaterId = user.UserId;
-        return Created(string.Empty, await _codeService.AddCode(dto));
+
+        var code = await _codeService.AddCode(dto);
+        return Created(string.Empty, new CodeResponseDTO { Code = code });
     }
 
     /// <summary>
@@ -67,7 +75,9 @@ public class CodeController : ControllerBase
     {
         var user = _authService.GetAuthenticatedUser();
         dto.UpdaterId = user.UserId;
-        return Ok(await _codeService.UpdateCode(dto));
+
+        var code = await _codeService.UpdateCode(dto);
+        return Ok(new CodeResponseDTO { Code = code });
     }
 
     /// <summary>

@@ -23,9 +23,9 @@ public class CodeMapper
     /// <summary>
     /// 코드 목록을 조회한다.
     /// </summary>
-    public Task<IList<CodeResponseDTO>> ListCode()
+    public Task<IList<CodeResultDTO>> ListCode()
     {
-        return SqlMapper.QueryAsync<CodeResponseDTO>(new RequestContext
+        return SqlMapper.QueryAsync<CodeResultDTO>(new RequestContext
         {
             Scope = nameof(CodeMapper),
             SqlId = "ListCode"
@@ -35,9 +35,9 @@ public class CodeMapper
     /// <summary>
     /// 코드를 조회한다.
     /// </summary>
-    public Task<CodeResponseDTO> GetCode(string codeId)
+    public Task<CodeResultDTO> GetCode(string codeId)
     {
-        return SqlMapper.QuerySingleAsync<CodeResponseDTO>(new RequestContext
+        return SqlMapper.QuerySingleAsync<CodeResultDTO>(new RequestContext
         {
             Scope = nameof(CodeMapper),
             SqlId = "GetCode",

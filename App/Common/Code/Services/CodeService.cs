@@ -26,21 +26,21 @@ public class CodeService
     /// 코드 목록을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<IList<CodeResponseDTO>> ListCode()
+    public async Task<IList<CodeResultDTO>> ListCode()
         => await _codeMapper.ListCode();
 
     /// <summary>
     /// 코드를 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<CodeResponseDTO> GetCode(string codeId)
+    public async Task<CodeResultDTO> GetCode(string codeId)
         => await _codeMapper.GetCode(codeId);
 
     /// <summary>
     /// 코드를 추가한다.
     /// </summary>
     [Transaction]
-    public async Task<CodeResponseDTO> AddCode(SaveCodeRequestDTO dto)
+    public async Task<CodeResultDTO> AddCode(SaveCodeRequestDTO dto)
     {
         var codeId = await _codeMapper.AddCode(dto);
         return await _codeMapper.GetCode(codeId);
@@ -50,7 +50,7 @@ public class CodeService
     /// 코드를 수정한다.
     /// </summary>
     [Transaction]
-    public async Task<CodeResponseDTO> UpdateCode(SaveCodeRequestDTO dto)
+    public async Task<CodeResultDTO> UpdateCode(SaveCodeRequestDTO dto)
     {
         await _codeMapper.UpdateCode(dto);
         return await _codeMapper.GetCode(dto.CodeId!);
