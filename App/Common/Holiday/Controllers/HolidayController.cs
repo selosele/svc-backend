@@ -43,8 +43,9 @@ public class HolidayController : ControllerBase
             return NotFound();
 
         dto!.UserId = myUserId;
-        
-        return Ok(await _holidayService.ListHoliday(dto));
+
+        var holidayList = await _holidayService.ListHoliday(dto);
+        return Ok(new HolidayResponseDTO { HolidayList = holidayList });
     }
 
     /// <summary>
@@ -60,7 +61,8 @@ public class HolidayController : ControllerBase
         if (userId != myUserId)
             return NotFound();
 
-        return Ok(await _holidayService.GetHoliday(new GetHolidayRequestDTO { YMD = ymd, UserId = myUserId }));
+        var holiday = await _holidayService.GetHoliday(new GetHolidayRequestDTO { YMD = ymd, UserId = myUserId });
+        return Ok(new HolidayResponseDTO { Holiday = holiday });
     }
 
     /// <summary>
@@ -77,7 +79,9 @@ public class HolidayController : ControllerBase
             return NotFound();
 
         saveHolidayRequestDTO.CreaterId = myUserId;
-        return Created(string.Empty, await _holidayService.AddHoliday(saveHolidayRequestDTO));
+
+        var holiday = await _holidayService.AddHoliday(saveHolidayRequestDTO);
+        return Created(string.Empty, new HolidayResponseDTO { Holiday = holiday });
     }
 
     /// <summary>

@@ -7,44 +7,14 @@ public record HolidayResponseDTO
 {
     #region [필드]
     /// <summary>
-    /// 일자
+    /// 휴일
     /// </summary>
-    public string? YMD { get; set; }
+    public HolidayResultDTO? Holiday { get; set; }
 
     /// <summary>
-    /// 사용자 ID
+    /// 휴일 목록
     /// </summary>
-    public int? UserId { get; set; }
-    
-    /// <summary>
-    /// 연도
-    /// </summary>
-    public string? YYYY { get; set; }
-    
-    /// <summary>
-    /// 월
-    /// </summary>
-    public string? MM { get; set; }
-    
-    /// <summary>
-    /// 일
-    /// </summary>
-    public string? DD { get; set; }
-    
-    /// <summary>
-    /// 휴일명
-    /// </summary>
-    public string? HolidayName { get; set; }
-    
-    /// <summary>
-    /// 휴일 내용
-    /// </summary>
-    public string? HolidayContent { get; set; }
-    
-    /// <summary>
-    /// 사용 여부
-    /// </summary>
-    public string? UseYn { get; set; }
+    public IList<HolidayResultDTO>? HolidayList { get; set; }
     #endregion
     
 }

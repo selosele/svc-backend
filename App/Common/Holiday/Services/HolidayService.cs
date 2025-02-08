@@ -31,21 +31,21 @@ public class HolidayService
     /// 휴일 목록을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<IList<HolidayResponseDTO>> ListHoliday(GetHolidayRequestDTO? dto)
+    public async Task<IList<HolidayResultDTO>> ListHoliday(GetHolidayRequestDTO? dto)
         => await _holidayMapper.ListHoliday(dto);
 
     /// <summary>
     /// 휴일을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<HolidayResponseDTO> GetHoliday(GetHolidayRequestDTO dto)
+    public async Task<HolidayResultDTO> GetHoliday(GetHolidayRequestDTO dto)
         => await _holidayMapper.GetHoliday(dto);
 
     /// <summary>
     /// 휴일을 추가한다.
     /// </summary>
     [Transaction]
-    public async Task<HolidayResponseDTO> AddHoliday(SaveHolidayRequestDTO dto)
+    public async Task<HolidayResultDTO> AddHoliday(SaveHolidayRequestDTO dto)
     {
         // 1. 휴일을 추가한다.
         var holidayId = await _holidayMapper.AddHoliday(dto);

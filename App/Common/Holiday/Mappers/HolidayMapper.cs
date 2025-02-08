@@ -23,9 +23,9 @@ public class HolidayMapper
     /// <summary>
     /// 휴일 목록을 조회한다.
     /// </summary>
-    public Task<IList<HolidayResponseDTO>> ListHoliday(GetHolidayRequestDTO? dto)
+    public Task<IList<HolidayResultDTO>> ListHoliday(GetHolidayRequestDTO? dto)
     {
-        return SqlMapper.QueryAsync<HolidayResponseDTO>(new RequestContext
+        return SqlMapper.QueryAsync<HolidayResultDTO>(new RequestContext
         {
             Scope = nameof(HolidayMapper),
             SqlId = "ListHoliday",
@@ -36,9 +36,9 @@ public class HolidayMapper
     /// <summary>
     /// 휴일을 조회한다.
     /// </summary>
-    public Task<HolidayResponseDTO> GetHoliday(GetHolidayRequestDTO dto)
+    public Task<HolidayResultDTO> GetHoliday(GetHolidayRequestDTO dto)
     {
-        return SqlMapper.QuerySingleAsync<HolidayResponseDTO>(new RequestContext
+        return SqlMapper.QuerySingleAsync<HolidayResultDTO>(new RequestContext
         {
             Scope = nameof(HolidayMapper),
             SqlId = "GetHoliday",
