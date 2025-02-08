@@ -59,7 +59,8 @@ public class UserController : ControllerBase
         if (userId != myUserId)
             return NotFound();
 
-        return Ok(await _userService.GetUserSetup(new GetUserSetupRequestDTO { UserId = userId }));
+        var userSetup = await _userService.GetUserSetup(new GetUserSetupRequestDTO { UserId = userId });
+        return Ok(new UserSetupResponseDTO { UserSetup = userSetup });
     }
 
     /// <summary>
@@ -78,7 +79,8 @@ public class UserController : ControllerBase
         dto.UserId = myUserId;
         dto.CreaterId = myUserId;
 
-        return Created(string.Empty, await _userService.AddUserSetup(dto));
+        var userSetup = await _userService.AddUserSetup(dto);
+        return Created(string.Empty, new UserSetupResponseDTO { UserSetup = userSetup });
     }
 
     /// <summary>

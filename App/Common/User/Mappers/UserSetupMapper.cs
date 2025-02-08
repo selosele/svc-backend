@@ -23,9 +23,9 @@ public class UserSetupMapper
     /// <summary>
     /// 사용자 설정을 조회한다.
     /// </summary>
-    public Task<UserSetupResponseDTO> GetUserSetup(GetUserSetupRequestDTO dto)
+    public Task<UserSetupResultDTO> GetUserSetup(GetUserSetupRequestDTO dto)
     {
-        return SqlMapper.QuerySingleAsync<UserSetupResponseDTO>(new RequestContext
+        return SqlMapper.QuerySingleAsync<UserSetupResultDTO>(new RequestContext
         {
             Scope = nameof(UserSetupMapper),
             SqlId = "GetUserSetup",

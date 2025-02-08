@@ -95,14 +95,14 @@ public class UserService
     /// 사용자 설정을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<UserSetupResponseDTO> GetUserSetup(GetUserSetupRequestDTO dto)
+    public async Task<UserSetupResultDTO> GetUserSetup(GetUserSetupRequestDTO dto)
         => await _userSetupMapper.GetUserSetup(dto);
 
     /// <summary>
     /// 사용자 설정을 추가한다.
     /// </summary>
     [Transaction]
-    public async Task<UserSetupResponseDTO> AddUserSetup(AddUserSetupRequestDTO dto)
+    public async Task<UserSetupResultDTO> AddUserSetup(AddUserSetupRequestDTO dto)
     {
         var userSetupId = await _userSetupMapper.AddUserSetup(dto);
         return await _userSetupMapper.GetUserSetup(new GetUserSetupRequestDTO { UserSetupId = userSetupId });

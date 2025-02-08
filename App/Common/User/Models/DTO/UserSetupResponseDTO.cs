@@ -7,19 +7,14 @@ public record UserSetupResponseDTO
 {
     #region [필드]
     /// <summary>
-    /// 사용자 설정 ID
+    /// 사용자 설정
     /// </summary>
-    public int? UserSetupId { get; set; }
+    public UserSetupResultDTO? UserSetup { get; set; }
 
     /// <summary>
-    /// 사용자 ID
+    /// 사용자 설정 목록
     /// </summary>
-    public int? UserId { get; set; }
-
-    /// <summary>
-    /// 사이트타이틀명
-    /// </summary>
-    public string? SiteTitleName { get; set; }
+    public IList<UserSetupResultDTO>? UserSetupList { get; set; }
     #endregion
 
 }
