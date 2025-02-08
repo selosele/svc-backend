@@ -23,9 +23,9 @@ public class BoardMapper
     /// <summary>
     /// 게시판 목록을 조회한다.
     /// </summary>
-    public Task<IList<BoardResponseDTO>> ListBoard(GetBoardRequestDTO? dto)
+    public Task<IList<BoardResultDTO>> ListBoard(GetBoardRequestDTO? dto)
     {
-        return SqlMapper.QueryAsync<BoardResponseDTO>(new RequestContext
+        return SqlMapper.QueryAsync<BoardResultDTO>(new RequestContext
         {
             Scope = nameof(BoardMapper),
             SqlId = "ListBoard",
@@ -36,9 +36,9 @@ public class BoardMapper
     /// <summary>
     /// 메인화면 게시판 목록을 조회한다.
     /// </summary>
-    public Task<IList<BoardResponseDTO>> ListMainBoard(GetBoardRequestDTO? dto)
+    public Task<IList<BoardResultDTO>> ListMainBoard(GetBoardRequestDTO? dto)
     {
-        return SqlMapper.QueryAsync<BoardResponseDTO>(new RequestContext
+        return SqlMapper.QueryAsync<BoardResultDTO>(new RequestContext
         {
             Scope = nameof(BoardMapper),
             SqlId = "ListMainBoard",
@@ -49,9 +49,9 @@ public class BoardMapper
     /// <summary>
     /// 게시판을 조회한다.
     /// </summary>
-    public Task<BoardResponseDTO> GetBoard(int? boardId)
+    public Task<BoardResultDTO> GetBoard(int? boardId)
     {
-        return SqlMapper.QuerySingleAsync<BoardResponseDTO>(new RequestContext
+        return SqlMapper.QuerySingleAsync<BoardResultDTO>(new RequestContext
         {
             Scope = nameof(BoardMapper),
             SqlId = "GetBoard",

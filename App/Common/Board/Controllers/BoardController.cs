@@ -36,7 +36,10 @@ public class BoardController : ControllerBase
     [HttpGet]
     [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
     public async Task<ActionResult<List<BoardResponseDTO>>> ListBoard([FromQuery] GetBoardRequestDTO? dto)
-        => Ok(await _boardService.ListBoard(dto));
+    {
+        var boardList = await _boardService.ListBoard(dto);
+        return Ok(new BoardResponseDTO { BoardList = boardList });
+    }
 
     /// <summary>
     /// 메인화면 게시판 목록을 조회한다.
@@ -44,14 +47,20 @@ public class BoardController : ControllerBase
     [HttpGet("main")]
     [Authorize]
     public async Task<ActionResult<List<BoardResponseDTO>>> ListMainBoard([FromQuery] GetBoardRequestDTO? dto)
-        => Ok(await _boardService.ListMainBoard(dto));
+    {
+        var boardList = await _boardService.ListMainBoard(dto);
+        return Ok(new BoardResponseDTO { BoardList = boardList });
+    }
 
     /// <summary>
     /// 게시판을 조회한다.
     /// </summary>
     [HttpGet("{boardId}")]
     public async Task<ActionResult<BoardResponseDTO>> GetBoard(int boardId)
-        => Ok(await _boardService.GetBoard(boardId));
+    {
+        var board = await _boardService.GetBoard(boardId);
+        return Ok(new BoardResponseDTO { Board = board });
+    }
 
     /// <summary>
     /// 게시판을 추가한다.
@@ -62,7 +71,9 @@ public class BoardController : ControllerBase
     {
         var user = _authService.GetAuthenticatedUser();
         dto.CreaterId = user.UserId;
-        return Created(string.Empty, await _boardService.AddBoard(dto));
+
+        var board = await _boardService.AddBoard(dto);
+        return Created(string.Empty, new BoardResponseDTO { Board = board });
     }
 
     /// <summary>
@@ -74,7 +85,9 @@ public class BoardController : ControllerBase
     {
         var user = _authService.GetAuthenticatedUser();
         dto.UpdaterId = user.UserId;
-        return Ok(await _boardService.UpdateBoard(dto));
+
+        var board = await _boardService.UpdateBoard(dto);
+        return Ok(new BoardResponseDTO { Board = board });
     }
 
     /// <summary>

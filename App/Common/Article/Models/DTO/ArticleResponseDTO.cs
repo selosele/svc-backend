@@ -11,7 +11,7 @@ public record ArticleResponseDTO
     /// <summary>
     /// 게시판
     /// </summary>
-    public BoardResponseDTO? Board { get; set; }
+    public BoardResultDTO? Board { get; set; }
 
     /// <summary>
     /// 게시글
