@@ -39,7 +39,10 @@ public class NotificationController : ControllerBase
         var user = _authService.GetAuthenticatedUser();
         dto!.UserId = user.UserId;
 
-        return Ok(await _notificationService.ListAndCountNotification(dto));
+        var count = await _notificationService.CountNotification(dto);
+        var list = await _notificationService.ListNotification(dto);
+
+        return Ok(new NotificationResponseDTO { NotificationTotal = count, NotificationList = list });
     }
 
     /// <summary>

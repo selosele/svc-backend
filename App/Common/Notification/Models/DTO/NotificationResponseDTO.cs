@@ -7,14 +7,19 @@ public record NotificationResponseDTO
 {
     #region [필드]
     /// <summary>
-    /// 알림 개수
+    /// 알림
     /// </summary>
-    public int Total { get; set; }
-    
+    public NotificationResultDTO? Notification { get; set; }
+
     /// <summary>
     /// 알림 목록
     /// </summary>
-    public IList<NotificationResultDTO>? List { get; set; }
+    public IList<NotificationResultDTO>? NotificationList { get; set; }
+
+    /// <summary>
+    /// 알림 개수
+    /// </summary>
+    public int NotificationTotal { get; set; }
     #endregion
 
 }

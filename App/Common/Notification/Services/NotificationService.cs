@@ -24,15 +24,18 @@ public class NotificationService
 
     #region [메서드]
     /// <summary>
-    /// 알림 개수 및 목록을 조회한다.
+    /// 알림 개수를 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<NotificationResponseDTO> ListAndCountNotification(GetNotificationRequestDTO? dto)
-    {
-        var count = await _notificationMapper.CountNotification(dto);
-        var list = await _notificationMapper.ListNotification(dto);
-        return new NotificationResponseDTO { Total = count, List = list };
-    }
+    public async Task<int> CountNotification(GetNotificationRequestDTO? dto)
+        => await _notificationMapper.CountNotification(dto);
+
+    /// <summary>
+    /// 알림 목록을 조회한다.
+    /// </summary>
+    [Transaction]
+    public async Task<IList<NotificationResultDTO>> ListNotification(GetNotificationRequestDTO? dto)
+        => await _notificationMapper.ListNotification(dto);
 
     /// <summary>
     /// 알림을 확인처리한다.
