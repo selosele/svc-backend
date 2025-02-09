@@ -118,29 +118,32 @@ public class CompanyService
     /// 회사등록신청 목록을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<IList<CompanyApplyResponseDTO>> ListCompanyApply(GetCompanyApplyRequestDTO? dto)
+    public async Task<IList<CompanyApplyResultDTO>> ListCompanyApply(GetCompanyApplyRequestDTO? dto)
         => await _companyApplyMapper.ListCompanyApply(dto);
 
     /// <summary>
     /// 회사등록신청을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<CompanyApplyResponseDTO> GetCompanyApply(int companyApplyId)
+    public async Task<CompanyApplyResultDTO> GetCompanyApply(int companyApplyId)
         => await _companyApplyMapper.GetCompanyApply(companyApplyId);
 
     /// <summary>
     /// 회사등록신청을 추가한다.
     /// </summary>
     [Transaction]
-    public async Task<int> AddCompanyApply(SaveCompanyApplyRequestDTO dto)
+    public async Task<CompanyApplyResultDTO> AddCompanyApply(SaveCompanyApplyRequestDTO dto)
     {
         // 회사 정보가 존재하는지 확인해서
         var count = await _companyMapper.CountCompany(new GetCompanyRequestDTO { RegistrationNo = dto.RegistrationNo });
         if (count > 0)
             throw new BizException("이미 존재하는 회사 정보에요. 사업자등록번호를 다시 확인해주세요.");
         
-        // 없으면 등록신청을 추가한다.
-        return await _companyApplyMapper.AddCompanyApply(dto);
+        // 없으면 등록신청을 추가하고
+        var companyApplyId = await _companyApplyMapper.AddCompanyApply(dto);
+
+        // 추가한 등록신청을 조회해서 반환한다.
+        return await _companyApplyMapper.GetCompanyApply(companyApplyId);
     }
 
     /// <summary>

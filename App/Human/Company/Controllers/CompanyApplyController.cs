@@ -41,7 +41,8 @@ public class CompanyApplyController : ControllerBase
         if (!_authService.HasRole(RoleUtil.SYSTEM_ADMIN))
             dto.ApplicantId = user.UserId;
 
-        return Ok(await _companyService.ListCompanyApply(dto));
+        var companyApplyList = await _companyService.ListCompanyApply(dto);
+        return Ok(new CompanyApplyResponseDTO { CompanyApplyList = companyApplyList });
     }
 
     /// <summary>
@@ -50,20 +51,24 @@ public class CompanyApplyController : ControllerBase
     [HttpGet("{companyApplyId}")]
     [Authorize]
     public async Task<ActionResult<CompanyApplyResponseDTO>> GetCompanyApply(int companyApplyId)
-        => Ok(await _companyService.GetCompanyApply(companyApplyId));
+    {
+        var companyApply = await _companyService.GetCompanyApply(companyApplyId);
+        return Ok(new CompanyApplyResponseDTO { CompanyApply = companyApply });
+    }
 
     /// <summary>
     /// 회사등록신청을 추가한다.
     /// </summary>
     [HttpPost]
     [Authorize]
-    public async Task<ActionResult<int>> AddCompanyApply([FromBody] SaveCompanyApplyRequestDTO dto)
+    public async Task<ActionResult<CompanyApplyResponseDTO>> AddCompanyApply([FromBody] SaveCompanyApplyRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
         dto.CreaterId = user.UserId;
         dto.ApplyStateCode = "NEW";
 
-        return Created(string.Empty, await _companyService.AddCompanyApply(dto));
+        var companyApply = await _companyService.AddCompanyApply(dto);
+        return Created(string.Empty, new CompanyApplyResponseDTO { CompanyApply = companyApply });
     }
 
     /// <summary>
