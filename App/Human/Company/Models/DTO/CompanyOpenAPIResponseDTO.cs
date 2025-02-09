@@ -141,7 +141,7 @@ public record CompanyOpenAPIResponseDTO
     public string? EnpKosdaqLstgDt { get; set; }
 
     /// <summary>
-    /// 기업의 주식이 코스닥 시장에 상장 페지된 일자
+    /// 기업의 주식이 코스닥 시장에 상장 폐지된 일자
     /// </summary>
     [JsonProperty("enpKosdaqLstgAbolDt")]
     public string? EnpKosdaqLstgAbolDt { get; set; }
