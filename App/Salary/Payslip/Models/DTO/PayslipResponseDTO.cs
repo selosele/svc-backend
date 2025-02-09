@@ -14,7 +14,7 @@ public record PayslipResponseDTO
     /// <summary>
     /// 급여명세서 급여내역 상세
     /// </summary>
-    public PayslipDetailResultDTO? PayslipDetail { get; set; }
+    public PayslipSalaryDetailResultDTO? PayslipSalaryDetail { get; set; }
 
     /// <summary>
     /// 급여명세서 목록
