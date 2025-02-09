@@ -20,7 +20,7 @@ public static class ClaimsPrincipalExtension
         {
             UserId = int.Parse(principal?.FindFirstValue(ClaimUtil.USER_ID_IDENTIFIER)!),
             UserAccount = principal?.FindFirstValue(ClaimUtil.USER_ACCOUNT_IDENTIFIER),
-            Employee = new EmployeeResponseDTO
+            Employee = new EmployeeResultDTO
             {
                 EmployeeId = int.Parse(principal?.FindFirstValue(ClaimUtil.EMPLOYEE_ID_IDENTIFIER)!),
                 EmployeeName = principal?.FindFirstValue(ClaimUtil.EMPLOYEE_NAME_IDENTIFIER),

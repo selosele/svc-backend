@@ -23,9 +23,9 @@ public class EmployeeMapper
     /// <summary>
     /// 직원을 조회한다.
     /// </summary>
-    public Task<EmployeeResponseDTO> GetEmployee(GetEmployeeRequestDTO dto)
+    public Task<EmployeeResultDTO> GetEmployee(GetEmployeeRequestDTO dto)
     {
-        return SqlMapper.QuerySingleAsync<EmployeeResponseDTO>(new RequestContext
+        return SqlMapper.QuerySingleAsync<EmployeeResultDTO>(new RequestContext
         {
             Scope = nameof(EmployeeMapper),
             SqlId = "GetEmployee",

@@ -35,7 +35,7 @@ public class EmployeeService
     /// 직원을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<EmployeeResponseDTO?> GetEmployee(GetEmployeeRequestDTO dto)
+    public async Task<EmployeeResultDTO?> GetEmployee(GetEmployeeRequestDTO dto)
     {
         var employee = await _employeeMapper.GetEmployee(dto);
         if (employee != null)
@@ -53,7 +53,7 @@ public class EmployeeService
     /// 직원을 수정한다.
     /// </summary>
     [Transaction]
-    public async Task<EmployeeResponseDTO?> UpdateEmployee(UpdateEmployeeRequestDTO dto)
+    public async Task<EmployeeResultDTO?> UpdateEmployee(UpdateEmployeeRequestDTO dto)
     {
         await _employeeMapper.UpdateEmployee(dto);
         return await GetEmployee(new GetEmployeeRequestDTO { EmployeeId = dto.EmployeeId });

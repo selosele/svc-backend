@@ -7,49 +7,14 @@ public record EmployeeResponseDTO
 {
     #region [필드]
     /// <summary>
-    /// 직원 ID
+    /// 직원
     /// </summary>
-    public int? EmployeeId { get; set; }
+    public EmployeeResultDTO? Employee { get; set; }
 
     /// <summary>
-    /// 사용자 ID
+    /// 직원 목록
     /// </summary>
-    public int? UserId { get; set; }
-
-    /// <summary>
-    /// 직원명
-    /// </summary>
-    public string? EmployeeName { get; set; }
-    
-    /// <summary>
-    /// 성별 코드
-    /// </summary>
-    public string? GenderCode { get; set; }
-    
-    /// <summary>
-    /// 생년월일
-    /// </summary>
-    public string? BirthYmd { get; set; }
-    
-    /// <summary>
-    /// 휴대폰번호
-    /// </summary>
-    public string? PhoneNo { get; set; }
-
-    /// <summary>
-    /// 이메일주소
-    /// </summary>
-    public string? EmailAddr { get; set; }
-    
-    /// <summary>
-    /// 사용자 마지막 로그인 일시
-    /// </summary>
-    public string? LastLoginDt { get; set; }
-
-    /// <summary>
-    /// 근무이력 목록
-    /// </summary>
-    public IList<WorkHistoryResultDTO>? WorkHistoryList { get; set; } = [];
+    public IList<EmployeeResultDTO>? EmployeeList { get; set; }
     #endregion
 
 }

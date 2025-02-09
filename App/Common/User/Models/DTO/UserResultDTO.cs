@@ -81,7 +81,7 @@ public record UserResultDTO
     /// <summary>
     /// 직원 정보
     /// </summary>
-    public EmployeeResponseDTO? Employee { get; set; }
+    public EmployeeResultDTO? Employee { get; set; }
     #endregion
     
 }

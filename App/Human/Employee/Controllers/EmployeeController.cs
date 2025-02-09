@@ -42,7 +42,8 @@ public class EmployeeController : ControllerBase
         if (employeeId != myEmployeeId)
             return NotFound();
         
-        return Ok(await _employeeService.GetEmployee(new GetEmployeeRequestDTO { EmployeeId = employeeId }));
+        var employee = await _employeeService.GetEmployee(new GetEmployeeRequestDTO { EmployeeId = employeeId });
+        return Ok(new EmployeeResponseDTO { Employee = employee });
     }
 
     /// <summary>
@@ -59,7 +60,9 @@ public class EmployeeController : ControllerBase
             return NotFound();
 
         dto.UpdaterId = user.UserId;
-        return Ok(await _employeeService.UpdateEmployee(dto));
+
+        var employee = await _employeeService.UpdateEmployee(dto);
+        return Ok(new EmployeeResponseDTO { Employee = employee });
     }
 
     /// <summary>
