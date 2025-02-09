@@ -7,14 +7,14 @@ public record VacationByMonthResponseDTO
 {
     #region [필드]
     /// <summary>
-    /// 휴가 사용일수
+    /// 월별 휴가사용일수
     /// </summary>
-    public double? VacationUseCount { get; set; }
+    public VacationByMonthResultDTO? VacationByMonth { get; set; }
 
     /// <summary>
-    /// 휴가 사용 월
+    /// 월별 휴가사용일수 목록
     /// </summary>
-    public string? VacationMonth { get; set; }
+    public IList<VacationByMonthResultDTO>? VacationByMonthList { get; set; }
     #endregion
 
 }

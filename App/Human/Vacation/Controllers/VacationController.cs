@@ -151,7 +151,10 @@ public class VacationController : ControllerBase
     [HttpGet("stats/month")]
     [Authorize]
     public async Task<ActionResult<List<VacationByMonthResponseDTO>>> ListVacationByMonth([FromQuery] GetVacationByMonthRequestDTO dto)
-        => Ok(await _vacationService.ListVacationByMonth(dto));
+    {
+        var vacationByMonthList = await _vacationService.ListVacationByMonth(dto);
+        return Ok(new VacationByMonthResponseDTO { VacationByMonthList = vacationByMonthList });
+    }
     #endregion
 
 }

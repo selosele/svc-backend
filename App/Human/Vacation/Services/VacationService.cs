@@ -136,7 +136,7 @@ public class VacationService
     /// 월별 휴가사용일수 목록을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<IList<VacationByMonthResponseDTO>> ListVacationByMonth(GetVacationByMonthRequestDTO dto)
+    public async Task<IList<VacationByMonthResultDTO>> ListVacationByMonth(GetVacationByMonthRequestDTO dto)
         => await _vacationMapper.ListVacationByMonth(dto);
     #endregion
     

@@ -101,9 +101,9 @@ public class VacationMapper
     /// <summary>
     /// 월별 휴가사용일수 목록을 조회한다.
     /// </summary>
-    public Task<IList<VacationByMonthResponseDTO>> ListVacationByMonth(GetVacationByMonthRequestDTO dto)
+    public Task<IList<VacationByMonthResultDTO>> ListVacationByMonth(GetVacationByMonthRequestDTO dto)
     {
-        return SqlMapper.QueryAsync<VacationByMonthResponseDTO>(new RequestContext
+        return SqlMapper.QueryAsync<VacationByMonthResultDTO>(new RequestContext
         {
             Scope = nameof(VacationMapper),
             SqlId = "ListVacationByMonth",
