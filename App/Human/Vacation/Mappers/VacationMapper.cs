@@ -23,9 +23,9 @@ public class VacationMapper
     /// <summary>
     /// 휴가 목록을 조회한다.
     /// </summary>
-    public Task<IList<VacationResponseDTO>> ListVacation(GetVacationRequestDTO dto)
+    public Task<IList<VacationResultDTO>> ListVacation(GetVacationRequestDTO dto)
     {
-        return SqlMapper.QueryAsync<VacationResponseDTO>(new RequestContext
+        return SqlMapper.QueryAsync<VacationResultDTO>(new RequestContext
         {
             Scope = nameof(VacationMapper),
             SqlId = "ListVacation",
@@ -36,9 +36,9 @@ public class VacationMapper
     /// <summary>
     /// 휴가를 조회한다.
     /// </summary>
-    public Task<VacationResponseDTO> GetVacation(int vacationId)
+    public Task<VacationResultDTO> GetVacation(int vacationId)
     {
-        return SqlMapper.QuerySingleAsync<VacationResponseDTO>(new RequestContext
+        return SqlMapper.QuerySingleAsync<VacationResultDTO>(new RequestContext
         {
             Scope = nameof(VacationMapper),
             SqlId = "GetVacation",

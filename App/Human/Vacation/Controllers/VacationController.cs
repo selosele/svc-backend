@@ -42,7 +42,8 @@ public class VacationController : ControllerBase
         if (myUserId != dto.UserId)
             return NotFound();
 
-        return Ok(await _vacationService.ListVacation(dto));
+        var vacationList = await _vacationService.ListVacation(dto);
+        return Ok(new VacationResponseDTO { VacationList = vacationList });
     }
 
     /// <summary>
@@ -51,7 +52,10 @@ public class VacationController : ControllerBase
     [HttpGet("{vacationId}")]
     [Authorize]
     public async Task<ActionResult<VacationResponseDTO>> GetVacation(int vacationId)
-        => Ok(await _vacationService.GetVacation(vacationId));
+    {
+        var vacation = await _vacationService.GetVacation(vacationId);
+        return Ok(new VacationResponseDTO { Vacation = vacation });
+    }
 
     /// <summary>
     /// 휴가를 추가한다.
@@ -65,7 +69,8 @@ public class VacationController : ControllerBase
         dto.CreaterId = user.UserId;
         dto.EmployeeId = user.Employee?.EmployeeId;
 
-        return Created(string.Empty, await _vacationService.AddVacation(dto));
+        var vacation = await _vacationService.AddVacation(dto);
+        return Created(string.Empty, new VacationResponseDTO { Vacation = vacation });
     }
 
     /// <summary>
@@ -77,7 +82,7 @@ public class VacationController : ControllerBase
     {
         var user = _authService.GetAuthenticatedUser();
         dto.UpdaterId = user.UserId;
-        return await _vacationService.UpdateVacation(dto);
+        return Ok(await _vacationService.UpdateVacation(dto));
     }
 
     /// <summary>
@@ -98,7 +103,10 @@ public class VacationController : ControllerBase
     [HttpGet("calcs/{workHistoryId}")]
     [Authorize]
     public async Task<ActionResult<List<VacationCalcResponseDTO>>> ListVacationCalc(int workHistoryId)
-        => Ok(await _vacationService.ListVacationCalc(workHistoryId));
+    {
+        var vacationCalcList = await _vacationService.ListVacationCalc(workHistoryId);
+        return Ok(new VacationCalcResponseDTO { VacationCalcList = vacationCalcList });
+    }
 
     /// <summary>
     /// 휴가 계산 설정을 추가한다.

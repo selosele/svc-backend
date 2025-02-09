@@ -23,9 +23,9 @@ public class VacationCalcMapper
     /// <summary>
     /// 휴가 계산 설정 목록을 조회한다.
     /// </summary>
-    public Task<IList<VacationCalcResponseDTO>> ListVacationCalc(int? workHistoryId)
+    public Task<IList<VacationCalcResultDTO>> ListVacationCalc(int? workHistoryId)
     {
-        return SqlMapper.QueryAsync<VacationCalcResponseDTO>(new RequestContext
+        return SqlMapper.QueryAsync<VacationCalcResultDTO>(new RequestContext
         {
             Scope = nameof(VacationCalcMapper),
             SqlId = "ListVacationCalc",

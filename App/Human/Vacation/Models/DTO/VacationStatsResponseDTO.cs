@@ -19,7 +19,7 @@ public record VacationStatsResponseDTO
     /// <summary>
     /// 휴가 목록
     /// </summary>
-    public IList<VacationResponseDTO>? VacationList { get; set; }
+    public IList<VacationResultDTO>? VacationList { get; set; }
     #endregion
 
 }

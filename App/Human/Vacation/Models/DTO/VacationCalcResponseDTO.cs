@@ -7,29 +7,14 @@ public record VacationCalcResponseDTO
 {
     #region [필드]
     /// <summary>
-    /// 휴가 계산 설정 ID
+    /// 휴가 계산 설정
     /// </summary>
-    public int? VacationCalcId { get; set; }
+    public VacationCalcResultDTO? VacationCalc { get; set; }
 
     /// <summary>
-    /// 근무이력 ID
+    /// 휴가 계산 설정 목록
     /// </summary>
-    public int? WorkHistoryId { get; set; }
-
-    /// <summary>
-    /// 직원 ID
-    /// </summary>
-    public int? EmployeeId { get; set; }
-
-    /// <summary>
-    /// 연차발생기준코드
-    /// </summary>
-    public string? AnnualTypeCode { get; set; }
-
-    /// <summary>
-    /// 휴가 구분 코드
-    /// </summary>
-    public string? VacationTypeCode { get; set; }
+    public IList<VacationCalcResultDTO>? VacationCalcList { get; set; }
     #endregion
 
 }
