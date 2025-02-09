@@ -76,7 +76,9 @@ public class EmployeeController : ControllerBase
             return NotFound();
 
         dto.UserId = user.UserId;
-        return Ok(await _employeeService.ListWorkHistory(dto));
+
+        var workHistoryList = await _employeeService.ListWorkHistory(dto);
+        return Ok(new WorkHistoryResponseDTO { WorkHistoryList = workHistoryList });
     }
     
     /// <summary>
@@ -92,7 +94,8 @@ public class EmployeeController : ControllerBase
         if (employeeId != myEmployeeId)
             return NotFound();
         
-        return Ok(await _employeeService.GetWorkHistory(new GetWorkHistoryRequestDTO { WorkHistoryId = workHistoryId }));
+        var workHistory = await _employeeService.GetWorkHistory(new GetWorkHistoryRequestDTO { WorkHistoryId = workHistoryId });
+        return Ok(new WorkHistoryResponseDTO { WorkHistory = workHistory });
     }
 
     /// <summary>
@@ -112,7 +115,8 @@ public class EmployeeController : ControllerBase
         dto.CreaterId = user.UserId;
         dto.UpdaterId = user.UserId;
 
-        return Created(string.Empty, await _employeeService.AddWorkHistory(dto));
+        var workHistory = await _employeeService.AddWorkHistory(dto);
+        return Created(string.Empty, new WorkHistoryResponseDTO { WorkHistory = workHistory });
     }
 
     /// <summary>

@@ -125,7 +125,7 @@ public class VacationController : ControllerBase
     {
         var user = _authService.GetAuthenticatedUser();
         var myUserId = user.UserId;
-        var myWorkHistoryId = user.Employee!.WorkHistories![0].WorkHistoryId;
+        var myWorkHistoryId = user.Employee!.WorkHistoryList![0].WorkHistoryId;
 
         if (dto.UserId != myUserId)
             return NotFound();

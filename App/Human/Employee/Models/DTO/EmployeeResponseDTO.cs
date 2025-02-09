@@ -47,9 +47,9 @@ public record EmployeeResponseDTO
     public string? LastLoginDt { get; set; }
 
     /// <summary>
-    /// 근무이력 정보
+    /// 근무이력 목록
     /// </summary>
-    public IList<WorkHistoryResponseDTO>? WorkHistories { get; set; } = [];
+    public IList<WorkHistoryResultDTO>? WorkHistoryList { get; set; } = [];
     #endregion
 
 }

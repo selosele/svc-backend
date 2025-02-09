@@ -154,7 +154,7 @@ public class AuthService
 
             if (user.Employee != null)
             {
-                user.Employee.WorkHistories = await _workHistoryMapper.ListWorkHistory(new GetWorkHistoryRequestDTO
+                user.Employee.WorkHistoryList = await _workHistoryMapper.ListWorkHistory(new GetWorkHistoryRequestDTO
                 {
                     UserId = user.UserId,
                     EmployeeId = user.Employee.EmployeeId
@@ -390,14 +390,14 @@ public class AuthService
         {
             new(ClaimUtil.USER_ID_IDENTIFIER, user.UserId.ToString()!),
             new(ClaimUtil.USER_ACCOUNT_IDENTIFIER, user.UserAccount!),
-            new(ClaimUtil.WORK_HISTORY_ID_IDENTIFIER, user.Employee!.WorkHistories![0].WorkHistoryId.ToString()! ?? ""),
-            new(ClaimUtil.COMPANY_NAME_IDENTIFIER, user.Employee!.WorkHistories![0].CompanyName?.ToString()! ?? ""),
-            new(ClaimUtil.RANK_CODE_IDENTIFIER, user.Employee!.WorkHistories![0].RankCode?.ToString()! ?? ""),
-            new(ClaimUtil.RANK_CODE_NAME_IDENTIFIER, user.Employee!.WorkHistories![0].RankCodeName?.ToString()! ?? ""),
-            new(ClaimUtil.JOB_TITLE_CODE_IDENTIFIER, user.Employee!.WorkHistories![0].JobTitleCode?.ToString()! ?? ""),
-            new(ClaimUtil.JOB_TITLE_CODE_NAME_IDENTIFIER, user.Employee!.WorkHistories![0].JobTitleCodeName?.ToString()! ?? ""),
-            new(ClaimUtil.JOIN_YMD_IDENTIFIER, user.Employee!.WorkHistories![0].JoinYmd?.ToString()! ?? ""),
-            new(ClaimUtil.QUIT_YMD_IDENTIFIER, user.Employee!.WorkHistories![0].QuitYmd?.ToString()! ?? ""),
+            new(ClaimUtil.WORK_HISTORY_ID_IDENTIFIER, user.Employee!.WorkHistoryList![0].WorkHistoryId.ToString()! ?? ""),
+            new(ClaimUtil.COMPANY_NAME_IDENTIFIER, user.Employee!.WorkHistoryList![0].CompanyName?.ToString()! ?? ""),
+            new(ClaimUtil.RANK_CODE_IDENTIFIER, user.Employee!.WorkHistoryList![0].RankCode?.ToString()! ?? ""),
+            new(ClaimUtil.RANK_CODE_NAME_IDENTIFIER, user.Employee!.WorkHistoryList![0].RankCodeName?.ToString()! ?? ""),
+            new(ClaimUtil.JOB_TITLE_CODE_IDENTIFIER, user.Employee!.WorkHistoryList![0].JobTitleCode?.ToString()! ?? ""),
+            new(ClaimUtil.JOB_TITLE_CODE_NAME_IDENTIFIER, user.Employee!.WorkHistoryList![0].JobTitleCodeName?.ToString()! ?? ""),
+            new(ClaimUtil.JOIN_YMD_IDENTIFIER, user.Employee!.WorkHistoryList![0].JoinYmd?.ToString()! ?? ""),
+            new(ClaimUtil.QUIT_YMD_IDENTIFIER, user.Employee!.WorkHistoryList![0].QuitYmd?.ToString()! ?? ""),
             new(ClaimUtil.EMPLOYEE_ID_IDENTIFIER, user.Employee!.EmployeeId.ToString()! ?? ""),
             new(ClaimUtil.EMPLOYEE_NAME_IDENTIFIER, user.Employee!.EmployeeName! ?? ""),
             new(ClaimUtil.BIRTH_YMD_IDENTIFIER, user.Employee!.BirthYmd! ?? "")

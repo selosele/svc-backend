@@ -40,7 +40,7 @@ public class EmployeeService
         var employee = await _employeeMapper.GetEmployee(dto);
         if (employee != null)
         {
-            employee.WorkHistories = await _workHistoryMapper.ListWorkHistory(new GetWorkHistoryRequestDTO
+            employee.WorkHistoryList = await _workHistoryMapper.ListWorkHistory(new GetWorkHistoryRequestDTO
             {
                 UserId = employee.UserId,
                 EmployeeId = employee.EmployeeId
@@ -63,14 +63,14 @@ public class EmployeeService
     /// 근무이력 목록을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<IList<WorkHistoryResponseDTO>> ListWorkHistory(GetWorkHistoryRequestDTO dto)
+    public async Task<IList<WorkHistoryResultDTO>> ListWorkHistory(GetWorkHistoryRequestDTO dto)
         => await _workHistoryMapper.ListWorkHistory(dto);
 
     /// <summary>
     /// 근무이력을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<WorkHistoryResponseDTO> GetWorkHistory(GetWorkHistoryRequestDTO dto)
+    public async Task<WorkHistoryResultDTO> GetWorkHistory(GetWorkHistoryRequestDTO dto)
         => await _workHistoryMapper.GetWorkHistory(dto);
 
     /// <summary>
@@ -114,7 +114,7 @@ public class EmployeeService
     /// 근무이력을 추가한다.
     /// </summary>
     [Transaction]
-    public async Task<WorkHistoryResponseDTO> AddWorkHistory(SaveWorkHistoryRequestDTO dto)
+    public async Task<WorkHistoryResultDTO> AddWorkHistory(SaveWorkHistoryRequestDTO dto)
     {
         // 회사 ID가 없으면(Open API로 회사 정보를 조회해서 선택한경우) 회사 정보가 존재하는지 확인해서
         var companyCount = await _companyMapper.CountCompany(new GetCompanyRequestDTO

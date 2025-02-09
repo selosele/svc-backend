@@ -23,9 +23,9 @@ public class WorkHistoryMapper
     /// <summary>
     /// 근무이력 목록을 조회한다.
     /// </summary>
-    public Task<IList<WorkHistoryResponseDTO>> ListWorkHistory(GetWorkHistoryRequestDTO dto)
+    public Task<IList<WorkHistoryResultDTO>> ListWorkHistory(GetWorkHistoryRequestDTO dto)
     {
-        return SqlMapper.QueryAsync<WorkHistoryResponseDTO>(new RequestContext
+        return SqlMapper.QueryAsync<WorkHistoryResultDTO>(new RequestContext
         {
             Scope = nameof(WorkHistoryMapper),
             SqlId = "ListWorkHistory",
@@ -36,9 +36,9 @@ public class WorkHistoryMapper
     /// <summary>
     /// 근무이력을 조회한다.
     /// </summary>
-    public Task<WorkHistoryResponseDTO> GetWorkHistory(GetWorkHistoryRequestDTO dto)
+    public Task<WorkHistoryResultDTO> GetWorkHistory(GetWorkHistoryRequestDTO dto)
     {
-        return SqlMapper.QuerySingleAsync<WorkHistoryResponseDTO>(new RequestContext
+        return SqlMapper.QuerySingleAsync<WorkHistoryResultDTO>(new RequestContext
         {
             Scope = nameof(WorkHistoryMapper),
             SqlId = "GetWorkHistory",
