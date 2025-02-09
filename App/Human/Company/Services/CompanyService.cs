@@ -46,14 +46,14 @@ public class CompanyService
     /// 회사 목록을 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<IList<CompanyResponseDTO>> ListCompany(GetCompanyRequestDTO? dto)
+    public async Task<IList<CompanyResultDTO>> ListCompany(GetCompanyRequestDTO? dto)
         => await _companyMapper.ListCompany(dto);
 
     /// <summary>
     /// 회사를 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<CompanyResponseDTO> GetCompany(int companyId)
+    public async Task<CompanyResultDTO> GetCompany(int companyId)
         => await _companyMapper.GetCompany(companyId);
 
     /// <summary>
@@ -67,7 +67,7 @@ public class CompanyService
     /// 회사를 추가한다.
     /// </summary>
     [Transaction]
-    public async Task<CompanyResponseDTO> AddCompany(SaveCompanyRequestDTO dto)
+    public async Task<CompanyResultDTO> AddCompany(SaveCompanyRequestDTO dto)
     {
         var companyId = await _companyMapper.AddCompany(dto);
         return await _companyMapper.GetCompany(companyId);

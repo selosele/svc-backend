@@ -23,9 +23,9 @@ public class CompanyMapper
     /// <summary>
     /// 회사 목록을 조회한다.
     /// </summary>
-    public Task<IList<CompanyResponseDTO>> ListCompany(GetCompanyRequestDTO? dto)
+    public Task<IList<CompanyResultDTO>> ListCompany(GetCompanyRequestDTO? dto)
     {
-        return SqlMapper.QueryAsync<CompanyResponseDTO>(new RequestContext
+        return SqlMapper.QueryAsync<CompanyResultDTO>(new RequestContext
         {
             Scope = nameof(CompanyMapper),
             SqlId = "ListCompany",
@@ -36,9 +36,9 @@ public class CompanyMapper
     /// <summary>
     /// 회사를 조회한다.
     /// </summary>
-    public Task<CompanyResponseDTO> GetCompany(int companyId)
+    public Task<CompanyResultDTO> GetCompany(int companyId)
     {
-        return SqlMapper.QuerySingleAsync<CompanyResponseDTO>(new RequestContext
+        return SqlMapper.QuerySingleAsync<CompanyResultDTO>(new RequestContext
         {
             Scope = nameof(CompanyMapper),
             SqlId = "GetCompany",

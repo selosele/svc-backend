@@ -7,39 +7,14 @@ public record CompanyResponseDTO
 {
     #region [필드]
     /// <summary>
-    /// 회사 ID
+    /// 회사
     /// </summary>
-    public int? CompanyId { get; set; }
+    public CompanyResultDTO? Company { get; set; }
 
     /// <summary>
-    /// 사업자등록번호
+    /// 회사 목록
     /// </summary>
-    public string? RegistrationNo { get; set; }
-    
-    /// <summary>
-    /// 법인명
-    /// </summary>
-    public string? CorporateName { get; set; }
-    
-    /// <summary>
-    /// 회사명
-    /// </summary>
-    public string? CompanyName { get; set; }
-
-    /// <summary>
-    /// 회사 소재지
-    /// </summary>
-    public string? CompanyAddr { get; set; }
-
-    /// <summary>
-    /// 대표자명
-    /// </summary>
-    public string? CeoName { get; set; }
-    
-    /// <summary>
-    /// 삭제 여부
-    /// </summary>
-    public string? DeleteYn { get; set; }
+    public IList<CompanyResultDTO>? CompanyList { get; set; }
     #endregion
     
 }

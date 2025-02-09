@@ -36,7 +36,10 @@ public class CompanyController : ControllerBase
     [HttpGet]
     [Authorize]
     public async Task<ActionResult<List<CompanyResponseDTO>>> ListCompany([FromQuery] GetCompanyRequestDTO? dto)
-        => Ok(await _companyService.ListCompany(dto));
+    {
+        var companyList = await _companyService.ListCompany(dto);
+        return Ok(new CompanyResponseDTO { CompanyList = companyList });
+    }
 
     /// <summary>
     /// 회사를 조회한다.
@@ -44,7 +47,10 @@ public class CompanyController : ControllerBase
     [HttpGet("{companyId}")]
     [Authorize]
     public async Task<ActionResult<CompanyResponseDTO>> GetCompany(int companyId)
-        => Ok(await _companyService.GetCompany(companyId));
+    {
+        var company = await _companyService.GetCompany(companyId);
+        return Ok(new CompanyResponseDTO { Company = company });
+    }
 
     /// <summary>
     /// 회사를 추가한다.
@@ -58,7 +64,8 @@ public class CompanyController : ControllerBase
 
         saveCompanyRequestDTO.CreaterId = myUserId;
 
-        return Created(string.Empty, await _companyService.AddCompany(saveCompanyRequestDTO));
+        var company = await _companyService.AddCompany(saveCompanyRequestDTO);
+        return Created(string.Empty, new CompanyResponseDTO { Company = company });
     }
 
     /// <summary>
