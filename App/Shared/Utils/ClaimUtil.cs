@@ -72,7 +72,7 @@ public class ClaimUtil
     public const string BIRTH_YMD_IDENTIFIER = "birthYmd";
 
     /// <summary>
-    /// 권한 목록 식별자
+    /// 사용자 권한 목록 식별자
     /// </summary>
     public const string ROLES_IDENTIFIER = "roles";
     #endregion
