@@ -65,6 +65,11 @@ public record PayslipResultDTO
     /// 이전/다음 급여명세서 flag
     /// </summary>
     public string? PrevNextFlag { get; set; }
+
+    /// <summary>
+    /// 급여명세서 급여내역 상세
+    /// </summary>
+    public IList<PayslipSalaryDetailResultDTO>? PayslipSalaryDetailList { get; set; }
     #endregion
 
 }

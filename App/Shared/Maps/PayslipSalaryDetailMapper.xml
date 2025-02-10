@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<SmartSqlMap Scope="PayslipSalaryDetailMapper" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+  <ResultMaps>
+    <ResultMap Id="PayslipSalaryResultMap">
+      <Result Column="SALARY_ID" Property="SalaryId" />
+      <Result Column="PAYSLIP_ID" Property="PayslipId" />
+      <Result Column="SALARY_TYPE_CODE" Property="SalaryTypeCode" />
+      <Result Column="SALARY_TYPE_CODE_NAME" Property="SalaryTypeCodeName" />
+      <Result Column="SALARY_AMOUNT_CODE" Property="SalaryAmountCode" />
+      <Result Column="SALARY_AMOUNT_CODE_NAME" Property="SalaryAmountCodeName" />
+      <Result Column="SALARY_AMOUNT" Property="SalaryAmount" />
+    </ResultMap>
+  </ResultMaps>
+
+  <Statements>
+
+    <!-- 급여명세서 급여내역 상세 목록을 조회한다. -->
+    <Statement Id="ListPayslipSalaryDetail" ResultMap="PayslipSalaryResultMap">
+      /* PayslipSalaryDetailMapper.ListPayslipSalaryDetail */
+
+      SELECT
+        PD.SALARY_ID,
+        PD.PAYSLIP_ID,
+        PD.SALARY_TYPE_CODE,
+        CD.CODE_NAME AS SALARY_TYPE_CODE_NAME,
+        PD.SALARY_AMOUNT_CODE,
+        CD2.CODE_NAME AS SALARY_AMOUNT_CODE_NAME,
+        PD.SALARY_AMOUNT
+      FROM SA_PAYSLIP_SALARY_DETAIL PD
+      LEFT JOIN CO_CODE CD ON CD.CODE_VALUE = PD.SALARY_TYPE_CODE AND CD.UP_CODE_ID = 'SALARY_TYPE_00'
+      LEFT JOIN CO_CODE CD2 ON CD2.CODE_VALUE = PD.SALARY_AMOUNT_CODE AND (CD2.UP_CODE_ID = 'SALARY_AMOUNT_A00' OR CD2.UP_CODE_ID = 'SALARY_AMOUNT_B00')
+      WHERE PD.PAYSLIP_ID = ?PayslipId
+      ORDER BY CD.CODE_ORDER, CD2.CODE_ORDER
+    </Statement>
+
+    <!-- 급여명세서 급여내역 상세를 추가한다. -->
+    <Statement Id="AddPayslipSalaryDetail">
+      /* PayslipSalaryDetailMapper.AddPayslipSalaryDetail */
+
+      INSERT INTO SA_PAYSLIP_SALARY_DETAIL (
+        PAYSLIP_ID,
+        SALARY_TYPE_CODE,
+        SALARY_AMOUNT_CODE,
+        SALARY_AMOUNT,
+        CREATER_ID
+      )
+      VALUES
+      <For Property="DTOList" Key="dto" Open="" Close="" Separator=",">
+        (
+          ?dto.PayslipId,
+          ?dto.SalaryTypeCode,
+          ?dto.SalaryAmountCode,
+          CASE WHEN ?dto.SalaryAmount IS NOT NULL AND ?dto.SalaryAmount != '' THEN CAST(REPLACE(?dto.SalaryAmount, ',', '') AS DOUBLE)
+               ELSE NULL
+          END,
+          ?dto.CreaterId
+        )
+      </For>
+    </Statement>
+    
+  </Statements>
+</SmartSqlMap>

@@ -1,16 +1,13 @@
+using Svc.App.Shared.Models.DTO;
+
 namespace Svc.App.Salary.Payslip.Models.DTO;
 
 /// <summary>
-/// 급여명세서 급여내역 상세 조회 결과 DTO
+/// 급여명세서 급여내역 상세 추가 요청 DTO
 /// </summary>
-public record PayslipSalaryDetailResultDTO
+public record AddPayslipSalaryDetailRequestDTO : HttpRequestDTOBase
 {
     #region [필드]
-    /// <summary>
-    /// 급여내역 상세 ID
-    /// </summary>
-    public int? SalaryId { get; set; }
-
     /// <summary>
     /// 급여명세서 ID
     /// </summary>
@@ -22,24 +19,14 @@ public record PayslipSalaryDetailResultDTO
     public string? SalaryTypeCode { get; set; }
 
     /// <summary>
-    /// 급여내역 구분 코드명
-    /// </summary>
-    public string? SalaryTypeCodeName { get; set; }
-
-    /// <summary>
     /// 급여내역 금액 코드
     /// </summary>
     public string? SalaryAmountCode { get; set; }
 
     /// <summary>
-    /// 급여내역 금액 코드명
-    /// </summary>
-    public string? SalaryAmountCodeName { get; set; }
-
-    /// <summary>
     /// 급여내역 금액
     /// </summary>
-    public double? SalaryAmount { get; set; }
+    public string? SalaryAmount { get; set; }
     #endregion
 
 }

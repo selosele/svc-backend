@@ -58,6 +58,19 @@ public class PayslipMapper
             Request = new { payslipId }
         });
     }
+
+    /// <summary>
+    /// 급여명세서를 추가한다.
+    /// </summary>
+    public Task<int> AddPayslip(SavePayslipRequestDTO dto)
+    {
+        return SqlMapper.ExecuteScalarAsync<int>(new RequestContext
+        {
+            Scope = nameof(PayslipMapper),
+            SqlId = "AddPayslip",
+            Request = dto
+        });
+    }
     #endregion
 
 }

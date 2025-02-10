@@ -110,6 +110,29 @@
       LEFT JOIN CO_CODE CD ON CD.CODE_VALUE = P.RANK_CODE AND CD.UP_CODE_ID = 'RANK_00'
       WHERE P.PAYSLIP_ID = ?PayslipId
     </Statement>
+
+    <!-- 급여명세서를 추가한다. -->
+    <Statement Id="AddPayslip">
+      /* PayslipMapper.AddPayslip */
+
+      INSERT INTO SA_PAYSLIP (
+        EMPLOYEE_ID,
+        WORK_HISTORY_ID,
+        PAYSLIP_PAYMENT_YMD,
+        PAYSLIP_NOTE,
+        RANK_CODE,
+        CREATER_ID
+      )
+      VALUES (
+        ?EmployeeId,
+        ?WorkHistoryId,
+        REPLACE(?PayslipPaymentYmd, '-', ''),
+        CASE ?PayslipNote WHEN '' THEN NULL ELSE ?PayslipNote END,
+        ?RankCode,
+        ?CreaterId
+      )
+      ;SELECT LAST_INSERT_ID()
+    </Statement>
     
   </Statements>
 </SmartSqlMap>

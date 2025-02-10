@@ -12,11 +12,6 @@ public record PayslipResponseDTO
     public PayslipResultDTO? Payslip { get; set; }
 
     /// <summary>
-    /// 급여명세서 급여내역 상세
-    /// </summary>
-    public PayslipSalaryDetailResultDTO? PayslipSalaryDetail { get; set; }
-
-    /// <summary>
     /// 급여명세서 목록
     /// </summary>
     public IList<PayslipResultDTO>? PayslipList { get; set; }

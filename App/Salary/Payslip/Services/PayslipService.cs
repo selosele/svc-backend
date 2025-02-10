@@ -11,14 +11,17 @@ public class PayslipService
 {
     #region [필드]
     private readonly PayslipMapper _payslipMapper;
+    private readonly PayslipSalaryDetailMapper _payslipSalaryDetailMapper;
     #endregion
     
     #region [생성자]
     public PayslipService(
-        PayslipMapper payslipMapper
+        PayslipMapper payslipMapper,
+        PayslipSalaryDetailMapper payslipSalaryDetailMapper
     )
     {
         _payslipMapper = payslipMapper;
+        _payslipSalaryDetailMapper = payslipSalaryDetailMapper;
     }
     #endregion
 
@@ -43,6 +46,35 @@ public class PayslipService
     [Transaction]
     public async Task<PayslipResultDTO> GetPayslip(int payslipId)
         => await _payslipMapper.GetPayslip(payslipId);
+
+    /// <summary>
+    /// 급여명세서를 추가한다.
+    /// </summary>
+    [Transaction]
+    public async Task<PayslipResultDTO> AddPayslip(SavePayslipRequestDTO dto)
+    {
+        // 1. 급여명세서를 추가한다.
+        var payslipId = await _payslipMapper.AddPayslip(dto);
+
+        // 2. 추가한 급여명세서를 조회한다.
+        var payslip = await _payslipMapper.GetPayslip(payslipId);
+
+        // 3. 급여명세서 급여내역 상세를 추가한다.
+        foreach (var i in dto.PayslipSalaryDetailList!) {
+            i.PayslipId = payslipId;
+            i.CreaterId = dto.CreaterId;
+        }
+        await _payslipSalaryDetailMapper.AddPayslipSalaryDetail(dto.PayslipSalaryDetailList);
+
+        // 4. 급여명세서 급여내역 상세 목록을 조회한다.
+        payslip.PayslipSalaryDetailList = await _payslipSalaryDetailMapper.ListPayslipSalaryDetail(new GetPayslipRequestDTO
+        {
+            PayslipId = payslipId
+        });
+
+        // 5. 추가한 급여명세서를 반환한다.
+        return payslip;
+    }
     #endregion
     
 }
