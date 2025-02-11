@@ -21,6 +21,19 @@ public class PayslipMapper
 
     #region [메서드]
     /// <summary>
+    /// 급여명세서 개수를 조회한다.
+    /// </summary>
+    public Task<int> CountPayslip(GetPayslipRequestDTO dto)
+    {
+        return SqlMapper.QuerySingleAsync<int>(new RequestContext
+        {
+            Scope = nameof(PayslipMapper),
+            SqlId = "CountPayslip",
+            Request = dto
+        });
+    }
+
+    /// <summary>
     /// 급여명세서 목록을 조회한다.
     /// </summary>
     public Task<IList<PayslipResultDTO>> ListPayslip(GetPayslipRequestDTO dto)

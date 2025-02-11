@@ -1,6 +1,7 @@
 using SmartSql.AOP;
 using Svc.App.Salary.Payslip.Mappers;
 using Svc.App.Salary.Payslip.Models.DTO;
+using Svc.App.Shared.Exceptions;
 
 namespace Svc.App.Salary.Payslip.Services;
 
@@ -53,26 +54,40 @@ public class PayslipService
     [Transaction]
     public async Task<PayslipResultDTO> AddPayslip(SavePayslipRequestDTO dto)
     {
-        // 1. 급여명세서를 추가한다.
+        // 1. 지급월에 해당하는 급여명세서가 있는지 조회힌다.
+        var count = await _payslipMapper.CountPayslip(new GetPayslipRequestDTO
+        {
+            WorkHistoryId = dto.WorkHistoryId,
+            PayslipPaymentYmd = dto.PayslipPaymentYmd
+        });
+
+        if (count > 0)
+        {
+            var YYYYMM = Convert.ToDateTime(dto.PayslipPaymentYmd).ToString("yyyy년 MM월");
+            throw new BizException($"{YYYYMM}에 이미 등록된 급여명세서가 있어요.");
+        }
+
+        // 2. 급여명세서를 추가한다.
         var payslipId = await _payslipMapper.AddPayslip(dto);
 
-        // 2. 추가한 급여명세서를 조회한다.
+        // 3. 추가한 급여명세서를 조회한다.
         var payslip = await _payslipMapper.GetPayslip(payslipId);
 
-        // 3. 급여명세서 급여내역 상세를 추가한다.
-        foreach (var i in dto.PayslipSalaryDetailList!) {
+        // 4. 급여명세서 급여내역 상세를 추가한다.
+        foreach (var i in dto.PayslipSalaryDetailList!)
+        {
             i.PayslipId = payslipId;
             i.CreaterId = dto.CreaterId;
         }
         await _payslipSalaryDetailMapper.AddPayslipSalaryDetail(dto.PayslipSalaryDetailList);
 
-        // 4. 급여명세서 급여내역 상세 목록을 조회한다.
+        // 5. 급여명세서 급여내역 상세 목록을 조회한다.
         payslip.PayslipSalaryDetailList = await _payslipSalaryDetailMapper.ListPayslipSalaryDetail(new GetPayslipRequestDTO
         {
             PayslipId = payslipId
         });
 
-        // 5. 추가한 급여명세서를 반환한다.
+        // 6. 추가한 급여명세서를 반환한다.
         return payslip;
     }
 

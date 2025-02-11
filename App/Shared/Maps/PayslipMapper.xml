@@ -20,6 +20,20 @@
 
   <Statements>
 
+    <!-- 급여명세서 개수를 조회한다. -->
+    <Statement Id="CountPayslip">
+      /* PayslipMapper.CountPayslip */
+
+      SELECT
+        COUNT(1)
+      FROM SA_PAYSLIP P
+      WHERE P.DELETE_YN = 'N'
+        AND P.WORK_HISTORY_ID = ?WorkHistoryId
+        <IsNotEmpty Property="PayslipPaymentYmd">
+        AND SUBSTRING(P.PAYSLIP_PAYMENT_YMD, 1, 6) = SUBSTRING(REPLACE(?PayslipPaymentYmd, '-', ''), 1, 6)
+        </IsNotEmpty>
+    </Statement>
+
     <!-- 급여명세서 목록을 조회한다. -->
     <Statement Id="ListPayslip" ResultMap="PayslipResultMap">
       /* PayslipMapper.ListPayslip */
