@@ -49,10 +49,10 @@
       WHERE V.DELETE_YN = 'N'
         AND V.WORK_HISTORY_ID = ?WorkHistoryId
         <IsNotEmpty Property="VacationStartYmd">
-        AND V.VACATION_START_YMD &gt;= ?VacationStartYmd
+        AND V.VACATION_START_YMD <![CDATA[ >= ]]> ?VacationStartYmd
         </IsNotEmpty>
         <IsNotEmpty Property="VacationEndYmd">
-        AND V.VACATION_END_YMD &lt;= ?VacationEndYmd
+        AND V.VACATION_END_YMD <![CDATA[ <= ]]> ?VacationEndYmd
         </IsNotEmpty>
       ORDER BY V.VACATION_START_YMD DESC, V.VACATION_END_YMD DESC
     </Statement>
@@ -188,7 +188,7 @@
         UNION ALL
         SELECT DATE_ADD(YMD, INTERVAL 1 MONTH) 
         FROM MONTH_RANGE 
-        WHERE DATE_ADD(YMD, INTERVAL 1 MONTH) &lt;= DATE(CONCAT(?YYYY, '-12-31'))
+        WHERE DATE_ADD(YMD, INTERVAL 1 MONTH) <![CDATA[ <= ]]> DATE(CONCAT(?YYYY, '-12-31'))
       )
       SELECT
         IFNULL(SUM(V.VACATION_USE_COUNT), 0) AS VACATION_USE_COUNT,

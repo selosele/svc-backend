@@ -67,7 +67,7 @@
         (SELECT
           ARTICLE_ID, BOARD_ID, ARTICLE_TITLE, 'PREV' AS PREV_NEXT_FLAG
         FROM CO_ARTICLE
-        WHERE ARTICLE_ID &lt; ?ArticleId
+        WHERE ARTICLE_ID <![CDATA[ < ]]> ?ArticleId
           AND BOARD_ID = ?BoardId
           AND DELETE_YN = 'N'
         ORDER BY CREATE_DT DESC LIMIT 1)
@@ -77,7 +77,7 @@
         (SELECT
           ARTICLE_ID, BOARD_ID, ARTICLE_TITLE, 'NEXT' AS PREV_NEXT_FLAG
         FROM CO_ARTICLE
-        WHERE ARTICLE_ID &gt; ?ArticleId
+        WHERE ARTICLE_ID <![CDATA[ > ]]> ?ArticleId
           AND BOARD_ID = ?BoardId
           AND DELETE_YN = 'N'
           ORDER BY CREATE_DT LIMIT 1)

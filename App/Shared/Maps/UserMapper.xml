@@ -176,7 +176,7 @@
         COUNT(1)
       FROM CO_USER U
       WHERE U.USER_ID = ?UserId
-        AND TIMESTAMPDIFF(HOUR, U.TEMP_PASSWORD_DT, SYSDATE()) &lt;= 2
+        AND TIMESTAMPDIFF(HOUR, U.TEMP_PASSWORD_DT, SYSDATE()) <![CDATA[ <= ]]> 2
     </Statement>
 
     <!-- 사용자를 추가한다. -->
