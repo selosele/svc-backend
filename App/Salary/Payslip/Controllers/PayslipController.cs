@@ -87,6 +87,23 @@ public class PayslipController : ControllerBase
 
         return Created(string.Empty, new PayslipResponseDTO { Payslip = payslip });
     }
+
+    /// <summary>
+    /// 급여명세서를 삭제한다.
+    /// </summary>
+    [HttpDelete("{payslipId}")]
+    [Authorize]
+    public async Task<ActionResult> RemoveArticle(int payslipId)
+    {
+        var user = _authService.GetAuthenticatedUser();
+        var payslip = await _payslipService.GetPayslip(payslipId);
+
+        if (payslip.EmployeeId != user.Employee?.EmployeeId)
+            return NotFound();
+
+        await _payslipService.RemovePayslip(payslipId, user.UserId);
+        return NoContent();
+    }
     #endregion
 
 }

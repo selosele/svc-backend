@@ -134,6 +134,18 @@
       )
       ;SELECT LAST_INSERT_ID()
     </Statement>
+
+    <!-- 급여명세서를 삭제한다. -->
+    <Statement Id="RemovePayslip">
+      /* PayslipMapper.RemovePayslip */
+
+      UPDATE SA_PAYSLIP
+        SET
+          DELETE_YN = 'Y',
+          UPDATER_ID = ?UpdaterId,
+          UPDATE_DT = SYSDATE()
+      WHERE PAYSLIP_ID = ?PayslipId
+    </Statement>
     
   </Statements>
 </SmartSqlMap>

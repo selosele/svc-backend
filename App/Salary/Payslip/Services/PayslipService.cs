@@ -75,6 +75,13 @@ public class PayslipService
         // 5. 추가한 급여명세서를 반환한다.
         return payslip;
     }
+
+    /// <summary>
+    /// 급여명세서를 삭제한다.
+    /// </summary>
+    [Transaction]
+    public async Task<int> RemovePayslip(int payslipId, int? updaterId)
+        => await _payslipMapper.RemovePayslip(payslipId, updaterId);
     #endregion
     
 }
