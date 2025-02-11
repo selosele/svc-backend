@@ -4,7 +4,7 @@ using Svc.App.Salary.Payslip.Models.DTO;
 namespace Svc.App.Salary.Payslip.Mappers;
 
 /// <summary>
-/// 급여명세서 급여내역 상세 매퍼 인터페이스
+/// 급여명세서 급여내역 상세 매퍼 클래스
 /// </summary>
 public class PayslipSalaryDetailMapper
 {

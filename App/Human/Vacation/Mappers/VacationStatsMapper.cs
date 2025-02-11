@@ -4,7 +4,7 @@ using Svc.App.Human.Vacation.Models.DTO;
 namespace Svc.App.Human.Vacation.Mappers;
 
 /// <summary>
-/// 휴가 통계 매퍼 인터페이스
+/// 휴가 통계 매퍼 클래스
 /// </summary>
 public class VacationStatsMapper
 {
