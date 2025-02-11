@@ -69,13 +69,14 @@
 
       SELECT
         P1.PAYSLIP_ID,
+        P1.PAYSLIP_PAYMENT_YMD,
         P1.PREV_NEXT_FLAG
       FROM SA_PAYSLIP P
       INNER JOIN (
         (SELECT
-          PAYSLIP_ID, 'PREV' AS PREV_NEXT_FLAG
+          PAYSLIP_ID, PAYSLIP_PAYMENT_YMD, 'PREV' AS PREV_NEXT_FLAG
         FROM SA_PAYSLIP
-        WHERE PAYSLIP_ID &lt; ?PayslipId
+        WHERE PAYSLIP_PAYMENT_YMD &lt; ?PayslipPaymentYmd
           AND WORK_HISTORY_ID = ?WorkHistoryId
           AND DELETE_YN = 'N'
         ORDER BY EMPLOYEE_ID DESC, PAYSLIP_PAYMENT_YMD DESC LIMIT 1)
@@ -83,9 +84,9 @@
         UNION ALL
         
         (SELECT
-          PAYSLIP_ID, 'NEXT' AS PREV_NEXT_FLAG
+          PAYSLIP_ID, PAYSLIP_PAYMENT_YMD, 'NEXT' AS PREV_NEXT_FLAG
         FROM SA_PAYSLIP
-        WHERE PAYSLIP_ID &gt; ?PayslipId
+        WHERE PAYSLIP_PAYMENT_YMD &gt; ?PayslipPaymentYmd
           AND WORK_HISTORY_ID = ?WorkHistoryId
           AND DELETE_YN = 'N'
           ORDER BY EMPLOYEE_ID, PAYSLIP_PAYMENT_YMD LIMIT 1)
