@@ -325,7 +325,7 @@ public class AuthService
         => GetAuthenticatedUser() != null;
 
     /// <summary>
-    /// 1개의 권한을 가지고 있는지 여부를 반환한다.
+    /// 1개의 권한 보유 여부를 반환한다.
     /// </summary>
     public bool HasRole(string roleId)
     {
