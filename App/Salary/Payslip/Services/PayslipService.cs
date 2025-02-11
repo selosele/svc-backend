@@ -46,7 +46,15 @@ public class PayslipService
     /// </summary>
     [Transaction]
     public async Task<PayslipResultDTO> GetPayslip(int payslipId)
-        => await _payslipMapper.GetPayslip(payslipId);
+    {
+        var payslip = await _payslipMapper.GetPayslip(payslipId);
+        payslip.PayslipSalaryDetailList = await _payslipSalaryDetailMapper.ListPayslipSalaryDetail(new GetPayslipRequestDTO
+        {
+            PayslipId = payslipId
+        });
+
+        return payslip;
+    }
 
     /// <summary>
     /// 급여명세서를 추가한다.
