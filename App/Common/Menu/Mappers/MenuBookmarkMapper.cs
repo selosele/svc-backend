@@ -1,4 +1,5 @@
 using SmartSql;
+using Svc.App.Shared.Extensions;
 using Svc.App.Common.Menu.Models.DTO;
 
 namespace Svc.App.Common.Menu.Mappers;
@@ -24,66 +25,31 @@ public class MenuBookmarkMapper
     /// 메뉴 즐겨찾기 목록을 조회한다.
     /// </summary>
     public Task<IList<MenuBookmarkResultDTO>> ListMenuBookmark(int? userId)
-    {
-        return SqlMapper.QueryAsync<MenuBookmarkResultDTO>(new RequestContext
-        {
-            Scope = nameof(MenuBookmarkMapper),
-            SqlId = "ListMenuBookmark",
-            Request = new { userId }
-        });
-    }
+        => SqlMapper.QueryForList<MenuBookmarkResultDTO>(nameof(MenuBookmarkMapper), "ListMenuBookmark", new { userId });
 
     /// <summary>
     /// 메뉴 즐겨찾기를 조회한다.
     /// </summary>
-    public Task<MenuBookmarkResultDTO> GetMenuBookmark(int MenuBookmarkId)
-    {
-        return SqlMapper.QuerySingleAsync<MenuBookmarkResultDTO>(new RequestContext
-        {
-            Scope = nameof(MenuBookmarkMapper),
-            SqlId = "GetMenuBookmark",
-            Request = new { MenuBookmarkId }
-        });
-    }
+    public Task<MenuBookmarkResultDTO> GetMenuBookmark(int menuBookmarkId)
+        => SqlMapper.QueryForObject<MenuBookmarkResultDTO>(nameof(MenuBookmarkMapper), "GetMenuBookmark", new { menuBookmarkId });
 
     /// <summary>
     /// 메뉴 즐겨찾기를 추가한다.
     /// </summary>
     public Task<int> AddMenuBookmark(SaveMenuBookmarkRequestDTO dto)
-    {
-        return SqlMapper.ExecuteScalarAsync<int>(new RequestContext
-        {
-            Scope = nameof(MenuBookmarkMapper),
-            SqlId = "AddMenuBookmark",
-            Request = dto
-        });
-    }
+        => SqlMapper.ExecuteScalar<int>(nameof(MenuBookmarkMapper), "AddMenuBookmark", dto);
 
     /// <summary>
     /// 모든 메뉴 즐겨찾기를 삭제한다.
     /// </summary>
     public Task<int> RemoveMenuBookmarkAll(int? userId)
-    {
-        return SqlMapper.ExecuteAsync(new RequestContext
-        {
-            Scope = nameof(MenuBookmarkMapper),
-            SqlId = "RemoveMenuBookmarkAll",
-            Request = new { userId }
-        });
-    }
+        => SqlMapper.Execute(nameof(MenuBookmarkMapper), "RemoveMenuBookmarkAll", new { userId });
 
     /// <summary>
     /// 메뉴 즐겨찾기를 삭제한다.
     /// </summary>
     public Task<int> RemoveMenuBookmark(int menuBookmarkId)
-    {
-        return SqlMapper.ExecuteAsync(new RequestContext
-        {
-            Scope = nameof(MenuBookmarkMapper),
-            SqlId = "RemoveMenuBookmark",
-            Request = new { menuBookmarkId }
-        });
-    }
+        => SqlMapper.Execute(nameof(MenuBookmarkMapper), "RemoveMenuBookmark", new { menuBookmarkId });
     #endregion
 
 }

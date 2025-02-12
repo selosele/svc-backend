@@ -1,4 +1,5 @@
 using SmartSql;
+using Svc.App.Shared.Extensions;
 using Svc.App.Common.Holiday.Models.DTO;
 
 namespace Svc.App.Common.Holiday.Mappers;
@@ -24,66 +25,31 @@ public class HolidayMapper
     /// 휴일 목록을 조회한다.
     /// </summary>
     public Task<IList<HolidayResultDTO>> ListHoliday(GetHolidayRequestDTO? dto)
-    {
-        return SqlMapper.QueryAsync<HolidayResultDTO>(new RequestContext
-        {
-            Scope = nameof(HolidayMapper),
-            SqlId = "ListHoliday",
-            Request = dto
-        });
-    }
+        => SqlMapper.QueryForList<HolidayResultDTO>(nameof(HolidayMapper), "ListHoliday", dto);
 
     /// <summary>
     /// 휴일을 조회한다.
     /// </summary>
     public Task<HolidayResultDTO> GetHoliday(GetHolidayRequestDTO dto)
-    {
-        return SqlMapper.QuerySingleAsync<HolidayResultDTO>(new RequestContext
-        {
-            Scope = nameof(HolidayMapper),
-            SqlId = "GetHoliday",
-            Request = dto
-        });
-    }
+        => SqlMapper.QueryForObject<HolidayResultDTO>(nameof(HolidayMapper), "GetHoliday", dto);
 
     /// <summary>
     /// 휴일을 추가한다.
     /// </summary>
     public Task<string> AddHoliday(SaveHolidayRequestDTO dto)
-    {
-        return SqlMapper.ExecuteScalarAsync<string>(new RequestContext
-        {
-            Scope = nameof(HolidayMapper),
-            SqlId = "AddHoliday",
-            Request = dto
-        });
-    }
+        => SqlMapper.ExecuteScalar<string>(nameof(HolidayMapper), "AddHoliday", dto);
 
     /// <summary>
     /// 휴일을 수정한다.
     /// </summary>
     public Task<int> UpdateHoliday(SaveHolidayRequestDTO dto)
-    {
-        return SqlMapper.ExecuteAsync(new RequestContext
-        {
-            Scope = nameof(HolidayMapper),
-            SqlId = "UpdateHoliday",
-            Request = dto
-        });
-    }
+        => SqlMapper.Execute(nameof(HolidayMapper), "UpdateHoliday", dto);
 
     /// <summary>
     /// 휴일을 삭제한다.
     /// </summary>
     public Task<int> RemoveHoliday(string ymd, int? userId)
-    {
-        return SqlMapper.ExecuteAsync(new RequestContext
-        {
-            Scope = nameof(HolidayMapper),
-            SqlId = "RemoveHoliday",
-            Request = new { ymd, userId }
-        });
-    }
+        => SqlMapper.Execute(nameof(HolidayMapper), "RemoveHoliday", new { ymd, userId });
     #endregion
 
 }

@@ -1,4 +1,5 @@
 using SmartSql;
+using Svc.App.Shared.Extensions;
 using Svc.App.Common.Code.Models.DTO;
 
 namespace Svc.App.Common.Code.Mappers;
@@ -24,65 +25,31 @@ public class CodeMapper
     /// 코드 목록을 조회한다.
     /// </summary>
     public Task<IList<CodeResultDTO>> ListCode()
-    {
-        return SqlMapper.QueryAsync<CodeResultDTO>(new RequestContext
-        {
-            Scope = nameof(CodeMapper),
-            SqlId = "ListCode"
-        });
-    }
+        => SqlMapper.QueryForList<CodeResultDTO>(nameof(CodeMapper), "ListCode");
 
     /// <summary>
     /// 코드를 조회한다.
     /// </summary>
     public Task<CodeResultDTO> GetCode(string codeId)
-    {
-        return SqlMapper.QuerySingleAsync<CodeResultDTO>(new RequestContext
-        {
-            Scope = nameof(CodeMapper),
-            SqlId = "GetCode",
-            Request = new { codeId }
-        });
-    }
+        => SqlMapper.QueryForObject<CodeResultDTO>(nameof(CodeMapper), "GetCode", new { codeId });
 
     /// <summary>
     /// 코드를 추가한다.
     /// </summary>
     public Task<string> AddCode(SaveCodeRequestDTO dto)
-    {
-        return SqlMapper.ExecuteScalarAsync<string>(new RequestContext
-        {
-            Scope = nameof(CodeMapper),
-            SqlId = "AddCode",
-            Request = dto
-        });
-    }
+        => SqlMapper.ExecuteScalar<string>(nameof(CodeMapper), "AddCode", dto);
 
     /// <summary>
     /// 코드를 수정한다.
     /// </summary>
     public Task<int> UpdateCode(SaveCodeRequestDTO dto)
-    {
-        return SqlMapper.ExecuteAsync(new RequestContext
-        {
-            Scope = nameof(CodeMapper),
-            SqlId = "UpdateCode",
-            Request = dto
-        });
-    }
+        => SqlMapper.Execute(nameof(CodeMapper), "UpdateCode", dto);
 
     /// <summary>
     /// 코드를 삭제한다.
     /// </summary>
     public Task<int> RemoveCode(string codeId)
-    {
-        return SqlMapper.ExecuteAsync(new RequestContext
-        {
-            Scope = nameof(CodeMapper),
-            SqlId = "RemoveCode",
-            Request = new { codeId }
-        });
-    }
+        => SqlMapper.Execute(nameof(CodeMapper), "RemoveCode", new { codeId });
     #endregion
 
 }

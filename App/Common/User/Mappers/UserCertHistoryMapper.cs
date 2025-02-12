@@ -1,4 +1,5 @@
 using SmartSql;
+using Svc.App.Shared.Extensions;
 using Svc.App.Common.User.Models.DTO;
 
 namespace Svc.App.Common.User.Mappers;
@@ -24,40 +25,19 @@ public class UserCertHistoryMapper
     /// 사용자 본인인증 이력을 조회한다.
     /// </summary>
     public Task<UserCertHistoryResultDTO> GetUserCertHistory(GetUserCertHistoryRequestDTO dto)
-    {
-        return SqlMapper.QuerySingleAsync<UserCertHistoryResultDTO>(new RequestContext
-        {
-            Scope = nameof(UserCertHistoryMapper),
-            SqlId = "GetUserCertHistory",
-            Request = dto
-        });
-    }
+        => SqlMapper.QueryForObject<UserCertHistoryResultDTO>(nameof(UserCertHistoryMapper), "GetUserCertHistory", dto);
 
     /// <summary>
     /// 사용자 본인인증 이력이 존재하는지 확인한다.
     /// </summary>
     public Task<int> CountUserCertHistory(GetUserCertHistoryRequestDTO dto)
-    {
-        return SqlMapper.QuerySingleAsync<int>(new RequestContext
-        {
-            Scope = nameof(UserCertHistoryMapper),
-            SqlId = "CountUserCertHistory",
-            Request = dto
-        });
-    }
+        => SqlMapper.QueryForObject<int>(nameof(UserCertHistoryMapper), "CountUserCertHistory", dto);
 
     /// <summary>
     /// 사용자 본인인증 이력을 추가한다.
     /// </summary>
     public Task<int> AddUserCertHistory(AddUserCertHistoryRequestDTO dto)
-    {
-        return SqlMapper.ExecuteScalarAsync<int>(new RequestContext
-        {
-            Scope = nameof(UserCertHistoryMapper),
-            SqlId = "AddUserCertHistory",
-            Request = dto
-        });
-    }
+        => SqlMapper.ExecuteScalar<int>(nameof(UserCertHistoryMapper), "AddUserCertHistory", dto);
     #endregion
 
 }

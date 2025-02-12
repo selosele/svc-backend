@@ -1,4 +1,5 @@
 using SmartSql;
+using Svc.App.Shared.Extensions;
 using Svc.App.Human.Vacation.Models.DTO;
 
 namespace Svc.App.Human.Vacation.Mappers;
@@ -24,92 +25,43 @@ public class VacationMapper
     /// 휴가 목록을 조회한다.
     /// </summary>
     public Task<IList<VacationResultDTO>> ListVacation(GetVacationRequestDTO dto)
-    {
-        return SqlMapper.QueryAsync<VacationResultDTO>(new RequestContext
-        {
-            Scope = nameof(VacationMapper),
-            SqlId = "ListVacation",
-            Request = dto
-        });
-    }
+        => SqlMapper.QueryForList<VacationResultDTO>(nameof(VacationMapper), "ListVacation", dto);
 
     /// <summary>
     /// 휴가를 조회한다.
     /// </summary>
     public Task<VacationResultDTO> GetVacation(int vacationId)
-    {
-        return SqlMapper.QuerySingleAsync<VacationResultDTO>(new RequestContext
-        {
-            Scope = nameof(VacationMapper),
-            SqlId = "GetVacation",
-            Request = new { vacationId }
-        });
-    }
+        => SqlMapper.QueryForObject<VacationResultDTO>(nameof(VacationMapper), "GetVacation", new { vacationId });
 
     /// <summary>
     /// 휴가를 추가한다.
     /// </summary>
     public Task<int> AddVacation(SaveVacationRequestDTO dto)
-    {
-        return SqlMapper.ExecuteScalarAsync<int>(new RequestContext
-        {
-            Scope = nameof(VacationMapper),
-            SqlId = "AddVacation",
-            Request = dto
-        });
-    }
+        => SqlMapper.ExecuteScalar<int>(nameof(VacationMapper), "AddVacation", dto);
 
     /// <summary>
     /// 휴가를 수정한다.
     /// </summary>
     public Task<int> UpdateVacation(SaveVacationRequestDTO dto)
-    {
-        return SqlMapper.ExecuteAsync(new RequestContext
-        {
-            Scope = nameof(VacationMapper),
-            SqlId = "UpdateVacation",
-            Request = dto
-        });
-    }
+        => SqlMapper.Execute(nameof(VacationMapper), "UpdateVacation", dto);
 
     /// <summary>
     /// 휴가를 삭제한다.
     /// </summary>
     public Task<int> RemoveVacation(int vacationId, int? updaterId)
-    {
-        return SqlMapper.ExecuteAsync(new RequestContext
-        {
-            Scope = nameof(VacationMapper),
-            SqlId = "RemoveVacation",
-            Request = new { vacationId, updaterId }
-        });
-    }
+        => SqlMapper.Execute(nameof(VacationMapper), "RemoveVacation", new { vacationId, updaterId });
 
     /// <summary>
     /// 휴가일수정보를 조회한다.
     /// </summary>
     public Task<VacationCountInfoResultDTO> GetVacationCountInfo(GetVacationCountInfoRequestDTO dto)
-    {
-        return SqlMapper.QuerySingleAsync<VacationCountInfoResultDTO>(new RequestContext
-        {
-            Scope = nameof(VacationMapper),
-            SqlId = "GetVacationCountInfo",
-            Request = dto
-        });
-    }
+        => SqlMapper.QueryForObject<VacationCountInfoResultDTO>(nameof(VacationMapper), "GetVacationCountInfo", dto);
 
     /// <summary>
     /// 월별 휴가사용일수 목록을 조회한다.
     /// </summary>
     public Task<IList<VacationByMonthResultDTO>> ListVacationByMonth(GetVacationByMonthRequestDTO dto)
-    {
-        return SqlMapper.QueryAsync<VacationByMonthResultDTO>(new RequestContext
-        {
-            Scope = nameof(VacationMapper),
-            SqlId = "ListVacationByMonth",
-            Request = dto
-        });
-    }
+        => SqlMapper.QueryForList<VacationByMonthResultDTO>(nameof(VacationMapper), "ListVacationByMonth", dto);
     #endregion
 
 }

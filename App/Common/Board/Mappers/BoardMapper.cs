@@ -1,4 +1,5 @@
 using SmartSql;
+using Svc.App.Shared.Extensions;
 using Svc.App.Common.Board.Models.DTO;
 
 namespace Svc.App.Common.Board.Mappers;
@@ -24,79 +25,37 @@ public class BoardMapper
     /// 게시판 목록을 조회한다.
     /// </summary>
     public Task<IList<BoardResultDTO>> ListBoard(GetBoardRequestDTO? dto)
-    {
-        return SqlMapper.QueryAsync<BoardResultDTO>(new RequestContext
-        {
-            Scope = nameof(BoardMapper),
-            SqlId = "ListBoard",
-            Request = dto
-        });
-    }
+        => SqlMapper.QueryForList<BoardResultDTO>(nameof(BoardMapper), "ListBoard", dto);
 
     /// <summary>
     /// 메인화면 게시판 목록을 조회한다.
     /// </summary>
     public Task<IList<BoardResultDTO>> ListMainBoard(GetBoardRequestDTO? dto)
-    {
-        return SqlMapper.QueryAsync<BoardResultDTO>(new RequestContext
-        {
-            Scope = nameof(BoardMapper),
-            SqlId = "ListMainBoard",
-            Request = dto
-        });
-    }
+        => SqlMapper.QueryForList<BoardResultDTO>(nameof(BoardMapper), "ListMainBoard", dto);
 
     /// <summary>
     /// 게시판을 조회한다.
     /// </summary>
     public Task<BoardResultDTO> GetBoard(int? boardId)
-    {
-        return SqlMapper.QuerySingleAsync<BoardResultDTO>(new RequestContext
-        {
-            Scope = nameof(BoardMapper),
-            SqlId = "GetBoard",
-            Request = new { boardId }
-        });
-    }
+        => SqlMapper.QueryForObject<BoardResultDTO>(nameof(BoardMapper), "GetBoard", new { boardId });
 
     /// <summary>
     /// 게시판을 추가한다.
     /// </summary>
     public Task<int> AddBoard(SaveBoardRequestDTO dto)
-    {
-        return SqlMapper.ExecuteScalarAsync<int>(new RequestContext
-        {
-            Scope = nameof(BoardMapper),
-            SqlId = "AddBoard",
-            Request = dto
-        });
-    }
+        => SqlMapper.ExecuteScalar<int>(nameof(BoardMapper), "AddBoard", dto);
 
     /// <summary>
     /// 게시판을 수정한다.
     /// </summary>
     public Task<int> UpdateBoard(SaveBoardRequestDTO dto)
-    {
-        return SqlMapper.ExecuteAsync(new RequestContext
-        {
-            Scope = nameof(BoardMapper),
-            SqlId = "UpdateBoard",
-            Request = dto
-        });
-    }
+        => SqlMapper.Execute(nameof(BoardMapper), "UpdateBoard", dto);
 
     /// <summary>
     /// 게시판을 삭제한다.
     /// </summary>
     public Task<int> RemoveBoard(int boardId, int? updaterId)
-    {
-        return SqlMapper.ExecuteAsync(new RequestContext
-        {
-            Scope = nameof(BoardMapper),
-            SqlId = "RemoveBoard",
-            Request = new { boardId, updaterId }
-        });
-    }
+        => SqlMapper.Execute(nameof(BoardMapper), "RemoveBoard", new { boardId, updaterId });
     #endregion
 
 }

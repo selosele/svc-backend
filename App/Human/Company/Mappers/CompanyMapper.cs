@@ -1,4 +1,5 @@
 using SmartSql;
+using Svc.App.Shared.Extensions;
 using Svc.App.Human.Company.Models.DTO;
 
 namespace Svc.App.Human.Company.Mappers;
@@ -24,79 +25,37 @@ public class CompanyMapper
     /// 회사 목록을 조회한다.
     /// </summary>
     public Task<IList<CompanyResultDTO>> ListCompany(GetCompanyRequestDTO? dto)
-    {
-        return SqlMapper.QueryAsync<CompanyResultDTO>(new RequestContext
-        {
-            Scope = nameof(CompanyMapper),
-            SqlId = "ListCompany",
-            Request = dto
-        });
-    }
+        => SqlMapper.QueryForList<CompanyResultDTO>(nameof(CompanyMapper), "ListCompany", dto);
 
     /// <summary>
     /// 회사를 조회한다.
     /// </summary>
     public Task<CompanyResultDTO> GetCompany(int companyId)
-    {
-        return SqlMapper.QuerySingleAsync<CompanyResultDTO>(new RequestContext
-        {
-            Scope = nameof(CompanyMapper),
-            SqlId = "GetCompany",
-            Request = new { companyId }
-        });
-    }
+        => SqlMapper.QueryForObject<CompanyResultDTO>(nameof(CompanyMapper), "GetCompany", new { companyId });
 
     /// <summary>
     /// 회사 정보가 존재하는지 확인한다.
     /// </summary>
     public Task<int> CountCompany(GetCompanyRequestDTO dto)
-    {
-        return SqlMapper.QuerySingleAsync<int>(new RequestContext
-        {
-            Scope = nameof(CompanyMapper),
-            SqlId = "CountCompany",
-            Request = dto
-        });
-    }
+        => SqlMapper.QueryForObject<int>(nameof(CompanyMapper), "CountCompany", dto);
 
     /// <summary>
     /// 회사를 추가한다.
     /// </summary>
     public Task<int> AddCompany(SaveCompanyRequestDTO dto)
-    {
-        return SqlMapper.ExecuteScalarAsync<int>(new RequestContext
-        {
-            Scope = nameof(CompanyMapper),
-            SqlId = "AddCompany",
-            Request = dto
-        });
-    }
+        => SqlMapper.ExecuteScalar<int>(nameof(CompanyMapper), "AddCompany", dto);
 
     /// <summary>
     /// 회사를 수정한다.
     /// </summary>
     public Task<int> UpdateCompany(SaveCompanyRequestDTO dto)
-    {
-        return SqlMapper.ExecuteAsync(new RequestContext
-        {
-            Scope = nameof(CompanyMapper),
-            SqlId = "UpdateCompany",
-            Request = dto
-        });
-    }
+        => SqlMapper.Execute(nameof(CompanyMapper), "UpdateCompany", dto);
 
     /// <summary>
     /// 회사를 삭제한다.
     /// </summary>
     public Task<int> RemoveCompany(int companyId, int? updaterId)
-    {
-        return SqlMapper.ExecuteAsync(new RequestContext
-        {
-            Scope = nameof(CompanyMapper),
-            SqlId = "RemoveCompany",
-            Request = new { companyId, updaterId }
-        });
-    }
+        => SqlMapper.Execute(nameof(CompanyMapper), "RemoveCompany", new { companyId, updaterId });
     #endregion
 
 }

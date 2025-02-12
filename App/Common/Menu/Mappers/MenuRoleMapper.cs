@@ -1,4 +1,5 @@
 using SmartSql;
+using Svc.App.Shared.Extensions;
 using Svc.App.Common.Menu.Models.DTO;
 
 namespace Svc.App.Common.Menu.Mappers;
@@ -24,40 +25,19 @@ public class MenuRoleMapper
     /// 메뉴 권한 목록을 조회한다.
     /// </summary>
     public Task<IList<MenuRoleResultDTO>> ListMenuRole(GetMenuRoleRequestDTO dto)
-    {
-        return SqlMapper.QueryAsync<MenuRoleResultDTO>(new RequestContext
-        {
-            Scope = nameof(MenuRoleMapper),
-            SqlId = "ListMenuRole",
-            Request = dto
-        });
-    }
+        => SqlMapper.QueryForList<MenuRoleResultDTO>(nameof(MenuRoleMapper), "ListMenuRole", dto);
 
     /// <summary>
     /// 메뉴 권한을 추가한다.
     /// </summary>
     public Task<int> AddMenuRole(List<AddMenuRoleRequestDTO> dtoList)
-    {
-        return SqlMapper.ExecuteAsync(new RequestContext
-        {
-            Scope = nameof(MenuRoleMapper),
-            SqlId = "AddMenuRole",
-            Request = new { DTOList = dtoList }
-        });
-    }
+        => SqlMapper.Execute(nameof(MenuRoleMapper), "AddMenuRole", new { DTOList = dtoList });
 
     /// <summary>
     /// 메뉴 권한을 삭제한다.
     /// </summary>
     public Task<int> RemoveMenuRole(int? menuId)
-    {
-        return SqlMapper.ExecuteAsync(new RequestContext
-        {
-            Scope = nameof(MenuRoleMapper),
-            SqlId = "RemoveMenuRole",
-            Request = new { menuId }
-        });
-    }
+        => SqlMapper.Execute(nameof(MenuRoleMapper), "RemoveMenuRole", new { menuId });
     #endregion
 
 }

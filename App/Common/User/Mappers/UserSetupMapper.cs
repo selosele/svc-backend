@@ -1,4 +1,5 @@
 using SmartSql;
+using Svc.App.Shared.Extensions;
 using Svc.App.Common.User.Models.DTO;
 
 namespace Svc.App.Common.User.Mappers;
@@ -24,27 +25,13 @@ public class UserSetupMapper
     /// 사용자 설정을 조회한다.
     /// </summary>
     public Task<UserSetupResultDTO> GetUserSetup(GetUserSetupRequestDTO dto)
-    {
-        return SqlMapper.QuerySingleAsync<UserSetupResultDTO>(new RequestContext
-        {
-            Scope = nameof(UserSetupMapper),
-            SqlId = "GetUserSetup",
-            Request = dto
-        });
-    }
+        => SqlMapper.QueryForObject<UserSetupResultDTO>(nameof(UserSetupMapper), "GetUserSetup", dto);
 
     /// <summary>
     /// 사용자 설정을 추가한다.
     /// </summary>
     public Task<int> AddUserSetup(AddUserSetupRequestDTO dto)
-    {
-        return SqlMapper.ExecuteScalarAsync<int>(new RequestContext
-        {
-            Scope = nameof(UserSetupMapper),
-            SqlId = "AddUserSetup",
-            Request = dto
-        });
-    }
+        => SqlMapper.ExecuteScalar<int>(nameof(UserSetupMapper), "AddUserSetup", dto);
     #endregion
 
 }

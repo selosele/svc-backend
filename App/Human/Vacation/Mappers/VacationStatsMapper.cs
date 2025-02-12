@@ -1,4 +1,5 @@
 using SmartSql;
+using Svc.App.Shared.Extensions;
 using Svc.App.Human.Vacation.Models.DTO;
 
 namespace Svc.App.Human.Vacation.Mappers;
@@ -24,40 +25,19 @@ public class VacationStatsMapper
     /// 휴가 통계 목록을 조회한다.
     /// </summary>
     public Task<IList<VacationStatsResultDTO>> ListVacationStats(GetVacationStatsRequestDTO dto)
-    {
-        return SqlMapper.QueryAsync<VacationStatsResultDTO>(new RequestContext
-        {
-            Scope = nameof(VacationStatsMapper),
-            SqlId = "ListVacationStats",
-            Request = dto
-        });
-    }
+        => SqlMapper.QueryForList<VacationStatsResultDTO>(nameof(VacationStatsMapper), "ListVacationStats", dto);
 
     /// <summary>
     /// 휴가 통계를 추가한다.
     /// </summary>
     public Task<int> AddVacationStats(AddVacationStatsRequestDTO dto)
-    {
-        return SqlMapper.ExecuteScalarAsync<int>(new RequestContext
-        {
-            Scope = nameof(VacationStatsMapper),
-            SqlId = "AddVacationStats",
-            Request = dto
-        });
-    }
+        => SqlMapper.ExecuteScalar<int>(nameof(VacationStatsMapper), "AddVacationStats", dto);
 
     /// <summary>
     /// 휴가 통계를 삭제한다.
     /// </summary>
     public Task<int> RemoveVacationStats(int? userId)
-    {
-        return SqlMapper.ExecuteAsync(new RequestContext
-        {
-            Scope = nameof(VacationStatsMapper),
-            SqlId = "RemoveVacationStats",
-            Request = new { userId }
-        });
-    }
+        => SqlMapper.Execute(nameof(VacationStatsMapper), "RemoveVacationStats", new { userId });
     #endregion
 
 }

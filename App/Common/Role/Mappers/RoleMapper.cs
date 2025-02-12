@@ -1,4 +1,5 @@
 using SmartSql;
+using Svc.App.Shared.Extensions;
 using Svc.App.Common.Role.Models.DTO;
 
 namespace Svc.App.Common.Role.Mappers;
@@ -24,13 +25,7 @@ public class RoleMapper
     /// 권한 목록을 조회한다.
     /// </summary>
     public Task<IList<RoleResultDTO>> ListRole()
-    {
-        return SqlMapper.QueryAsync<RoleResultDTO>(new RequestContext
-        {
-            Scope = nameof(RoleMapper),
-            SqlId = "ListRole"
-        });
-    }
+        => SqlMapper.QueryForList<RoleResultDTO>(nameof(RoleMapper), "ListRole");
     #endregion
 
 }
