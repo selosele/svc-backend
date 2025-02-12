@@ -38,7 +38,7 @@ public class MyMailService
         if (!IsValidEmail(dto.To!))
             return false;
 
-        var id = dto.To!.Split('@')[0];
+        var id = dto.To!.Split("@")[0];
         var message = new MimeMessage();
         message.From.Add(new MailboxAddress(_smtpSettings.FromName, _smtpSettings.FromAddr));
         message.To.Add(new MailboxAddress(id, dto.To));
