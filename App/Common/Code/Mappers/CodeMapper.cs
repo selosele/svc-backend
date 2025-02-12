@@ -25,31 +25,31 @@ public class CodeMapper
     /// 코드 목록을 조회한다.
     /// </summary>
     public Task<IList<CodeResultDTO>> ListCode()
-        => SqlMapper.QueryForList<CodeResultDTO>(nameof(CodeMapper), "ListCode");
+        => SqlMapper.QueryForList<CodeResultDTO>($"{nameof(CodeMapper)}.ListCode");
 
     /// <summary>
     /// 코드를 조회한다.
     /// </summary>
     public Task<CodeResultDTO> GetCode(string codeId)
-        => SqlMapper.QueryForObject<CodeResultDTO>(nameof(CodeMapper), "GetCode", new { codeId });
+        => SqlMapper.QueryForObject<CodeResultDTO>($"{nameof(CodeMapper)}.GetCode", new { codeId });
 
     /// <summary>
     /// 코드를 추가한다.
     /// </summary>
     public Task<string> AddCode(SaveCodeRequestDTO dto)
-        => SqlMapper.ExecuteScalar<string>(nameof(CodeMapper), "AddCode", dto);
+        => SqlMapper.ExecuteScalar<string>($"{nameof(CodeMapper)}.AddCode", dto);
 
     /// <summary>
     /// 코드를 수정한다.
     /// </summary>
     public Task<int> UpdateCode(SaveCodeRequestDTO dto)
-        => SqlMapper.Execute(nameof(CodeMapper), "UpdateCode", dto);
+        => SqlMapper.Execute($"{nameof(CodeMapper)}.UpdateCode", dto);
 
     /// <summary>
     /// 코드를 삭제한다.
     /// </summary>
     public Task<int> RemoveCode(string codeId)
-        => SqlMapper.Execute(nameof(CodeMapper), "RemoveCode", new { codeId });
+        => SqlMapper.Execute($"{nameof(CodeMapper)}.RemoveCode", new { codeId });
     #endregion
 
 }

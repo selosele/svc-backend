@@ -25,13 +25,13 @@ public class UserSetupMapper
     /// 사용자 설정을 조회한다.
     /// </summary>
     public Task<UserSetupResultDTO> GetUserSetup(GetUserSetupRequestDTO dto)
-        => SqlMapper.QueryForObject<UserSetupResultDTO>(nameof(UserSetupMapper), "GetUserSetup", dto);
+        => SqlMapper.QueryForObject<UserSetupResultDTO>($"{nameof(UserSetupMapper)}.GetUserSetup", dto);
 
     /// <summary>
     /// 사용자 설정을 추가한다.
     /// </summary>
     public Task<int> AddUserSetup(AddUserSetupRequestDTO dto)
-        => SqlMapper.ExecuteScalar<int>(nameof(UserSetupMapper), "AddUserSetup", dto);
+        => SqlMapper.ExecuteScalar<int>($"{nameof(UserSetupMapper)}.AddUserSetup", dto);
     #endregion
 
 }

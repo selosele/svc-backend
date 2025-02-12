@@ -25,19 +25,19 @@ public class VacationStatsMapper
     /// 휴가 통계 목록을 조회한다.
     /// </summary>
     public Task<IList<VacationStatsResultDTO>> ListVacationStats(GetVacationStatsRequestDTO dto)
-        => SqlMapper.QueryForList<VacationStatsResultDTO>(nameof(VacationStatsMapper), "ListVacationStats", dto);
+        => SqlMapper.QueryForList<VacationStatsResultDTO>($"{nameof(VacationStatsMapper)}.ListVacationStats", dto);
 
     /// <summary>
     /// 휴가 통계를 추가한다.
     /// </summary>
     public Task<int> AddVacationStats(AddVacationStatsRequestDTO dto)
-        => SqlMapper.ExecuteScalar<int>(nameof(VacationStatsMapper), "AddVacationStats", dto);
+        => SqlMapper.ExecuteScalar<int>($"{nameof(VacationStatsMapper)}.AddVacationStats", dto);
 
     /// <summary>
     /// 휴가 통계를 삭제한다.
     /// </summary>
     public Task<int> RemoveVacationStats(int? userId)
-        => SqlMapper.Execute(nameof(VacationStatsMapper), "RemoveVacationStats", new { userId });
+        => SqlMapper.Execute($"{nameof(VacationStatsMapper)}.RemoveVacationStats", new { userId });
     #endregion
 
 }

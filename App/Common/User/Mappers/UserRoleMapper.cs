@@ -25,19 +25,19 @@ public class UserRoleMapper
     /// 사용자 권한 목록을 조회한다.
     /// </summary>
     public Task<IList<UserRoleResultDTO>> ListUserRole(GetUserRoleRequestDTO dto)
-        => SqlMapper.QueryForList<UserRoleResultDTO>(nameof(UserRoleMapper), "ListUserRole", dto);
+        => SqlMapper.QueryForList<UserRoleResultDTO>($"{nameof(UserRoleMapper)}.ListUserRole", dto);
 
     /// <summary>
     /// 사용자 권한을 추가한다.
     /// </summary>
     public Task<int> AddUserRole(List<AddUserRoleRequestDTO> dtoList)
-        => SqlMapper.Execute(nameof(UserRoleMapper), "AddUserRole", new { DTOList = dtoList });
+        => SqlMapper.Execute($"{nameof(UserRoleMapper)}.AddUserRole", new { DTOList = dtoList });
 
     /// <summary>
     /// 사용자 권한을 삭제한다.
     /// </summary>
     public Task<int> RemoveUserRole(int? userId)
-        => SqlMapper.Execute(nameof(UserRoleMapper), "RemoveUserRole", new { userId });
+        => SqlMapper.Execute($"{nameof(UserRoleMapper)}.RemoveUserRole", new { userId });
     #endregion
 
 }

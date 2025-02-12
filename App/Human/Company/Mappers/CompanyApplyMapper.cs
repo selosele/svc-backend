@@ -25,25 +25,25 @@ public class CompanyApplyMapper
     /// 회사등록신청 목록을 조회한다.
     /// </summary>
     public Task<IList<CompanyApplyResultDTO>> ListCompanyApply(GetCompanyApplyRequestDTO? dto)
-        => SqlMapper.QueryForList<CompanyApplyResultDTO>(nameof(CompanyApplyMapper), "ListCompanyApply", dto);
+        => SqlMapper.QueryForList<CompanyApplyResultDTO>($"{nameof(CompanyApplyMapper)}.ListCompanyApply", dto);
 
     /// <summary>
     /// 회사등록신청을 조회한다.
     /// </summary>
     public Task<CompanyApplyResultDTO> GetCompanyApply(int companyApplyId)
-        => SqlMapper.QueryForObject<CompanyApplyResultDTO>(nameof(CompanyApplyMapper), "GetCompanyApply", new { companyApplyId });
+        => SqlMapper.QueryForObject<CompanyApplyResultDTO>($"{nameof(CompanyApplyMapper)}.GetCompanyApply", new { companyApplyId });
 
     /// <summary>
     /// 회사등록신청을 추가한다.
     /// </summary>
     public Task<int> AddCompanyApply(SaveCompanyApplyRequestDTO dto)
-        => SqlMapper.ExecuteScalar<int>(nameof(CompanyApplyMapper), "AddCompanyApply", dto);
+        => SqlMapper.ExecuteScalar<int>($"{nameof(CompanyApplyMapper)}.AddCompanyApply", dto);
 
     /// <summary>
     /// 회사등록신청을 수정한다.
     /// </summary>
     public Task<int> UpdateCompanyApply(SaveCompanyApplyRequestDTO dto)
-        => SqlMapper.Execute(nameof(CompanyApplyMapper), "UpdateCompanyApply", dto);
+        => SqlMapper.Execute($"{nameof(CompanyApplyMapper)}.UpdateCompanyApply", dto);
     #endregion
 
 }

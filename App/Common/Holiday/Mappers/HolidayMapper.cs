@@ -25,31 +25,31 @@ public class HolidayMapper
     /// 휴일 목록을 조회한다.
     /// </summary>
     public Task<IList<HolidayResultDTO>> ListHoliday(GetHolidayRequestDTO? dto)
-        => SqlMapper.QueryForList<HolidayResultDTO>(nameof(HolidayMapper), "ListHoliday", dto);
+        => SqlMapper.QueryForList<HolidayResultDTO>($"{nameof(HolidayMapper)}.ListHoliday", dto);
 
     /// <summary>
     /// 휴일을 조회한다.
     /// </summary>
     public Task<HolidayResultDTO> GetHoliday(GetHolidayRequestDTO dto)
-        => SqlMapper.QueryForObject<HolidayResultDTO>(nameof(HolidayMapper), "GetHoliday", dto);
+        => SqlMapper.QueryForObject<HolidayResultDTO>($"{nameof(HolidayMapper)}.GetHoliday", dto);
 
     /// <summary>
     /// 휴일을 추가한다.
     /// </summary>
     public Task<string> AddHoliday(SaveHolidayRequestDTO dto)
-        => SqlMapper.ExecuteScalar<string>(nameof(HolidayMapper), "AddHoliday", dto);
+        => SqlMapper.ExecuteScalar<string>($"{nameof(HolidayMapper)}.AddHoliday", dto);
 
     /// <summary>
     /// 휴일을 수정한다.
     /// </summary>
     public Task<int> UpdateHoliday(SaveHolidayRequestDTO dto)
-        => SqlMapper.Execute(nameof(HolidayMapper), "UpdateHoliday", dto);
+        => SqlMapper.Execute($"{nameof(HolidayMapper)}.UpdateHoliday", dto);
 
     /// <summary>
     /// 휴일을 삭제한다.
     /// </summary>
     public Task<int> RemoveHoliday(string ymd, int? userId)
-        => SqlMapper.Execute(nameof(HolidayMapper), "RemoveHoliday", new { ymd, userId });
+        => SqlMapper.Execute($"{nameof(HolidayMapper)}.RemoveHoliday", new { ymd, userId });
     #endregion
 
 }

@@ -25,37 +25,37 @@ public class BoardMapper
     /// 게시판 목록을 조회한다.
     /// </summary>
     public Task<IList<BoardResultDTO>> ListBoard(GetBoardRequestDTO? dto)
-        => SqlMapper.QueryForList<BoardResultDTO>(nameof(BoardMapper), "ListBoard", dto);
+        => SqlMapper.QueryForList<BoardResultDTO>($"{nameof(BoardMapper)}.ListBoard", dto);
 
     /// <summary>
     /// 메인화면 게시판 목록을 조회한다.
     /// </summary>
     public Task<IList<BoardResultDTO>> ListMainBoard(GetBoardRequestDTO? dto)
-        => SqlMapper.QueryForList<BoardResultDTO>(nameof(BoardMapper), "ListMainBoard", dto);
+        => SqlMapper.QueryForList<BoardResultDTO>($"{nameof(BoardMapper)}.ListMainBoard", dto);
 
     /// <summary>
     /// 게시판을 조회한다.
     /// </summary>
     public Task<BoardResultDTO> GetBoard(int? boardId)
-        => SqlMapper.QueryForObject<BoardResultDTO>(nameof(BoardMapper), "GetBoard", new { boardId });
+        => SqlMapper.QueryForObject<BoardResultDTO>($"{nameof(BoardMapper)}.GetBoard", new { boardId });
 
     /// <summary>
     /// 게시판을 추가한다.
     /// </summary>
     public Task<int> AddBoard(SaveBoardRequestDTO dto)
-        => SqlMapper.ExecuteScalar<int>(nameof(BoardMapper), "AddBoard", dto);
+        => SqlMapper.ExecuteScalar<int>($"{nameof(BoardMapper)}.AddBoard", dto);
 
     /// <summary>
     /// 게시판을 수정한다.
     /// </summary>
     public Task<int> UpdateBoard(SaveBoardRequestDTO dto)
-        => SqlMapper.Execute(nameof(BoardMapper), "UpdateBoard", dto);
+        => SqlMapper.Execute($"{nameof(BoardMapper)}.UpdateBoard", dto);
 
     /// <summary>
     /// 게시판을 삭제한다.
     /// </summary>
     public Task<int> RemoveBoard(int boardId, int? updaterId)
-        => SqlMapper.Execute(nameof(BoardMapper), "RemoveBoard", new { boardId, updaterId });
+        => SqlMapper.Execute($"{nameof(BoardMapper)}.RemoveBoard", new { boardId, updaterId });
     #endregion
 
 }

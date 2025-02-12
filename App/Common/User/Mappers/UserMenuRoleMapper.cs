@@ -25,13 +25,13 @@ public class UserMenuRoleMapper
     /// 사용자 메뉴 권한을 추가한다.
     /// </summary>
     public Task<int> AddUserMenuRole(List<AddUserMenuRoleRequestDTO> dtoList)
-        => SqlMapper.Execute(nameof(UserMenuRoleMapper), "AddUserMenuRole", new { DTOList = dtoList });
+        => SqlMapper.Execute($"{nameof(UserMenuRoleMapper)}.AddUserMenuRole", new { DTOList = dtoList });
 
     /// <summary>
     /// 사용자 메뉴 권한을 삭제한다.
     /// </summary>
     public Task<int> RemoveUserMenuRole(RemoveUserMenuRoleRequestDTO dto)
-        => SqlMapper.Execute(nameof(UserMenuRoleMapper), "RemoveUserMenuRole", dto);
+        => SqlMapper.Execute($"{nameof(UserMenuRoleMapper)}.RemoveUserMenuRole", dto);
     #endregion
 
 }

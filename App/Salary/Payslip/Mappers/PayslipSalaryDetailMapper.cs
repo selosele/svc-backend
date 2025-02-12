@@ -25,13 +25,19 @@ public class PayslipSalaryDetailMapper
     /// 급여명세서 급여내역 상세 목록을 조회한다.
     /// </summary>
     public Task<IList<PayslipSalaryDetailResultDTO>> ListPayslipSalaryDetail(GetPayslipRequestDTO dto)
-        => SqlMapper.QueryForList<PayslipSalaryDetailResultDTO>(nameof(PayslipSalaryDetailMapper), "ListPayslipSalaryDetail", dto);
+        => SqlMapper.QueryForList<PayslipSalaryDetailResultDTO>($"{nameof(PayslipSalaryDetailMapper)}.ListPayslipSalaryDetail", dto);
 
     /// <summary>
     /// 급여명세서 급여내역 상세를 추가한다.
     /// </summary>
     public Task<int> AddPayslipSalaryDetail(List<AddPayslipSalaryDetailRequestDTO> dtoList)
-        => SqlMapper.Execute(nameof(PayslipSalaryDetailMapper), "AddPayslipSalaryDetail", new { DTOList = dtoList });
+        => SqlMapper.Execute($"{nameof(PayslipSalaryDetailMapper)}.AddPayslipSalaryDetail", new { DTOList = dtoList });
+
+    /// <summary>
+    /// 급여명세서 급여내역 상세를 삭제한다.
+    /// </summary>
+    public Task<int> RemovePayslipSalaryDetail(int payslipId)
+        => SqlMapper.Execute($"{nameof(PayslipSalaryDetailMapper)}.RemovePayslipSalaryDetail", new { payslipId });
     #endregion
 
 }

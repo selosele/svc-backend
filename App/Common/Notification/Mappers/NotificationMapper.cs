@@ -25,31 +25,31 @@ public class NotificationMapper
     /// 알림 개수를 조회한다.
     /// </summary>
     public Task<int> CountNotification(GetNotificationRequestDTO? dto)
-        => SqlMapper.QueryForObject<int>(nameof(NotificationMapper), "CountNotification", dto);
+        => SqlMapper.QueryForObject<int>($"{nameof(NotificationMapper)}.CountNotification", dto);
 
     /// <summary>
     /// 알림 목록을 조회한다.
     /// </summary>
     public Task<IList<NotificationResultDTO>> ListNotification(GetNotificationRequestDTO? dto)
-        => SqlMapper.QueryForList<NotificationResultDTO>(nameof(NotificationMapper), "ListNotification", dto);
+        => SqlMapper.QueryForList<NotificationResultDTO>($"{nameof(NotificationMapper)}.ListNotification", dto);
 
     /// <summary>
     /// 알림을 추가한다.
     /// </summary>
     public Task<int> AddNotification(AddNotificationRequestDTO dto)
-        => SqlMapper.ExecuteScalar<int>(nameof(NotificationMapper), "AddNotification", dto);
+        => SqlMapper.ExecuteScalar<int>($"{nameof(NotificationMapper)}.AddNotification", dto);
 
     /// <summary>
     /// 알림을 확인처리한다.
     /// </summary>
     public Task<int> UpdateNotificationReadDt(SaveNotificationRequestDTO dto)
-        => SqlMapper.Execute(nameof(NotificationMapper), "UpdateNotificationReadDt", dto);
+        => SqlMapper.Execute($"{nameof(NotificationMapper)}.UpdateNotificationReadDt", dto);
 
     /// <summary>
     /// 알림을 삭제한다.
     /// </summary>
     public Task<int> RemoveNotification(SaveNotificationRequestDTO dto)
-        => SqlMapper.Execute(nameof(NotificationMapper), "RemoveNotification", dto);
+        => SqlMapper.Execute($"{nameof(NotificationMapper)}.RemoveNotification", dto);
     #endregion
 
 }

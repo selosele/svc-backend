@@ -25,37 +25,37 @@ public class ArticleMapper
     /// 게시글 목록을 조회한다.
     /// </summary>
     public Task<IList<ArticleResultDTO>> ListArticle(GetArticleRequestDTO dto)
-        => SqlMapper.QueryForList<ArticleResultDTO>(nameof(ArticleMapper), "ListArticle", dto);
+        => SqlMapper.QueryForList<ArticleResultDTO>($"{nameof(ArticleMapper)}.ListArticle", dto);
 
     /// <summary>
     /// 이전/다음 게시글 목록을 조회한다.
     /// </summary>
     public Task<IList<ArticleResultDTO>> ListPrevNextArticle(GetArticleRequestDTO dto)
-        => SqlMapper.QueryForList<ArticleResultDTO>(nameof(ArticleMapper), "ListPrevNextArticle", dto);
+        => SqlMapper.QueryForList<ArticleResultDTO>($"{nameof(ArticleMapper)}.ListPrevNextArticle", dto);
 
     /// <summary>
     /// 게시글을 조회한다.
     /// </summary>
     public Task<ArticleResultDTO> GetArticle(int articleId)
-        => SqlMapper.QueryForObject<ArticleResultDTO>(nameof(ArticleMapper), "GetArticle", new { articleId });
+        => SqlMapper.QueryForObject<ArticleResultDTO>($"{nameof(ArticleMapper)}.GetArticle", new { articleId });
 
     /// <summary>
     /// 게시글을 추가한다.
     /// </summary>
     public Task<int> AddArticle(SaveArticleRequestDTO dto)
-        => SqlMapper.ExecuteScalar<int>(nameof(ArticleMapper), "AddArticle", dto);
+        => SqlMapper.ExecuteScalar<int>($"{nameof(ArticleMapper)}.AddArticle", dto);
 
     /// <summary>
     /// 게시글을 수정한다.
     /// </summary>
     public Task<int> UpdateArticle(SaveArticleRequestDTO dto)
-        => SqlMapper.Execute(nameof(ArticleMapper), "UpdateArticle", dto);
+        => SqlMapper.Execute($"{nameof(ArticleMapper)}.UpdateArticle", dto);
 
     /// <summary>
     /// 게시글을 삭제한다.
     /// </summary>
     public Task<int> RemoveArticle(int articleId, int? updaterId)
-        => SqlMapper.Execute(nameof(ArticleMapper), "RemoveArticle", new { articleId, updaterId });
+        => SqlMapper.Execute($"{nameof(ArticleMapper)}.RemoveArticle", new { articleId, updaterId });
     #endregion
 
 }

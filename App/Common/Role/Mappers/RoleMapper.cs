@@ -25,7 +25,7 @@ public class RoleMapper
     /// 권한 목록을 조회한다.
     /// </summary>
     public Task<IList<RoleResultDTO>> ListRole()
-        => SqlMapper.QueryForList<RoleResultDTO>(nameof(RoleMapper), "ListRole");
+        => SqlMapper.QueryForList<RoleResultDTO>($"{nameof(RoleMapper)}.ListRole");
     #endregion
 
 }
