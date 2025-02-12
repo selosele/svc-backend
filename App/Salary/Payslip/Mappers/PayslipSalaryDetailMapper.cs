@@ -36,7 +36,7 @@ public class PayslipSalaryDetailMapper
     /// <summary>
     /// 급여명세서 급여내역 상세를 삭제한다.
     /// </summary>
-    public Task<int> RemovePayslipSalaryDetail(int payslipId)
+    public Task<int> RemovePayslipSalaryDetail(int? payslipId)
         => SqlMapper.Execute($"{nameof(PayslipSalaryDetailMapper)}.RemovePayslipSalaryDetail", new { payslipId });
     #endregion
 

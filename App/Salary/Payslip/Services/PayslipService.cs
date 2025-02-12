@@ -100,6 +100,53 @@ public class PayslipService
     }
 
     /// <summary>
+    /// 급여명세서를 수정한다.
+    /// </summary>
+    [Transaction]
+    public async Task<PayslipResultDTO> UpdatePayslip(SavePayslipRequestDTO dto)
+    {
+        // 1. 지급월에 해당하는 급여명세서가 있는지 조회힌다.
+        var count = await _payslipMapper.CountPayslip(new GetPayslipRequestDTO
+        {
+            WorkHistoryId = dto.WorkHistoryId,
+            PayslipId = dto.PayslipId,
+            PayslipPaymentYmd = dto.PayslipPaymentYmd
+        });
+
+        if (count > 0)
+        {
+            var YYYYMM = Convert.ToDateTime(dto.PayslipPaymentYmd).ToString("yyyy년 MM월");
+            throw new BizException($"{YYYYMM}에 이미 등록된 급여명세서가 있어요.");
+        }
+
+        // 2. 급여명세서를 수정한다.
+        await _payslipMapper.UpdatePayslip(dto);
+
+        // 3. 수정한 급여명세서를 조회한다.
+        var payslip = await _payslipMapper.GetPayslip(dto.PayslipId);
+
+        // 4. 급여명세서 급여내역 상세를 삭제한다.
+        await _payslipSalaryDetailMapper.RemovePayslipSalaryDetail(dto.PayslipId);
+
+        // 5. 급여명세서 급여내역 상세를 추가한다.
+        foreach (var i in dto.PayslipSalaryDetailList!)
+        {
+            i.PayslipId = dto.PayslipId;
+            i.CreaterId = dto.CreaterId;
+        }
+        await _payslipSalaryDetailMapper.AddPayslipSalaryDetail(dto.PayslipSalaryDetailList);
+
+        // 6. 급여명세서 급여내역 상세 목록을 조회한다.
+        payslip.PayslipSalaryDetailList = await _payslipSalaryDetailMapper.ListPayslipSalaryDetail(new GetPayslipRequestDTO
+        {
+            PayslipId = dto.PayslipId
+        });
+
+        // 7. 수정한 급여명세서를 반환한다.
+        return payslip;
+    }
+
+    /// <summary>
     /// 급여명세서를 삭제한다.
     /// </summary>
     [Transaction]

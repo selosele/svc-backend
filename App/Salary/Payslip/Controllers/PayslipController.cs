@@ -89,6 +89,29 @@ public class PayslipController : ControllerBase
     }
 
     /// <summary>
+    /// 급여명세서를 수정한다.
+    /// </summary>
+    [HttpPut("{payslipId}")]
+    [Authorize]
+    public async Task<ActionResult<PayslipResponseDTO>> UpdatePayslip(int payslipId, [FromBody] SavePayslipRequestDTO dto)
+    {
+        var user = _authService.GetAuthenticatedUser();
+        var myUserId = user.UserId;
+        var myEmloyeeId = user.Employee?.EmployeeId;
+        
+        if (myUserId != dto.UserId)
+            return NotFound();
+
+        dto.EmployeeId = myEmloyeeId;
+        dto.CreaterId = myUserId;
+        dto.UpdaterId = myUserId;
+        
+        var payslip = await _payslipService.UpdatePayslip(dto);
+
+        return Ok(new PayslipResponseDTO { Payslip = payslip });
+    }
+
+    /// <summary>
     /// 급여명세서를 삭제한다.
     /// </summary>
     [HttpDelete("{payslipId}")]

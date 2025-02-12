@@ -12,6 +12,11 @@ public record PayslipResultDTO
     public int? PayslipId { get; set; }
 
     /// <summary>
+    /// 사용자 ID
+    /// </summary>
+    public int? UserId { get; set; }
+
+    /// <summary>
     /// 직원 ID
     /// </summary>
     public int? EmployeeId { get; set; }

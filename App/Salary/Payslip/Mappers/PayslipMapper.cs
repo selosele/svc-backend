@@ -42,7 +42,7 @@ public class PayslipMapper
     /// <summary>
     /// 급여명세서를 조회한다.
     /// </summary>
-    public Task<PayslipResultDTO> GetPayslip(int payslipId)
+    public Task<PayslipResultDTO> GetPayslip(int? payslipId)
         => SqlMapper.QueryForObject<PayslipResultDTO>($"{nameof(PayslipMapper)}.GetPayslip", new { payslipId });
 
     /// <summary>
@@ -60,7 +60,7 @@ public class PayslipMapper
     /// <summary>
     /// 급여명세서를 삭제한다.
     /// </summary>
-    public Task<int> RemovePayslip(int payslipId, int? updaterId)
+    public Task<int> RemovePayslip(int? payslipId, int? updaterId)
         => SqlMapper.Execute($"{nameof(PayslipMapper)}.RemovePayslip", new { payslipId, updaterId });
     #endregion
 

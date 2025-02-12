@@ -4,6 +4,7 @@
   <ResultMaps>
     <ResultMap Id="PayslipResultMap">
       <Result Column="PAYSLIP_ID" Property="PayslipId" />
+      <Result Column="USER_ID" Property="UserId" />
       <Result Column="EMPLOYEE_ID" Property="EmployeeId" />
       <Result Column="WORK_HISTORY_ID" Property="WorkHistoryId" />
       <Result Column="PAYSLIP_PAYMENT_YMD" Property="PayslipPaymentYmd" />
@@ -29,6 +30,9 @@
       FROM SA_PAYSLIP P
       WHERE P.DELETE_YN = 'N'
         AND P.WORK_HISTORY_ID = ?WorkHistoryId
+        <IsNotEmpty Property="PayslipId">
+        AND P.PAYSLIP_ID != ?PayslipId
+        </IsNotEmpty>
         <IsNotEmpty Property="PayslipPaymentYmd">
         AND SUBSTRING(P.PAYSLIP_PAYMENT_YMD, 1, 6) = SUBSTRING(REPLACE(?PayslipPaymentYmd, '-', ''), 1, 6)
         </IsNotEmpty>
@@ -125,6 +129,7 @@
       )
       SELECT
         P.PAYSLIP_ID,
+        E.USER_ID,
         P.EMPLOYEE_ID,
         P.WORK_HISTORY_ID,
         P.PAYSLIP_PAYMENT_YMD,
@@ -138,6 +143,7 @@
       FROM SA_PAYSLIP P
       LEFT JOIN SALARY_AMOUNT_BASE A00 ON A00.PAYSLIP_ID = P.PAYSLIP_ID AND A00.SALARY_TYPE_CODE = 'A00'
       LEFT JOIN SALARY_AMOUNT_BASE B00 ON B00.PAYSLIP_ID = P.PAYSLIP_ID AND B00.SALARY_TYPE_CODE = 'B00'
+      LEFT JOIN HM_EMPLOYEE E ON E.EMPLOYEE_ID = P.EMPLOYEE_ID
       LEFT JOIN HM_WORK_HISTORY H ON H.WORK_HISTORY_ID = P.WORK_HISTORY_ID
       LEFT JOIN CO_CODE CD ON CD.CODE_VALUE = P.RANK_CODE AND CD.UP_CODE_ID = 'RANK_00'
       WHERE P.PAYSLIP_ID = ?PayslipId
@@ -166,6 +172,20 @@
       ;SELECT LAST_INSERT_ID()
     </Statement>
 
+    <!-- 급여명세서를 수정한다. -->
+    <Statement Id="UpdatePayslip">
+      /* PayslipMapper.UpdatePayslip */
+
+      UPDATE SA_PAYSLIP
+        SET
+          PAYSLIP_PAYMENT_YMD = REPLACE(?PayslipPaymentYmd, '-', ''),
+          PAYSLIP_NOTE = ?PayslipNote,
+          RANK_CODE = ?RankCode,
+          UPDATER_ID = ?UpdaterId,
+          UPDATE_DT = SYSDATE()
+      WHERE PAYSLIP_ID = ?PayslipId
+    </Statement>
+    
     <!-- 급여명세서를 삭제한다. -->
     <Statement Id="RemovePayslip">
       /* PayslipMapper.RemovePayslip */

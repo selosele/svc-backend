@@ -58,6 +58,14 @@
         )
       </For>
     </Statement>
+
+    <!-- 급여명세서 급여내역 상세를 삭제한다. -->
+    <Statement Id="RemovePayslipSalaryDetail">
+      /* PayslipSalaryDetailMapper.RemovePayslipSalaryDetail */
+
+      DELETE FROM SA_PAYSLIP_SALARY_DETAIL
+      WHERE PAYSLIP_ID = ?PayslipId
+    </Statement>
     
   </Statements>
 </SmartSqlMap>
