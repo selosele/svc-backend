@@ -52,6 +52,11 @@ public record PayslipResultDTO
     public string? JoinYmd { get; set; }
 
     /// <summary>
+    /// 회사명
+    /// </summary>
+    public string? CompanyName { get; set; }
+
+    /// <summary>
     /// 급여명세서 지급내역 총 금액
     /// </summary>
     public string? TotalAmountA00 { get; set; }

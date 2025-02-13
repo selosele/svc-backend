@@ -12,6 +12,7 @@
       <Result Column="RANK_CODE" Property="RankCode" />
       <Result Column="RANK_CODE_NAME" Property="RankCodeName" />
       <Result Column="JOIN_YMD" Property="JoinYmd" />
+      <Result Column="COMPANY_NAME" Property="CompanyName" />
       <Result Column="TOTAL_AMOUNT_A00" Property="TotalAmountA00" />
       <Result Column="TOTAL_AMOUNT_B00" Property="TotalAmountB00" />
       <Result Column="TOTAL_AMOUNT" Property="TotalAmount" />
@@ -126,6 +127,17 @@
         WHERE P.DELETE_YN = 'N'
           AND PD.SALARY_AMOUNT IS NOT NULL
         GROUP BY P.PAYSLIP_ID, PD.SALARY_TYPE_CODE
+      ),
+      COMPANY_BASE AS (
+        SELECT
+          C.COMPANY_ID,
+          C.COMPANY_NAME,
+          H.EMPLOYEE_ID
+        FROM HM_COMPANY C
+        LEFT JOIN HM_WORK_HISTORY H ON H.COMPANY_ID = C.COMPANY_ID
+        WHERE C.DELETE_YN = 'N'
+          AND H.DELETE_YN = 'N'
+        ORDER BY H.JOIN_YMD DESC
       )
       SELECT
         P.PAYSLIP_ID,
@@ -137,6 +149,7 @@
         P.RANK_CODE,
         CD.CODE_NAME AS RANK_CODE_NAME,
         H.JOIN_YMD,
+        CB.COMPANY_NAME,
         FORMAT(IFNULL(SUM(A00.TOTAL_AMOUNT), 0), 0) AS TOTAL_AMOUNT_A00,
         FORMAT(IFNULL(SUM(B00.TOTAL_AMOUNT), 0), 0) AS TOTAL_AMOUNT_B00,
         FORMAT(IFNULL(SUM(A00.TOTAL_AMOUNT), 0) - IFNULL(SUM(B00.TOTAL_AMOUNT), 0), 0) AS TOTAL_AMOUNT
@@ -145,6 +158,7 @@
       LEFT JOIN SALARY_AMOUNT_BASE B00 ON B00.PAYSLIP_ID = P.PAYSLIP_ID AND B00.SALARY_TYPE_CODE = 'B00'
       LEFT JOIN HM_EMPLOYEE E ON E.EMPLOYEE_ID = P.EMPLOYEE_ID
       LEFT JOIN HM_WORK_HISTORY H ON H.WORK_HISTORY_ID = P.WORK_HISTORY_ID
+      LEFT JOIN COMPANY_BASE CB ON CB.COMPANY_ID = H.COMPANY_ID AND CB.EMPLOYEE_ID = H.EMPLOYEE_ID
       LEFT JOIN CO_CODE CD ON CD.CODE_VALUE = P.RANK_CODE AND CD.UP_CODE_ID = 'RANK_00'
       WHERE P.PAYSLIP_ID = ?PayslipId
     </Statement>
