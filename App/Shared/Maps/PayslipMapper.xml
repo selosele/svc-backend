@@ -95,7 +95,7 @@
         (SELECT
           PAYSLIP_ID, PAYSLIP_PAYMENT_YMD, 'PREV' AS PREV_NEXT_FLAG
         FROM SA_PAYSLIP
-        WHERE PAYSLIP_PAYMENT_YMD <![CDATA[ < ]]> ?PayslipPaymentYmd
+        WHERE PAYSLIP_PAYMENT_YMD <![CDATA[ < ]]> REPLACE(?PayslipPaymentYmd, '-', '')
           AND WORK_HISTORY_ID = ?WorkHistoryId
           AND DELETE_YN = 'N'
         ORDER BY EMPLOYEE_ID DESC, PAYSLIP_PAYMENT_YMD DESC LIMIT 1)
@@ -105,7 +105,7 @@
         (SELECT
           PAYSLIP_ID, PAYSLIP_PAYMENT_YMD, 'NEXT' AS PREV_NEXT_FLAG
         FROM SA_PAYSLIP
-        WHERE PAYSLIP_PAYMENT_YMD <![CDATA[ > ]]> ?PayslipPaymentYmd
+        WHERE PAYSLIP_PAYMENT_YMD <![CDATA[ > ]]> REPLACE(?PayslipPaymentYmd, '-', '')
           AND WORK_HISTORY_ID = ?WorkHistoryId
           AND DELETE_YN = 'N'
           ORDER BY EMPLOYEE_ID, PAYSLIP_PAYMENT_YMD LIMIT 1)
