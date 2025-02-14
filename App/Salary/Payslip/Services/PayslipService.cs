@@ -45,13 +45,10 @@ public class PayslipService
     /// 급여명세서를 조회한다.
     /// </summary>
     [Transaction]
-    public async Task<PayslipResultDTO> GetPayslip(int payslipId)
+    public async Task<PayslipResultDTO> GetPayslip(GetPayslipRequestDTO dto)
     {
-        var payslip = await _payslipMapper.GetPayslip(payslipId);
-        payslip.PayslipSalaryDetailList = await _payslipSalaryDetailMapper.ListPayslipSalaryDetail(new GetPayslipRequestDTO
-        {
-            PayslipId = payslipId
-        });
+        var payslip = await _payslipMapper.GetPayslip(dto);
+        payslip.PayslipSalaryDetailList = await _payslipSalaryDetailMapper.ListPayslipSalaryDetail(dto);
 
         return payslip;
     }
@@ -79,7 +76,7 @@ public class PayslipService
         var payslipId = await _payslipMapper.AddPayslip(dto);
 
         // 3. 추가한 급여명세서를 조회한다.
-        var payslip = await _payslipMapper.GetPayslip(payslipId);
+        var payslip = await _payslipMapper.GetPayslip(new GetPayslipRequestDTO { PayslipId = payslipId });
 
         // 4. 급여명세서 급여내역 상세를 추가한다.
         foreach (var i in dto.PayslipSalaryDetailList!)
@@ -92,7 +89,9 @@ public class PayslipService
         // 5. 급여명세서 급여내역 상세 목록을 조회한다.
         payslip.PayslipSalaryDetailList = await _payslipSalaryDetailMapper.ListPayslipSalaryDetail(new GetPayslipRequestDTO
         {
-            PayslipId = payslipId
+            PayslipId = payslipId,
+            PayslipPaymentYmd = dto.PayslipPaymentYmd,
+            WorkHistoryId = dto.WorkHistoryId
         });
 
         // 6. 추가한 급여명세서를 반환한다.
@@ -123,7 +122,7 @@ public class PayslipService
         await _payslipMapper.UpdatePayslip(dto);
 
         // 3. 수정한 급여명세서를 조회한다.
-        var payslip = await _payslipMapper.GetPayslip(dto.PayslipId);
+        var payslip = await _payslipMapper.GetPayslip(new GetPayslipRequestDTO { PayslipId = dto.PayslipId });
 
         // 4. 급여명세서 급여내역 상세를 삭제한다.
         await _payslipSalaryDetailMapper.RemovePayslipSalaryDetail(dto.PayslipId);
@@ -139,7 +138,9 @@ public class PayslipService
         // 6. 급여명세서 급여내역 상세 목록을 조회한다.
         payslip.PayslipSalaryDetailList = await _payslipSalaryDetailMapper.ListPayslipSalaryDetail(new GetPayslipRequestDTO
         {
-            PayslipId = dto.PayslipId
+            PayslipId = dto.PayslipId,
+            PayslipPaymentYmd = dto.PayslipPaymentYmd,
+            WorkHistoryId = dto.WorkHistoryId
         });
 
         // 7. 수정한 급여명세서를 반환한다.

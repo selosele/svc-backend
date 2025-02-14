@@ -60,7 +60,7 @@ public class PayslipController : ControllerBase
         if (myUserId != dto.UserId)
             return NotFound();
 
-        var payslip = await _payslipService.GetPayslip(payslipId);
+        var payslip = await _payslipService.GetPayslip(dto);
         var payslipList = await _payslipService.ListPrevNextPayslip(dto);
 
         return Ok(new PayslipResponseDTO { Payslip = payslip, PayslipList = payslipList });
@@ -119,7 +119,7 @@ public class PayslipController : ControllerBase
     public async Task<ActionResult> RemoveArticle(int payslipId)
     {
         var user = _authService.GetAuthenticatedUser();
-        var payslip = await _payslipService.GetPayslip(payslipId);
+        var payslip = await _payslipService.GetPayslip(new GetPayslipRequestDTO { PayslipId = payslipId });
 
         if (payslip.EmployeeId != user.Employee?.EmployeeId)
             return NotFound();

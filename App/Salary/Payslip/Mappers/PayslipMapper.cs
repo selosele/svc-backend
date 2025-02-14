@@ -42,8 +42,8 @@ public class PayslipMapper
     /// <summary>
     /// 급여명세서를 조회한다.
     /// </summary>
-    public Task<PayslipResultDTO> GetPayslip(int? payslipId)
-        => SqlMapper.QueryForObject<PayslipResultDTO>($"{nameof(PayslipMapper)}.GetPayslip", new { payslipId });
+    public Task<PayslipResultDTO> GetPayslip(GetPayslipRequestDTO dto)
+        => SqlMapper.QueryForObject<PayslipResultDTO>($"{nameof(PayslipMapper)}.GetPayslip", dto);
 
     /// <summary>
     /// 급여명세서를 추가한다.
