@@ -42,17 +42,17 @@ public record PayslipSalaryDetailResultDTO
     public double? SalaryAmount { get; set; }
 
     /// <summary>
-    /// 이전달 급여내역 금액
+    /// 이전 달 급여내역 금액
     /// </summary>
     public double? PrevSalaryAmount { get; set; }
 
     /// <summary>
-    /// 이전달 급여내역 금액 차이
+    /// 이전 달 급여내역 금액 차이
     /// </summary>
     public double? SalaryAmountCompare { get; set; }
 
     /// <summary>
-    /// 이전달 급여내역 금액 차이 퍼센테이지
+    /// 이전 달 급여내역 금액 차이 퍼센테이지
     /// </summary>
     public double? SalaryAmountComparePercent { get; set; }
     #endregion

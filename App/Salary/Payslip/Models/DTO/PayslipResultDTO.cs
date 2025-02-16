@@ -59,17 +59,57 @@ public record PayslipResultDTO
     /// <summary>
     /// 급여명세서 지급내역 총 금액
     /// </summary>
-    public string? TotalAmountA00 { get; set; }
+    public double? TotalAmountA00 { get; set; }
 
     /// <summary>
     /// 급여명세서 공제내역 총 금액
     /// </summary>
-    public string? TotalAmountB00 { get; set; }
+    public double? TotalAmountB00 { get; set; }
 
     /// <summary>
     /// 급여명세서 실지급액(지급내역-공제내역)
     /// </summary>
-    public string? TotalAmount { get; set; }
+    public double? TotalAmount { get; set; }
+
+    /// <summary>
+    /// 이전 달 지급내역 총 금액
+    /// </summary>
+    public double? PrevTotalAmountA00 { get; set; }
+
+    /// <summary>
+    /// 이전 달 공제내역 총 금액
+    /// </summary>
+    public double? PrevTotalAmountB00 { get; set; }
+
+    /// <summary>
+    /// 이전 달 총 금액 차이
+    /// </summary>
+    public double? TotalAmountCompare { get; set; }
+
+    /// <summary>
+    /// 이전 달 총 금액 차이 퍼센테이지
+    /// </summary>
+    public double? TotalAmountComparePercent { get; set; }
+
+    /// <summary>
+    /// 이전 달 지급내역 금액 차이
+    /// </summary>
+    public double? TotalAmountCompareA00 { get; set; }
+
+    /// <summary>
+    /// 이전 달 공제내역 금액 차이
+    /// </summary>
+    public double? TotalAmountCompareB00 { get; set; }
+
+    /// <summary>
+    /// 이전 달 지급내역 금액 차이 퍼센테이지
+    /// </summary>
+    public double? TotalAmountComparePercentA00 { get; set; }
+
+    /// <summary>
+    /// 이전 달 공제내역 금액 차이 퍼센테이지
+    /// </summary>
+    public double? TotalAmountComparePercentB00 { get; set; }
 
     /// <summary>
     /// 이전/다음 급여명세서 flag
