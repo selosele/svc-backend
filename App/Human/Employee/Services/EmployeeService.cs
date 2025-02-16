@@ -82,25 +82,20 @@ public class EmployeeService
         // 퇴사일자 값이 없으면 재직 중인 회사이므로 직원 정보도 수정해준다.
         if (string.IsNullOrWhiteSpace(dto.QuitYmd))
         {
-            var updateEmployeeRequestDTO = new UpdateEmployeeRequestDTO
+            await _employeeMapper.UpdateEmployee(new UpdateEmployeeRequestDTO
             {
-                WorkHistory = new SaveWorkHistoryRequestDTO
-                {
-                    CompanyId = dto.CompanyId
-                },
+                WorkHistory = new SaveWorkHistoryRequestDTO { CompanyId = dto.CompanyId },
                 EmployeeId = dto.EmployeeId,
                 UpdaterId = dto.UpdaterId
-            };
-            await _employeeMapper.UpdateEmployee(updateEmployeeRequestDTO);
+            });
         }
 
         // 근무이력 정보를 조회해서
         var workHistory = await _workHistoryMapper.GetWorkHistory(new GetWorkHistoryRequestDTO
-            {
-                EmployeeId = dto.EmployeeId,
-                CompanyId = dto.CompanyId
-            }
-        );
+        {
+            EmployeeId = dto.EmployeeId,
+            CompanyId = dto.CompanyId
+        });
         if (workHistory != null)
         {
             // 있으면 수정을 하고
@@ -138,16 +133,12 @@ public class EmployeeService
         // 퇴사일자 값이 없으면 재직 중인 회사이므로 직원 정보도 수정해준다.
         if (string.IsNullOrWhiteSpace(dto.QuitYmd))
         {
-            var updateEmployeeRequestDTO = new UpdateEmployeeRequestDTO
+            await _employeeMapper.UpdateEmployee(new UpdateEmployeeRequestDTO
             {
-                WorkHistory = new SaveWorkHistoryRequestDTO
-                {
-                    CompanyId = dto.CompanyId
-                },
+                WorkHistory = new SaveWorkHistoryRequestDTO { CompanyId = dto.CompanyId },
                 EmployeeId = dto.EmployeeId,
                 UpdaterId = dto.UpdaterId
-            };
-            await _employeeMapper.UpdateEmployee(updateEmployeeRequestDTO);
+            });
         }
         
         // 근무이력을 추가하고
@@ -185,16 +176,12 @@ public class EmployeeService
         // 퇴사일자 값이 없으면 재직 중인 회사이므로 직원 정보도 수정해준다.
         if (string.IsNullOrWhiteSpace(dto.QuitYmd))
         {
-            var updateEmployeeRequestDTO = new UpdateEmployeeRequestDTO
+            await _employeeMapper.UpdateEmployee(new UpdateEmployeeRequestDTO
             {
-                WorkHistory = new SaveWorkHistoryRequestDTO
-                {
-                    CompanyId = dto.CompanyId
-                },
+                WorkHistory = new SaveWorkHistoryRequestDTO { CompanyId = dto.CompanyId },
                 EmployeeId = dto.EmployeeId,
                 UpdaterId = dto.UpdaterId
-            };
-            await _employeeMapper.UpdateEmployee(updateEmployeeRequestDTO);
+            });
         }
         return await _workHistoryMapper.UpdateWorkHistory(dto);
     }
