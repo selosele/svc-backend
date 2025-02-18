@@ -42,6 +42,11 @@ public record GetPayslipRequestDTO : HttpRequestDTOBase
     /// 급여명세서 지급 월
     /// </summary>
     public string? PayslipPaymentMM { get; set; }
+
+    /// <summary>
+    /// 최신 급여명세서 조회 여부 (Y/N)
+    /// </summary>
+    public string? IsGetCurrent { get; set; }
     #endregion
 
 }

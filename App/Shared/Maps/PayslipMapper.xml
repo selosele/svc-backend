@@ -89,6 +89,9 @@
         </IsNotEmpty>
       GROUP BY P.PAYSLIP_ID
       ORDER BY P.EMPLOYEE_ID DESC, P.PAYSLIP_PAYMENT_YMD DESC
+      <IsEqual Property="IsGetCurrent" CompareValue="Y">
+      LIMIT 1
+      </IsEqual>
     </Statement>
 
     <!-- 이전/다음 급여명세서 목록을 조회한다. -->
