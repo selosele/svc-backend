@@ -30,6 +30,18 @@
 
   <Statements>
 
+    <!-- 최신 급여명세서 조회용 서브쿼리 -->
+    <Statement Id="CurrentPayslipSubQuery">
+      SELECT
+        P2.PAYSLIP_ID,
+        P2.PAYSLIP_PAYMENT_YMD
+      FROM SA_PAYSLIP P2
+      WHERE P2.DELETE_YN = 'N'
+        AND P2.WORK_HISTORY_ID = ?WorkHistoryId
+      ORDER BY P2.EMPLOYEE_ID DESC, P2.PAYSLIP_PAYMENT_YMD DESC
+      LIMIT 1
+    </Statement>
+
     <!-- 급여명세서 개수를 조회한다. -->
     <Statement Id="CountPayslip">
       /* PayslipMapper.CountPayslip */
@@ -89,9 +101,6 @@
         </IsNotEmpty>
       GROUP BY P.PAYSLIP_ID
       ORDER BY P.EMPLOYEE_ID DESC, P.PAYSLIP_PAYMENT_YMD DESC
-      <IsEqual Property="IsGetCurrent" CompareValue="Y">
-      LIMIT 1
-      </IsEqual>
     </Statement>
 
     <!-- 이전/다음 급여명세서 목록을 조회한다. -->
@@ -130,13 +139,13 @@
 
       WITH PREV_SALARY_AMOUNT_BASE AS (
         SELECT
-          ?PayslipId AS PAYSLIP_ID,
+          IFNULL(?PayslipId, (SELECT A.PAYSLIP_ID FROM (<Include RefId="CurrentPayslipSubQuery" />) A)) AS PAYSLIP_ID,
           P.PAYSLIP_ID AS PREV_PAYSLIP_ID,
           PD.SALARY_TYPE_CODE,
           SUM(PD.SALARY_AMOUNT) AS TOTAL_AMOUNT
         FROM SA_PAYSLIP P
         LEFT JOIN SA_PAYSLIP_SALARY_DETAIL PD ON PD.PAYSLIP_ID = P.PAYSLIP_ID
-        WHERE P.PAYSLIP_PAYMENT_YMD <![CDATA[ < ]]> REPLACE(?PayslipPaymentYmd, '-', '')
+        WHERE P.PAYSLIP_PAYMENT_YMD <![CDATA[ < ]]> REPLACE(IFNULL(?PayslipPaymentYmd, (SELECT A.PAYSLIP_PAYMENT_YMD FROM (<Include RefId="CurrentPayslipSubQuery" />) A)), '-', '')
           AND P.WORK_HISTORY_ID = ?WorkHistoryId
           AND P.DELETE_YN = 'N'
           AND PD.SALARY_AMOUNT IS NOT NULL
@@ -188,10 +197,10 @@
           CD.CODE_NAME AS RANK_CODE_NAME,
           H.JOIN_YMD,
           CB.COMPANY_NAME,
-          IFNULL(SUM(A00.TOTAL_AMOUNT), 0) AS TOTAL_AMOUNT_A00,
-          IFNULL(SUM(B00.TOTAL_AMOUNT), 0) AS TOTAL_AMOUNT_B00,
-          IFNULL(SUM(A00.TOTAL_AMOUNT), 0) - IFNULL(SUM(B00.TOTAL_AMOUNT), 0) AS TOTAL_AMOUNT,
-          IFNULL(SUM(PREV_A00.TOTAL_AMOUNT), 0) - IFNULL(SUM(PREV_B00.TOTAL_AMOUNT), 0) AS PREV_TOTAL_AMOUNT,
+          IFNULL(A00.TOTAL_AMOUNT, 0) AS TOTAL_AMOUNT_A00,
+          IFNULL(B00.TOTAL_AMOUNT, 0) AS TOTAL_AMOUNT_B00,
+          IFNULL(A00.TOTAL_AMOUNT, 0) - IFNULL(B00.TOTAL_AMOUNT, 0) AS TOTAL_AMOUNT,
+          IFNULL(PREV_A00.TOTAL_AMOUNT, 0) - IFNULL(PREV_B00.TOTAL_AMOUNT, 0) AS PREV_TOTAL_AMOUNT,
           PREV_A00.TOTAL_AMOUNT AS PREV_TOTAL_AMOUNT_A00,
           PREV_B00.TOTAL_AMOUNT AS PREV_TOTAL_AMOUNT_B00
         FROM SA_PAYSLIP P
@@ -203,7 +212,7 @@
         LEFT JOIN HM_WORK_HISTORY H ON H.WORK_HISTORY_ID = P.WORK_HISTORY_ID
         LEFT JOIN COMPANY_BASE CB ON CB.COMPANY_ID = H.COMPANY_ID AND CB.EMPLOYEE_ID = H.EMPLOYEE_ID
         LEFT JOIN CO_CODE CD ON CD.CODE_VALUE = P.RANK_CODE AND CD.UP_CODE_ID = 'RANK_00'
-        WHERE P.PAYSLIP_ID = ?PayslipId
+        WHERE P.PAYSLIP_ID = IFNULL(?PayslipId, (SELECT A.PAYSLIP_ID FROM (<Include RefId="CurrentPayslipSubQuery" />) A))
       ) T
     </Statement>
 

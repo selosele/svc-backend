@@ -42,9 +42,22 @@ public class PayslipController : ControllerBase
         if (myUserId != dto.UserId)
             return NotFound();
 
-        var payslipList = await _payslipService.ListPayslip(dto);
+        PayslipResponseDTO? response = null;
 
-        return Ok(new PayslipResponseDTO { PayslipList = payslipList });
+        // 급여명세서 목록 조회
+        if (string.IsNullOrEmpty(dto.IsGetCurrent) || dto.IsGetCurrent == "N")
+        {
+            var payslipList = await _payslipService.ListPayslip(dto);
+            response = new PayslipResponseDTO { PayslipList = payslipList };
+        }
+        // 최신 급여명세서 조회
+        else if (dto.IsGetCurrent == "Y")
+        {
+            var payslip = await _payslipService.GetPayslip(dto);
+            response = new PayslipResponseDTO { Payslip = payslip };
+        }
+
+        return Ok(response);
     }
 
     /// <summary>

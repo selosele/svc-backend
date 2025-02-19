@@ -18,20 +18,32 @@
 
   <Statements>
 
+    <!-- 최신 급여명세서 조회용 서브쿼리 -->
+    <Statement Id="CurrentPayslipSubQuery">
+      SELECT
+        P2.PAYSLIP_ID,
+        P2.PAYSLIP_PAYMENT_YMD
+      FROM SA_PAYSLIP P2
+      WHERE P2.DELETE_YN = 'N'
+        AND P2.WORK_HISTORY_ID = ?WorkHistoryId
+      ORDER BY P2.EMPLOYEE_ID DESC, P2.PAYSLIP_PAYMENT_YMD DESC
+      LIMIT 1
+    </Statement>
+
     <!-- 급여명세서 급여내역 상세 목록을 조회한다. -->
     <Statement Id="ListPayslipSalaryDetail" ResultMap="PayslipSalaryResultMap">
       /* PayslipSalaryDetailMapper.ListPayslipSalaryDetail */
 
       WITH PREV_PAYSLIP_BASE AS (
         SELECT
-          ?PayslipId AS PAYSLIP_ID,
+          IFNULL(?PayslipId, (SELECT A.PAYSLIP_ID FROM (<Include RefId="CurrentPayslipSubQuery" />) A)) AS PAYSLIP_ID,
           P.PAYSLIP_ID AS PREV_PAYSLIP_ID,
           P.PAYSLIP_PAYMENT_YMD,
           PD.SALARY_AMOUNT_CODE,
           PD.SALARY_AMOUNT
         FROM SA_PAYSLIP P
         LEFT JOIN SA_PAYSLIP_SALARY_DETAIL PD ON PD.PAYSLIP_ID = P.PAYSLIP_ID
-        WHERE P.PAYSLIP_PAYMENT_YMD <![CDATA[ < ]]> REPLACE(?PayslipPaymentYmd, '-', '')
+        WHERE P.PAYSLIP_PAYMENT_YMD <![CDATA[ < ]]> REPLACE(IFNULL(?PayslipPaymentYmd, (SELECT A.PAYSLIP_PAYMENT_YMD FROM (<Include RefId="CurrentPayslipSubQuery" />) A)), '-', '')
           AND P.WORK_HISTORY_ID = ?WorkHistoryId
           AND P.DELETE_YN = 'N'
         ORDER BY P.EMPLOYEE_ID DESC, P.PAYSLIP_PAYMENT_YMD DESC LIMIT 1
@@ -59,7 +71,7 @@
         LEFT JOIN PREV_PAYSLIP_BASE PREV ON PREV.PREV_PAYSLIP_ID = PD2.PAYSLIP_ID
         WHERE PD2.PAYSLIP_ID = PREV.PREV_PAYSLIP_ID
       ) PREV ON PREV.SALARY_AMOUNT_CODE = PD.SALARY_AMOUNT_CODE
-      WHERE PD.PAYSLIP_ID = ?PayslipId
+      WHERE PD.PAYSLIP_ID = IFNULL(?PayslipId, (SELECT A.PAYSLIP_ID FROM (<Include RefId="CurrentPayslipSubQuery" />) A))
       ORDER BY CD.CODE_ORDER, CD2.CODE_ORDER
     </Statement>
 

@@ -48,9 +48,10 @@ public class PayslipService
     public async Task<PayslipResultDTO> GetPayslip(GetPayslipRequestDTO dto)
     {
         var payslip = await _payslipMapper.GetPayslip(dto);
-        payslip.PayslipSalaryDetailList = await _payslipSalaryDetailMapper.ListPayslipSalaryDetail(dto);
-
-        return payslip;
+        if (payslip != null) {
+            payslip.PayslipSalaryDetailList = await _payslipSalaryDetailMapper.ListPayslipSalaryDetail(dto);
+        }
+        return payslip!;
     }
 
     /// <summary>
