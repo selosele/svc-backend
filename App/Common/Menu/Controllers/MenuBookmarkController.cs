@@ -34,7 +34,7 @@ public class MenuBookmarkController : ControllerBase
     /// </summary>
     [HttpGet]
     [Authorize]
-    public async Task<ActionResult<List<MenuBookmarkResponseDTO>>> ListMenuBookmark()
+    public async Task<ActionResult<MenuBookmarkResponseDTO>> ListMenuBookmark()
     {
         var user = _authService.GetAuthenticatedUser();
         var menuBookmarkList = await _menuService.ListMenuBookmark(user.UserId);

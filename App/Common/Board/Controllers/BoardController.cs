@@ -35,7 +35,7 @@ public class BoardController : ControllerBase
     /// </summary>
     [HttpGet]
     [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
-    public async Task<ActionResult<List<BoardResponseDTO>>> ListBoard([FromQuery] GetBoardRequestDTO? dto)
+    public async Task<ActionResult<BoardResponseDTO>> ListBoard([FromQuery] GetBoardRequestDTO? dto)
     {
         var boardList = await _boardService.ListBoard(dto);
         return Ok(new BoardResponseDTO { BoardList = boardList });
@@ -46,7 +46,7 @@ public class BoardController : ControllerBase
     /// </summary>
     [HttpGet("main")]
     [Authorize]
-    public async Task<ActionResult<List<BoardResponseDTO>>> ListMainBoard([FromQuery] GetBoardRequestDTO? dto)
+    public async Task<ActionResult<BoardResponseDTO>> ListMainBoard([FromQuery] GetBoardRequestDTO? dto)
     {
         var boardList = await _boardService.ListMainBoard(dto);
         return Ok(new BoardResponseDTO { BoardList = boardList });

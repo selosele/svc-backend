@@ -34,7 +34,7 @@ public class PayslipController : ControllerBase
     /// </summary>
     [HttpGet]
     [Authorize]
-    public async Task<ActionResult<List<PayslipResponseDTO>>> ListPayslip([FromQuery] GetPayslipRequestDTO dto)
+    public async Task<ActionResult<PayslipResponseDTO>> ListPayslip([FromQuery] GetPayslipRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
         var myUserId = user.UserId;
@@ -52,7 +52,7 @@ public class PayslipController : ControllerBase
     /// </summary>
     [HttpGet("{payslipId}")]
     [Authorize]
-    public async Task<ActionResult<List<PayslipResponseDTO>>> GetPayslip(int payslipId, [FromQuery] GetPayslipRequestDTO dto)
+    public async Task<ActionResult<PayslipResponseDTO>> GetPayslip(int payslipId, [FromQuery] GetPayslipRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
         var myUserId = user.UserId;

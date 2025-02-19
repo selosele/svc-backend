@@ -35,7 +35,7 @@ public class CompanyController : ControllerBase
     /// </summary>
     [HttpGet]
     [Authorize]
-    public async Task<ActionResult<List<CompanyResponseDTO>>> ListCompany([FromQuery] GetCompanyRequestDTO? dto)
+    public async Task<ActionResult<CompanyResponseDTO>> ListCompany([FromQuery] GetCompanyRequestDTO? dto)
     {
         var companyList = await _companyService.ListCompany(dto);
         return Ok(new CompanyResponseDTO { CompanyList = companyList });

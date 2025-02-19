@@ -35,7 +35,7 @@ public class UserController : ControllerBase
     /// </summary>
     [HttpGet]
     [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
-    public async Task<ActionResult<List<UserResponseDTO>>> ListUser([FromQuery] GetUserRequestDTO dto)
+    public async Task<ActionResult<UserResponseDTO>> ListUser([FromQuery] GetUserRequestDTO dto)
     {
         var userList = await _userService.ListUser(dto);
         return Ok(new UserResponseDTO { UserList = userList });

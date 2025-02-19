@@ -70,7 +70,7 @@ public class EmployeeController : ControllerBase
     /// </summary>
     [HttpGet("{employeeId}/companies")]
     [Authorize]
-    public async Task<ActionResult<List<WorkHistoryResponseDTO>>> ListWorkHistory(int employeeId, [FromQuery] GetWorkHistoryRequestDTO dto)
+    public async Task<ActionResult<WorkHistoryResponseDTO>> ListWorkHistory(int employeeId, [FromQuery] GetWorkHistoryRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
         var myEmployeeId = user.Employee?.EmployeeId;

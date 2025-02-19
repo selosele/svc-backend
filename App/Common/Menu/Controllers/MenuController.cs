@@ -35,7 +35,7 @@ public class MenuController : ControllerBase
     /// </summary>
     [HttpGet]
     [Authorize]
-    public async Task<ActionResult<List<MenuResponseDTO>>> ListMenu([FromQuery] GetMenuRequestDTO dto)
+    public async Task<ActionResult<MenuResponseDTO>> ListMenu([FromQuery] GetMenuRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
         dto.UserId = user.UserId;
@@ -50,7 +50,7 @@ public class MenuController : ControllerBase
     /// </summary>
     [HttpGet("sys")]
     [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
-    public async Task<ActionResult<List<MenuResponseDTO>>> ListSysMenu([FromQuery] GetMenuRequestDTO dto)
+    public async Task<ActionResult<MenuResponseDTO>> ListSysMenu([FromQuery] GetMenuRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
         dto.UserId = user.UserId;

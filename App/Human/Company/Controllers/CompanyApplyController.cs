@@ -35,7 +35,7 @@ public class CompanyApplyController : ControllerBase
     /// </summary>
     [HttpGet]
     [Authorize]
-    public async Task<ActionResult<List<CompanyApplyResponseDTO>>> ListCompanyApply([FromQuery] GetCompanyApplyRequestDTO dto)
+    public async Task<ActionResult<CompanyApplyResponseDTO>> ListCompanyApply([FromQuery] GetCompanyApplyRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
         if (!_authService.HasRole(RoleUtil.SYSTEM_ADMIN))

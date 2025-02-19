@@ -35,7 +35,7 @@ public class CodeController : ControllerBase
     /// </summary>
     [HttpGet]
     [Authorize]
-    public async Task<ActionResult<List<CodeResponseDTO>>> ListCode()
+    public async Task<ActionResult<CodeResponseDTO>> ListCode()
     {
         var codeList = await _codeService.ListCode();
         return Ok(new CodeResponseDTO { CodeList = codeList });

@@ -34,7 +34,7 @@ public class VacationController : ControllerBase
     /// </summary>
     [HttpGet]
     [Authorize]
-    public async Task<ActionResult<List<VacationResponseDTO>>> ListVacation([FromQuery] GetVacationRequestDTO dto)
+    public async Task<ActionResult<VacationResponseDTO>> ListVacation([FromQuery] GetVacationRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
         var myUserId = user.UserId;
@@ -102,7 +102,7 @@ public class VacationController : ControllerBase
     /// </summary>
     [HttpGet("calcs/{workHistoryId}")]
     [Authorize]
-    public async Task<ActionResult<List<VacationCalcResponseDTO>>> ListVacationCalc(int workHistoryId)
+    public async Task<ActionResult<VacationCalcResponseDTO>> ListVacationCalc(int workHistoryId)
     {
         var vacationCalcList = await _vacationService.ListVacationCalc(workHistoryId);
         return Ok(new VacationCalcResponseDTO { VacationCalcList = vacationCalcList });
@@ -129,7 +129,7 @@ public class VacationController : ControllerBase
     /// </summary>
     [HttpGet("stats")]
     [Authorize]
-    public async Task<ActionResult<List<VacationStatsResponseDTO>>> ListVacationStats([FromQuery] GetVacationStatsRequestDTO dto)
+    public async Task<ActionResult<VacationStatsResponseDTO>> ListVacationStats([FromQuery] GetVacationStatsRequestDTO dto)
     {
         var user = _authService.GetAuthenticatedUser();
         var myUserId = user.UserId;
@@ -158,7 +158,7 @@ public class VacationController : ControllerBase
     /// </summary>
     [HttpGet("stats/month")]
     [Authorize]
-    public async Task<ActionResult<List<VacationByMonthResponseDTO>>> ListVacationByMonth([FromQuery] GetVacationByMonthRequestDTO dto)
+    public async Task<ActionResult<VacationByMonthResponseDTO>> ListVacationByMonth([FromQuery] GetVacationByMonthRequestDTO dto)
     {
         var vacationByMonthList = await _vacationService.ListVacationByMonth(dto);
         return Ok(new VacationByMonthResponseDTO { VacationByMonthList = vacationByMonthList });

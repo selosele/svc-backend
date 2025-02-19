@@ -34,7 +34,7 @@ public class HolidayController : ControllerBase
     /// </summary>
     [HttpGet("{userId}")]
     [Authorize]
-    public async Task<ActionResult<List<HolidayResponseDTO>>> ListHoliday(int userId, [FromQuery] GetHolidayRequestDTO? dto)
+    public async Task<ActionResult<HolidayResponseDTO>> ListHoliday(int userId, [FromQuery] GetHolidayRequestDTO? dto)
     {
         var user = _authService.GetAuthenticatedUser();
         var myUserId = user.UserId;
@@ -53,7 +53,7 @@ public class HolidayController : ControllerBase
     /// </summary>
     [HttpGet("{userId}/{ymd}")]
     [Authorize]
-    public async Task<ActionResult<List<HolidayResponseDTO>>> GetHoliday(int userId, string ymd)
+    public async Task<ActionResult<HolidayResponseDTO>> GetHoliday(int userId, string ymd)
     {
         var user = _authService.GetAuthenticatedUser();
         var myUserId = user.UserId;

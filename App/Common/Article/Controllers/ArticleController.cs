@@ -39,7 +39,7 @@ public class ArticleController : ControllerBase
     /// 게시글 목록을 조회한다.
     /// </summary>
     [HttpGet]
-    public async Task<ActionResult<List<ArticleResponseDTO>>> ListArticle([FromQuery] GetArticleRequestDTO dto)
+    public async Task<ActionResult<ArticleResponseDTO>> ListArticle([FromQuery] GetArticleRequestDTO dto)
     {
         var board = await _boardService.GetBoard(dto.BoardId);
 
