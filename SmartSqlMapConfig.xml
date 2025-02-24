@@ -6,6 +6,6 @@
     <Write Name="WriteDB" ConnectionString="${DefaultConnection}" />
   </Database>
   <SmartSqlMaps>
-    <SmartSqlMap Path="App/Shared/Maps" Type="Directory"></SmartSqlMap>
+    <SmartSqlMap Path="App/Shared/Mappers/Xmls" Type="Directory"></SmartSqlMap>
   </SmartSqlMaps>
 </SmartSqlMapConfig>

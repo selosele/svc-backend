@@ -24,7 +24,7 @@
     <None Update="SmartSqlMapConfig.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="App\Shared\Maps\*.xml">
+    <None Update="App\Shared\Mappers\Xmls\*.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
