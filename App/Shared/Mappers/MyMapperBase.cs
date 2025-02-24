@@ -1,19 +1,30 @@
 using SmartSql;
 
-namespace Svc.App.Shared.Extensions;
+namespace Svc.App.Shared.Mappers;
 
 /// <summary>
-/// ISqlMapper의 확장 메서드를 제공하는 클래스
+/// 매퍼의 기본 클래스
 /// </summary>
-public static class ISqlMapperExtension
+public class MyMapperBase
 {
+    #region [필드]
+    public ISqlMapper SqlMapper { get; }
+    #endregion
+
+    #region [생성자]
+    public MyMapperBase(ISqlMapper sqlMapper)
+    {
+        SqlMapper = sqlMapper;
+    }
+    #endregion
+
     #region [메서드]
     /// <summary>
     /// 다건 조회를 수행한다.
     /// </summary>
-    public static Task<IList<T>> QueryForList<T>(this ISqlMapper sqlMapper, string sqlId, object? request = null)
+    public Task<IList<T>> QueryForList<T>(string sqlId, object? request = null)
     {
-        return sqlMapper.QueryAsync<T>(new RequestContext
+        return SqlMapper.QueryAsync<T>(new RequestContext
         {
             Scope = sqlId.Split(".")[0],
             SqlId = sqlId.Split(".")[1],
@@ -24,9 +35,9 @@ public static class ISqlMapperExtension
     /// <summary>
     /// 단건 조회를 수행한다.
     /// </summary>
-    public static Task<T> QueryForObject<T>(this ISqlMapper sqlMapper, string sqlId, object? request = null)
+    public Task<T> QueryForObject<T>(string sqlId, object? request = null)
     {
-        return sqlMapper.QuerySingleAsync<T>(new RequestContext
+        return SqlMapper.QuerySingleAsync<T>(new RequestContext
         {
             Scope = sqlId.Split(".")[0],
             SqlId = sqlId.Split(".")[1],
@@ -37,9 +48,9 @@ public static class ISqlMapperExtension
     /// <summary>
     /// INSERT, UPDATE, DELETE를 수행하고 row count를 반환한다.
     /// </summary>
-    public static Task<int> Execute(this ISqlMapper sqlMapper, string sqlId, object? request = null)
+    public Task<int> Execute(string sqlId, object? request = null)
     {
-        return sqlMapper.ExecuteAsync(new RequestContext
+        return SqlMapper.ExecuteAsync(new RequestContext
         {
             Scope = sqlId.Split(".")[0],
             SqlId = sqlId.Split(".")[1],
@@ -50,9 +61,9 @@ public static class ISqlMapperExtension
     /// <summary>
     /// INSERT, UPDATE, DELETE를 수행하고 쿼리 실행 결과를 반환한다.
     /// </summary>
-    public static Task<T> ExecuteScalar<T>(this ISqlMapper sqlMapper, string sqlId, object? request = null)
+    public Task<T> ExecuteScalar<T>(string sqlId, object? request = null)
     {
-        return sqlMapper.ExecuteScalarAsync<T>(new RequestContext
+        return SqlMapper.ExecuteScalarAsync<T>(new RequestContext
         {
             Scope = sqlId.Split(".")[0],
             SqlId = sqlId.Split(".")[1],
@@ -60,5 +71,4 @@ public static class ISqlMapperExtension
         });
     }
     #endregion
-
 }
