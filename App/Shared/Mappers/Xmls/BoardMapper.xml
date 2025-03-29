@@ -30,7 +30,7 @@
         B.BOARD_ORDER,
         B.MAIN_SHOW_YN,
         B.USE_YN,
-        COUNT(1) AS ARTICLE_COUNT
+        COUNT(B1.BOARD_ID) AS ARTICLE_COUNT
       FROM CO_BOARD B
       LEFT JOIN (
         SELECT A.BOARD_ID
