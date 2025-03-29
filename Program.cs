@@ -7,7 +7,9 @@ using Svc.App.Shared.Models.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddJsonFile("secrets.json", optional: true, reloadOnChange: true);
+builder.Configuration
+    .AddJsonFile("secrets.json", optional: true, reloadOnChange: true)
+    .AddEnvironmentVariables();
 
 builder.Services.SingletonScan("Svc.App.", ".Services");
 builder.Services.SingletonScan("Svc.App.", ".Mappers");
