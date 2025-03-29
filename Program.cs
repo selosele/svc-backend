@@ -43,7 +43,8 @@ builder.Services.AddAuthentication(x =>
 {
     x.RequireHttpsMetadata = false;
     x.SaveToken = false;
-    x.TokenValidationParameters = new TokenValidationParameters {
+    x.TokenValidationParameters = new TokenValidationParameters
+    {
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(builder.Configuration["ApplicationSettings:JWTSecret"]!)
