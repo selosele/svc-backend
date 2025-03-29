@@ -16,9 +16,11 @@
       /* MenuRoleMapper.ListMenuRole */
 
       SELECT
-        MR.MENU_ID,
-        MR.ROLE_ID,
-        R.ROLE_NAME
+         MR.MENU_ID
+       , MR.ROLE_ID
+       <IsNotEmpty Property="MenuId">
+       , R.ROLE_NAME
+       </IsNotEmpty>
       FROM CO_MENU_ROLE MR
       <IsNotEmpty Property="UserId">
       INNER JOIN CO_USER_ROLE UR ON UR.ROLE_ID = MR.ROLE_ID
