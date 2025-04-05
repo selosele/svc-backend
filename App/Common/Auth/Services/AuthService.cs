@@ -390,7 +390,7 @@ public class AuthService
         {
             new(ClaimUtil.USER_ID_IDENTIFIER, user.UserId.ToString()!),
             new(ClaimUtil.USER_ACCOUNT_IDENTIFIER, user.UserAccount!),
-            new(ClaimUtil.WORK_HISTORY_ID_IDENTIFIER, user.Employee!.WorkHistoryList![0].WorkHistoryId.ToString()! ?? ""),
+            // new(ClaimUtil.WORK_HISTORY_ID_IDENTIFIER, user.Employee!.WorkHistoryList![0].WorkHistoryId.ToString()! ?? ""),
             new(ClaimUtil.COMPANY_NAME_IDENTIFIER, user.Employee!.WorkHistoryList![0].CompanyName?.ToString()! ?? ""),
             new(ClaimUtil.RANK_CODE_IDENTIFIER, user.Employee!.WorkHistoryList![0].RankCode?.ToString()! ?? ""),
             new(ClaimUtil.RANK_CODE_NAME_IDENTIFIER, user.Employee!.WorkHistoryList![0].RankCodeName?.ToString()! ?? ""),
