@@ -74,6 +74,13 @@ public class EmployeeService
         => await _workHistoryMapper.GetWorkHistory(dto);
 
     /// <summary>
+    /// 최신 근무이력을 조회한다.
+    /// </summary>
+    [Transaction]
+    public async Task<WorkHistoryResultDTO> GetCurrentWorkHistory(GetWorkHistoryRequestDTO dto)
+        => await _workHistoryMapper.GetCurrentWorkHistory(dto);
+
+    /// <summary>
     /// 근무이력을 추가/수정한다.
     /// </summary>
     [Transaction]

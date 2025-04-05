@@ -112,6 +112,28 @@
         </IsNotEmpty>
     </Statement>
 
+    <!-- 최신 근무이력을 조회한다. -->
+    <Statement Id="GetCurrentWorkHistory" ResultMap="WorkHistoryResultMap">
+      /* WorkHistoryMapper.GetCurrentWorkHistory */
+
+      SELECT
+        H.WORK_HISTORY_ID,
+        C.COMPANY_ID,
+        C.CORPORATE_NAME,
+        C.COMPANY_NAME,
+        C.REGISTRATION_NO,
+        H.RANK_CODE,
+        H.JOB_TITLE_CODE,
+        H.JOIN_YMD,
+        H.QUIT_YMD
+      FROM HM_WORK_HISTORY H
+      INNER JOIN HM_COMPANY C ON C.COMPANY_ID = H.COMPANY_ID
+      WHERE H.EMPLOYEE_ID = ?EmployeeId
+        AND H.DELETE_YN = 'N'
+      ORDER BY H.JOIN_YMD DESC
+      LIMIT 1
+    </Statement>
+
     <!-- 근무이력을 추가한다. -->
     <Statement Id="AddWorkHistory">
       /* WorkHistoryMapper.AddWorkHistory */

@@ -27,6 +27,12 @@ public class WorkHistoryMapper : MyMapperBase
         => QueryForObject<WorkHistoryResultDTO>($"{nameof(WorkHistoryMapper)}.GetWorkHistory", dto);
 
     /// <summary>
+    /// 최신 근무이력을 조회한다.
+    /// </summary>
+    public Task<WorkHistoryResultDTO> GetCurrentWorkHistory(GetWorkHistoryRequestDTO dto)
+        => QueryForObject<WorkHistoryResultDTO>($"{nameof(WorkHistoryMapper)}.GetCurrentWorkHistory", dto);
+
+    /// <summary>
     /// 근무이력을 추가한다.
     /// </summary>
     public Task<int> AddWorkHistory(SaveWorkHistoryRequestDTO dto)

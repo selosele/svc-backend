@@ -102,6 +102,23 @@ public class EmployeeController : ControllerBase
     }
 
     /// <summary>
+    /// 최신 근무이력을 조회한다.
+    /// </summary>
+    [HttpGet("{employeeId}/companies/current")]
+    [Authorize]
+    public async Task<ActionResult<WorkHistoryResponseDTO>> GetCurrentWorkHistory(int employeeId)
+    {
+        var user = _authService.GetAuthenticatedUser();
+        var myEmployeeId = user.Employee?.EmployeeId;
+
+        if (employeeId != myEmployeeId)
+            return NotFound();
+        
+        var workHistory = await _employeeService.GetCurrentWorkHistory(new GetWorkHistoryRequestDTO { EmployeeId = employeeId });
+        return Ok(new WorkHistoryResponseDTO { WorkHistory = workHistory });
+    }
+
+    /// <summary>
     /// 근무이력을 추가한다.
     /// </summary>
     [HttpPost("{employeeId}/companies")]
