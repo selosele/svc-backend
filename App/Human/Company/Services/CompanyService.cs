@@ -92,7 +92,7 @@ public class CompanyService
     /// </summary>
     public async Task<IList<CompanyOpenAPIResponseDTO>> ListCompanyOpenAPI(GetCompanyRequestDTO? dto)
     {
-        var uri = "https://apis.data.go.kr/1160100/service/GetCorpBasicInfoService_V2/getCorpOutline_V2";
+        var uri = "http://apis.data.go.kr/1160100/service/GetCorpBasicInfoService_V2/getCorpOutline_V2";
         uri += $"?serviceKey={_configuration["ApplicationSettings:CompanyOpenAPIKey"]}";
         uri += $"&pageNo={dto?.PageNo}";
         uri += $"&numOfRows={dto?.NumOfRows}";
