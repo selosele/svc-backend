@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Svc.App.Common.Auth.Services;
+using Svc.App.Human.Employee.Models.DTO;
+using Svc.App.Human.Employee.Services;
 using Svc.App.Human.Vacation.Models.DTO;
 using Svc.App.Human.Vacation.Services;
 
@@ -15,15 +17,18 @@ public class VacationController : ControllerBase
 {
     #region [필드]
     private readonly AuthService _authService;
+    private readonly EmployeeService _employeeService;
     private readonly VacationService _vacationService;
     #endregion
     
     #region [생성자]
     public VacationController(
         AuthService authService,
+        EmployeeService employeeService,
         VacationService vacationService
     ) {
         _authService = authService;
+        _employeeService = employeeService;
         _vacationService = vacationService;
     }
     #endregion
@@ -133,7 +138,8 @@ public class VacationController : ControllerBase
     {
         var user = _authService.GetAuthenticatedUser();
         var myUserId = user.UserId;
-        var myWorkHistoryId = user.Employee!.WorkHistoryList![0].WorkHistoryId;
+        var myWorkHistory = await _employeeService.GetCurrentWorkHistory(new GetWorkHistoryRequestDTO { EmployeeId = user.Employee?.EmployeeId });
+        var myWorkHistoryId = myWorkHistory.WorkHistoryId;
 
         if (dto.UserId != myUserId)
             return NotFound();
