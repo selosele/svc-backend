@@ -197,8 +197,24 @@ public class EmployeeService
     /// 근무이력을 삭제한다.
     /// </summary>
     [Transaction]
-    public async Task<int> RemoveWorkHistory(int? userId, int workHistoryId)
-        => await _workHistoryMapper.RemoveWorkHistory(userId, workHistoryId);
+    public async Task<int> RemoveWorkHistory(GetWorkHistoryRequestDTO dto)
+    {
+        // 1. 근무이력을 삭제한다.
+        var removed = await _workHistoryMapper.RemoveWorkHistory(dto.UserId, dto.WorkHistoryId);
+
+        // 2. 최신 근무이력을 조회한다.
+        var currentWorkHistory = await _workHistoryMapper.GetCurrentWorkHistory(dto);
+
+        // 2. 직원 정보를 수정한다.
+        await _employeeMapper.UpdateEmployee(new UpdateEmployeeRequestDTO
+        {
+            WorkHistory = new SaveWorkHistoryRequestDTO { CompanyId = currentWorkHistory.CompanyId },
+            EmployeeId = dto.EmployeeId,
+            UpdaterId = dto.UserId
+        });
+
+        return removed;
+    }
     #endregion
     
 }

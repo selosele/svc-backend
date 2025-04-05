@@ -167,12 +167,19 @@ public class EmployeeController : ControllerBase
     public async Task<ActionResult> RemoveWorkHistory(int employeeId, int workHistoryId)
     {
         var user = _authService.GetAuthenticatedUser();
+        var myUserId = user.UserId;
         var myEmployeeId = user.Employee?.EmployeeId;
 
         if (employeeId != myEmployeeId)
             return NotFound();
 
-        await _employeeService.RemoveWorkHistory(user.UserId, workHistoryId);
+        await _employeeService.RemoveWorkHistory(new GetWorkHistoryRequestDTO
+        {
+            UserId = myUserId,
+            EmployeeId = myEmployeeId,
+            WorkHistoryId = workHistoryId
+        });
+
         return NoContent();
     }
     #endregion

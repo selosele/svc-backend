@@ -47,7 +47,7 @@ public class WorkHistoryMapper : MyMapperBase
     /// <summary>
     /// 근무이력을 삭제한다.
     /// </summary>
-    public Task<int> RemoveWorkHistory(int? userId, int workHistoryId)
+    public Task<int> RemoveWorkHistory(int? userId, int? workHistoryId)
         => Execute($"{nameof(WorkHistoryMapper)}.RemoveWorkHistory", new { UpdaterId = userId, workHistoryId });
     #endregion
 
