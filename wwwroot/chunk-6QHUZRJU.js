@@ -1,0 +1,1 @@
+import{cc as a,r}from"./chunk-K432QHKJ.js";var n=(()=>{let t=class t extends a{constructor(){super()}init(){this.creates([{key:"roleList",defaultValue:[]},{key:"roleListDataLoad",defaultValue:!1}])}};t.\u0275fac=function(o){return new(o||t)},t.\u0275prov=r({token:t,factory:t.\u0275fac,providedIn:"root"});let e=t;return e})();export{n as a};
