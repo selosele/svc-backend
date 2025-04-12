@@ -12,5 +12,8 @@ RUN dotnet publish -c Release -o /app/publish --no-restore
 # 실행 스테이지
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
+
+# 빌드된 파일 복사
 COPY --from=build /app/publish .
+
 ENTRYPOINT ["dotnet", "Svc.dll"]
