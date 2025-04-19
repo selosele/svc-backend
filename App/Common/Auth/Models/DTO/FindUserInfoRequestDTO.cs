@@ -27,6 +27,11 @@ public record FindUserInfoRequestDTO : HttpRequestDTOBase
     /// 본인인증 코드
     /// </summary>
     public string? CertCode { get; set; }
+
+    /// <summary>
+    /// 시스템관리자 권한으로 비밀번호 초기화 여부
+    /// </summary>
+    public string? ResetYn { get; set; }
     #endregion
     
 }

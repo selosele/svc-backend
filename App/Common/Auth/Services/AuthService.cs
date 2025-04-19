@@ -267,16 +267,20 @@ public class AuthService
         var foundUser = await _userMapper.GetUserFindInfo(dto)
             ?? throw new BizException("가입된 정보가 없어요. 입력하신 정보를 다시 확인하세요.");
 
-        // 사용자 본인인증 이력 조회
-        var userCertHistoryCount = await _userCertHistoryMapper.CountUserCertHistory(new GetUserCertHistoryRequestDTO
+        // 시스템관리자 권한으로 비밀번호 초기화 시에는 본인인증을 생략한다.
+        if (string.IsNullOrEmpty(dto.ResetYn) || dto.ResetYn == "N")
         {
-            UserAccount = dto.UserAccount,
-            EmailAddr = dto.EmailAddr,
-            CertCode = dto.CertCode
-        });
+            // 사용자 본인인증 이력 조회
+            var userCertHistoryCount = await _userCertHistoryMapper.CountUserCertHistory(new GetUserCertHistoryRequestDTO
+            {
+                UserAccount = dto.UserAccount,
+                EmailAddr = dto.EmailAddr,
+                CertCode = dto.CertCode
+            });
 
-        if (userCertHistoryCount == 0)
-            throw new BizException("인증코드가 틀렸거나 유효시간이 만료되었어요.");
+            if (userCertHistoryCount == 0)
+                throw new BizException("인증코드가 틀렸거나 유효시간이 만료되었어요.");
+        }
 
         // 임시 비밀번호 생성
         var length = _configuration["ApplicationSettings:GenerateTempPasswordLength"]!;

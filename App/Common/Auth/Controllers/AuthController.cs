@@ -83,6 +83,17 @@ public class AuthController : ControllerBase
     [HttpPost("find-user-password2")]
     public async Task<ActionResult<bool>> FindUserPassword2([FromBody] FindUserInfoRequestDTO dto)
         => Created(string.Empty, await _authService.FindUserPassword2(dto));
+
+    /// <summary>
+    /// 사용자의 비밀번호를 초기화한다.
+    /// </summary>
+    [HttpPost("reset-user-password")]
+    [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
+    public async Task<ActionResult<bool>> ResetUserPassword([FromBody] FindUserInfoRequestDTO dto)
+    {
+        dto.ResetYn = "Y";
+        return Created(string.Empty, await _authService.FindUserPassword2(dto));
+    }
     #endregion
 
 }
