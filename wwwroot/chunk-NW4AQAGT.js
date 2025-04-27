@@ -1,1 +1,0 @@
-import{e as a}from"./chunk-WJN2QL3F.js";import"./chunk-GZI5C7JE.js";import"./chunk-VXEORVKR.js";import"./chunk-SI4ONGGJ.js";import"./chunk-M6OTSRMF.js";import"./chunk-FK6H3RFT.js";import"./chunk-USDYGGWM.js";export{a as ArticleListComponent};
