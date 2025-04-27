@@ -30,10 +30,10 @@ builder.Services.AddControllers(x =>
 });
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", policy =>
+    options.AddPolicy("RestrictedCors", policy =>
     {
         policy
-            .AllowAnyOrigin()
+            .WithOrigins("https://svc.selosele.com")
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
@@ -67,7 +67,7 @@ builder.Services.AddAuthentication(x =>
 
 var app = builder.Build();
 
-app.UseCors("AllowAll");
+app.UseCors("RestrictedCors");
 
 if (app.Environment.IsDevelopment())
 {
