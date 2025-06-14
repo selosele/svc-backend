@@ -13,9 +13,9 @@
 
 ## 개발 환경 구동
 
-1. `service mariadb start` (MariaDB 구동)
-2. `dotnet build` (백엔드 소스코드 빌드)
-3. `dotnet watch` (백엔드 구동)
+1. ```service mariadb start``` (MariaDB 구동)
+2. ```dotnet build``` (백엔드 소스코드 빌드)
+3. ```dotnet watch``` (백엔드 구동)
 
 ## etc.
 
