@@ -14,7 +14,7 @@ builder.Configuration
 // 운영 환경에서 SSL 인증서 적용
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {
-    serverOptions.ListenAnyIP(443, listenOptions =>
+    serverOptions.ListenAnyIP(5000, listenOptions =>
     {
         listenOptions.UseHttps(
             builder.Configuration["ApplicationSettings:CertPfxPath"]!,
