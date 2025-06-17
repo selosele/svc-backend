@@ -11,6 +11,18 @@ builder.Configuration
     .AddJsonFile("secrets.json", optional: true, reloadOnChange: true)
     .AddEnvironmentVariables();
 
+// 운영 환경에서 SSL 인증서 적용
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ListenAnyIP(443, listenOptions =>
+    {
+        listenOptions.UseHttps(
+            builder.Configuration["ApplicationSettings:PRIVATE_KEY_PATH"],
+            builder.Configuration["ApplicationSettings:CERT_PATH"]
+        );
+    });
+});
+
 builder.Services.SingletonScan("Svc.App.", ".Services");
 builder.Services.SingletonScan("Svc.App.", ".Mappers");
 builder.Services.AutoMapperProfileScan("Svc.App.", ".Profiles");
