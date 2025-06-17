@@ -12,16 +12,27 @@ builder.Configuration
     .AddEnvironmentVariables();
 
 // 운영 환경에서 SSL 인증서 적용
-builder.WebHost.ConfigureKestrel(serverOptions =>
+var certPath = builder.Configuration["ApplicationSettings:CertPfxPath"];
+var certPassword = builder.Configuration["ApplicationSettings:CertPfxPassword"];
+
+if (!string.IsNullOrEmpty(certPath) && !string.IsNullOrEmpty(certPassword))
 {
-    serverOptions.ListenAnyIP(5000, listenOptions =>
+    builder.WebHost.ConfigureKestrel(serverOptions =>
     {
-        listenOptions.UseHttps(
-            builder.Configuration["ApplicationSettings:CertPfxPath"]!,
-            builder.Configuration["ApplicationSettings:CertPfxPassword"]!
-        );
+        serverOptions.ListenAnyIP(5000, listenOptions =>
+        {
+            listenOptions.UseHttps(certPath, certPassword);
+        });
     });
-});
+}
+else
+{
+    Console.WriteLine("⚠️ SSL 설정이 누락되어 HTTP로 실행");
+    builder.WebHost.ConfigureKestrel(serverOptions =>
+    {
+        serverOptions.ListenAnyIP(5000);
+    });
+}
 
 builder.Services.SingletonScan("Svc.App.", ".Services");
 builder.Services.SingletonScan("Svc.App.", ".Mappers");
