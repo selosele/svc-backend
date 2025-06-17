@@ -22,7 +22,6 @@ if (!string.IsNullOrEmpty(certPath) && !string.IsNullOrEmpty(certPassword))
         serverOptions.ListenAnyIP(5000, listenOptions =>
         {
             listenOptions.UseHttps(certPath, certPassword);
-            listenOptions.UseConnectionHandler<SocketReuseHandler>(); // 소켓 재사용 옵션 설정
         });
     });
 }
