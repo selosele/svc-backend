@@ -33,7 +33,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("RestrictedCors", policy =>
     {
         policy
-            .WithOrigins("http://localhost:4200", "https://34.170.50.142", "https://svc.selosele.com")
+            .WithOrigins("http://localhost:4200", "https://35.203.170.186", "https://34.170.50.142", "https://svc.selosele.com")
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
