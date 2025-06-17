@@ -17,8 +17,8 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
     serverOptions.ListenAnyIP(443, listenOptions =>
     {
         listenOptions.UseHttps(
-            builder.Configuration["ApplicationSettings:PRIVATE_KEY_PATH"]!,
-            builder.Configuration["ApplicationSettings:CERT_PATH"]!
+            builder.Configuration["ApplicationSettings:PrivateKeyPath"]!,
+            builder.Configuration["ApplicationSettings:CertPath"]!
         );
     });
 });
