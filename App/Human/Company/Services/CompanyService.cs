@@ -92,11 +92,6 @@ public class CompanyService
     /// </summary>
     public async Task<IList<CompanyOpenAPIResponseDTO>> ListCompanyOpenAPI(GetCompanyRequestDTO? dto)
     {
-        Console.WriteLine($"ApplicationSettings:GenerateTempPasswordLength: {_configuration["ApplicationSettings:GenerateTempPasswordLength"]}");
-        Console.WriteLine($"ApplicationSettings:JWTSecret: {_configuration["ApplicationSettings:JWTSecret"]}");
-        Console.WriteLine($"ApplicationSettings:CompanyOpenAPIKey: {_configuration["ApplicationSettings:CompanyOpenAPIKey"]}");
-        Console.WriteLine($"SmtpSettings:FromPw: {_configuration["SmtpSettings:FromPw"]}");
-
         var uri = "http://apis.data.go.kr/1160100/service/GetCorpBasicInfoService_V2/getCorpOutline_V2";
         uri += $"?serviceKey={_configuration["ApplicationSettings:CompanyOpenAPIKey"]}";
         uri += $"&pageNo={dto?.PageNo}";
