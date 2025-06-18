@@ -201,9 +201,12 @@ public class UserService
     public async Task<UserResultDTO?> UpdateUser(UpdateUserRequestDTO dto)
     {
         // 1. 직원 이메일주소 중복 체크를 한다.
-        var foundEmailCount = await _employeeMapper.CountEmployeeEmailAddr(dto.Employee!.EmailAddr!, dto.Employee.EmployeeId);
-        if (foundEmailCount > 0)
-            throw new BizException("이메일주소가 이미 있어요. 입력하신 정보를 다시 확인하세요.");
+        if (dto.FlagName == "" || dto.FlagName != "UPDATE_USER_ACTIVE_YN")
+        {
+            var foundEmailCount = await _employeeMapper.CountEmployeeEmailAddr(dto.Employee!.EmailAddr!, dto.Employee.EmployeeId);
+            if (foundEmailCount > 0)
+                throw new BizException("이메일주소가 이미 있어요. 입력하신 정보를 다시 확인하세요.");
+        }
 
         var user = _authService.GetAuthenticatedUser();
         dto.UpdaterId = user.UserId;
@@ -211,41 +214,44 @@ public class UserService
         // 2. 사용자를 수정한다.
         await _userMapper.UpdateUser(dto);
 
-        // 3. 사용자 권한을 삭제한다.
-        await _userRoleMapper.RemoveUserRole(dto.UserId);
-
-        // 4. 사용자 권한을 추가한다.
-        List<AddUserRoleRequestDTO> addUserRoleRequestDTOList = [];
-        foreach (var roleId in dto.Roles!)
+        if (dto.FlagName == "" || dto.FlagName != "UPDATE_USER_ACTIVE_YN")
         {
-            addUserRoleRequestDTOList.Add(new AddUserRoleRequestDTO
+            // 3. 사용자 권한을 삭제한다.
+            await _userRoleMapper.RemoveUserRole(dto.UserId);
+
+            // 4. 사용자 권한을 추가한다.
+            List<AddUserRoleRequestDTO> addUserRoleRequestDTOList = [];
+            foreach (var roleId in dto.Roles!)
             {
-                UserId = dto.UserId,
-                RoleId = roleId,
-                CreaterId = dto.UpdaterId
-            });
-        }
-        await _userRoleMapper.AddUserRole(addUserRoleRequestDTOList);
+                addUserRoleRequestDTOList.Add(new AddUserRoleRequestDTO
+                {
+                    UserId = dto.UserId,
+                    RoleId = roleId,
+                    CreaterId = dto.UpdaterId
+                });
+            }
+            await _userRoleMapper.AddUserRole(addUserRoleRequestDTOList);
+            
+            // 5. 사용자 메뉴 권한을 삭제한다.
+            await _userMenuRoleMapper.RemoveUserMenuRole(new RemoveUserMenuRoleRequestDTO { UserId = dto.UserId });
 
-        // 5. 사용자 메뉴 권한을 삭제한다.
-        await _userMenuRoleMapper.RemoveUserMenuRole(new RemoveUserMenuRoleRequestDTO { UserId = dto.UserId });
+            // 6. 메뉴 권한 목록을 조회한다.
+            var menuRoleList = await _menuRoleMapper.ListMenuRole(new GetMenuRoleRequestDTO { UserId = dto.UserId });
 
-        // 6. 메뉴 권한 목록을 조회한다.
-        var menuRoleList = await _menuRoleMapper.ListMenuRole(new GetMenuRoleRequestDTO { UserId = dto.UserId });
-
-        // 7. 사용자 메뉴 권한을 추가한다.
-        List<AddUserMenuRoleRequestDTO> addUserMenuRoleRequestDTOList = [];
-        foreach (var i in menuRoleList)
-        {
-            addUserMenuRoleRequestDTOList.Add(new AddUserMenuRoleRequestDTO
+            // 7. 사용자 메뉴 권한을 추가한다.
+            List<AddUserMenuRoleRequestDTO> addUserMenuRoleRequestDTOList = [];
+            foreach (var i in menuRoleList)
             {
-                UserId = dto.UserId,
-                MenuId = i.MenuId,
-                RoleId = i.RoleId,
-                CreaterId = dto.UpdaterId
-            });
+                addUserMenuRoleRequestDTOList.Add(new AddUserMenuRoleRequestDTO
+                {
+                    UserId = dto.UserId,
+                    MenuId = i.MenuId,
+                    RoleId = i.RoleId,
+                    CreaterId = dto.UpdaterId
+                });
+            }
+            await _userMenuRoleMapper.AddUserMenuRole(addUserMenuRoleRequestDTOList);
         }
-        await _userMenuRoleMapper.AddUserMenuRole(addUserMenuRoleRequestDTOList);
 
         // 8. 직원을 수정한다.
         if (dto.Employee != null)

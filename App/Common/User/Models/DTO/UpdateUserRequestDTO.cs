@@ -30,5 +30,10 @@ public record UpdateUserRequestDTO : HttpRequestDTOBase
     /// 직원 정보
     /// </summary>
     public UpdateEmployeeRequestDTO? Employee { get; set; }
+
+    /// <summary>
+    /// 사용자 수정, 사용자 잠금설정 구분 값
+    /// </summary>
+    public string? FlagName { get; set; }
     #endregion
 }
