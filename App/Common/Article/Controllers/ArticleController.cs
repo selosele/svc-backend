@@ -13,7 +13,7 @@ namespace Svc.App.Common.Article.Controllers;
 /// 게시글 컨트롤러 클래스
 /// </summary>
 [ApiController]
-[Route("co/articles")]
+[Route("api/co/articles")]
 public class ArticleController : ControllerBase
 {
     #region [필드]

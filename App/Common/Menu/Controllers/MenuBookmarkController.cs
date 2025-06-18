@@ -10,7 +10,7 @@ namespace Svc.App.Common.Menu.Controllers;
 /// 메뉴 즐겨찾기 컨트롤러 클래스
 /// </summary>
 [ApiController]
-[Route("co/menubookmarks")]
+[Route("api/co/menubookmarks")]
 public class MenuBookmarkController : ControllerBase
 {
     #region [필드]

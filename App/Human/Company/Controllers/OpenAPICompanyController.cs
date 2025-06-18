@@ -9,7 +9,7 @@ namespace Svc.App.Human.Company.Controllers;
 /// 회사(Open API 사용) 컨트롤러 클래스
 /// </summary>
 [ApiController]
-[Route("public/hm/companies")]
+[Route("api/public/hm/companies")]
 public class OpenAPICompanyController : ControllerBase
 {
     #region [필드]

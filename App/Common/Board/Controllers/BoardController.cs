@@ -11,7 +11,7 @@ namespace Svc.App.Common.Board.Controllers;
 /// 게시판 컨트롤러 클래스
 /// </summary>
 [ApiController]
-[Route("co/boards")]
+[Route("api/co/boards")]
 public class BoardController : ControllerBase
 {
     #region [필드]

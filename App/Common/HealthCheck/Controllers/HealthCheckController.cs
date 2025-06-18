@@ -6,7 +6,7 @@ namespace Svc.App.Common.HealthCheck.Controllers;
 /// 헬스체크 컨트롤러 클래스
 /// </summary>
 [ApiController]
-[Route("co/healthcheck")]
+[Route("api/co/healthcheck")]
 public class HealthCheckController : ControllerBase
 {
     #region [메서드]

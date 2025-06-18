@@ -11,7 +11,7 @@ namespace Svc.App.Common.Auth.Controllers;
 /// 인증·인가 컨트롤러 클래스
 /// </summary>
 [ApiController]
-[Route("co/auth")]
+[Route("api/co/auth")]
 public class AuthController : ControllerBase
 {
     #region [필드]

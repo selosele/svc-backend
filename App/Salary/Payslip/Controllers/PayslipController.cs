@@ -10,7 +10,7 @@ namespace Svc.App.Salary.Payslip.Controllers;
 /// 급여명세서 컨트롤러 클래스
 /// </summary>
 [ApiController]
-[Route("sa/payslips")]
+[Route("api/sa/payslips")]
 public class PayslipController : ControllerBase
 {
     #region [필드]
