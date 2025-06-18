@@ -11,7 +11,7 @@ namespace Svc.App.Common.Menu.Controllers;
 /// 메뉴 컨트롤러 클래스
 /// </summary>
 [ApiController]
-[Route("api/co/menus")]
+[Route("co/menus")]
 public class MenuController : ControllerBase
 {
     #region [필드]

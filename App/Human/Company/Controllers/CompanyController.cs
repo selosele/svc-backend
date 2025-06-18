@@ -11,7 +11,7 @@ namespace Svc.App.Human.Company.Controllers;
 /// 회사 컨트롤러 클래스
 /// </summary>
 [ApiController]
-[Route("api/hm/companies")]
+[Route("hm/companies")]
 public class CompanyController : ControllerBase
 {
     #region [필드]

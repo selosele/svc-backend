@@ -11,7 +11,7 @@ namespace Svc.App.Common.User.Controllers;
 /// 사용자 컨트롤러 클래스
 /// </summary>
 [ApiController]
-[Route("api/co/users")]
+[Route("co/users")]
 public class UserController : ControllerBase
 {
     #region [필드]

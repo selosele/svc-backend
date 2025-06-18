@@ -10,7 +10,7 @@ namespace Svc.App.Human.Employee.Controllers;
 /// 직원 컨트롤러 클래스
 /// </summary>
 [ApiController]
-[Route("api/hm/employees")]
+[Route("hm/employees")]
 public class EmployeeController : ControllerBase
 {
     #region [필드]

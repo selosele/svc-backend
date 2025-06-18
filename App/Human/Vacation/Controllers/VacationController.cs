@@ -12,7 +12,7 @@ namespace Svc.App.Human.Vacation.Controllers;
 /// 휴가 컨트롤러 클래스
 /// </summary>
 [ApiController]
-[Route("api/hm/vacations")]
+[Route("hm/vacations")]
 public class VacationController : ControllerBase
 {
     #region [필드]

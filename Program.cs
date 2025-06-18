@@ -25,14 +25,14 @@ if (!string.IsNullOrEmpty(certPath) && !string.IsNullOrEmpty(certPassword))
         });
     });
 }
-else
-{
-    Console.WriteLine("⚠️ SSL 설정이 누락되어 HTTP로 실행");
-    builder.WebHost.ConfigureKestrel(serverOptions =>
-    {
-        serverOptions.ListenAnyIP(5000);
-    });
-}
+// else
+// {
+//     Console.WriteLine("⚠️ SSL 설정이 누락되어 HTTP로 실행");
+//     builder.WebHost.ConfigureKestrel(serverOptions =>
+//     {
+//         serverOptions.ListenAnyIP(5000);
+//     });
+// }
 
 builder.Services.SingletonScan("Svc.App.", ".Services");
 builder.Services.SingletonScan("Svc.App.", ".Mappers");
