@@ -19,7 +19,7 @@ if (!string.IsNullOrEmpty(certPath) && !string.IsNullOrEmpty(certPassword))
 {
     builder.WebHost.ConfigureKestrel(serverOptions =>
     {
-        serverOptions.ListenLocalhost(5001, listenOptions =>
+        serverOptions.ListenAnyIP(5001, listenOptions =>
         {
             listenOptions.UseHttps(certPath, certPassword);
         });
