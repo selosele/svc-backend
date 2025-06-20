@@ -34,6 +34,6 @@ public record UpdateUserRequestDTO : HttpRequestDTOBase
     /// <summary>
     /// 사용자 수정, 사용자 잠금설정 구분 값
     /// </summary>
-    public string? FlagName { get; set; }
+    public string? ActionType { get; set; }
     #endregion
 }

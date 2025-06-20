@@ -201,7 +201,7 @@ public class UserService
     public async Task<UserResultDTO?> UpdateUser(UpdateUserRequestDTO dto)
     {
         // 1. 직원 이메일주소 중복 체크를 한다.
-        if (dto.FlagName == "" || dto.FlagName != "UPDATE_USER_ACTIVE_YN")
+        if (dto.ActionType == "" || dto.ActionType != "UPDATE_USER_ACTIVE_YN")
         {
             var foundEmailCount = await _employeeMapper.CountEmployeeEmailAddr(dto.Employee!.EmailAddr!, dto.Employee.EmployeeId);
             if (foundEmailCount > 0)
@@ -214,7 +214,7 @@ public class UserService
         // 2. 사용자를 수정한다.
         await _userMapper.UpdateUser(dto);
 
-        if (dto.FlagName == "" || dto.FlagName != "UPDATE_USER_ACTIVE_YN")
+        if (dto.ActionType == "" || dto.ActionType != "UPDATE_USER_ACTIVE_YN")
         {
             // 3. 사용자 권한을 삭제한다.
             await _userRoleMapper.RemoveUserRole(dto.UserId);
