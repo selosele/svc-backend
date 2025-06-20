@@ -27,7 +27,7 @@ if (!string.IsNullOrEmpty(certPath) && !string.IsNullOrEmpty(certPassword))
 }
 // else
 // {
-//     Console.WriteLine("⚠️ SSL 설정이 누락되어 HTTP로 실행");
+//     Console.WriteLine("SSL 설정이 누락되어 HTTP로 실행");
 //     builder.WebHost.ConfigureKestrel(serverOptions =>
 //     {
 //         serverOptions.ListenAnyIP(5000);
