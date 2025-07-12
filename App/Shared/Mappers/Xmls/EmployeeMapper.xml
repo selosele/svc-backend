@@ -28,7 +28,7 @@
         E.BIRTH_YMD,
         E.PHONE_NO,
         E.EMAIL_ADDR,
-        U.LAST_LOGIN_DT
+        DATE_FORMAT(U.LAST_LOGIN_DT, '%Y년 %m월 %d일 %H시 %i분 %s초') AS LAST_LOGIN_DT
       FROM HM_EMPLOYEE E
       INNER JOIN CO_USER U ON U.USER_ID = E.USER_ID AND U.DELETE_YN = 'N'
       WHERE 1=1

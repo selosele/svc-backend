@@ -104,7 +104,7 @@
         U.USER_ID,
         U.USER_ACCOUNT,
         U.USER_ACTIVE_YN,
-        DATE_FORMAT(U.LAST_LOGIN_DT, '%Y-%m-%d %H:%i:%s') AS LAST_LOGIN_DT
+        DATE_FORMAT(U.LAST_LOGIN_DT, '%Y년 %m월 %d일 %H시 %i분 %s초') AS LAST_LOGIN_DT
       FROM CO_USER U
       WHERE 1=1
         AND U.DELETE_YN = 'N'
