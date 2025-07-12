@@ -26,6 +26,7 @@
       <Result Column="TEMP_PASSWORD_YN" Property="TempPasswordYn" />
       <Result Column="TEMP_PASSWORD_DT" Property="TempPasswordDt" />
       <Result Column="LAST_LOGIN_DT" Property="LastLoginDt" />
+      <Result Column="SENSITIVE_AGREE_YN" Property="SensitiveAgreeYn" />
     </ResultMap>
 
     <ResultMap Id="FindInfoResultMap">
@@ -127,7 +128,8 @@
         U.USER_ACTIVE_YN,
         U.TEMP_PASSWORD_YN,
         U.TEMP_PASSWORD_DT,
-        U.LAST_LOGIN_DT
+        U.LAST_LOGIN_DT,
+        U.SENSITIVE_AGREE_YN
       FROM CO_USER U
       WHERE U.DELETE_YN = 'N'
         AND U.USER_ACCOUNT = ?UserAccount
@@ -207,6 +209,9 @@
           <IsNotEmpty Property="UserActiveYn">
           USER_ACTIVE_YN = ?UserActiveYn,
           </IsNotEmpty>
+          <IsEqual Property="AgreeTypeCode" CompareValue="SENSITIVE">
+          SENSITIVE_AGREE_YN = ?AgreeYn,
+          </IsEqual>
           UPDATER_ID = ?UpdaterId,
           UPDATE_DT = SYSDATE()
       WHERE USER_ID = ?UserId

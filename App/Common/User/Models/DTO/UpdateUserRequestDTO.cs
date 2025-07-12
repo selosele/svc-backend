@@ -17,9 +17,24 @@ public record UpdateUserRequestDTO : HttpRequestDTOBase
     public int? UserId { get; set; }
 
     /// <summary>
+    /// 사용자 계정
+    /// </summary>
+    public string? UserAccount { get; set; }
+
+    /// <summary>
     /// 사용자 활성화 여부
     /// </summary>
     public string? UserActiveYn { get; set; }
+
+    /// <summary>
+    /// 동의 구분 코드
+    /// </summary>
+    public string? AgreeTypeCode { get; set; }
+
+    /// <summary>
+    /// 동의 여부
+    /// </summary>
+    public string? AgreeYn { get; set; }
 
     /// <summary>
     /// 권한 ID 목록
@@ -32,7 +47,7 @@ public record UpdateUserRequestDTO : HttpRequestDTOBase
     public UpdateEmployeeRequestDTO? Employee { get; set; }
 
     /// <summary>
-    /// 사용자 수정, 사용자 잠금설정 구분 값
+    /// 사용자 수정, 사용자 잠금설정, 사용자동의여부수정 구분 값
     /// </summary>
     public string? ActionType { get; set; }
     #endregion

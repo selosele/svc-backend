@@ -71,6 +71,16 @@ public class AuthService
         var user = await GetUserLogin(dto)
             ?? throw new BizException("아이디 또는 비밀번호를 확인하세요.");
 
+        // 슈퍼로그인 여부를 확인한다.
+        if (dto.IsSuperLogin == "Y")
+        {
+            // 민감정보 열람에 동의하지 않은 사용자는 로그인하지 못하도록 한다.
+            if (user.SensitiveAgreeYn == "N")
+            {
+                throw new BizException("민감정보 열람에 동의하지 않은 사용자는 로그인할 수 없어요.");
+            }
+        }
+
         // 슈퍼로그인이 아닌 경우에만 사용자 검증을 한다.
         if (string.IsNullOrEmpty(dto.IsSuperLogin) || dto.IsSuperLogin == "N")
         {

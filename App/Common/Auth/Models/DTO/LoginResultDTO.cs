@@ -45,6 +45,11 @@ public record LoginResultDTO
     public string? LastLoginDt { get; set; }
 
     /// <summary>
+    /// 민감정보 열람 동의 여부
+    /// </summary>
+    public string? SensitiveAgreeYn { get; set; }
+
+    /// <summary>
     /// 사용자 권한 목록
     /// </summary>
     public IList<UserRoleResultDTO>? Roles { get; set; } = [];

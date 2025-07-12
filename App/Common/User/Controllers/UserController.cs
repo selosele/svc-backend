@@ -104,7 +104,7 @@ public class UserController : ControllerBase
     /// 사용자를 수정한다.
     /// </summary>
     [HttpPut("{userId}")]
-    [Authorize(Roles = RoleUtil.SYSTEM_ADMIN)]
+    [Authorize]
     public async Task<ActionResult<UserResponseDTO>> UpdateUser(int userId, [FromBody] UpdateUserRequestDTO dto)
     {
         dto.UserId = userId;

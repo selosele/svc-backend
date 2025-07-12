@@ -28,6 +28,7 @@ public class UserService
     private readonly EmployeeMapper _employeeMapper;
     private readonly WorkHistoryMapper _workHistoryMapper;
     private readonly NotificationMapper _notificationMapper;
+    private readonly UserAgreeHistoryMapper _userAgreeHistoryMapper;
     private readonly EmployeeService _employeeService;
     private readonly AuthService _authService;
     #endregion
@@ -42,6 +43,7 @@ public class UserService
         EmployeeMapper employeeMapper,
         WorkHistoryMapper workHistoryMapper,
         NotificationMapper notificationMapper,
+        UserAgreeHistoryMapper userAgreeHistoryMapper,
         EmployeeService employeeService,
         AuthService authService
     )
@@ -54,6 +56,7 @@ public class UserService
         _employeeMapper = employeeMapper;
         _workHistoryMapper = workHistoryMapper;
         _notificationMapper = notificationMapper;
+        _userAgreeHistoryMapper = userAgreeHistoryMapper;
         _employeeService = employeeService;
         _authService = authService;
     }
@@ -201,7 +204,7 @@ public class UserService
     public async Task<UserResultDTO?> UpdateUser(UpdateUserRequestDTO dto)
     {
         // 1. 직원 이메일주소 중복 체크를 한다.
-        if (dto.ActionType == "" || dto.ActionType != "UPDATE_USER_ACTIVE_YN")
+        if (dto.ActionType == "" || (dto.ActionType != "UPDATE_USER_ACTIVE_YN" && dto.ActionType != "UPDATE_USER_AGREE"))
         {
             var foundEmailCount = await _employeeMapper.CountEmployeeEmailAddr(dto.Employee!.EmailAddr!, dto.Employee.EmployeeId);
             if (foundEmailCount > 0)
@@ -214,12 +217,30 @@ public class UserService
         // 2. 사용자를 수정한다.
         await _userMapper.UpdateUser(dto);
 
+        if (dto.ActionType == "UPDATE_USER_AGREE")
+        {
+            if (!string.IsNullOrEmpty(dto.AgreeTypeCode) && !string.IsNullOrEmpty(dto.AgreeYn))
+            {
+                // 3. 사용자 동의 이력을 추가한다.
+                await _userAgreeHistoryMapper.AddUserAgreeHistory(new AddUserAgreeHistoryRequestDTO
+                {
+                    UserId = dto.UserId,
+                    UserAccount = dto.UserAccount,
+                    AgreeTypeCode = dto.AgreeTypeCode,
+                    AgreeYn = dto.AgreeYn,
+                    CreaterId = dto.UpdaterId
+                });
+                // 3-1. 수정한 사용자를 조회해서 반환한다.
+                return await GetUser(new GetUserRequestDTO { UserId = dto.UserId });
+            }
+        }
+
         if (dto.ActionType == "" || dto.ActionType != "UPDATE_USER_ACTIVE_YN")
         {
-            // 3. 사용자 권한을 삭제한다.
+            // 4. 사용자 권한을 삭제한다.
             await _userRoleMapper.RemoveUserRole(dto.UserId);
 
-            // 4. 사용자 권한을 추가한다.
+            // 5. 사용자 권한을 추가한다.
             List<AddUserRoleRequestDTO> addUserRoleRequestDTOList = [];
             foreach (var roleId in dto.Roles!)
             {
@@ -231,14 +252,14 @@ public class UserService
                 });
             }
             await _userRoleMapper.AddUserRole(addUserRoleRequestDTOList);
-            
-            // 5. 사용자 메뉴 권한을 삭제한다.
+
+            // 6. 사용자 메뉴 권한을 삭제한다.
             await _userMenuRoleMapper.RemoveUserMenuRole(new RemoveUserMenuRoleRequestDTO { UserId = dto.UserId });
 
-            // 6. 메뉴 권한 목록을 조회한다.
+            // 7. 메뉴 권한 목록을 조회한다.
             var menuRoleList = await _menuRoleMapper.ListMenuRole(new GetMenuRoleRequestDTO { UserId = dto.UserId });
 
-            // 7. 사용자 메뉴 권한을 추가한다.
+            // 8. 사용자 메뉴 권한을 추가한다.
             List<AddUserMenuRoleRequestDTO> addUserMenuRoleRequestDTOList = [];
             foreach (var i in menuRoleList)
             {
@@ -253,14 +274,14 @@ public class UserService
             await _userMenuRoleMapper.AddUserMenuRole(addUserMenuRoleRequestDTOList);
         }
 
-        // 8. 직원을 수정한다.
+        // 9. 직원을 수정한다.
         if (dto.Employee != null)
         {
             dto.Employee.UpdaterId = dto.UpdaterId;
             
             await _employeeMapper.UpdateEmployee(dto.Employee);
 
-            // 9. 근무이력을 수정한다.
+            // 10. 근무이력을 수정한다.
             if (dto.Employee.WorkHistory != null)
             {
                 dto.Employee.WorkHistory.EmployeeId = dto.Employee.EmployeeId;
@@ -270,7 +291,7 @@ public class UserService
             }
         }
 
-        // 10. 수정한 사용자를 조회해서 반환한다.
+        // 11. 수정한 사용자를 조회해서 반환한다.
         return await GetUser(new GetUserRequestDTO { UserId = dto.UserId });
     }
 

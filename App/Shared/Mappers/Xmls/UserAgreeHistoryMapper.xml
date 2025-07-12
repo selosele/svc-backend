@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<SmartSqlMap Scope="UserAgreeHistoryMapper" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+  <Statements>
+
+    <!-- 사용자 본인인증 이력을 추가한다. -->
+    <Statement Id="AddUserAgreeHistory">
+      /* UserAgreeHistoryMapper.AddUserAgreeHistory */
+
+      INSERT INTO CO_USER_AGREE_HISTORY (
+        USER_ID,
+        USER_ACCOUNT,
+        AGREE_TYPE_CODE,
+        AGREE_YN,
+        AGREE_DT,
+        CREATER_ID
+      )
+      VALUES (
+        ?UserId,
+        ?UserAccount,
+        ?AgreeTypeCode,
+        ?AgreeYn,
+        SYSDATE(),
+        ?CreaterId
+      )
+      ;SELECT LAST_INSERT_ID()
+    </Statement>
+    
+  </Statements>
+</SmartSqlMap>
