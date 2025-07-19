@@ -39,6 +39,16 @@ public record SaveWorkHistoryRequestDTO : HttpRequestDTOBase
     public string? CompanyName { get; set; }
 
     /// <summary>
+    /// 회사 주소
+    /// </summary>
+    public string? CompanyAddr { get; set; }
+
+    /// <summary>
+    /// 대표자명
+    /// </summary>
+    public string? CeoName { get; set; }
+
+    /// <summary>
     /// 직위 코드
     /// </summary>
     public string? RankCode { get; set; }

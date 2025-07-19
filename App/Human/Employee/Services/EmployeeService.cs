@@ -122,6 +122,8 @@ public class EmployeeService(
                 RegistrationNo = dto.RegistrationNo,
                 CorporateName = dto.CorporateName,
                 CompanyName = dto.CompanyName,
+                CompanyAddr = dto.CompanyAddr,
+                CeoName = dto.CeoName,
                 CreaterId = dto.EmployeeId,
             });
         }
@@ -167,6 +169,8 @@ public class EmployeeService(
                 RegistrationNo = dto.RegistrationNo,
                 CorporateName = dto.CorporateName,
                 CompanyName = dto.CompanyName,
+                CompanyAddr = dto.CompanyAddr,
+                CeoName = dto.CeoName,
                 CreaterId = dto.EmployeeId,
             });
         }

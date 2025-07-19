@@ -81,7 +81,7 @@
       LEFT JOIN CO_CODE CD2 ON CD2.CODE_VALUE = H.JOB_TITLE_CODE AND CD2.UP_CODE_ID = 'JOB_TITLE_00'
       WHERE H.EMPLOYEE_ID = ?EmployeeId
         AND H.DELETE_YN = 'N'
-      ORDER BY H.JOIN_YMD DESC
+      ORDER BY H.JOIN_YMD DESC, H.QUIT_YMD ASC
     </Statement>
 
     <!-- 근무이력을 조회한다. -->
