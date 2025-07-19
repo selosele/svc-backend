@@ -5,14 +5,10 @@ using Svc.App.Human.Employee.Models.DTO;
 namespace Svc.App.Human.Employee.Mappers;
 
 /// <summary>
-/// 근무이력 매퍼 클래스
+/// 근무이력 매퍼
 /// </summary>
-public class WorkHistoryMapper : MyMapperBase
+public class WorkHistoryMapper(ISqlMapper sqlMapper) : MyMapperBase(sqlMapper)
 {
-    #region [생성자]
-    public WorkHistoryMapper(ISqlMapper sqlMapper) : base(sqlMapper) {}
-    #endregion
-
     #region [메서드]
     /// <summary>
     /// 근무이력 목록을 조회한다.

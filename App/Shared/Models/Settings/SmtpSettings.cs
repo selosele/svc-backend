@@ -1,7 +1,7 @@
 namespace Svc.App.Shared.Models.Settings;
 
 /// <summary>
-/// SMTP 설정 클래스
+/// SMTP 설정
 /// </summary>
 public record SmtpSettings
 {

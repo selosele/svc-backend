@@ -5,14 +5,10 @@ using Svc.App.Common.Article.Models.DTO;
 namespace Svc.App.Common.Article.Mappers;
 
 /// <summary>
-/// 게시글 매퍼 클래스
+/// 게시글 매퍼
 /// </summary>
-public class ArticleMapper : MyMapperBase
+public class ArticleMapper(ISqlMapper sqlMapper) : MyMapperBase(sqlMapper)
 {
-    #region [생성자]
-    public ArticleMapper(ISqlMapper sqlMapper) : base(sqlMapper) {}
-    #endregion
-
     #region [메서드]
     /// <summary>
     /// 게시글 목록을 조회한다.

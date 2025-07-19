@@ -5,14 +5,10 @@ using Svc.App.Common.Board.Models.DTO;
 namespace Svc.App.Common.Board.Mappers;
 
 /// <summary>
-/// 게시판 매퍼 클래스
+/// 게시판 매퍼
 /// </summary>
-public class BoardMapper : MyMapperBase
+public class BoardMapper(ISqlMapper sqlMapper) : MyMapperBase(sqlMapper)
 {
-    #region [생성자]
-    public BoardMapper(ISqlMapper sqlMapper) : base(sqlMapper) {}
-    #endregion
-
     #region [메서드]
     /// <summary>
     /// 게시판 목록을 조회한다.

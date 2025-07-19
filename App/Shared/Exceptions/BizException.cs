@@ -1,11 +1,9 @@
 namespace Svc.App.Shared.Exceptions;
 
 /// <summary>
-/// 비즈니스 로직 예외 Exception 클래스
+/// 비즈니스 로직 예외 Exception
 /// </summary>
-public class BizException : Exception
+public class BizException(string message) : Exception(message)
 {
-    #region [생성자]
-    public BizException(string message) : base(message) {}
-    #endregion
+    
 }

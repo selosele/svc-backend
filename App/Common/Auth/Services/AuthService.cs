@@ -19,45 +19,30 @@ using Svc.App.Common.Notification.Mappers;
 namespace Svc.App.Common.Auth.Services;
 
 /// <summary>
-/// 인증·인가 서비스 클래스
+/// 인증·인가 서비스
 /// </summary>
-public class AuthService
+public class AuthService(
+    IConfiguration configuration,
+    IHttpContextAccessor httpContextAccessor,
+    UserMapper userMapper,
+    UserCertHistoryMapper userCertHistoryMapper,
+    UserRoleMapper userRoleMapper,
+    EmployeeMapper employeeMapper,
+    WorkHistoryMapper workHistoryMapper,
+    NotificationMapper notificationMapper,
+    MyMailService mailService
+    )
 {
     #region [필드]
-    private readonly IConfiguration _configuration;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly UserMapper _userMapper;
-    private readonly UserCertHistoryMapper _userCertHistoryMapper;
-    private readonly UserRoleMapper _userRoleMapper;
-    private readonly EmployeeMapper _employeeMapper;
-    private readonly WorkHistoryMapper _workHistoryMapper;
-    private readonly NotificationMapper _notificationMapper;
-    private readonly MyMailService _mailService;
-    #endregion
-    
-    #region [생성자]
-    public AuthService(
-        IConfiguration configuration,
-        IHttpContextAccessor httpContextAccessor,
-        UserMapper userMapper,
-        UserCertHistoryMapper userCertHistoryMapper,
-        UserRoleMapper userRoleMapper,
-        EmployeeMapper employeeMapper,
-        WorkHistoryMapper workHistoryMapper,
-        NotificationMapper notificationMapper,
-        MyMailService mailService
-    )
-    {
-        _configuration = configuration;
-        _httpContextAccessor = httpContextAccessor;
-        _userMapper = userMapper;
-        _userCertHistoryMapper = userCertHistoryMapper;
-        _userRoleMapper = userRoleMapper;
-        _employeeMapper = employeeMapper;
-        _workHistoryMapper = workHistoryMapper;
-        _notificationMapper = notificationMapper;
-        _mailService = mailService;
-    }
+    private readonly IConfiguration _configuration = configuration;
+    private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
+    private readonly UserMapper _userMapper = userMapper;
+    private readonly UserCertHistoryMapper _userCertHistoryMapper = userCertHistoryMapper;
+    private readonly UserRoleMapper _userRoleMapper = userRoleMapper;
+    private readonly EmployeeMapper _employeeMapper = employeeMapper;
+    private readonly WorkHistoryMapper _workHistoryMapper = workHistoryMapper;
+    private readonly NotificationMapper _notificationMapper = notificationMapper;
+    private readonly MyMailService _mailService = mailService;
     #endregion
 
     #region [메서드]
@@ -153,7 +138,6 @@ public class AuthService
     /// <summary>
     /// 사용자를 조회한다(로그인용).
     /// </summary>
-    [Transaction]
     public async Task<LoginResultDTO?> GetUserLogin(LoginRequestDTO dto)
     {
         var user = await _userMapper.GetUserLogin(dto);
@@ -177,7 +161,6 @@ public class AuthService
     /// <summary>
     /// 사용자의 아이디를 찾는다.
     /// </summary>
-    [Transaction]
     public async Task<bool> FindUserAccount(FindUserInfoRequestDTO dto)
     {
         var foundUser = await _userMapper.GetUserFindInfo(dto)
@@ -211,7 +194,6 @@ public class AuthService
     /// <summary>
     /// 사용자의 비밀번호를 찾는다(인증코드 발송).
     /// </summary>
-    [Transaction]
     public async Task<UserCertHistoryResultDTO> FindUserPassword1(FindUserInfoRequestDTO dto)
     {
         var foundUser = await _userMapper.GetUserFindInfo(dto)

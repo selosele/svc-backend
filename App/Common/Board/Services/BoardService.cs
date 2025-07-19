@@ -5,41 +5,30 @@ using Svc.App.Common.Board.Models.DTO;
 namespace Svc.App.Common.Board.Services;
 
 /// <summary>
-/// 게시판 서비스 클래스
+/// 게시판 서비스
 /// </summary>
-public class BoardService
+public class BoardService(BoardMapper boardMapper)
 {
     #region [필드]
-    private readonly BoardMapper _boardMapper;
-    #endregion
-    
-    #region [생성자]
-    public BoardService(
-        BoardMapper boardMapper
-    ) {
-        _boardMapper = boardMapper;
-    }
+    private readonly BoardMapper _boardMapper = boardMapper;
     #endregion
 
     #region [메서드]
     /// <summary>
     /// 게시판 목록을 조회한다.
     /// </summary>
-    [Transaction]
     public async Task<IList<BoardResultDTO>> ListBoard(GetBoardRequestDTO? dto)
         => await _boardMapper.ListBoard(dto);
 
     /// <summary>
     /// 메인화면 게시판 목록을 조회한다.
     /// </summary>
-    [Transaction]
     public async Task<IList<BoardResultDTO>> ListMainBoard(GetBoardRequestDTO? dto)
         => await _boardMapper.ListMainBoard(dto);
 
     /// <summary>
     /// 게시판을 조회한다.
     /// </summary>
-    [Transaction]
     public async Task<BoardResultDTO> GetBoard(int? boardId)
         => await _boardMapper.GetBoard(boardId);
 

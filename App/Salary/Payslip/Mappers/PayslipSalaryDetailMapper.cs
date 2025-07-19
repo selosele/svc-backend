@@ -5,14 +5,10 @@ using Svc.App.Salary.Payslip.Models.DTO;
 namespace Svc.App.Salary.Payslip.Mappers;
 
 /// <summary>
-/// 급여명세서 급여내역 상세 매퍼 클래스
+/// 급여명세서 급여내역 상세 매퍼
 /// </summary>
-public class PayslipSalaryDetailMapper : MyMapperBase
+public class PayslipSalaryDetailMapper(ISqlMapper sqlMapper) : MyMapperBase(sqlMapper)
 {
-    #region [생성자]
-    public PayslipSalaryDetailMapper(ISqlMapper sqlMapper) : base(sqlMapper) {}
-    #endregion
-
     #region [메서드]
     /// <summary>
     /// 급여명세서 급여내역 상세 목록을 조회한다.

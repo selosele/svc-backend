@@ -5,14 +5,10 @@ using Svc.App.Common.Code.Models.DTO;
 namespace Svc.App.Common.Code.Mappers;
 
 /// <summary>
-/// 코드 매퍼 클래스
+/// 코드 매퍼
 /// </summary>
-public class CodeMapper : MyMapperBase
+public class CodeMapper(ISqlMapper sqlMapper) : MyMapperBase(sqlMapper)
 {
-    #region [생성자]
-    public CodeMapper(ISqlMapper sqlMapper) : base(sqlMapper) {}
-    #endregion
-
     #region [메서드]
     /// <summary>
     /// 코드 목록을 조회한다.

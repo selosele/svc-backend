@@ -7,47 +7,34 @@ using Svc.App.Common.User.Models.DTO;
 namespace Svc.App.Common.Menu.Services;
 
 /// <summary>
-/// 메뉴 서비스 클래스
+/// 메뉴 서비스
 /// </summary>
-public class MenuService
+public class MenuService(
+    MenuMapper menuMapper,
+    MenuRoleMapper menuRoleMapper,
+    MenuBookmarkMapper menuBookmarkMapper,
+    UserMapper userMapper,
+    UserMenuRoleMapper userMenuRoleMapper
+    )
 {
     #region [필드]
-    private readonly MenuMapper _menuMapper;
-    private readonly MenuRoleMapper _menuRoleMapper;
-    private readonly MenuBookmarkMapper _menuBookmarkMapper;
-    private readonly UserMapper _userMapper;
-    private readonly UserMenuRoleMapper _userMenuRoleMapper;
-    #endregion
-    
-    #region [생성자]
-    public MenuService(
-        MenuMapper menuMapper,
-        MenuRoleMapper menuRoleMapper,
-        MenuBookmarkMapper menuBookmarkMapper,
-        UserMapper userMapper,
-        UserMenuRoleMapper userMenuRoleMapper
-    )
-    {
-        _menuMapper = menuMapper;
-        _menuRoleMapper = menuRoleMapper;
-        _menuBookmarkMapper = menuBookmarkMapper;
-        _userMapper = userMapper;
-        _userMenuRoleMapper = userMenuRoleMapper;
-    }
+    private readonly MenuMapper _menuMapper = menuMapper;
+    private readonly MenuRoleMapper _menuRoleMapper = menuRoleMapper;
+    private readonly MenuBookmarkMapper _menuBookmarkMapper = menuBookmarkMapper;
+    private readonly UserMapper _userMapper = userMapper;
+    private readonly UserMenuRoleMapper _userMenuRoleMapper = userMenuRoleMapper;
     #endregion
 
     #region [메서드]
     /// <summary>
     /// 메뉴 목록을 조회한다.
     /// </summary>
-    [Transaction]
     public async Task<IList<MenuResultDTO>> ListMenu(GetMenuRequestDTO dto)
         => await _menuMapper.ListMenu(dto);
 
     /// <summary>
     /// 메뉴를 조회한다.
     /// </summary>
-    [Transaction]
     public async Task<MenuResultDTO> GetMenu(int menuId)
     {
         var menu = await _menuMapper.GetMenu(menuId);
@@ -161,7 +148,6 @@ public class MenuService
     /// <summary>
     /// 메뉴 즐겨찾기 목록을 조회한다.
     /// </summary>
-    [Transaction]
     public async Task<IList<MenuBookmarkResultDTO>> ListMenuBookmark(int? userId)
         => await _menuBookmarkMapper.ListMenuBookmark(userId);
 

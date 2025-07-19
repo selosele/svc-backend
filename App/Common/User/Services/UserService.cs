@@ -15,65 +15,46 @@ using Svc.App.Common.Notification.Models.DTO;
 namespace Svc.App.Common.User.Services;
 
 /// <summary>
-/// 사용자 서비스 클래스
+/// 사용자 서비스
 /// </summary>
-public class UserService
+public class UserService(
+    UserMapper userMapper,
+    UserSetupMapper userSetupMapper,
+    UserRoleMapper userRoleMapper,
+    UserMenuRoleMapper userMenuRoleMapper,
+    MenuRoleMapper menuRoleMapper,
+    EmployeeMapper employeeMapper,
+    WorkHistoryMapper workHistoryMapper,
+    NotificationMapper notificationMapper,
+    UserAgreeHistoryMapper userAgreeHistoryMapper,
+    EmployeeService employeeService,
+    AuthService authService
+    )
 {
     #region [필드]
-    private readonly UserMapper _userMapper;
-    private readonly UserSetupMapper _userSetupMapper;
-    private readonly UserRoleMapper _userRoleMapper;
-    private readonly UserMenuRoleMapper _userMenuRoleMapper;
-    private readonly MenuRoleMapper _menuRoleMapper;
-    private readonly EmployeeMapper _employeeMapper;
-    private readonly WorkHistoryMapper _workHistoryMapper;
-    private readonly NotificationMapper _notificationMapper;
-    private readonly UserAgreeHistoryMapper _userAgreeHistoryMapper;
-    private readonly EmployeeService _employeeService;
-    private readonly AuthService _authService;
-    #endregion
-    
-    #region [생성자]
-    public UserService(
-        UserMapper userMapper,
-        UserSetupMapper userSetupMapper,
-        UserRoleMapper userRoleMapper,
-        UserMenuRoleMapper userMenuRoleMapper,
-        MenuRoleMapper menuRoleMapper,
-        EmployeeMapper employeeMapper,
-        WorkHistoryMapper workHistoryMapper,
-        NotificationMapper notificationMapper,
-        UserAgreeHistoryMapper userAgreeHistoryMapper,
-        EmployeeService employeeService,
-        AuthService authService
-    )
-    {
-        _userMapper = userMapper;
-        _userSetupMapper = userSetupMapper;
-        _userRoleMapper = userRoleMapper;
-        _userMenuRoleMapper = userMenuRoleMapper;
-        _menuRoleMapper = menuRoleMapper;
-        _employeeMapper = employeeMapper;
-        _workHistoryMapper = workHistoryMapper;
-        _notificationMapper = notificationMapper;
-        _userAgreeHistoryMapper = userAgreeHistoryMapper;
-        _employeeService = employeeService;
-        _authService = authService;
-    }
+    private readonly UserMapper _userMapper = userMapper;
+    private readonly UserSetupMapper _userSetupMapper = userSetupMapper;
+    private readonly UserRoleMapper _userRoleMapper = userRoleMapper;
+    private readonly UserMenuRoleMapper _userMenuRoleMapper = userMenuRoleMapper;
+    private readonly MenuRoleMapper _menuRoleMapper = menuRoleMapper;
+    private readonly EmployeeMapper _employeeMapper = employeeMapper;
+    private readonly WorkHistoryMapper _workHistoryMapper = workHistoryMapper;
+    private readonly NotificationMapper _notificationMapper = notificationMapper;
+    private readonly UserAgreeHistoryMapper _userAgreeHistoryMapper = userAgreeHistoryMapper;
+    private readonly EmployeeService _employeeService = employeeService;
+    private readonly AuthService _authService = authService;
     #endregion
 
     #region [메서드]
     /// <summary>
     /// 사용자 목록을 조회한다.
     /// </summary>
-    [Transaction]
     public async Task<IList<UserResultDTO>> ListUser(GetUserRequestDTO? dto)
         => await _userMapper.ListUser(dto);
 
     /// <summary>
     /// 사용자를 조회한다.
     /// </summary>
-    [Transaction]
     public async Task<UserResultDTO?> GetUser(GetUserRequestDTO dto)
     {
         var user = await _userMapper.GetUser(dto);
@@ -97,7 +78,6 @@ public class UserService
     /// <summary>
     /// 사용자 설정을 조회한다.
     /// </summary>
-    [Transaction]
     public async Task<UserSetupResultDTO> GetUserSetup(GetUserSetupRequestDTO dto)
         => await _userSetupMapper.GetUserSetup(dto);
 

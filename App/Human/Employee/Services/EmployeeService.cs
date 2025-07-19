@@ -7,34 +7,24 @@ using Svc.App.Human.Company.Models.DTO;
 namespace Svc.App.Human.Employee.Services;
 
 /// <summary>
-/// 직원 서비스 클래스
+/// 직원 서비스
 /// </summary>
-public class EmployeeService
+public class EmployeeService(
+    EmployeeMapper employeeMapper,
+    CompanyMapper companyMapper,
+    WorkHistoryMapper workHistoryMapper
+    )
 {
     #region [필드]
-    private readonly EmployeeMapper _employeeMapper;
-    private readonly CompanyMapper _companyMapper;
-    private readonly WorkHistoryMapper _workHistoryMapper;
-    #endregion
-    
-    #region [생성자]
-    public EmployeeService(
-        EmployeeMapper employeeMapper,
-        CompanyMapper companyMapper,
-        WorkHistoryMapper workHistoryMapper
-    )
-    {
-        _employeeMapper = employeeMapper;
-        _companyMapper = companyMapper;
-        _workHistoryMapper = workHistoryMapper;
-    }
+    private readonly EmployeeMapper _employeeMapper = employeeMapper;
+    private readonly CompanyMapper _companyMapper = companyMapper;
+    private readonly WorkHistoryMapper _workHistoryMapper = workHistoryMapper;
     #endregion
 
     #region [메서드]
     /// <summary>
     /// 직원을 조회한다.
     /// </summary>
-    [Transaction]
     public async Task<EmployeeResultDTO?> GetEmployee(GetEmployeeRequestDTO dto)
     {
         var employee = await _employeeMapper.GetEmployee(dto);
@@ -62,21 +52,18 @@ public class EmployeeService
     /// <summary>
     /// 근무이력 목록을 조회한다.
     /// </summary>
-    [Transaction]
     public async Task<IList<WorkHistoryResultDTO>> ListWorkHistory(GetWorkHistoryRequestDTO dto)
         => await _workHistoryMapper.ListWorkHistory(dto);
 
     /// <summary>
     /// 근무이력을 조회한다.
     /// </summary>
-    [Transaction]
     public async Task<WorkHistoryResultDTO> GetWorkHistory(GetWorkHistoryRequestDTO dto)
         => await _workHistoryMapper.GetWorkHistory(dto);
 
     /// <summary>
     /// 최신 근무이력을 조회한다.
     /// </summary>
-    [Transaction]
     public async Task<WorkHistoryResultDTO> GetCurrentWorkHistory(GetWorkHistoryRequestDTO dto)
         => await _workHistoryMapper.GetCurrentWorkHistory(dto);
 
@@ -118,17 +105,19 @@ public class EmployeeService
     [Transaction]
     public async Task<WorkHistoryResultDTO> AddWorkHistory(SaveWorkHistoryRequestDTO dto)
     {
+        int? companyId = dto.CompanyId;
+
         // 회사 ID가 없으면(Open API로 회사 정보를 조회해서 선택한경우) 회사 정보가 존재하는지 확인해서
         var companyCount = await _companyMapper.CountCompany(new GetCompanyRequestDTO
         {
-            CompanyId = dto.CompanyId,
+            CompanyId = companyId,
             RegistrationNo = dto.RegistrationNo
         });
 
         // 없으면 회사 정보를 추가한다.
         if (companyCount == 0)
         {
-            await _companyMapper.AddCompany(new SaveCompanyRequestDTO
+            companyId = await _companyMapper.AddCompany(new SaveCompanyRequestDTO
             {
                 RegistrationNo = dto.RegistrationNo,
                 CorporateName = dto.CorporateName,
@@ -142,7 +131,7 @@ public class EmployeeService
         {
             await _employeeMapper.UpdateEmployee(new UpdateEmployeeRequestDTO
             {
-                WorkHistory = new SaveWorkHistoryRequestDTO { CompanyId = dto.CompanyId },
+                WorkHistory = new SaveWorkHistoryRequestDTO { CompanyId = companyId },
                 EmployeeId = dto.EmployeeId,
                 UpdaterId = dto.UpdaterId
             });
@@ -161,17 +150,19 @@ public class EmployeeService
     [Transaction]
     public async Task<int> UpdateWorkHistory(SaveWorkHistoryRequestDTO dto)
     {
+        int? companyId = dto.CompanyId;
+
         // 회사 ID가 없으면(Open API로 회사 정보를 조회해서 선택한경우) 회사 정보가 존재하는지 확인해서
         var companyCount = await _companyMapper.CountCompany(new GetCompanyRequestDTO
         {
-            CompanyId = dto.CompanyId,
+            CompanyId = companyId,
             RegistrationNo = dto.RegistrationNo
         });
 
         // 없으면 회사 정보를 추가한다.
         if (companyCount == 0)
         {
-            await _companyMapper.AddCompany(new SaveCompanyRequestDTO
+            companyId = await _companyMapper.AddCompany(new SaveCompanyRequestDTO
             {
                 RegistrationNo = dto.RegistrationNo,
                 CorporateName = dto.CorporateName,
@@ -185,7 +176,7 @@ public class EmployeeService
         {
             await _employeeMapper.UpdateEmployee(new UpdateEmployeeRequestDTO
             {
-                WorkHistory = new SaveWorkHistoryRequestDTO { CompanyId = dto.CompanyId },
+                WorkHistory = new SaveWorkHistoryRequestDTO { CompanyId = companyId },
                 EmployeeId = dto.EmployeeId,
                 UpdaterId = dto.UpdaterId
             });

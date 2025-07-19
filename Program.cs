@@ -71,7 +71,11 @@ builder.Services.AddHttpClient();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(x =>
+{
+    x.IncludeXmlComments($"{AppContext.BaseDirectory}/Svc.xml", true);
+});
+
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAuthentication(x => 
 {
@@ -101,7 +105,11 @@ app.UseCors("RestrictedCors");
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(x =>
+    {
+        x.SwaggerEndpoint("/swagger/v1/swagger.json", "SVC API V1");
+        x.RoutePrefix = "swagger";
+    });
 }
 
 app.UseHttpsRedirection();

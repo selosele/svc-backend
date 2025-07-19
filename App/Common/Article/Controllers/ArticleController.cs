@@ -10,28 +10,20 @@ using Svc.App.Shared.Utils;
 namespace Svc.App.Common.Article.Controllers;
 
 /// <summary>
-/// 게시글 컨트롤러 클래스
+/// 게시글 컨트롤러
 /// </summary>
 [ApiController]
 [Route("api/co/articles")]
-public class ArticleController : ControllerBase
+public class ArticleController(
+    AuthService authService,
+    ArticleService articleService,
+    BoardService boardService
+    ) : ControllerBase
 {
     #region [필드]
-    private readonly AuthService _authService;
-    private readonly ArticleService _articleService;
-    private readonly BoardService _boardService;
-    #endregion
-    
-    #region [생성자]
-    public ArticleController(
-        AuthService authService,
-        ArticleService articleService,
-        BoardService boardService
-    ) {
-        _authService = authService;
-        _articleService = articleService;
-        _boardService = boardService;
-    }
+    private readonly AuthService _authService = authService;
+    private readonly ArticleService _articleService = articleService;
+    private readonly BoardService _boardService = boardService;
     #endregion
 
     #region [메서드]

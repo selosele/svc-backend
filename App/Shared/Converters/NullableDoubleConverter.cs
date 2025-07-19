@@ -2,7 +2,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 
 /// <summary>
-/// 빈 문자열을 null로 변환하고, double? 타입을 처리하는 JSON 컨버터 클래스
+/// 빈 문자열을 null로 변환하고, double? 타입을 처리하는 JSON 컨버터
 /// </summary>
 public class NullableDoubleConverter : JsonConverter<double?>
 {

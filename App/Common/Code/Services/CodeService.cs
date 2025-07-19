@@ -5,34 +5,24 @@ using Svc.App.Common.Code.Models.DTO;
 namespace Svc.App.Common.Code.Services;
 
 /// <summary>
-/// 코드 서비스 클래스
+/// 코드 서비스
 /// </summary>
-public class CodeService
+public class CodeService(CodeMapper codeMapper)
 {
     #region [필드]
-    private readonly CodeMapper _codeMapper;
-    #endregion
-    
-    #region [생성자]
-    public CodeService(
-        CodeMapper codeMapper
-    ) {
-        _codeMapper = codeMapper;
-    }
+    private readonly CodeMapper _codeMapper = codeMapper;
     #endregion
 
     #region [메서드]
     /// <summary>
     /// 코드 목록을 조회한다.
     /// </summary>
-    [Transaction]
     public async Task<IList<CodeResultDTO>> ListCode()
         => await _codeMapper.ListCode();
 
     /// <summary>
     /// 코드를 조회한다.
     /// </summary>
-    [Transaction]
     public async Task<CodeResultDTO> GetCode(string codeId)
         => await _codeMapper.GetCode(codeId);
 

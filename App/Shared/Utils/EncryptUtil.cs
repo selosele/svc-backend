@@ -1,7 +1,7 @@
 namespace Svc.App.Shared.Utils;
 
 /// <summary>
-/// 암호화 유틸 클래스
+/// 암호화 유틸
 /// </summary>
 public class EncryptUtil
 {

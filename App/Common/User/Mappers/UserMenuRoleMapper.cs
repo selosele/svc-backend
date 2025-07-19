@@ -5,14 +5,10 @@ using Svc.App.Common.User.Models.DTO;
 namespace Svc.App.Common.User.Mappers;
 
 /// <summary>
-/// 사용자 메뉴 권한 매퍼 클래스
+/// 사용자 메뉴 권한 매퍼
 /// </summary>
-public class UserMenuRoleMapper : MyMapperBase
+public class UserMenuRoleMapper(ISqlMapper sqlMapper) : MyMapperBase(sqlMapper)
 {
-    #region [생성자]
-    public UserMenuRoleMapper(ISqlMapper sqlMapper) : base(sqlMapper) {}
-    #endregion
-
     #region [메서드]
     /// <summary>
     /// 사용자 메뉴 권한을 추가한다.

@@ -5,14 +5,10 @@ using Svc.App.Common.User.Models.DTO;
 namespace Svc.App.Common.User.Mappers;
 
 /// <summary>
-/// 사용자 설정 매퍼 클래스
+/// 사용자 설정 매퍼
 /// </summary>
-public class UserSetupMapper : MyMapperBase
+public class UserSetupMapper(ISqlMapper sqlMapper) : MyMapperBase(sqlMapper)
 {
-    #region [생성자]
-    public UserSetupMapper(ISqlMapper sqlMapper) : base(sqlMapper) {}
-    #endregion
-
     #region [메서드]
     /// <summary>
     /// 사용자 설정을 조회한다.

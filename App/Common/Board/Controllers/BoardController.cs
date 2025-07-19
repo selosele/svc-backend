@@ -8,25 +8,18 @@ using Svc.App.Shared.Utils;
 namespace Svc.App.Common.Board.Controllers;
 
 /// <summary>
-/// 게시판 컨트롤러 클래스
+/// 게시판 컨트롤러
 /// </summary>
 [ApiController]
 [Route("api/co/boards")]
-public class BoardController : ControllerBase
+public class BoardController(
+    AuthService authService,
+    BoardService boardService
+    ) : ControllerBase
 {
     #region [필드]
-    private readonly AuthService _authService;
-    private readonly BoardService _boardService;
-    #endregion
-    
-    #region [생성자]
-    public BoardController(
-        AuthService authService,
-        BoardService boardService
-    ) {
-        _authService = authService;
-        _boardService = boardService;
-    }
+    private readonly AuthService _authService = authService;
+    private readonly BoardService _boardService = boardService;
     #endregion
 
     #region [메서드]

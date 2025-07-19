@@ -1,7 +1,7 @@
 namespace Svc.App.Shared.Utils;
 
 /// <summary>
-/// HTTP 상태값 유틸 클래스
+/// HTTP 상태값 유틸
 /// </summary>
 public class HttpStatusUtil
 {

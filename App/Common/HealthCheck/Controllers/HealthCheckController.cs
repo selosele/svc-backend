@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace Svc.App.Common.HealthCheck.Controllers;
 
 /// <summary>
-/// 헬스체크 컨트롤러 클래스
+/// 헬스체크 컨트롤러
 /// </summary>
 [ApiController]
-[Route("api/co/healthcheck")]
+[Route("api/co/health-check")]
 public class HealthCheckController : ControllerBase
 {
     #region [메서드]

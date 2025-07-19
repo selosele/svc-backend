@@ -9,57 +9,42 @@ using Svc.App.Common.Notification.Models.DTO;
 namespace Svc.App.Human.Company.Services;
 
 /// <summary>
-/// 회사 서비스 클래스
+/// 회사 서비스
 /// </summary>
-public class CompanyService
+public class CompanyService(
+    ILogger<CompanyService> logger,
+    IConfiguration configuration,
+    HttpClient httpClient,
+    CompanyMapper companyMapper,
+    CompanyApplyMapper companyApplyMapper,
+    NotificationMapper notificationMapper
+    )
 {
     #region [필드]
-    private readonly ILogger _logger;
-    private readonly IConfiguration _configuration;
-    private readonly HttpClient _httpClient;
-    private readonly CompanyMapper _companyMapper;
-    private readonly CompanyApplyMapper _companyApplyMapper;
-    private readonly NotificationMapper _notificationMapper;
-    #endregion
-    
-    #region [생성자]
-    public CompanyService(
-        ILogger<CompanyService> logger,
-        IConfiguration configuration,
-        HttpClient httpClient,
-        CompanyMapper companyMapper,
-        CompanyApplyMapper companyApplyMapper,
-        NotificationMapper notificationMapper
-    )
-    {
-        _logger = logger;
-        _configuration = configuration;
-        _httpClient = httpClient;
-        _companyMapper = companyMapper;
-        _companyApplyMapper = companyApplyMapper;
-        _notificationMapper = notificationMapper;
-    }
+    private readonly ILogger _logger = logger;
+    private readonly IConfiguration _configuration = configuration;
+    private readonly HttpClient _httpClient = httpClient;
+    private readonly CompanyMapper _companyMapper = companyMapper;
+    private readonly CompanyApplyMapper _companyApplyMapper = companyApplyMapper;
+    private readonly NotificationMapper _notificationMapper = notificationMapper;
     #endregion
 
     #region [메서드]
     /// <summary>
     /// 회사 목록을 조회한다.
     /// </summary>
-    [Transaction]
     public async Task<IList<CompanyResultDTO>> ListCompany(GetCompanyRequestDTO? dto)
         => await _companyMapper.ListCompany(dto);
 
     /// <summary>
     /// 회사를 조회한다.
     /// </summary>
-    [Transaction]
     public async Task<CompanyResultDTO> GetCompany(int companyId)
         => await _companyMapper.GetCompany(companyId);
 
     /// <summary>
     /// 회사 정보가 존재하는지 확인한다.
     /// </summary>
-    [Transaction]
     public async Task<int> CountCompany(GetCompanyRequestDTO dto)
         => await _companyMapper.CountCompany(dto);
 
@@ -117,14 +102,12 @@ public class CompanyService
     /// <summary>
     /// 회사등록신청 목록을 조회한다.
     /// </summary>
-    [Transaction]
     public async Task<IList<CompanyApplyResultDTO>> ListCompanyApply(GetCompanyApplyRequestDTO? dto)
         => await _companyApplyMapper.ListCompanyApply(dto);
 
     /// <summary>
     /// 회사등록신청을 조회한다.
     /// </summary>
-    [Transaction]
     public async Task<CompanyApplyResultDTO> GetCompanyApply(int companyApplyId)
         => await _companyApplyMapper.GetCompanyApply(companyApplyId);
 

@@ -1,7 +1,7 @@
 namespace Svc.App.Shared.Utils;
 
 /// <summary>
-/// 권한 유틸 클래스
+/// 권한 유틸
 /// </summary>
 public class RoleUtil
 {

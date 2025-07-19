@@ -9,28 +9,20 @@ using Svc.App.Human.Vacation.Services;
 namespace Svc.App.Human.Vacation.Controllers;
 
 /// <summary>
-/// 휴가 컨트롤러 클래스
+/// 휴가 컨트롤러
 /// </summary>
 [ApiController]
 [Route("api/hm/vacations")]
-public class VacationController : ControllerBase
+public class VacationController(
+    AuthService authService,
+    EmployeeService employeeService,
+    VacationService vacationService
+    ) : ControllerBase
 {
     #region [필드]
-    private readonly AuthService _authService;
-    private readonly EmployeeService _employeeService;
-    private readonly VacationService _vacationService;
-    #endregion
-    
-    #region [생성자]
-    public VacationController(
-        AuthService authService,
-        EmployeeService employeeService,
-        VacationService vacationService
-    ) {
-        _authService = authService;
-        _employeeService = employeeService;
-        _vacationService = vacationService;
-    }
+    private readonly AuthService _authService = authService;
+    private readonly EmployeeService _employeeService = employeeService;
+    private readonly VacationService _vacationService = vacationService;
     #endregion
 
     #region [메서드]

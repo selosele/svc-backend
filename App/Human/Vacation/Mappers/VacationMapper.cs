@@ -5,14 +5,10 @@ using Svc.App.Human.Vacation.Models.DTO;
 namespace Svc.App.Human.Vacation.Mappers;
 
 /// <summary>
-/// 휴가 매퍼 클래스
+/// 휴가 매퍼
 /// </summary>
-public class VacationMapper : MyMapperBase
+public class VacationMapper(ISqlMapper sqlMapper) : MyMapperBase(sqlMapper)
 {
-    #region [생성자]
-    public VacationMapper(ISqlMapper sqlMapper) : base(sqlMapper) {}
-    #endregion
-
     #region [메서드]
     /// <summary>
     /// 휴가 목록을 조회한다.

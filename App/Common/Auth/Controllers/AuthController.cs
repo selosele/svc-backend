@@ -8,22 +8,14 @@ using Svc.App.Shared.Utils;
 namespace Svc.App.Common.Auth.Controllers;
 
 /// <summary>
-/// 인증·인가 컨트롤러 클래스
+/// 인증·인가 컨트롤러
 /// </summary>
 [ApiController]
 [Route("api/co/auth")]
-public class AuthController : ControllerBase
+public class AuthController(AuthService authService) : ControllerBase
 {
     #region [필드]
-    private readonly AuthService _authService;
-    #endregion
-    
-    #region [생성자]
-    public AuthController(
-        AuthService authService
-    ) {
-        _authService = authService;
-    }
+    private readonly AuthService _authService = authService;
     #endregion
 
     #region [메서드]

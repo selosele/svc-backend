@@ -5,14 +5,10 @@ using Svc.App.Common.Menu.Models.DTO;
 namespace Svc.App.Common.Menu.Mappers;
 
 /// <summary>
-/// 메뉴 즐겨찾기 매퍼 클래스
+/// 메뉴 즐겨찾기 매퍼
 /// </summary>
-public class MenuBookmarkMapper : MyMapperBase
+public class MenuBookmarkMapper(ISqlMapper sqlMapper) : MyMapperBase(sqlMapper)
 {
-    #region [생성자]
-    public MenuBookmarkMapper(ISqlMapper sqlMapper) : base(sqlMapper) {}
-    #endregion
-
     #region [메서드]
     /// <summary>
     /// 메뉴 즐겨찾기 목록을 조회한다.

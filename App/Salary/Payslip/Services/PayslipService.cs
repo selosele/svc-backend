@@ -6,45 +6,34 @@ using Svc.App.Shared.Exceptions;
 namespace Svc.App.Salary.Payslip.Services;
 
 /// <summary>
-/// 급여명세서 서비스 클래스
+/// 급여명세서 서비스
 /// </summary>
-public class PayslipService
+public class PayslipService(
+    PayslipMapper payslipMapper,
+    PayslipSalaryDetailMapper payslipSalaryDetailMapper
+    )
 {
     #region [필드]
-    private readonly PayslipMapper _payslipMapper;
-    private readonly PayslipSalaryDetailMapper _payslipSalaryDetailMapper;
-    #endregion
-    
-    #region [생성자]
-    public PayslipService(
-        PayslipMapper payslipMapper,
-        PayslipSalaryDetailMapper payslipSalaryDetailMapper
-    )
-    {
-        _payslipMapper = payslipMapper;
-        _payslipSalaryDetailMapper = payslipSalaryDetailMapper;
-    }
+    private readonly PayslipMapper _payslipMapper = payslipMapper;
+    private readonly PayslipSalaryDetailMapper _payslipSalaryDetailMapper = payslipSalaryDetailMapper;
     #endregion
 
     #region [메서드]
     /// <summary>
     /// 급여명세서 목록을 조회한다.
     /// </summary>
-    [Transaction]
     public async Task<IList<PayslipResultDTO>> ListPayslip(GetPayslipRequestDTO dto)
         => await _payslipMapper.ListPayslip(dto);
 
     /// <summary>
     /// 이전/다음 급여명세서 목록을 조회한다.
     /// </summary>
-    [Transaction]
     public async Task<IList<PayslipResultDTO>> ListPrevNextPayslip(GetPayslipRequestDTO dto)
         => await _payslipMapper.ListPrevNextPayslip(dto);
 
     /// <summary>
     /// 급여명세서를 조회한다.
     /// </summary>
-    [Transaction]
     public async Task<PayslipResultDTO> GetPayslip(GetPayslipRequestDTO dto)
     {
         var payslip = await _payslipMapper.GetPayslip(dto);

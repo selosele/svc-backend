@@ -6,22 +6,14 @@ using Svc.App.Common.Role.Services;
 namespace Svc.App.Common.Role.Controllers;
 
 /// <summary>
-/// 권한 컨트롤러 클래스
+/// 권한 컨트롤러
 /// </summary>
 [ApiController]
 [Route("api/co/roles")]
-public class RoleController : ControllerBase
+public class RoleController(RoleService roleService) : ControllerBase
 {
     #region [필드]
-    private readonly RoleService _roleService;
-    #endregion
-    
-    #region [생성자]
-    public RoleController(
-        RoleService roleService
-    ) {
-        _roleService = roleService;
-    }
+    private readonly RoleService _roleService = roleService;
     #endregion
 
     #region [메서드]

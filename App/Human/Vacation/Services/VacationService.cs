@@ -5,41 +5,30 @@ using Svc.App.Human.Vacation.Models.DTO;
 namespace Svc.App.Human.Vacation.Services;
 
 /// <summary>
-/// 휴가 서비스 클래스
+/// 휴가 서비스
 /// </summary>
-public class VacationService
+public class VacationService(
+    VacationMapper vacationMapper,
+    VacationCalcMapper vacationCalcMapper,
+    VacationStatsMapper vacationStatsMapper
+    )
 {
     #region [필드]
-    private readonly VacationMapper _vacationMapper;
-    private readonly VacationCalcMapper _vacationCalcMapper;
-    private readonly VacationStatsMapper _vacationStatsMapper;
-    #endregion
-    
-    #region [생성자]
-    public VacationService(
-        VacationMapper vacationMapper,
-        VacationCalcMapper vacationCalcMapper,
-        VacationStatsMapper vacationStatsMapper
-    )
-    {
-        _vacationMapper = vacationMapper;
-        _vacationCalcMapper = vacationCalcMapper;
-        _vacationStatsMapper = vacationStatsMapper;
-    }
+    private readonly VacationMapper _vacationMapper = vacationMapper;
+    private readonly VacationCalcMapper _vacationCalcMapper = vacationCalcMapper;
+    private readonly VacationStatsMapper _vacationStatsMapper = vacationStatsMapper;
     #endregion
 
     #region [메서드]
     /// <summary>
     /// 휴가 목록을 조회한다.
     /// </summary>
-    [Transaction]
     public async Task<IList<VacationResultDTO>> ListVacation(GetVacationRequestDTO dto)
         => await _vacationMapper.ListVacation(dto);
 
     /// <summary>
     /// 휴가를 조회한다.
     /// </summary>
-    [Transaction]
     public async Task<VacationResultDTO> GetVacation(int vacationId)
         => await _vacationMapper.GetVacation(vacationId);
 
@@ -101,7 +90,6 @@ public class VacationService
     /// <summary>
     /// 휴가 계산 설정 목록을 조회한다.
     /// </summary>
-    [Transaction]
     public async Task<IList<VacationCalcResultDTO>> ListVacationCalc(int workHistoryId)
         => await _vacationCalcMapper.ListVacationCalc(workHistoryId);
 
@@ -121,21 +109,18 @@ public class VacationService
     /// <summary>
     /// 휴가 통계 목록을 조회한다.
     /// </summary>
-    [Transaction]
     public async Task<IList<VacationStatsResultDTO>> ListVacationStats(GetVacationStatsRequestDTO dto)
         => await _vacationStatsMapper.ListVacationStats(dto);
 
     /// <summary>
     /// 휴가일수정보를 조회한다.
     /// </summary>
-    [Transaction]
     public async Task<VacationCountInfoResultDTO> GetVacationCountInfo(GetVacationCountInfoRequestDTO dto)
         => await _vacationMapper.GetVacationCountInfo(dto);
 
     /// <summary>
     /// 월별 휴가사용일수 목록을 조회한다.
     /// </summary>
-    [Transaction]
     public async Task<IList<VacationByMonthResultDTO>> ListVacationByMonth(GetVacationByMonthRequestDTO dto)
         => await _vacationMapper.ListVacationByMonth(dto);
     #endregion

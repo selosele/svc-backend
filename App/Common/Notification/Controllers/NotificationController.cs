@@ -7,25 +7,18 @@ using Svc.App.Common.Auth.Services;
 namespace Svc.App.Common.Notification.Controllers;
 
 /// <summary>
-/// 알림 컨트롤러 클래스
+/// 알림 컨트롤러
 /// </summary>
 [ApiController]
 [Route("api/co/notifications")]
-public class NotificationController : ControllerBase
+public class NotificationController(
+    AuthService authService,
+    NotificationService notificationService
+    ) : ControllerBase
 {
     #region [필드]
-    private readonly AuthService _authService;
-    private readonly NotificationService _notificationService;
-    #endregion
-    
-    #region [생성자]
-    public NotificationController(
-        AuthService authService,
-        NotificationService notificationService
-    ) {
-        _authService = authService;
-        _notificationService = notificationService;
-    }
+    private readonly AuthService _authService = authService;
+    private readonly NotificationService _notificationService = notificationService;
     #endregion
 
     #region [메서드]

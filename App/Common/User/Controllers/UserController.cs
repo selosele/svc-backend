@@ -8,25 +8,18 @@ using Svc.App.Shared.Utils;
 namespace Svc.App.Common.User.Controllers;
 
 /// <summary>
-/// 사용자 컨트롤러 클래스
+/// 사용자 컨트롤러
 /// </summary>
 [ApiController]
 [Route("api/co/users")]
-public class UserController : ControllerBase
+public class UserController(
+    AuthService authService,
+    UserService userService
+    ) : ControllerBase
 {
     #region [필드]
-    private readonly AuthService _authService;
-    private readonly UserService _userService;
-    #endregion
-    
-    #region [생성자]
-    public UserController(
-        AuthService authService,
-        UserService userService
-    ) {
-        _authService = authService;
-        _userService = userService;
-    }
+    private readonly AuthService _authService = authService;
+    private readonly UserService _userService = userService;
     #endregion
 
     #region [메서드]

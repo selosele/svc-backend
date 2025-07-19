@@ -7,26 +7,17 @@ using Svc.App.Shared.Models.Settings;
 namespace Svc.App.Common.Mail.Services;
 
 /// <summary>
-/// 메일 서비스 클래스
+/// 메일 서비스
 /// </summary>
-public class MyMailService
+public class MyMailService(
+    ILogger<MyMailService> logger,
+    IOptions<SmtpSettings> smtpSettings
+    )
 {
     #region [필드]
-    private readonly ILogger _logger;
-    private readonly SmtpSettings _smtpSettings;
-    private readonly SmtpClient _client;
-    #endregion
-    
-    #region [생성자]
-    public MyMailService(
-        ILogger<MyMailService> logger,
-        IOptions<SmtpSettings> smtpSettings
-    )
-    {
-        _logger = logger;
-        _smtpSettings = smtpSettings.Value;
-        _client = new SmtpClient();
-    }
+    private readonly ILogger _logger = logger;
+    private readonly SmtpSettings _smtpSettings = smtpSettings.Value;
+    private readonly SmtpClient _client = new();
     #endregion
 
     #region [메서드]

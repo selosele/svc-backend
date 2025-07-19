@@ -5,14 +5,10 @@ using Svc.App.Human.Employee.Models.DTO;
 namespace Svc.App.Human.Employee.Mappers;
 
 /// <summary>
-/// 직원 매퍼 클래스
+/// 직원 매퍼
 /// </summary>
-public class EmployeeMapper : MyMapperBase
+public class EmployeeMapper(ISqlMapper sqlMapper) : MyMapperBase(sqlMapper)
 {
-    #region [생성자]
-    public EmployeeMapper(ISqlMapper sqlMapper) : base(sqlMapper) {}
-    #endregion
-
     #region [메서드]
     /// <summary>
     /// 직원을 조회한다.

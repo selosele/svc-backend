@@ -7,25 +7,18 @@ using Svc.App.Salary.Payslip.Services;
 namespace Svc.App.Salary.Payslip.Controllers;
 
 /// <summary>
-/// 급여명세서 컨트롤러 클래스
+/// 급여명세서 컨트롤러
 /// </summary>
 [ApiController]
 [Route("api/sa/payslips")]
-public class PayslipController : ControllerBase
+public class PayslipController(
+    AuthService authService,
+    PayslipService payslipService
+    ) : ControllerBase
 {
     #region [필드]
-    private readonly AuthService _authService;
-    private readonly PayslipService _payslipService;
-    #endregion
-    
-    #region [생성자]
-    public PayslipController(
-        AuthService authService,
-        PayslipService payslipService
-    ) {
-        _authService = authService;
-        _payslipService = payslipService;
-    }
+    private readonly AuthService _authService = authService;
+    private readonly PayslipService _payslipService = payslipService;
     #endregion
 
     #region [메서드]

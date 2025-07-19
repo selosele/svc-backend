@@ -5,14 +5,10 @@ using Svc.App.Human.Vacation.Models.DTO;
 namespace Svc.App.Human.Vacation.Mappers;
 
 /// <summary>
-/// 휴가 계산 설정 매퍼 클래스
+/// 휴가 계산 설정 매퍼
 /// </summary>
-public class VacationCalcMapper : MyMapperBase
+public class VacationCalcMapper(ISqlMapper sqlMapper) : MyMapperBase(sqlMapper)
 {
-    #region [생성자]
-    public VacationCalcMapper(ISqlMapper sqlMapper) : base(sqlMapper) {}
-    #endregion
-
     #region [메서드]
     /// <summary>
     /// 휴가 계산 설정 목록을 조회한다.

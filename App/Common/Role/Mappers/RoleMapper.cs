@@ -5,14 +5,10 @@ using Svc.App.Common.Role.Models.DTO;
 namespace Svc.App.Common.Role.Mappers;
 
 /// <summary>
-/// 권한 매퍼 클래스
+/// 권한 매퍼
 /// </summary>
-public class RoleMapper : MyMapperBase
+public class RoleMapper(ISqlMapper sqlMapper) : MyMapperBase(sqlMapper)
 {
-    #region [생성자]
-    public RoleMapper(ISqlMapper sqlMapper) : base(sqlMapper) {}
-    #endregion
-
     #region [메서드]
     /// <summary>
     /// 권한 목록을 조회한다.

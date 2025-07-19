@@ -6,22 +6,14 @@ using Svc.App.Human.Company.Services;
 namespace Svc.App.Human.Company.Controllers;
 
 /// <summary>
-/// 회사(Open API 사용) 컨트롤러 클래스
+/// 회사(Open API 사용) 컨트롤러
 /// </summary>
 [ApiController]
 [Route("api/public/hm/companies")]
-public class OpenAPICompanyController : ControllerBase
+public class OpenAPICompanyController(CompanyService companyService) : ControllerBase
 {
     #region [필드]
-    private readonly CompanyService _companyService;
-    #endregion
-    
-    #region [생성자]
-    public OpenAPICompanyController(
-        CompanyService companyService
-    ) {
-        _companyService = companyService;
-    }
+    private readonly CompanyService _companyService = companyService;
     #endregion
 
     #region [메서드]

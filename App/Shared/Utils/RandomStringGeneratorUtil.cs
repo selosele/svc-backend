@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 namespace Svc.App.Shared.Utils;
 
 /// <summary>
-/// 랜덤 문자열 생성 유틸 클래스
+/// 랜덤 문자열 생성 유틸
 /// </summary>
 public class RandomStringGeneratorUtil
 {

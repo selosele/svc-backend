@@ -8,25 +8,18 @@ using Svc.App.Shared.Utils;
 namespace Svc.App.Common.Code.Controllers;
 
 /// <summary>
-/// 코드 컨트롤러 클래스
+/// 코드 컨트롤러
 /// </summary>
 [ApiController]
 [Route("api/co/codes")]
-public class CodeController : ControllerBase
+public class CodeController(
+    AuthService authService,
+    CodeService codeService
+    ) : ControllerBase
 {
     #region [필드]
-    private readonly AuthService _authService;
-    private readonly CodeService _codeService;
-    #endregion
-    
-    #region [생성자]
-    public CodeController(
-        AuthService authService,
-        CodeService codeService
-    ) {
-        _authService = authService;
-        _codeService = codeService;
-    }
+    private readonly AuthService _authService = authService;
+    private readonly CodeService _codeService = codeService;
     #endregion
 
     #region [메서드]

@@ -5,14 +5,10 @@ using Svc.App.Common.Notification.Models.DTO;
 namespace Svc.App.Common.Notification.Mappers;
 
 /// <summary>
-/// 알림 매퍼 클래스
+/// 알림 매퍼
 /// </summary>
-public class NotificationMapper : MyMapperBase
+public class NotificationMapper(ISqlMapper sqlMapper) : MyMapperBase(sqlMapper)
 {
-    #region [생성자]
-    public NotificationMapper(ISqlMapper sqlMapper) : base(sqlMapper) {}
-    #endregion
-
     #region [메서드]
     /// <summary>
     /// 알림 개수를 조회한다.

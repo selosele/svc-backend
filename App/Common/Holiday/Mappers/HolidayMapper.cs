@@ -5,14 +5,10 @@ using Svc.App.Common.Holiday.Models.DTO;
 namespace Svc.App.Common.Holiday.Mappers;
 
 /// <summary>
-/// 휴일 매퍼 클래스
+/// 휴일 매퍼
 /// </summary>
-public class HolidayMapper : MyMapperBase
+public class HolidayMapper(ISqlMapper sqlMapper) : MyMapperBase(sqlMapper)
 {
-    #region [생성자]
-    public HolidayMapper(ISqlMapper sqlMapper) : base(sqlMapper) {}
-    #endregion
-
     #region [메서드]
     /// <summary>
     /// 휴일 목록을 조회한다.

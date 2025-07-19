@@ -7,25 +7,18 @@ using Svc.App.Human.Employee.Services;
 namespace Svc.App.Human.Employee.Controllers;
 
 /// <summary>
-/// 직원 컨트롤러 클래스
+/// 직원 컨트롤러
 /// </summary>
 [ApiController]
 [Route("api/hm/employees")]
-public class EmployeeController : ControllerBase
+public class EmployeeController(
+    AuthService authService,
+    EmployeeService employeeService
+    ) : ControllerBase
 {
     #region [필드]
-    private readonly AuthService _authService;
-    private readonly EmployeeService _employeeService;
-    #endregion
-    
-    #region [생성자]
-    public EmployeeController(
-        AuthService authService,
-        EmployeeService employeeService
-    ) {
-        _authService = authService;
-        _employeeService = employeeService;
-    }
+    private readonly AuthService _authService = authService;
+    private readonly EmployeeService _employeeService = employeeService;
     #endregion
 
     #region [메서드]

@@ -4,13 +4,13 @@ using AutoMapper;
 namespace Svc.App.Shared.Extensions;
 
 /// <summary>
-/// IServiceCollection의 확장 메서드를 제공하는 클래스
+/// IServiceCollection의 확장 메서드를 제공하는
 /// </summary>
 public static class ServiceCollectionExtension
 {
     #region [메서드]
     /// <summary>
-    /// 지정된 네임스페이스에 속한 모든 클래스를 서비스로 등록한다.
+    /// 지정된 네임스페이스에 속한 모든를 서비스로 등록한다.
     /// </summary>
     public static void SingletonScan(this IServiceCollection services, string prefixStart, string prefixEnd, ServiceLifetime lifetime = ServiceLifetime.Singleton)
     {
@@ -25,7 +25,7 @@ public static class ServiceCollectionExtension
     }
 
     /// <summary>
-    /// 지정된 네임스페이스에 속한 모든 인터페이스와 클래스를 서비스로 등록한다.
+    /// 지정된 네임스페이스에 속한 모든 인터페이스와를 서비스로 등록한다.
     /// </summary>
     public static void InterfaceScan(this IServiceCollection services, string prefixStart, string prefixEnd)
     {

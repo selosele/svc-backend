@@ -6,14 +6,10 @@ using Svc.App.Common.Auth.Models.DTO;
 namespace Svc.App.Common.User.Mappers;
 
 /// <summary>
-/// 사용자 매퍼 클래스
+/// 사용자 매퍼
 /// </summary>
-public class UserMapper : MyMapperBase
+public class UserMapper(ISqlMapper sqlMapper) : MyMapperBase(sqlMapper)
 {
-    #region [생성자]
-    public UserMapper(ISqlMapper sqlMapper) : base(sqlMapper) {}
-    #endregion
-
     #region [메서드]
     /// <summary>
     /// 사용자 목록을 조회한다.

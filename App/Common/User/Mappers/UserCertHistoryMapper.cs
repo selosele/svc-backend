@@ -5,14 +5,10 @@ using Svc.App.Common.User.Models.DTO;
 namespace Svc.App.Common.User.Mappers;
 
 /// <summary>
-/// 사용자 본인인증 이력 매퍼 클래스
+/// 사용자 본인인증 이력 매퍼
 /// </summary>
-public class UserCertHistoryMapper : MyMapperBase
+public class UserCertHistoryMapper(ISqlMapper sqlMapper) : MyMapperBase(sqlMapper)
 {
-    #region [생성자]
-    public UserCertHistoryMapper(ISqlMapper sqlMapper) : base(sqlMapper) {}
-    #endregion
-
     #region [메서드]
     /// <summary>
     /// 사용자 본인인증 이력을 조회한다.

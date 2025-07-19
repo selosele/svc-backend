@@ -8,25 +8,18 @@ using Svc.App.Shared.Utils;
 namespace Svc.App.Human.Company.Controllers;
 
 /// <summary>
-/// 회사 컨트롤러 클래스
+/// 회사 컨트롤러
 /// </summary>
 [ApiController]
 [Route("api/hm/companies")]
-public class CompanyController : ControllerBase
+public class CompanyController(
+    AuthService authService,
+    CompanyService companyService
+    ) : ControllerBase
 {
     #region [필드]
-    private readonly AuthService _authService;
-    private readonly CompanyService _companyService;
-    #endregion
-    
-    #region [생성자]
-    public CompanyController(
-        AuthService authService,
-        CompanyService companyService
-    ) {
-        _authService = authService;
-        _companyService = companyService;
-    }
+    private readonly AuthService _authService = authService;
+    private readonly CompanyService _companyService = companyService;
     #endregion
 
     #region [메서드]

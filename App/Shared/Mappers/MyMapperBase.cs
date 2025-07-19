@@ -3,19 +3,12 @@ using SmartSql;
 namespace Svc.App.Shared.Mappers;
 
 /// <summary>
-/// 매퍼의 기본 클래스
+/// 매퍼의 기본
 /// </summary>
-public class MyMapperBase
+public class MyMapperBase(ISqlMapper sqlMapper)
 {
     #region [필드]
-    public ISqlMapper SqlMapper { get; }
-    #endregion
-
-    #region [생성자]
-    public MyMapperBase(ISqlMapper sqlMapper)
-    {
-        SqlMapper = sqlMapper;
-    }
+    private ISqlMapper SqlMapper { get; } = sqlMapper;
     #endregion
 
     #region [메서드]

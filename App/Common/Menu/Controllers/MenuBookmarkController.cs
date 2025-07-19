@@ -7,25 +7,18 @@ using Svc.App.Common.Auth.Services;
 namespace Svc.App.Common.Menu.Controllers;
 
 /// <summary>
-/// 메뉴 즐겨찾기 컨트롤러 클래스
+/// 메뉴 즐겨찾기 컨트롤러
 /// </summary>
 [ApiController]
 [Route("api/co/menubookmarks")]
-public class MenuBookmarkController : ControllerBase
+public class MenuBookmarkController(
+    AuthService authService,
+    MenuService menuService
+    ) : ControllerBase
 {
     #region [필드]
-    private readonly AuthService _authService;
-    private readonly MenuService _menuService;
-    #endregion
-    
-    #region [생성자]
-    public MenuBookmarkController(
-        AuthService authService,
-        MenuService menuService
-    ) {
-        _authService = authService;
-        _menuService = menuService;
-    }
+    private readonly AuthService _authService = authService;
+    private readonly MenuService _menuService = menuService;
     #endregion
 
     #region [메서드]

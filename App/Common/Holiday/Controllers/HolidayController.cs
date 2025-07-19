@@ -7,25 +7,18 @@ using Svc.App.Common.Auth.Services;
 namespace Svc.App.Common.Holiday.Controllers;
 
 /// <summary>
-/// 휴일 컨트롤러 클래스
+/// 휴일 컨트롤러
 /// </summary>
 [ApiController]
 [Route("api/co/holidays")]
-public class HolidayController : ControllerBase
+public class HolidayController(
+    AuthService authService,
+    HolidayService holidayService
+    ) : ControllerBase
 {
     #region [필드]
-    private readonly AuthService _authService;
-    private readonly HolidayService _holidayService;
-    #endregion
-    
-    #region [생성자]
-    public HolidayController(
-        AuthService authService,
-        HolidayService holidayService
-    ) {
-        _authService = authService;
-        _holidayService = holidayService;
-    }
+    private readonly AuthService _authService = authService;
+    private readonly HolidayService _holidayService = holidayService;
     #endregion
 
     #region [메서드]

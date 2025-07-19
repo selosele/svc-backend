@@ -1,7 +1,7 @@
 namespace Svc.App.Shared.Utils;
 
 /// <summary>
-/// claim 유틸 클래스
+/// claim 유틸
 /// </summary>
 public class ClaimUtil
 {

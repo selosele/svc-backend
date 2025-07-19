@@ -7,37 +7,28 @@ using Svc.App.Human.Vacation.Models.DTO;
 namespace Svc.App.Common.Holiday.Services;
 
 /// <summary>
-/// 휴일 서비스 클래스
+/// 휴일 서비스
 /// </summary>
-public class HolidayService
+public class HolidayService(
+    HolidayMapper holidayMapper,
+    VacationStatsMapper vacationStatsMapper
+    )
 {
     #region [필드]
-    private readonly HolidayMapper _holidayMapper;
-    private readonly VacationStatsMapper _vacationStatsMapper;
-    #endregion
-    
-    #region [생성자]
-    public HolidayService(
-        HolidayMapper holidayMapper,
-        VacationStatsMapper vacationStatsMapper
-    ) {
-        _holidayMapper = holidayMapper;
-        _vacationStatsMapper = vacationStatsMapper;
-    }
+    private readonly HolidayMapper _holidayMapper = holidayMapper;
+    private readonly VacationStatsMapper _vacationStatsMapper = vacationStatsMapper;
     #endregion
 
     #region [메서드]
     /// <summary>
     /// 휴일 목록을 조회한다.
     /// </summary>
-    [Transaction]
     public async Task<IList<HolidayResultDTO>> ListHoliday(GetHolidayRequestDTO? dto)
         => await _holidayMapper.ListHoliday(dto);
 
     /// <summary>
     /// 휴일을 조회한다.
     /// </summary>
-    [Transaction]
     public async Task<HolidayResultDTO> GetHoliday(GetHolidayRequestDTO dto)
         => await _holidayMapper.GetHoliday(dto);
 

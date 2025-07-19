@@ -5,14 +5,10 @@ using Svc.App.Human.Company.Models.DTO;
 namespace Svc.App.Human.Company.Mappers;
 
 /// <summary>
-/// 회사 매퍼 클래스
+/// 회사 매퍼
 /// </summary>
-public class CompanyMapper : MyMapperBase
+public class CompanyMapper(ISqlMapper sqlMapper) : MyMapperBase(sqlMapper)
 {
-    #region [생성자]
-    public CompanyMapper(ISqlMapper sqlMapper) : base(sqlMapper) {}
-    #endregion
-
     #region [메서드]
     /// <summary>
     /// 회사 목록을 조회한다.
