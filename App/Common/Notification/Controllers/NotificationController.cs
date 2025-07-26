@@ -7,7 +7,7 @@ using Svc.App.Common.Auth.Services;
 namespace Svc.App.Common.Notification.Controllers;
 
 /// <summary>
-/// 알림 컨트롤러
+/// 알림 API
 /// </summary>
 [ApiController]
 [Route("api/co/notifications")]

@@ -8,7 +8,7 @@ using Svc.App.Shared.Utils;
 namespace Svc.App.Common.Auth.Controllers;
 
 /// <summary>
-/// 인증·인가 컨트롤러
+/// 인증·인가 API
 /// </summary>
 [ApiController]
 [Route("api/co/auth")]

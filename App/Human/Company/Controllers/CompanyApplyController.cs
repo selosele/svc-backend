@@ -8,7 +8,7 @@ using Svc.App.Shared.Utils;
 namespace Svc.App.Human.Company.Controllers;
 
 /// <summary>
-/// 회사등록신청 컨트롤러
+/// 회사등록신청 API
 /// </summary>
 [ApiController]
 [Route("api/hm/company-applies")]

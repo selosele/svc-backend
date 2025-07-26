@@ -7,7 +7,7 @@ using Svc.App.Common.Auth.Services;
 namespace Svc.App.Common.Menu.Controllers;
 
 /// <summary>
-/// 메뉴 즐겨찾기 컨트롤러
+/// 메뉴 즐겨찾기 API
 /// </summary>
 [ApiController]
 [Route("api/co/menubookmarks")]

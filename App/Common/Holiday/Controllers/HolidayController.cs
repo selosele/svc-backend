@@ -7,7 +7,7 @@ using Svc.App.Common.Auth.Services;
 namespace Svc.App.Common.Holiday.Controllers;
 
 /// <summary>
-/// 휴일 컨트롤러
+/// 휴일 API
 /// </summary>
 [ApiController]
 [Route("api/co/holidays")]

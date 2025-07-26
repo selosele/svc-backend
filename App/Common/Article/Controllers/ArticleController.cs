@@ -10,7 +10,7 @@ using Svc.App.Shared.Utils;
 namespace Svc.App.Common.Article.Controllers;
 
 /// <summary>
-/// 게시글 컨트롤러
+/// 게시글 API
 /// </summary>
 [ApiController]
 [Route("api/co/articles")]

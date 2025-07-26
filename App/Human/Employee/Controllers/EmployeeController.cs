@@ -7,7 +7,7 @@ using Svc.App.Human.Employee.Services;
 namespace Svc.App.Human.Employee.Controllers;
 
 /// <summary>
-/// 직원 컨트롤러
+/// 직원 API
 /// </summary>
 [ApiController]
 [Route("api/hm/employees")]

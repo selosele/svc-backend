@@ -7,7 +7,7 @@ using Svc.App.Salary.Payslip.Services;
 namespace Svc.App.Salary.Payslip.Controllers;
 
 /// <summary>
-/// 급여명세서 컨트롤러
+/// 급여명세서 API
 /// </summary>
 [ApiController]
 [Route("api/sa/payslips")]

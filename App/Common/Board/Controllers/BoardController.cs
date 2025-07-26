@@ -8,7 +8,7 @@ using Svc.App.Shared.Utils;
 namespace Svc.App.Common.Board.Controllers;
 
 /// <summary>
-/// 게시판 컨트롤러
+/// 게시판 API
 /// </summary>
 [ApiController]
 [Route("api/co/boards")]

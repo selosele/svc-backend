@@ -6,7 +6,7 @@ using Svc.App.Human.Company.Services;
 namespace Svc.App.Human.Company.Controllers;
 
 /// <summary>
-/// 회사(Open API 사용) 컨트롤러
+/// 회사(Open API 사용) API
 /// </summary>
 [ApiController]
 [Route("api/public/hm/companies")]

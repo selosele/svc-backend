@@ -8,7 +8,7 @@ using Svc.App.Shared.Utils;
 namespace Svc.App.Common.Menu.Controllers;
 
 /// <summary>
-/// 메뉴 컨트롤러
+/// 메뉴 API
 /// </summary>
 [ApiController]
 [Route("api/co/menus")]

@@ -6,7 +6,7 @@ using Svc.App.Common.Role.Services;
 namespace Svc.App.Common.Role.Controllers;
 
 /// <summary>
-/// 권한 컨트롤러
+/// 권한 API
 /// </summary>
 [ApiController]
 [Route("api/co/roles")]

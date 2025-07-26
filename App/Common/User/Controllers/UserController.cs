@@ -8,7 +8,7 @@ using Svc.App.Shared.Utils;
 namespace Svc.App.Common.User.Controllers;
 
 /// <summary>
-/// 사용자 컨트롤러
+/// 사용자 API
 /// </summary>
 [ApiController]
 [Route("api/co/users")]

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Svc.App.Common.HealthCheck.Controllers;
 
 /// <summary>
-/// 헬스체크 컨트롤러
+/// 헬스체크 API
 /// </summary>
 [ApiController]
 [Route("api/co/health-check")]

@@ -9,7 +9,7 @@ using Svc.App.Human.Vacation.Services;
 namespace Svc.App.Human.Vacation.Controllers;
 
 /// <summary>
-/// 휴가 컨트롤러
+/// 휴가 API
 /// </summary>
 [ApiController]
 [Route("api/hm/vacations")]
