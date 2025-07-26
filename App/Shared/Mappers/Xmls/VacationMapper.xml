@@ -12,6 +12,8 @@
       <Result Column="VACATION_START_YMD" Property="VacationStartYmd" />
       <Result Column="VACATION_END_YMD" Property="VacationEndYmd" />
       <Result Column="VACATION_USE_COUNT" Property="VacationUseCount" />
+      <Result Column="VACATION_STATUS_CODE" Property="VacationStatusCode" />
+      <Result Column="VACATION_STATUS_CODE_NAME" Property="VacationStatusCodeName" />
       <Result Column="DELETE_YN" Property="DeleteYn" />
     </ResultMap>
 
@@ -43,16 +45,27 @@
         V.VACATION_START_YMD,
         V.VACATION_END_YMD,
         V.VACATION_USE_COUNT,
+        V.VACATION_STATUS_CODE,
+        CD2.CODE_NAME AS VACATION_STATUS_CODE_NAME,
         V.DELETE_YN
       FROM HM_VACATION V
       LEFT JOIN CO_CODE CD ON CD.CODE_VALUE =  V.VACATION_TYPE_CODE AND CD.UP_CODE_ID = 'VACATION_TYPE_00'
+      LEFT JOIN CO_CODE CD2 ON CD2.CODE_VALUE = V.VACATION_STATUS_CODE AND CD2.UP_CODE_ID = 'VACATION_STATUS_00'
       WHERE V.DELETE_YN = 'N'
+        <IsNotEmpty Property="EmployeeId">
+        AND V.EMPLOYEE_ID = ?EmployeeId
+        </IsNotEmpty>
+        <IsNotEmpty Property="WorkHistoryId">
         AND V.WORK_HISTORY_ID = ?WorkHistoryId
+        </IsNotEmpty>
         <IsNotEmpty Property="VacationStartYmd">
         AND V.VACATION_START_YMD <![CDATA[ >= ]]> ?VacationStartYmd
         </IsNotEmpty>
         <IsNotEmpty Property="VacationEndYmd">
         AND V.VACATION_END_YMD <![CDATA[ <= ]]> ?VacationEndYmd
+        </IsNotEmpty>
+        <IsNotEmpty Property="VacationStatusCode">
+        AND V.VACATION_STATUS_CODE = ?VacationStatusCode
         </IsNotEmpty>
       ORDER BY V.VACATION_START_YMD DESC, V.VACATION_END_YMD DESC
     </Statement>
@@ -70,6 +83,7 @@
         V.VACATION_START_YMD,
         V.VACATION_END_YMD,
         V.VACATION_USE_COUNT,
+        V.VACATION_STATUS_CODE,
         V.DELETE_YN
       FROM HM_VACATION V
       WHERE V.DELETE_YN = 'N'
@@ -88,6 +102,7 @@
         VACATION_START_YMD,
         VACATION_END_YMD,
         VACATION_USE_COUNT,
+        VACATION_STATUS_CODE,
         CREATER_ID
       )
       VALUES (
@@ -101,6 +116,7 @@
           ?VacationUseCount,
           FN_GET_VACATION_USE_COUNT(?VacationStartYmd, ?VacationEndYmd, ?VacationTypeCode, ?CreaterId)
         ),
+        ?VacationStatusCode,
         ?CreaterId
       )
       ;SELECT LAST_INSERT_ID()
@@ -120,6 +136,7 @@
             ?VacationUseCount,
             FN_GET_VACATION_USE_COUNT(?VacationStartYmd, ?VacationEndYmd, ?VacationTypeCode, ?UpdaterId)
           ),
+          VACATION_STATUS_CODE = ?VacationStatusCode,
           UPDATER_ID = ?UpdaterId,
           UPDATE_DT = SYSDATE()
       WHERE VACATION_ID = ?VacationId
@@ -176,6 +193,7 @@
         WHERE V.DELETE_YN = 'N'
           AND H.WORK_HISTORY_ID = ?WorkHistoryId
           AND (V.VACATION_TYPE_CODE = VC.VACATION_TYPE_CODE OR VC.VACATION_TYPE_CODE IS NULL)
+          AND V.VACATION_STATUS_CODE IN ('USE')
       ) T
     </Statement>
 
@@ -199,8 +217,9 @@
       		V1.VACATION_END_YMD,
       		V1.VACATION_USE_COUNT
       	FROM HM_VACATION V1
-      	WHERE V1.WORK_HISTORY_ID = ?WorkHistoryId
+      	WHERE V1.EMPLOYEE_ID = ?EmployeeId
          AND V1.VACATION_TYPE_CODE = ?VacationTypeCode
+         AND V1.VACATION_STATUS_CODE IN ('USE')
          AND DATE_FORMAT(V1.VACATION_END_YMD, '%Y') = ?YYYY
       ) V ON MONTH(V.VACATION_END_YMD) = MONTH(MR.YMD) AND YEAR(V.VACATION_END_YMD) = YEAR(MR.YMD)
       GROUP BY MR.YMD

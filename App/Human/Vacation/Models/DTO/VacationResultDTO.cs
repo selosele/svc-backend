@@ -52,6 +52,16 @@ public record VacationResultDTO
     public double? VacationUseCount { get; set; }
 
     /// <summary>
+    /// 휴가 상태 코드
+    /// </summary>
+    public string? VacationStatusCode { get; set; }
+
+    /// <summary>
+    /// 휴가 상태 코드명
+    /// </summary>
+    public string? VacationStatusCodeName { get; set; }
+
+    /// <summary>
     /// 삭제 여부
     /// </summary>
     public string? DeleteYn { get; set; }

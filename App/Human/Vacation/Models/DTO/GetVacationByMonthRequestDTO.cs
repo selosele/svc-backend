@@ -14,6 +14,11 @@ public record GetVacationByMonthRequestDTO : HttpRequestDTOBase
     public int? WorkHistoryId { get; set; }
 
     /// <summary>
+    /// 직원 ID
+    /// </summary>
+    public int? EmployeeId { get; set; }
+
+    /// <summary>
     /// 휴가사용연도
     /// </summary>
     public string? YYYY { get; set; }

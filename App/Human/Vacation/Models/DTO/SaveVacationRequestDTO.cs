@@ -49,6 +49,11 @@ public record SaveVacationRequestDTO : HttpRequestDTOBase
     /// </summary>
     [JsonConverter(typeof(NullableDoubleConverter))]
     public double? VacationUseCount { get; set; }
+
+    /// <summary>
+    /// 휴가 상태 코드
+    /// </summary>
+    public string? VacationStatusCode { get; set; }
     #endregion
 
 }

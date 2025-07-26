@@ -24,6 +24,11 @@ public record GetVacationRequestDTO : HttpRequestDTOBase
     public int? UserId { get; set; }
 
     /// <summary>
+    /// 직원 ID
+    /// </summary>
+    public int? EmployeeId { get; set; }
+
+    /// <summary>
     /// 휴가 시작일자
     /// </summary>
     public string? VacationStartYmd { get; set; }
@@ -32,6 +37,11 @@ public record GetVacationRequestDTO : HttpRequestDTOBase
     /// 휴가 종료일자
     /// </summary>
     public string? VacationEndYmd { get; set; }
+
+    /// <summary>
+    /// 휴가 상태 코드
+    /// </summary>
+    public string? VacationStatusCode { get; set; }
     #endregion
 
 }

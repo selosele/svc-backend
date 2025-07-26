@@ -130,6 +130,7 @@ public class VacationController(
     {
         var user = _authService.GetAuthenticatedUser();
         var myUserId = user.UserId;
+        var myEmployeeId = user.Employee?.EmployeeId;
         var myWorkHistory = await _employeeService.GetCurrentWorkHistory(new GetWorkHistoryRequestDTO { EmployeeId = user.Employee?.EmployeeId });
         var myWorkHistoryId = myWorkHistory.WorkHistoryId;
 
@@ -138,7 +139,7 @@ public class VacationController(
 
         var statsList = _vacationService.ListVacationStats(dto);
         var countInfo = _vacationService.GetVacationCountInfo(new GetVacationCountInfoRequestDTO { UserId = myUserId, WorkHistoryId = myWorkHistoryId });
-        var vacationList = _vacationService.ListVacation(new GetVacationRequestDTO { WorkHistoryId = myWorkHistoryId });
+        var vacationList = _vacationService.ListVacation(new GetVacationRequestDTO { EmployeeId = myEmployeeId, VacationStatusCode = "USE" });
 
         // 여러 개의 비동기 작업을 병렬로 실행
         await Task.WhenAll(statsList, countInfo, vacationList);
