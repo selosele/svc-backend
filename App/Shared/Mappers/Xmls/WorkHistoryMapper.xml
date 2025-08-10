@@ -45,6 +45,7 @@
           INNER JOIN HM_EMPLOYEE E ON E.EMPLOYEE_ID = V.EMPLOYEE_ID
           WHERE V.DELETE_YN = 'N'
             AND E.USER_ID = ?UserId
+            AND V.VACATION_STATUS_CODE IN ('USE')
             <IsNotEmpty Property="VacationTypeCodes">
             AND V.VACATION_TYPE_CODE IN
               <For Property="VacationTypeCodes" Key="vacationTypeCode" Open="(" Separator="," Close=")">
@@ -52,6 +53,7 @@
               </For>
             </IsNotEmpty>
         ) T
+        GROUP BY T.WORK_HISTORY_ID
       )
       SELECT
         H.WORK_HISTORY_ID,
