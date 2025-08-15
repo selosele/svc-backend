@@ -6,7 +6,7 @@ using Svc.App.Shared.Utils;
 namespace Svc.App.Shared.Extensions;
 
 /// <summary>
-/// ClaimsPrincipal의 확장 메서드를 제공하는
+/// ClaimsPrincipal의 확장 메서드를 제공하는 클래스
 /// </summary>
 public static class ClaimsPrincipalExtension
 {

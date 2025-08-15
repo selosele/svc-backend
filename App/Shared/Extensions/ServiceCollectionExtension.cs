@@ -4,7 +4,7 @@ using AutoMapper;
 namespace Svc.App.Shared.Extensions;
 
 /// <summary>
-/// IServiceCollection의 확장 메서드를 제공하는
+/// IServiceCollection의 확장 메서드를 제공하는 클래스
 /// </summary>
 public static class ServiceCollectionExtension
 {

@@ -1,7 +1,7 @@
 namespace Svc.App.Shared.Models.DTO;
 
 /// <summary>
-/// HTTP 요청 DTO의 기본
+/// HTTP 요청 기본 DTO
 /// </summary>
 public record HttpRequestDTOBase
 {

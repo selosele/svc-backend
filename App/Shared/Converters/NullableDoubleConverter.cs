@@ -1,3 +1,5 @@
+namespace Svc.App.Shared.Converters;
+
 using System.Text.Json;
 using System.Text.Json.Serialization;
 

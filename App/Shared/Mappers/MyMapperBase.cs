@@ -3,7 +3,7 @@ using SmartSql;
 namespace Svc.App.Shared.Mappers;
 
 /// <summary>
-/// 매퍼의 기본
+/// 매퍼의 기본 클래스
 /// </summary>
 public class MyMapperBase(ISqlMapper sqlMapper)
 {
