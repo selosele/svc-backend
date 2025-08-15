@@ -5,10 +5,12 @@ namespace Svc.App.Human.Company.Models.DTO;
 /// <summary>
 /// 금융위원회_기업기본정보 - 기업개요조회 API로 조회한 회사 조회 결과 DTO
 /// </summary>
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 public record CompanyOpenAPIResultDTO
 {
     #region [필드]
     [JsonProperty("response")]
+
     public APIResponse? Response { get; set; }
     #endregion
 }
@@ -59,3 +61,4 @@ public record Header
     public string? ResultMsg { get; set; }
     #endregion
 }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
