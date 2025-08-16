@@ -9,6 +9,11 @@ public record GetVacationStatsRequestDTO : HttpRequestDTOBase
 {
     #region [필드]
     /// <summary>
+    /// 근무이력 ID
+    /// </summary>
+    public int? WorkHistoryId { get; set; }
+    
+    /// <summary>
     /// 사용자 ID
     /// </summary>
     public int? UserId { get; set; }
