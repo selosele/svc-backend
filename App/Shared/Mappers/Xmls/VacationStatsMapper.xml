@@ -36,6 +36,9 @@
         <IsNotEmpty Property="EmployeeId">
         AND VS.EMPLOYEE_ID = ?EmployeeId
         </IsNotEmpty>
+        <IsNotEmpty Property="WorkHistoryId">
+        AND VS.WORK_HISTORY_ID = ?WorkHistoryId
+        </IsNotEmpty>
       ORDER BY VS.WORK_HISTORY_ID DESC, VS.YYYY DESC, VS.VACATION_USE_COUNT DESC, VS.EMPLOYEE_ID
     </Statement>
 
