@@ -17,7 +17,7 @@ var certPassword = builder.Configuration["ApplicationSettings:CertPfxPassword"];
 
 if (!string.IsNullOrEmpty(certPath) && !string.IsNullOrEmpty(certPassword))
 {
-    builder.WebHost.UseKestrel(serverOptions =>
+    builder.WebHost.ConfigureKestrel(serverOptions =>
     {
         serverOptions.ListenLocalhost(5001, listenOptions =>
         {
