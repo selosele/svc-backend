@@ -5,6 +5,7 @@ using Svc.App.Human.Employee.Models.DTO;
 using Svc.App.Human.Employee.Services;
 using Svc.App.Human.Vacation.Models.DTO;
 using Svc.App.Human.Vacation.Services;
+using Svc.App.Shared.Utils;
 
 namespace Svc.App.Human.Vacation.Controllers;
 
@@ -128,13 +129,14 @@ public class VacationController(
     [Authorize]
     public async Task<ActionResult<VacationStatsResponseDTO>> ListVacationStats([FromQuery] GetVacationStatsRequestDTO dto)
     {
+        var isChatbot = _authService.HasRole(RoleUtil.CHATBOT);
         var user = _authService.GetAuthenticatedUser();
-        var myUserId = user.UserId;
-        var myEmployeeId = user.Employee?.EmployeeId;
-        var myWorkHistory = await _employeeService.GetCurrentWorkHistory(new GetWorkHistoryRequestDTO { EmployeeId = user.Employee?.EmployeeId });
+        var myUserId = isChatbot ? dto.UserId : user.UserId;
+        var myEmployeeId = isChatbot ? dto.EmployeeId : user.Employee?.EmployeeId;
+        var myWorkHistory = await _employeeService.GetCurrentWorkHistory(new GetWorkHistoryRequestDTO { EmployeeId = myEmployeeId });
         var myWorkHistoryId = myWorkHistory.WorkHistoryId;
 
-        if (dto.UserId != myUserId)
+        if (dto.UserId != myUserId && !isChatbot)
             return NotFound();
 
         dto.WorkHistoryId = myWorkHistoryId;

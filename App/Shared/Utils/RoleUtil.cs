@@ -15,6 +15,11 @@ public class RoleUtil
     /// 직원 권한
     /// </summary>
     public const string EMPLOYEE = "ROLE_EMPLOYEE";
+
+    /// <summary>
+    /// 챗봇 권한
+    /// </summary>
+    public const string CHATBOT = "ROLE_CHATBOT";
     #endregion
 
 }
